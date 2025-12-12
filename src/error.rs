@@ -40,10 +40,6 @@ pub enum Error {
     #[error("Failed to parse styles.json: {0}")]
     InvalidJson(#[from] serde_json::Error),
 
-    /// Regex error
-    #[error("Regex error: {0}")]
-    RegexError(#[from] regex::Error),
-
     /// UTF-8 encoding error
     #[error("Invalid UTF-8: {0}")]
     InvalidUtf8(#[from] std::string::FromUtf8Error),

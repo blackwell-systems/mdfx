@@ -649,7 +649,6 @@ dependencies = [
  "colored",
  "criterion",
  "lazy_static",
- "regex",
  "serde",
  "serde_json",
  "tempfile",

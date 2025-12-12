@@ -1,7 +1,10 @@
 use clap::{Parser, Subcommand};
 use colored::Colorize;
+use std::fs;
+use std::io::{self, Read};
+use std::path::PathBuf;
 use std::process;
-use utf8fx::{Converter, Error, StyleCategory};
+use utf8fx::{Converter, Error, StyleCategory, TemplateParser};
 
 /// Unicode text effects for markdown and beyond
 #[derive(Parser)]
@@ -34,6 +37,20 @@ enum Commands {
         #[arg(short, long)]
         samples: bool,
     },
+
+    /// Process markdown file with style templates
+    Process {
+        /// Input file (use - or omit for stdin)
+        input: Option<PathBuf>,
+
+        /// Output file (use - or omit for stdout)
+        #[arg(short, long)]
+        output: Option<PathBuf>,
+
+        /// Modify file in place
+        #[arg(short = 'i', long)]
+        in_place: bool,
+    },
 }
 
 fn main() {
@@ -56,6 +73,14 @@ fn run(cli: Cli) -> Result<(), Error> {
 
         Commands::List { category, samples } => {
             list_styles(&converter, category, samples)?;
+        }
+
+        Commands::Process {
+            input,
+            output,
+            in_place,
+        } => {
+            process_file(input, output, in_place)?;
         }
     }
 
@@ -112,6 +137,73 @@ fn list_styles(converter: &Converter, category: Option<String>, show_samples: bo
         }
 
         println!();
+    }
+
+    Ok(())
+}
+
+fn process_file(
+    input: Option<PathBuf>,
+    output: Option<PathBuf>,
+    in_place: bool,
+) -> Result<(), Error> {
+    let parser = TemplateParser::new()?;
+
+    // Read input
+    let content = if let Some(ref path) = input {
+        if path.to_str() == Some("-") {
+            // Read from stdin
+            let mut buffer = String::new();
+            io::stdin()
+                .read_to_string(&mut buffer)
+                .map_err(|e| Error::IoError(e))?;
+            buffer
+        } else {
+            // Read from file
+            fs::read_to_string(path).map_err(|e| Error::IoError(e))?
+        }
+    } else {
+        // No input specified, read from stdin
+        let mut buffer = String::new();
+        io::stdin()
+            .read_to_string(&mut buffer)
+            .map_err(|e| Error::IoError(e))?;
+        buffer
+    };
+
+    // Process content
+    let processed = parser.process(&content)?;
+
+    // Write output
+    if in_place {
+        // In-place requires input file
+        if let Some(ref path) = input {
+            if path.to_str() == Some("-") {
+                return Err(Error::IoError(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "Cannot use --in-place with stdin",
+                )));
+            }
+            fs::write(path, processed).map_err(|e| Error::IoError(e))?;
+            eprintln!("{} {}", "Processed:".green(), path.display());
+        } else {
+            return Err(Error::IoError(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "Cannot use --in-place without input file",
+            )));
+        }
+    } else if let Some(ref path) = output {
+        if path.to_str() == Some("-") {
+            // Write to stdout
+            print!("{}", processed);
+        } else {
+            // Write to file
+            fs::write(path, processed).map_err(|e| Error::IoError(e))?;
+            eprintln!("{} {}", "Wrote:".green(), path.display());
+        }
+    } else {
+        // No output specified, write to stdout
+        print!("{}", processed);
     }
 
     Ok(())
