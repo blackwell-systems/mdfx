@@ -68,6 +68,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = converter.convert("Test", "mb")?;
     println!("{}", result); // 𝐓𝐞𝐬𝐭
 
+    // Add spacing between characters
+    let result = converter.convert_with_spacing("HELLO", "mathbold", 1)?;
+    println!("{}", result); // 𝐇 𝐄 𝐋 𝐋 𝐎
+
     // List available styles
     for style in converter.list_styles() {
         println!("{}: {}", style.id, style.name);
@@ -75,6 +79,32 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+```
+
+### CLI Usage
+
+```bash
+# Convert text
+utf8fx convert --style mathbold "HELLO WORLD"
+
+# Add spacing between characters
+utf8fx convert --style mathbold --spacing 1 "HEADER"
+# Output: 𝐇 𝐄 𝐀 𝐃 𝐄 𝐑
+
+# Process markdown files with templates
+utf8fx process input.md -o output.md
+```
+
+### Template Syntax
+
+Add Unicode styling directly in your markdown:
+
+```markdown
+# {{mathbold}}TITLE{{/mathbold}}
+
+Use {{script:spacing=2}}elegant spacing{{/script}} for headers.
+
+{{negative-squared:spacing=1}}WARNING{{/negative-squared}}
 ```
 
 ### Installation

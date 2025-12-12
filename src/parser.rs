@@ -102,14 +102,14 @@ impl TemplateParser {
             // Look for opening tag {{style}}
             if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
                 // Try to parse a complete template
-                if let Some((template_end, style, content)) = self.parse_template_at(&chars, i)? {
+                if let Some((template_end, style, spacing, content)) = self.parse_template_at(&chars, i)? {
                     // Validate style exists
                     if !self.converter.has_style(&style) {
                         return Err(Error::UnknownStyle(style));
                     }
 
-                    // Convert and add the styled content
-                    let converted = self.converter.convert(&content, &style)?;
+                    // Convert and add the styled content with spacing
+                    let converted = self.converter.convert_with_spacing(&content, &style, spacing)?;
                     result.push_str(&converted);
 
                     // Skip past the template
@@ -127,8 +127,8 @@ impl TemplateParser {
     }
 
     /// Try to parse a template starting at position i
-    /// Returns: Some((end_position, style_name, content)) or None if not a valid template
-    fn parse_template_at(&self, chars: &[char], start: usize) -> Result<Option<(usize, String, String)>> {
+    /// Returns: Some((end_position, style_name, spacing, content)) or None if not a valid template
+    fn parse_template_at(&self, chars: &[char], start: usize) -> Result<Option<(usize, String, usize, String)>> {
         let mut i = start;
 
         // Must start with {{
@@ -144,7 +144,7 @@ impl TemplateParser {
             if ch.is_alphanumeric() || ch == '-' {
                 style.push(ch);
                 i += 1;
-            } else if ch == '}' {
+            } else if ch == ':' || ch == '}' {
                 break;
             } else {
                 // Invalid character in style name
@@ -155,6 +155,52 @@ impl TemplateParser {
         // Style name must be non-empty
         if style.is_empty() {
             return Ok(None);
+        }
+
+        // Parse optional spacing parameter: :spacing=N
+        let mut spacing = 0;
+        if i < chars.len() && chars[i] == ':' {
+            i += 1; // skip ':'
+
+            // Expect "spacing="
+            let spacing_str = "spacing=";
+            let spacing_chars: Vec<char> = spacing_str.chars().collect();
+
+            // Check if we have "spacing="
+            if i + spacing_chars.len() <= chars.len() {
+                let mut matches = true;
+                for (idx, &expected) in spacing_chars.iter().enumerate() {
+                    if chars[i + idx] != expected {
+                        matches = false;
+                        break;
+                    }
+                }
+
+                if matches {
+                    i += spacing_chars.len();
+
+                    // Parse the number
+                    let mut num_str = String::new();
+                    while i < chars.len() && chars[i].is_ascii_digit() {
+                        num_str.push(chars[i]);
+                        i += 1;
+                    }
+
+                    // Parse the spacing value
+                    if let Ok(value) = num_str.parse::<usize>() {
+                        spacing = value;
+                    } else {
+                        // Invalid number
+                        return Ok(None);
+                    }
+                } else {
+                    // Invalid parameter syntax
+                    return Ok(None);
+                }
+            } else {
+                // Invalid parameter syntax
+                return Ok(None);
+            }
         }
 
         // Must have closing }} for opening tag
@@ -184,7 +230,7 @@ impl TemplateParser {
                     // Found closing tag
                     let content: String = chars[content_start..i].iter().collect();
                     let end = i + close_chars.len();
-                    return Ok(Some((end, style, content)));
+                    return Ok(Some((end, style, spacing, content)));
                 }
             }
 
@@ -350,5 +396,45 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{mathbold}}A{{/mathbold}}{{italic}}B{{/italic}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐀𝐵");
+    }
+
+    #[test]
+    fn test_template_with_spacing() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:spacing=1}}HELLO{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐇 𝐄 𝐋 𝐋 𝐎");
+    }
+
+    #[test]
+    fn test_template_with_spacing_two() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{script:spacing=2}}ABC{{/script}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝒜  ℬ  𝒞");
+    }
+
+    #[test]
+    fn test_template_mixed_spacing() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold}}no spacing{{/mathbold}} {{mathbold:spacing=1}}with spacing{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐧𝐨 𝐬𝐩𝐚𝐜𝐢𝐧𝐠 𝐰 𝐢 𝐭 𝐡   𝐬 𝐩 𝐚 𝐜 𝐢 𝐧 𝐠");
+    }
+
+    #[test]
+    fn test_template_spacing_with_heading() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "# {{mathbold:spacing=1}}HEADER{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "# 𝐇 𝐄 𝐀 𝐃 𝐄 𝐑");
+    }
+
+    #[test]
+    fn test_template_spacing_zero() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:spacing=0}}HELLO{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐇𝐄𝐋𝐋𝐎");
     }
 }

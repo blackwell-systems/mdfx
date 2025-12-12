@@ -39,6 +39,27 @@ diff <(utf8fx process examples/demo-input.md) examples/demo-output.md
 
 ```markdown
 {{style}}content{{/style}}
+
+# With spacing parameter
+{{style:spacing=N}}content{{/style}}
+```
+
+### Spacing Parameter
+
+Add spaces between each character for artistic headers and design elements:
+
+```markdown
+# {{mathbold:spacing=1}}H E A D E R{{/mathbold}}
+→ # 𝐇 𝐄 𝐀 𝐃 𝐄 𝐑
+
+## {{script:spacing=2}}E l e g a n t{{/script}}
+→ ## ℰ   𝓁   ℯ   ℊ   𝒶   𝓃   𝓉
+
+{{negative-squared:spacing=1}}WARNING{{/negative-squared}}
+→ 🆆 🅰 🆁 🅽 🅸 🅽 🅶
+
+{{fraktur:spacing=3}}Gothic{{/fraktur}}
+→ 𝔊   𝔬   𝔱   𝔥   𝔦   𝔠
 ```
 
 **Available styles:**

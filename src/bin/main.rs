@@ -23,6 +23,10 @@ enum Commands {
         #[arg(short, long)]
         style: String,
 
+        /// Number of spaces between each character (0 = no spacing)
+        #[arg(long, default_value = "0")]
+        spacing: usize,
+
         /// The text to convert
         text: String,
     },
@@ -66,8 +70,8 @@ fn run(cli: Cli) -> Result<(), Error> {
     let converter = Converter::new()?;
 
     match cli.command {
-        Commands::Convert { style, text } => {
-            let result = converter.convert(&text, &style)?;
+        Commands::Convert { style, spacing, text } => {
+            let result = converter.convert_with_spacing(&text, &style, spacing)?;
             println!("{}", result);
         }
 

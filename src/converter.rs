@@ -42,9 +42,53 @@ impl Converter {
     ///
     /// Returns `Error::UnknownStyle` if the style doesn't exist.
     pub fn convert(&self, text: &str, style: &str) -> Result<String> {
+        self.convert_with_spacing(text, style, 0)
+    }
+
+    /// Convert text to a specified Unicode style with character spacing
+    ///
+    /// # Arguments
+    ///
+    /// * `text` - The text to convert
+    /// * `style` - The style ID or alias (e.g., "mathbold" or "mb")
+    /// * `spacing` - Number of spaces to insert between each character (0 = no spacing)
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use utf8fx::Converter;
+    ///
+    /// let converter = Converter::new().unwrap();
+    /// let result = converter.convert_with_spacing("HELLO", "mathbold", 1).unwrap();
+    /// assert_eq!(result, "𝐇 𝐄 𝐋 𝐋 𝐎");
+    /// ```
+    ///
+    /// # Errors
+    ///
+    /// Returns `Error::UnknownStyle` if the style doesn't exist.
+    pub fn convert_with_spacing(&self, text: &str, style: &str, spacing: usize) -> Result<String> {
         let style_obj = self.get_style(style)?;
 
-        let result: String = text.chars().map(|c| style_obj.convert_char(c)).collect();
+        if spacing == 0 {
+            // No spacing - original behavior
+            let result: String = text.chars().map(|c| style_obj.convert_char(c)).collect();
+            return Ok(result);
+        }
+
+        // With spacing: convert each char and add spaces between
+        let chars: Vec<char> = text.chars().collect();
+        let mut result = String::new();
+
+        for (i, c) in chars.iter().enumerate() {
+            result.push(style_obj.convert_char(*c));
+
+            // Add spacing after each character except the last
+            if i < chars.len() - 1 {
+                for _ in 0..spacing {
+                    result.push(' ');
+                }
+            }
+        }
 
         Ok(result)
     }
@@ -221,5 +265,47 @@ mod tests {
             let result = converter.convert("TEST", id);
             assert!(result.is_ok(), "Style '{}' should convert successfully", id);
         }
+    }
+
+    #[test]
+    fn test_spacing_zero() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert_with_spacing("HELLO", "mathbold", 0).unwrap();
+        assert_eq!(result, "𝐇𝐄𝐋𝐋𝐎");
+    }
+
+    #[test]
+    fn test_spacing_one() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert_with_spacing("HELLO", "mathbold", 1).unwrap();
+        assert_eq!(result, "𝐇 𝐄 𝐋 𝐋 𝐎");
+    }
+
+    #[test]
+    fn test_spacing_two() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert_with_spacing("ABC", "script", 2).unwrap();
+        assert_eq!(result, "𝒜  ℬ  𝒞");
+    }
+
+    #[test]
+    fn test_spacing_three() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert_with_spacing("GO", "fraktur", 3).unwrap();
+        assert_eq!(result, "𝔊   𝔒");
+    }
+
+    #[test]
+    fn test_spacing_with_lowercase() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert_with_spacing("hello", "mathbold", 1).unwrap();
+        assert_eq!(result, "𝐡 𝐞 𝐥 𝐥 𝐨");
+    }
+
+    #[test]
+    fn test_spacing_single_char() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert_with_spacing("A", "mathbold", 2).unwrap();
+        assert_eq!(result, "𝐀");
     }
 }
