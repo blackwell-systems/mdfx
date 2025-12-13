@@ -10,7 +10,10 @@ use utf8fx::{Converter, Error, StyleCategory, TemplateParser};
 /// Unicode text effects for markdown and beyond
 #[derive(Parser)]
 #[command(name = "utf8fx")]
-#[command(version, about, long_about = None)]
+#[command(version, about)]
+#[command(
+    long_about = "Transform text into various Unicode styles through template syntax or direct conversion.\n\nSupports 19 styles including mathbold, fullwidth, script, fraktur, and more.\nUse templates in markdown: {{mathbold}}TEXT{{/mathbold}}\n\nFor more info: https://github.com/blackwell-systems/utf8fx"
+)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -19,6 +22,16 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     /// Convert text to a Unicode style
+    ///
+    /// Transform plain text into styled Unicode characters using one of 19 available styles.
+    /// Supports style aliases (e.g., 'mb' for 'mathbold') and character spacing.
+    ///
+    /// Examples:
+    ///   utf8fx convert --style mathbold "Hello World"
+    ///   utf8fx convert --style mb --spacing 1 "SPACED"
+    ///   utf8fx convert --style script "Elegant Text"
+    ///
+    /// Run 'utf8fx list' to see all available styles.
     Convert {
         /// The style to use (e.g., mathbold, fullwidth, mb)
         #[arg(short, long)]
@@ -33,6 +46,15 @@ enum Commands {
     },
 
     /// List available styles
+    ///
+    /// Display all 19 Unicode styles organized by category: Bold & Impactful,
+    /// Boxed, Technical & Code, and Subtle & Elegant. Each style includes
+    /// its ID, aliases, and description.
+    ///
+    /// Examples:
+    ///   utf8fx list
+    ///   utf8fx list --samples
+    ///   utf8fx list --category bold
     List {
         /// Show only styles in a specific category
         #[arg(short, long)]
@@ -44,6 +66,21 @@ enum Commands {
     },
 
     /// Process markdown file with style templates
+    ///
+    /// Transform markdown files by processing style templates in the format:
+    /// {{style}}text{{/style}} or {{style:spacing=N}}text{{/style}}
+    ///
+    /// Templates are preserved inside code blocks (```) and inline code (`).
+    ///
+    /// Examples:
+    ///   utf8fx process input.md -o output.md
+    ///   utf8fx process -i README.md
+    ///   echo "{{mathbold}}Title{{/mathbold}}" | utf8fx process
+    ///   cat doc.md | utf8fx process > styled.md
+    ///
+    /// Template syntax:
+    ///   {{mathbold}}Bold Text{{/mathbold}}
+    ///   {{script:spacing=2}}Spaced Script{{/script}}
     Process {
         /// Input file (use - or omit for stdin)
         input: Option<PathBuf>,
@@ -58,6 +95,14 @@ enum Commands {
     },
 
     /// Generate shell completions
+    ///
+    /// Generate tab completion scripts for your shell. Save the output to
+    /// your shell's completion directory.
+    ///
+    /// Examples:
+    ///   utf8fx completions bash > /etc/bash_completion.d/utf8fx
+    ///   utf8fx completions zsh > ~/.zsh/completions/_utf8fx
+    ///   utf8fx completions fish > ~/.config/fish/completions/utf8fx.fish
     Completions {
         /// Shell to generate completions for
         #[arg(value_enum)]
