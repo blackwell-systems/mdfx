@@ -27,11 +27,13 @@ Renders as:
 
 # ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓·𝐍·𝐀·𝐌·𝐄 ░▒▓
 
-![](https://img.shields.io/badge/...) (colorful divider bar)
+![Divider](https://img.shields.io/badge/%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0-F41C80_EAB308_22C55E_4A9EFF_8B5CF6_EC4899?style=flat-square)
 
-🦀 🐍 🐘 (tech badges)
+## Tech Stack
+![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 
-🟢 All systems operational
+## Status
+![Success](https://img.shields.io/badge/%E2%96%A0-22C55E?style=flat-square) All systems operational
 
 ## 𝐌𝐨𝐭𝐢𝐯𝐚𝐭𝐢𝐨𝐧
 
