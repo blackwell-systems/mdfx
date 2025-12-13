@@ -51,6 +51,7 @@ pub mod renderer;
 pub mod separators;
 pub mod shields;
 pub mod styles;
+pub mod targets;
 
 // Re-export main types for convenience
 pub use badges::{BadgeRenderer, BadgeType};
@@ -67,6 +68,7 @@ pub use separators::{Separator, SeparatorsData};
 pub use shields::ShieldsRenderer;
 pub use shields::ShieldStyle as ShieldsShieldStyle;
 pub use styles::{Style, StyleCategory, StyleSupport, StylesData};
+pub use targets::{BackendType, GitHubTarget, LocalDocsTarget, NpmTarget, Target};
 
 #[cfg(test)]
 mod tests {
