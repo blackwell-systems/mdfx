@@ -27,13 +27,13 @@ The simplest way to use mdfx is through semantic UI components:
 ```markdown
 # ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓·𝐍·𝐀·𝐌·𝐄 ░▒▓
 
-![](https://img.shields.io/badge/...) (colorful bar)
+![Divider](https://img.shields.io/badge/%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0-F41C80_EAB308_22C55E_4A9EFF_8B5CF6_EC4899?style=flat-square)
 
 ## Tech Stack
-🦀 🐍 🐘
+![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 
 ## Status
-🟢 All systems operational
+![Success](https://img.shields.io/badge/%E2%96%A0-22C55E?style=flat-square) All systems operational
 ```
 
 ---
@@ -446,10 +446,10 @@ Generate shields.io badges directly:
 
 ```markdown
 {{shields:block:color=F41C80:style=flat-square/}}
-→ ![](https://img.shields.io/badge/...)
+→ ![](https://img.shields.io/badge/-F41C80?style=flat-square)
 
 {{shields:bar:colors=success,warning,error:style=flat-square/}}
-→ ![](...)![](...)![](...)
+→ ![](https://img.shields.io/badge/-22C55E_EAB308_EF4444?style=flat-square)
 ```
 
 **Note:** Most users should use `{{ui:*}}` components instead. Shields primitives are verbose but powerful.
