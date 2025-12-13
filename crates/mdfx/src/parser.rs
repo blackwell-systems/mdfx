@@ -534,15 +534,11 @@ impl TemplateParser {
                     i += 1;
                 }
 
-                // Resolve separator using SeparatorsData
+                // Resolve separator using SeparatorsData (handles validation and suggestions)
                 match SEPARATORS.resolve(&sep_input) {
-                    Some(sep_char) => separator = Some(sep_char),
-                    None => {
-                        let available = SEPARATORS.list_ids().join(", ");
-                        return Err(Error::ParseError(format!(
-                            "Unknown separator '{}'. Use a named separator ({}) or a single Unicode character",
-                            sep_input, available
-                        )));
+                    Ok(sep_char) => separator = Some(sep_char),
+                    Err(err_msg) => {
+                        return Err(Error::ParseError(err_msg));
                     }
                 }
             } else {

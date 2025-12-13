@@ -32,19 +32,69 @@ impl SeparatorsData {
     }
 
     /// Get separator character by ID, or return the input if it's a single char
-    pub fn resolve(&self, input: &str) -> Option<String> {
+    ///
+    /// # Validation
+    /// - Trims whitespace
+    /// - Rejects template delimiters (`:`, `/`, `}`)
+    /// - Requires exactly 1 character (TODO: upgrade to 1 grapheme cluster for emoji support)
+    pub fn resolve(&self, input: &str) -> Result<String, String> {
+        // Normalize: trim whitespace
+        let normalized = input.trim();
+
+        if normalized.is_empty() {
+            return Err("Separator cannot be empty".to_string());
+        }
+
         // First try to find by ID
-        if let Some(sep) = self.find_separator(input) {
-            return Some(sep.char.clone());
+        if let Some(sep) = self.find_separator(normalized) {
+            return Ok(sep.char.clone());
         }
 
-        // If input is a single character, use it directly
-        if input.chars().count() == 1 {
-            return Some(input.to_string());
+        // If input is a single character, validate and use it directly
+        if normalized.chars().count() == 1 {
+            let ch = normalized.chars().next().unwrap();
+
+            // Reject template delimiters
+            if ch == ':' || ch == '/' || ch == '}' {
+                return Err(format!(
+                    "Character '{}' cannot be used as separator (reserved for template syntax)",
+                    ch
+                ));
+            }
+
+            return Ok(normalized.to_string());
         }
 
-        // Not found and not a single char
-        None
+        // Not found and not a single char - provide helpful error
+        Err(self.suggest_separator(normalized))
+    }
+
+    /// Generate a helpful error message with "did you mean" suggestions
+    fn suggest_separator(&self, input: &str) -> String {
+        let mut msg = format!("Unknown separator '{}'.", input);
+
+        // Try to find similar named separators (simple edit distance)
+        let similar: Vec<&str> = self.separators
+            .iter()
+            .filter(|s| {
+                // Simple similarity check: common prefix or contains substring
+                s.id.starts_with(input) ||
+                s.id.contains(input) ||
+                input.contains(&s.id)
+            })
+            .map(|s| s.id.as_str())
+            .take(3)
+            .collect();
+
+        if !similar.is_empty() {
+            msg.push_str(&format!("\n  Did you mean: {}?", similar.join(", ")));
+        }
+
+        msg.push_str("\n  Available named separators: ");
+        msg.push_str(&self.list_ids().join(", "));
+        msg.push_str("\n  Or use any single Unicode character (e.g., separator=⚡)");
+
+        msg
     }
 
     /// List all separator IDs
@@ -76,21 +126,69 @@ mod tests {
     fn test_resolve_named_separator() {
         let data = SeparatorsData::load().unwrap();
         let result = data.resolve("dot");
-        assert_eq!(result, Some("·".to_string()));
+        assert_eq!(result, Ok("·".to_string()));
     }
 
     #[test]
     fn test_resolve_direct_character() {
         let data = SeparatorsData::load().unwrap();
         let result = data.resolve("⚡");
-        assert_eq!(result, Some("⚡".to_string()));
+        assert_eq!(result, Ok("⚡".to_string()));
     }
 
     #[test]
     fn test_resolve_invalid() {
         let data = SeparatorsData::load().unwrap();
         let result = data.resolve("notaseparator");
-        assert_eq!(result, None);
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert!(err.contains("Unknown separator"));
+        assert!(err.contains("Available named separators"));
+    }
+
+    #[test]
+    fn test_resolve_with_whitespace() {
+        let data = SeparatorsData::load().unwrap();
+        let result = data.resolve("  dot  ");
+        assert_eq!(result, Ok("·".to_string()));
+    }
+
+    #[test]
+    fn test_resolve_empty() {
+        let data = SeparatorsData::load().unwrap();
+        let result = data.resolve("   ");
+        assert!(result.is_err());
+        assert!(result.unwrap_err().contains("cannot be empty"));
+    }
+
+    #[test]
+    fn test_resolve_template_delimiters() {
+        let data = SeparatorsData::load().unwrap();
+
+        // Reject :
+        let result = data.resolve(":");
+        assert!(result.is_err());
+        assert!(result.unwrap_err().contains("reserved for template syntax"));
+
+        // Reject /
+        let result = data.resolve("/");
+        assert!(result.is_err());
+
+        // Reject }
+        let result = data.resolve("}");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_suggest_separator() {
+        let data = SeparatorsData::load().unwrap();
+
+        // Test "did you mean" for partial match
+        let result = data.resolve("arr");  // partial: arrow
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert!(err.contains("Did you mean"));
+        assert!(err.contains("arrow"));
     }
 
     #[test]
