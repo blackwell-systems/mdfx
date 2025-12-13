@@ -5,9 +5,9 @@ use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process;
-use utf8fx::{Converter, Error, StyleCategory, TemplateParser};
 use utf8fx::renderer::shields::ShieldsBackend;
 use utf8fx::renderer::svg::SvgBackend;
+use utf8fx::{Converter, Error, StyleCategory, TemplateParser};
 
 /// Unicode text effects for markdown and beyond
 #[derive(Parser)]

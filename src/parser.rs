@@ -1635,7 +1635,8 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     fn test_frame_multiline_with_ui_components() {
         use crate::renderer::svg::SvgBackend;
 
-        let parser = TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
+        let parser =
+            TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
         let input = "{{frame:gradient}}\n{{ui:swatch:accent/}}\n{{ui:status:success/}}\n{{/frame}}";
         let result = parser.process_with_assets(input).unwrap();
 
@@ -1653,7 +1654,8 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     fn test_process_with_assets_preserves_code_blocks() {
         use crate::renderer::svg::SvgBackend;
 
-        let parser = TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
+        let parser =
+            TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
         let input = "```\n{{ui:swatch:accent/}}\n```\n{{ui:swatch:accent/}}";
         let result = parser.process_with_assets(input).unwrap();
 
