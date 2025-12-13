@@ -1,835 +1,232 @@
-# Frames & Boxes Design Document
+# Frames Design Document
 
-**Feature:** Box drawing, brackets, and decorative frames for text
-**Status:** Implemented (Inline Frames)
-**Version:** 1.0.0
+**Scope:** Inline frames (prefix/suffix decoration) - Implemented
+**Status:** v1.0.0 Shipped
 **Last Updated:** 2025-12-12
 
-## Implementation Status
-
-**COMPLETED (v1.0.0):**
-- Inline frames (prefix/suffix decoration)
-- 27 frame styles: gradient, solid, lines (light/bold/double/dashed), blocks, arrows, bullets, brackets (lenticular, angle, guillemet), symbols (star, diamond, finger, fisheye, asterism), arcs
-- Frame template syntax: `{{frame:style}}content{{/frame}}`
-- Recursive processing (frames can contain styled text)
-- Full composition support (style + separator + frame + badges)
-- Badge component (6 types: circle, negative-circle, double-circle, paren, period, paren-letter)
-- 113 tests passing
-- Comprehensive documentation (API-GUIDE.md, ARCHITECTURE.md)
-
-**FUTURE (v1.1.0+):**
-- Full box frames (multi-line rectangular boxes with borders)
-- Box width calculation for Unicode characters
-- Multiline content wrapping within boxes
-
 ---
 
-## Design Philosophy: Cohesive System Architecture
+## What's Implemented (v1.0.0)
 
-**Critical Principle:** Every feature must fit into a unified, extensible architecture. We're not bolting on features—we're expanding a coherent system.
+### Inline Frames
 
-### Core System Principles
+Frames add **decorative prefix/suffix** around text without changing the characters themselves.
 
-1. **Single Responsibility** - Each component has one clear purpose:
-   - `Converter` - Character-to-character Unicode mapping
-   - `Parser` - Template syntax recognition and extraction
-   - `FrameRenderer` - Structural elements (boxes, brackets)
-
-2. **Consistent Syntax** - All templates follow the same pattern:
-   - Base: `{{type}}content{{/type}}`
-   - With params: `{{type:param=value}}content{{/type}}`
-   - Composition: `{{type|modifier}}content{{/type}}`
-
-3. **Layered Processing** - Clear pipeline stages:
-   ```
-   Input → Parser → Converter → FrameRenderer → Output
-   ```
-
-4. **Data-Driven** - Configuration over code:
-   - `styles.json` - Character mappings
-   - `frames.json` - Box drawing characters
-   - Adding new styles/frames = data, not code
-
-5. **Composable Operations** - Features combine cleanly:
-   - Spacing applies to characters
-   - Frames wrap rendered output
-   - Order matters: style → space → frame
-
-### Anti-Patterns to Avoid
-
-**AVOID: Feature sprawl** - Adding every possible option
-**DO: Focused features** - Each feature solves a real problem
-
-**AVOID: Inconsistent syntax** - Different template styles for each feature
-**DO: Unified syntax** - All templates use same pattern
-
-**AVOID: Monolithic functions** - 500-line methods that do everything
-**DO: Small, composable functions** - Single responsibility
-
-**AVOID: Hard-coded values** - Character mappings in code
-**DO: Data-driven** - All mappings in JSON files
-
-**AVOID: Breaking changes** - New features break old templates
-**DO: Backward compatibility** - Old templates always work
-
-### How Frames Fit the Architecture
-
-**Frames are structural**, not stylistic:
-- **Styles** transform characters: `A` → `𝐀`
-- **Frames** add structure: `text` → `[ text ]`
-- **They compose**: styled text can be framed
-
-**Parser remains unified:**
-- Same state machine
-- Same template recognition
-- Just routes to different renderers
-
-**Extension point is clear:**
-- Want borders? Add to FrameRenderer
-- Want colors? Add ColorRenderer
-- Want transforms? Add TransformRenderer
-
-All use the same template syntax and processing pipeline.
-
----
-
-## Overview
-
-Add support for framing text with Unicode box drawing characters, brackets, and decorative elements. This enables creating visual containers, emphasis boxes, warning banners, and artistic frames around text in markdown documents.
-
-### Goals
-
-1. **Visual Impact** - Create distinctive frames and boxes that stand out in text documents
-2. **Flexibility** - Support inline brackets and multi-line boxes
-3. **Composability** - Allow combining frames with existing text styles
-4. **Simplicity** - Maintain intuitive template syntax consistent with current design
-5. **Markdown Compatibility** - Preserve compatibility with markdown processors
-6. **Platform Constraints** - Work within GitHub's fixed-width rendering (100-120 chars)
-
-### Non-Goals
-
-- Complex ASCII art generation
-- Dynamic box sizing based on terminal width
-- Nested frames (at least initially)
-- Color support (beyond existing terminal colors)
-- Extremely wide boxes that break GitHub rendering
-
-### Design Constraints
-
-#### GitHub Rendering Environment
-
-**Fixed Width Container:**
-- GitHub READMEs render in a fixed-width content area
-- Desktop: ~100-120 characters maximum
-- Mobile: 60-80 chars
-- **Reference line (120 chars):** "Unicode offers a plethora of diverse and interesting styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful"
-
-**Design Approach:**
-
-The system should NOT be limited by GitHub constraints globally, but should provide tooling to ensure
-GitHub conformity when needed:
-
-1. **No hard limits** - Users can create boxes of any width for terminals, docs, etc.
-2. **Optional validation** - `--validate-github` flag warns about lines >120 chars
-3. **GitHub-safe presets** - Pre-configured box styles optimized for GitHub
-4. **Documentation** - Clear guidelines on what works well on GitHub vs other platforms
-
-**Implementation Strategy:**
-```bash
-# Default: No width limits (works anywhere)
-utf8fx convert --box double "Any length text here"
-
-# GitHub validation mode: Warns if output >120 chars
-utf8fx convert --box double --validate-github "Long text..."
-# Warning: Output width (145 chars) exceeds GitHub limit (120 chars)
-
-# GitHub preset: Auto-sizes for GitHub
-utf8fx convert --box double --preset github "Text"
-# Uses conservative width (60 chars) for universal compatibility
-```
-
-**Best Practices:**
+**Template Syntax:**
 ```markdown
-GOOD - Short, impactful
-{{box:double}}WARNING{{/box}}
-
-GOOD - Reasonable width
-{{box:heavy}}INSTALLATION REQUIRED{{/box}}
-
-BAD - Too wide for GitHub
-{{box:light}}This is a very long sentence that will probably overflow the GitHub README container and look broken{{/box}}
-
-BETTER - Break into multiple lines
-{{box:light}}
-Installation Required
-See docs for details
-{{/box}}
+{{frame:style}}content{{/frame}}
 ```
 
-#### Platform-Specific Width Guidelines
-
-**Default (Terminal/Docs):**
-- **Inline brackets:** No limit (scales with content)
-- **Single-line boxes:** No hard limit (user-controlled)
-- **Multi-line boxes:** No hard limit (user-controlled)
-- **Standard terminal:** 80 columns traditional
-
-**GitHub-Optimized (--preset github):**
-- **Single-line boxes:** 60 chars max (mobile-safe)
-- **Multi-line boxes:** 80 chars width per line
-- **Headers/Titles:** 30-40 chars (visual impact)
-- **Line length:** 120 chars absolute maximum
-
-**Wide Terminal/Documentation:**
-- **Single-line boxes:** 100+ chars acceptable
-- **Multi-line boxes:** 120+ chars per line
-- **Large displays:** Can use full width available
-
-#### Rendering Test Environments
-
-Before releasing frame features, test in:
-1. **GitHub README.md** - Primary target
-2. **GitHub mobile** - Narrow width constraint
-3. **Terminal (80-column)** - Classic unix width
-4. **VS Code preview** - Development environment
-5. **Hugo/Jekyll rendered** - Static site output
-
----
-
-## Use Cases
-
-### 1. Warning Banners
-
+**Example:**
 ```markdown
-{{box:heavy}}WARNING: This action cannot be undone{{/box}}
+{{frame:gradient}}TITLE{{/frame}}
+→ ▓▒░ TITLE ░▒▓
 ```
 
-Output:
-```
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ WARNING: This action cannot be undone ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-```
+### Frame Types (27 styles)
 
-### 2. Section Headers
+All frames use simple string concatenation: `prefix + content + suffix`
 
-```markdown
-{{box:double|mathbold}}INSTALLATION GUIDE{{/box}}
-```
+**Categories:**
+- **Gradient:** 3 styles (gradient, gradient-light, gradient-reverse)
+- **Solid:** 3 styles (solid-left, solid-right, solid-both)
+- **Lines:** 4 styles (line-light, line-bold, line-double, line-dashed)
+- **Blocks:** 2 styles (block-top, block-bottom)
+- **Arrows/Symbols:** 4 styles (arrow-right, dot, bullet, star)
+- **Brackets:** 5 styles (lenticular, angle, guillemet, guillemet-single, heavy-quote)
+- **Special:** 6 styles (diamond, triangle-right, finger, fisheye, asterism, arc-top, arc-bottom)
 
-Output:
-```
-╔═══════════════════════╗
-║ 𝐈𝐍𝐒𝐓𝐀𝐋𝐋𝐀𝐓𝐈𝐎𝐍 𝐆𝐔𝐈𝐃𝐄 ║
-╚═══════════════════════╝
-```
+### Data Structure (frames.json)
 
-### 3. Inline Emphasis
-
-```markdown
-The {{bracket:corner}}config.json{{/bracket}} file contains settings.
-```
-
-Output:
-```
-The 「config.json」 file contains settings.
-```
-
-### 4. Key-Value Display
-
-```markdown
-{{bracket:square}}API_KEY{{/bracket}} = your-key-here
-{{bracket:angle}}required{{/bracket}}
-```
-
-Output:
-```
-[ API_KEY ] = your-key-here
-⟨ required ⟩
-```
-
-### 5. README Badges
-
-```markdown
-{{box:rounded}}v1.0.0{{/box}} {{bracket:square}}MIT License{{/bracket}}
-```
-
-Output:
-```
-╭─────────╮ [ MIT License ]
-│ v1.0.0  │
-╰─────────╯
-```
-
----
-
-## Design Approaches
-
-### Approach 1: Inline Brackets/Decorators
-
-**Complexity:** Low
-**Implementation Time:** 1-2 days
-
-#### Syntax
-
-```markdown
-{{bracket:style}}text{{/bracket}}
-{{decor:style}}text{{/decor}}
-```
-
-#### Available Styles
-
-**Brackets:**
-- `square` → `[ text ]`
-- `angle` → `⟨ text ⟩`
-- `curly` → `{ text }`
-- `double-angle` → `《 text 》`
-- `corner` → `「text」`
-- `white-corner` → `『text』`
-- `tortoise` → `〔text〕`
-- `black-lenticular` → `【text】`
-
-**Decorators:**
-- `stars` → `✨ text ✨`
-- `arrows` → `→ text ←`
-- `dots` → `• text •`
-- `diamonds` → `◆ text ◆`
-- `triangles` → `▶ text ◀`
-
-#### Technical Implementation
-
-```rust
-// New module: src/frames.rs
-pub enum BracketStyle {
-    Square,
-    Angle,
-    Curly,
-    DoubleAngle,
-    Corner,
-    WhiteCorner,
-    Tortoise,
-    BlackLenticular,
-}
-
-impl BracketStyle {
-    pub fn wrap(&self, text: &str) -> String {
-        match self {
-            BracketStyle::Square => format!("[ {} ]", text),
-            BracketStyle::Angle => format!("⟨ {} ⟩", text),
-            BracketStyle::Curly => format!("{{ {} }}", text),
-            BracketStyle::DoubleAngle => format!("《 {} 》", text),
-            BracketStyle::Corner => format!("「{}」", text),
-            BracketStyle::WhiteCorner => format!("『{}』", text),
-            BracketStyle::Tortoise => format!("〔{}〕", text),
-            BracketStyle::BlackLenticular => format!("【{}】", text),
-        }
-    }
-}
-```
-
-#### Pros
-- Simple to implement
-- Works inline with existing text
-- No layout complexity
-- Fast processing
-
-#### Cons
-- Limited visual impact
-- Not true "boxes"
-- Single-line only
-
----
-
-### Approach 2: Single-Line ASCII Boxes
-
-**Complexity:** Medium
-**Implementation Time:** 3-5 days
-
-#### Syntax
-
-```markdown
-{{box:style}}text{{/box}}
-{{box:style:padding=2}}text{{/box}}
-```
-
-#### Available Styles
-
-**Light Weight:**
-- `box` (light single):
-  ```
-  ┌─────────┐
-  │ text    │
-  └─────────┘
-  ```
-
-- `rounded`:
-  ```
-  ╭─────────╮
-  │ text    │
-  ╰─────────╯
-  ```
-
-**Heavy Weight:**
-- `heavy` (bold):
-  ```
-  ┏━━━━━━━━━┓
-  ┃ text    ┃
-  ┗━━━━━━━━━┛
-  ```
-
-- `double`:
-  ```
-  ╔═════════╗
-  ║ text    ║
-  ╚═════════╝
-  ```
-
-**Block Style:**
-- `thick` (solid blocks):
-  ```
-  █████████████
-  █ text      █
-  █████████████
-  ```
-
-- `shadow`:
-  ```
-  ┌─────────┐
-  │ text    │▓
-  └─────────┘▓
-   ▓▓▓▓▓▓▓▓▓▓
-  ```
-
-#### Parameters
-
-- `padding` - Spaces around text (default: 1)
-  - `{{box:heavy:padding=3}}text{{/box}}`
-  - Result: `┃   text   ┃`
-
-- `width` - Fixed width (default: auto)
-  - `{{box:double:width=20}}text{{/box}}`
-  - Pads to exact width
-
-- `align` - Text alignment (default: left)
-  - Values: `left`, `center`, `right`
-  - `{{box:rounded:align=center}}text{{/box}}`
-
-#### Technical Implementation
-
-```rust
-pub struct BoxStyle {
-    top_left: char,
-    top: char,
-    top_right: char,
-    left: char,
-    right: char,
-    bottom_left: char,
-    bottom: char,
-    bottom_right: char,
-}
-
-impl BoxStyle {
-    pub const LIGHT: Self = BoxStyle {
-        top_left: '┌', top: '─', top_right: '┐',
-        left: '│', right: '│',
-        bottom_left: '└', bottom: '─', bottom_right: '┘',
-    };
-
-    pub const DOUBLE: Self = BoxStyle {
-        top_left: '╔', top: '═', top_right: '╗',
-        left: '║', right: '║',
-        bottom_left: '╚', bottom: '═', bottom_right: '╝',
-    };
-
-    pub const HEAVY: Self = BoxStyle {
-        top_left: '┏', top: '━', top_right: '┓',
-        left: '┃', right: '┃',
-        bottom_left: '┗', bottom: '━', bottom_right: '┛',
-    };
-
-    pub const ROUNDED: Self = BoxStyle {
-        top_left: '╭', top: '─', top_right: '╮',
-        left: '│', right: '│',
-        bottom_left: '╰', bottom: '─', bottom_right: '╯',
-    };
-}
-
-pub struct BoxOptions {
-    pub style: BoxStyle,
-    pub padding: usize,
-    pub width: Option<usize>,
-    pub align: TextAlign,
-}
-
-pub fn render_box(text: &str, options: BoxOptions) -> String {
-    let padding = " ".repeat(options.padding);
-    let content_width = text.chars().count() + (options.padding * 2);
-    let total_width = options.width.unwrap_or(content_width);
-
-    let horizontal = options.style.top.to_string().repeat(total_width);
-
-    let aligned_text = match options.align {
-        TextAlign::Left => format!("{}{}{}",
-            padding, text, " ".repeat(total_width - content_width)),
-        TextAlign::Center => {
-            let spaces = total_width - content_width;
-            let left_pad = spaces / 2;
-            let right_pad = spaces - left_pad;
-            format!("{}{}{}{}{}",
-                " ".repeat(left_pad), padding, text, padding, " ".repeat(right_pad))
-        },
-        TextAlign::Right => format!("{}{}{}",
-            " ".repeat(total_width - content_width), padding, text),
-    };
-
-    format!(
-        "{}{}{}\n{}{}{}\n{}{}{}",
-        options.style.top_left, horizontal, options.style.top_right,
-        options.style.left, aligned_text, options.style.right,
-        options.style.bottom_left, horizontal, options.style.bottom_right
-    )
-}
-```
-
-#### Pros
-- Strong visual impact
-- Professional appearance
-- Flexible styling options
-- Still relatively simple
-
-#### Cons
-- Multi-line output changes document layout
-- Width calculation needed
-- More complex parsing
-
----
-
-### Approach 3: Multi-Line Content Boxes
-
-**Complexity:** High
-**Implementation Time:** 1-2 weeks
-
-#### Syntax
-
-```markdown
-{{box:style}}
-Line 1
-Line 2
-Line 3
-{{/box}}
-```
-
-#### Features
-
-- Automatically wraps multiple lines
-- Calculates max line width
-- Handles variable-length content
-- Optional title bars
-
-#### Example with Title
-
-```markdown
-{{box:double:title=Configuration}}
-API_KEY=your-key
-DATABASE_URL=postgres://...
-DEBUG=true
-{{/box}}
-```
-
-Output:
-```
-╔═══ Configuration ════════════════╗
-║ API_KEY=your-key                 ║
-║ DATABASE_URL=postgres://...      ║
-║ DEBUG=true                       ║
-╚══════════════════════════════════╝
-```
-
-#### Technical Challenges
-
-1. **Line tracking** - Need to preserve newlines in template content
-2. **Width calculation** - Find longest line for proper padding
-3. **UTF-8 width** - Unicode characters have variable display widths
-4. **Alignment** - Each line needs individual alignment
-5. **Edge cases** - Empty lines, trailing spaces, very long lines
-
-#### Pros
-- Maximum flexibility
-- Handles complex content
-- Professional documentation appearance
-
-#### Cons
-- Complex implementation
-- Performance considerations for large content
-- Potential markdown compatibility issues
-
----
-
-## Combined Approach (Recommended)
-
-Implement features in phases:
-
-### Phase 1: Inline Brackets (v1.1)
-- Simple bracket wrapping
-- Quick wins for inline emphasis
-- Low complexity, high value
-- **Timeline:** 1-2 days
-
-### Phase 2: Single-Line Boxes (v1.2)
-- ASCII box rendering for single lines
-- Multiple box styles
-- Padding and alignment options
-- **Timeline:** 3-5 days
-
-### Phase 3: Style + Box Composition (v1.3)
-- Combine text styles with boxes
-- Syntax: `{{mathbold|box:double}}TEXT{{/mathbold}}`
-- Apply character style, then wrap in box
-- **Timeline:** 2-3 days
-
-### Phase 4: Multi-Line Boxes (v2.0)
-- Full multi-line content support
-- Title bars
-- Smart width calculation
-- **Timeline:** 1-2 weeks
-
----
-
-## Template Syntax Design
-
-### Current Parser Architecture
-
-The parser uses a state machine to find `{{style}}...{{/style}}` patterns:
-
-```rust
-fn parse_template_at(&self, chars: &[char], start: usize)
-    -> Result<Option<(usize, String, usize, String)>>
-{
-    // Returns: (end_pos, style, spacing, content)
-    // Currently handles: {{style:spacing=N}}content{{/style}}
-}
-```
-
-### Proposed Extensions
-
-#### 1. Bracket Templates
-
-```markdown
-{{bracket:style}}content{{/bracket}}
-```
-
-Parser recognizes `bracket:` prefix, passes to bracket renderer instead of converter.
-
-#### 2. Box Templates
-
-```markdown
-{{box:style}}content{{/box}}
-{{box:style:padding=N}}content{{/box}}
-{{box:style:width=N:align=center}}content{{/box}}
-```
-
-Parser extracts:
-- Base type: `box`
-- Style: `heavy`, `double`, `rounded`, etc.
-- Parameters: `padding`, `width`, `align`
-
-#### 3. Combined Templates
-
-```markdown
-{{mathbold|box:double}}TEXT{{/mathbold}}
-```
-
-Parser strategy:
-1. Parse outer template: `mathbold`
-2. Detect pipe `|` separator
-3. Parse modifier: `box:double`
-4. Apply style conversion first
-5. Apply box wrapper second
-
----
-
-## Parser Modifications
-
-### Current Architecture
-
-```rust
-// src/parser.rs
-fn process_templates(&self, text: &str) -> Result<String> {
-    // Finds {{style}}...{{/style}}
-    // Calls: converter.convert_with_spacing(content, style, spacing)
-}
-```
-
-### Proposed Architecture
-
-```rust
-// src/parser.rs
-enum TemplateType {
-    Style { name: String, spacing: usize },
-    Bracket { style: String },
-    Box { style: String, params: BoxParams },
-    Combined { style: String, modifier: Modifier },
-}
-
-fn parse_template_at(&self, chars: &[char], start: usize)
-    -> Result<Option<(usize, TemplateType, String)>>
-{
-    // Parse template and determine type
-    // Return type + content
-}
-
-fn process_template(&self, template: TemplateType, content: &str)
-    -> Result<String>
-{
-    match template {
-        TemplateType::Style { name, spacing } => {
-            self.converter.convert_with_spacing(content, &name, spacing)
-        }
-        TemplateType::Bracket { style } => {
-            self.frames.wrap_bracket(content, &style)
-        }
-        TemplateType::Box { style, params } => {
-            self.frames.render_box(content, &style, params)
-        }
-        TemplateType::Combined { style, modifier } => {
-            let styled = self.converter.convert(content, &style)?;
-            self.apply_modifier(&styled, modifier)
-        }
-    }
-}
-```
-
-### New Module: frames.rs
-
-```rust
-// src/frames.rs
-pub struct FrameRenderer {
-    bracket_styles: HashMap<String, BracketStyle>,
-    box_styles: HashMap<String, BoxStyle>,
-}
-
-impl FrameRenderer {
-    pub fn new() -> Self { ... }
-
-    pub fn wrap_bracket(&self, text: &str, style: &str) -> Result<String> { ... }
-
-    pub fn render_box(&self, text: &str, style: &str, params: BoxParams)
-        -> Result<String> { ... }
-
-    pub fn list_bracket_styles(&self) -> Vec<&str> { ... }
-
-    pub fn list_box_styles(&self) -> Vec<&str> { ... }
-}
-```
-
----
-
-## CLI Integration
-
-### New Commands
-
-```bash
-# List available frame styles
-utf8fx list-frames
-utf8fx list-frames --category brackets
-utf8fx list-frames --category boxes
-
-# Convert with brackets
-utf8fx convert --bracket corner "config.json"
-# Output: 「config.json」
-
-# Convert with box
-utf8fx convert --box double --padding 2 "WARNING"
-# Output:
-# ╔═══════════╗
-# ║  WARNING  ║
-# ╚═══════════╝
-
-# Combined style + frame
-utf8fx convert --style mathbold --box heavy "TITLE"
-# Output:
-# ┏━━━━━━━━━┓
-# ┃ 𝐓𝐈𝐓𝐋𝐄  ┃
-# ┗━━━━━━━━━┛
-```
-
-### CLI Structure Changes
-
-```rust
-// src/bin/main.rs
-#[derive(Subcommand)]
-enum Commands {
-    Convert {
-        #[arg(short, long)]
-        style: Option<String>,
-
-        #[arg(short, long)]
-        spacing: usize,
-
-        #[arg(long)]
-        bracket: Option<String>,
-
-        #[arg(long)]
-        r#box: Option<String>,
-
-        #[arg(long)]
-        padding: Option<usize>,
-
-        text: String,
-    },
-
-    ListFrames {
-        #[arg(short, long)]
-        category: Option<String>,
-    },
-
-    // ... existing commands
-}
-```
-
----
-
-## Data Structure
-
-### frames.json
-
-Similar to `styles.json`, create `data/frames.json`:
+Current implementation uses embedded JSON with this structure:
 
 ```json
 {
   "version": "1.0.0",
-  "brackets": {
-    "square": {
-      "id": "square",
-      "name": "Square Brackets",
-      "left": "[",
-      "right": "]",
-      "spacing": true
+  "frames": {
+    "gradient": {
+      "id": "gradient",
+      "name": "Gradient",
+      "description": "Gradient blocks from bold to light",
+      "prefix": "▓▒░ ",
+      "suffix": " ░▒▓",
+      "aliases": ["grad", "gradient-full"]
     },
-    "corner": {
-      "id": "corner",
-      "name": "Corner Brackets",
-      "left": "「",
-      "right": "」",
-      "spacing": false
+    "solid-left": {
+      "id": "solid-left",
+      "name": "Solid Left",
+      "description": "Solid block on the left",
+      "prefix": "█▌",
+      "suffix": "",
+      "aliases": ["solidleft", "left"]
     }
-  },
+  }
+}
+```
+
+**Key points:**
+- Data embedded at compile time via `include_str!()`
+- Each frame has `prefix` and `suffix` (both can be empty string)
+- Alias support for shorter names
+- No width calculation - frames are applied as-is
+
+### Parser Behavior
+
+**Template Parsing:**
+```rust
+// Parser recognizes {{frame:style}}
+parse_frame_at() → FrameData {
+    frame_style: "gradient",
+    content: "TITLE",
+    end_pos: 35
+}
+
+// Renderer applies
+apply_frame("TITLE", "gradient") → "▓▒░ TITLE ░▒▓"
+```
+
+**Recursive Processing:**
+Frames can contain other templates:
+```markdown
+{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+→ ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓
+```
+
+Parser processes in priority order:
+1. Frame templates (outer)
+2. Badge templates (middle)
+3. Style templates (inner)
+
+This prevents parsing ambiguity.
+
+### Composition Model (Canonical)
+
+utf8fx composes features through **nesting**, not a separate DSL.
+
+**Example:**
+```markdown
+{{frame:double}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+```
+
+**Rationale:**
+- Reuses existing recursive parser behavior
+- No new grammar or pipe syntax needed
+- Templates remain readable
+- Order is explicit: outer → inner
+
+**Not supported:** Pipe syntax like `{{mathbold|frame:double}}` - keep it simple.
+
+### Testing
+
+113 tests covering:
+- All 27 frame types
+- Frame + style composition
+- Frame + badge composition
+- Frame + separator composition
+- Recursive nesting
+- Error handling (unknown frames, unclosed tags)
+
+### Use Cases
+
+**Section headers:**
+```markdown
+{{frame:line-bold}}INSTALLATION{{/frame}}
+```
+
+**Warnings:**
+```markdown
+{{frame:solid-left}}{{negative-squared}}WARNING{{/negative-squared}}{{/frame}}
+```
+
+**Branded titles:**
+```markdown
+{{frame:gradient}}{{mathbold:separator=dot}}PROJECT{{/mathbold}}{{/frame}}
+```
+
+### Limitations
+
+**Known constraints:**
+- No multiline content support
+- No automatic width calculation
+- No box borders (top/bottom)
+- Suffix may not align if content contains wide Unicode
+- Best for single-line, monospace text
+
+These are intentional - inline frames are simple prefix/suffix decoration.
+
+---
+
+## What's Planned (v1.1.0+)
+
+### Future: Brackets & Boxes
+
+**Scope:** Full rectangular boxes with borders.
+
+**Not yet designed:** The sections below are proposals, not commitments.
+
+### Proposed: Inline Brackets
+
+Similar to frames but with specific bracket pairs:
+
+```markdown
+{{bracket:curly}}content{{/bracket}} → { content }
+{{bracket:square}}content{{/bracket}} → [ content ]
+{{bracket:angle}}content{{/bracket}} → ⟨ content ⟩
+```
+
+**Implementation approach:**
+- Separate `brackets.json` or add to `frames.json` as category
+- Reuse FrameRenderer (brackets are just prefix/suffix)
+- Add bracket-specific error handling
+
+**Open questions:**
+- Do we need this? Frames already support bracket styles like `lenticular` (【】)
+- Would users prefer `{{frame:square}}` over new `{{bracket:}}` syntax?
+
+### Proposed: Single-Line Boxes
+
+Full boxes with top/bottom borders:
+
+```markdown
+{{box:double}}WARNING{{/box}}
+
+→ ╔═════════╗
+  ║ WARNING ║
+  ╚═════════╝
+```
+
+**Implementation challenges:**
+
+1. **Width calculation:**
+   - Need Unicode display width (not `char.len()`)
+   - Use `unicode-width` crate
+   - Account for wide chars (CJK), emoji, combining marks
+
+2. **Box sizing:**
+   ```rust
+   // Naive (wrong)
+   let width = content.chars().count();
+
+   // Better
+   use unicode_width::UnicodeWidthStr;
+   let width = content.width();
+   ```
+
+3. **Padding/alignment:**
+   ```markdown
+   {{box:double:padding=2:align=center}}TEXT{{/box}}
+   ```
+
+4. **GitHub compatibility:**
+   - GitHub markdown width: ~90 chars
+   - Mobile views: ~60 chars
+   - Add `--width-limit` validation (warning only)
+
+**Data structure proposal:**
+```json
+{
   "boxes": {
-    "light": {
-      "id": "light",
-      "name": "Light Box",
-      "top_left": "┌",
-      "top": "─",
-      "top_right": "┐",
-      "left": "│",
-      "right": "│",
-      "bottom_left": "└",
-      "bottom": "─",
-      "bottom_right": "┘"
-    },
     "double": {
-      "id": "double",
-      "name": "Double Line Box",
       "top_left": "╔",
       "top": "═",
       "top_right": "╗",
@@ -843,232 +240,187 @@ Similar to `styles.json`, create `data/frames.json`:
 }
 ```
 
----
+**Open questions:**
+- Separate `boxes.json` or extend `frames.json`?
+- How to handle wrapping long text?
+- Should we auto-fit to terminal width?
 
-## Testing Strategy
+### Proposed: Multiline Boxes
 
-### Unit Tests
-
-```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_square_bracket() {
-        let frames = FrameRenderer::new();
-        let result = frames.wrap_bracket("text", "square").unwrap();
-        assert_eq!(result, "[ text ]");
-    }
-
-    #[test]
-    fn test_light_box() {
-        let frames = FrameRenderer::new();
-        let params = BoxParams {
-            padding: 1,
-            width: None,
-            align: TextAlign::Left,
-        };
-        let result = frames.render_box("test", "light", params).unwrap();
-        let expected = "┌──────┐\n│ test │\n└──────┘";
-        assert_eq!(result, expected);
-    }
-
-    #[test]
-    fn test_combined_style_and_box() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold|box:double}}TEST{{/mathbold}}";
-        let result = parser.process(input).unwrap();
-        assert!(result.contains("╔"));
-        assert!(result.contains("𝐓𝐄𝐒𝐓"));
-    }
-}
-```
-
-### Integration Tests
-
-```rust
-#[test]
-fn test_bracket_template_in_markdown() {
-    let parser = TemplateParser::new().unwrap();
-    let input = "See {{bracket:corner}}config.json{{/bracket}} for settings.";
-    let result = parser.process(input).unwrap();
-    assert_eq!(result, "See 「config.json」 for settings.");
-}
-
-#[test]
-fn test_box_with_spacing() {
-    let parser = TemplateParser::new().unwrap();
-    let input = "{{mathbold:spacing=1|box:heavy}}TITLE{{/mathbold}}";
-    let result = parser.process(input).unwrap();
-    // Verify box contains spaced bold text
-}
-```
-
----
-
-## Performance Considerations
-
-### Single-Line Operations
-
-- **Brackets:** O(1) - Simple string concatenation
-- **Boxes:** O(n) where n = text length
-- **Impact:** Negligible for typical use cases
-
-### Multi-Line Operations
-
-- **Width calculation:** O(n*m) where n = lines, m = avg line length
-- **Rendering:** O(n) for line count
-- **Impact:** Could be significant for large blocks
-
-### Optimization Strategies
-
-1. **Lazy rendering** - Only calculate box size when needed
-2. **Width caching** - Cache calculated widths
-3. **Unicode width tables** - Pre-compute common character widths
-4. **Streaming** - Process line-by-line for large content
-
----
-
-## Documentation Requirements
-
-### README Updates
-
-Add section: "Frames & Boxes"
+Boxes with automatic text wrapping:
 
 ```markdown
-### Frames & Boxes
-
-#### Inline Brackets
-
-Add brackets around text:
-- `{{bracket:square}}text{{/bracket}}` → [ text ]
-- `{{bracket:corner}}text{{/bracket}}` → 「text」
-
-#### ASCII Boxes
-
-Create framed boxes:
-- `{{box:double}}WARNING{{/box}}` → ╔═══════╗ style box
-- `{{box:heavy:padding=2}}TITLE{{/box}}` → Heavy box with padding
-
-#### Combined Styles
-
-Combine text styles with frames:
-- `{{mathbold|box:rounded}}HEADER{{/mathbold}}`
+{{box:heavy:width=60}}
+This is a very long sentence that will automatically
+wrap within the box at the specified width.
+{{/box}}
 ```
 
-### New Documentation File
+**Major complexity:**
+- Word wrapping algorithm
+- Unicode width for every character
+- Handling existing line breaks
+- Performance impact
 
-Create `docs/FRAMES.md` with:
-- Complete list of bracket styles
-- Complete list of box styles
-- Parameter reference
-- Visual examples
-- Use case gallery
+**Recommendation:** Ship v1.1 with single-line boxes first. Multiline is v2.0+.
 
----
+### Composition Strategy
 
-## Open Questions
+**If we add boxes, keep nesting:**
+```markdown
+{{box:double}}{{frame:gradient}}{{mathbold}}TITLE{{/mathbold}}{{/frame}}{{/box}}
+```
 
-1. **Should boxes be single-line or multi-line by default?**
-   - Single-line is simpler and covers 80% of use cases
-   - Multi-line adds significant complexity
+**Do not add pipe syntax** like `{{mathbold|box:double}}` - it's a new grammar with edge cases.
 
-2. **How to handle very long text?**
-   - Word wrapping?
-   - Truncation?
-   - Error?
+### Validation Mode (Good Idea)
 
-3. **Should we support custom box styles?**
-   - User-defined characters in config file?
-   - Or just ship with predefined set?
+For GitHub width limits:
+```bash
+utf8fx process README.md --validate-width github
+# Warning: Box on line 42 is 95 chars (GitHub limit: 90)
+```
 
-4. **Terminal width awareness?**
-   - Should boxes adapt to terminal width?
-   - Or always use content width?
+**Implementation:**
+- Warning only (don't fail)
+- Presets: `github`, `mobile`, `terminal-80`
+- Check after rendering, before output
 
-5. **Nested frames?**
-   - `{{box:double}}{{bracket:square}}text{{/bracket}}{{/box}}`
-   - Do we need to support this?
+### Open Design Questions
 
-6. **Escape sequences?**
-   - How to render literal `{{box}}` in output?
-   - Current parser doesn't handle escaping
+**Before implementing boxes:**
 
----
+1. **JSON file structure:**
+   - Option A: Keep `frames.json` simple (prefix/suffix only), add `boxes.json`
+   - Option B: Extend `frames.json` with `"type": "inline" | "box"`
 
-## Timeline Estimate
+2. **Template syntax:**
+   - Keep `{{frame:}}` for inline, add `{{box:}}` for bordered? (Recommended)
+   - Or use `{{frame:double:boxed=true}}`? (Confusing)
 
-### Phase 1: Inline Brackets
-- **Implementation:** 1-2 days
-- **Testing:** 1 day
-- **Documentation:** 0.5 days
-- **Total:** 2-3 days
+3. **Unicode width library:**
+   - Use `unicode-width` crate (adds ~30KB to binary)
+   - Or naive `char.len()` with documented limitations?
 
-### Phase 2: Single-Line Boxes
-- **Implementation:** 3-4 days
-- **Testing:** 1-2 days
-- **Documentation:** 1 day
-- **Total:** 5-7 days
+4. **Testing strategy:**
+   - How to test visual box rendering?
+   - Snapshot tests with fixed-width examples?
 
-### Phase 3: Combined Styles
-- **Implementation:** 2 days
-- **Testing:** 1 day
-- **Documentation:** 0.5 days
-- **Total:** 3-4 days
+### Roadmap
 
-### Phase 4: Multi-Line Boxes (Future)
-- **Design:** 2-3 days
-- **Implementation:** 5-7 days
-- **Testing:** 2-3 days
-- **Documentation:** 1-2 days
-- **Total:** 10-15 days
+**v1.1.0 (Proposed):**
+- Single-line boxes with border characters
+- Unicode width calculation
+- `--validate-width` flag
+
+**v2.0.0 (Proposed):**
+- Multiline boxes with text wrapping
+- Advanced alignment/padding options
+- Box nesting rules
+
+**No timelines** - these are proposals, not commitments.
 
 ---
 
-## Success Criteria
+## Design Principles
 
-### Phase 1 Complete When:
-- [ ] Bracket templates work in markdown
-- [ ] At least 6 bracket styles supported
-- [ ] CLI `--bracket` flag functional
-- [ ] Tests passing
-- [ ] Documentation updated
+These apply to both implemented and planned features:
 
-### Phase 2 Complete When:
-- [ ] Single-line boxes render correctly
-- [ ] At least 4 box styles supported
-- [ ] Padding parameter works
-- [ ] CLI `--box` flag functional
-- [ ] Tests passing
-- [ ] Visual examples in docs
+### 1. Component Separation
 
-### Phase 3 Complete When:
-- [ ] Can combine any style with any box
-- [ ] Syntax: `{{style|box:type}}text{{/style}}`
-- [ ] Tests for all combinations
-- [ ] Performance acceptable (<10ms per box)
+**Converter** → Character transformation (styles)
+**FrameRenderer** → Prefix/suffix decoration (frames)
+**BoxRenderer** (future) → Multi-line bordered boxes
+
+Each has single responsibility.
+
+### 2. Consistent Template Syntax
+
+**Pattern:** `{{type:style}}content{{/type}}`
+
+**Examples:**
+- `{{mathbold}}TEXT{{/mathbold}}` - style
+- `{{frame:gradient}}TEXT{{/frame}}` - frame
+- `{{box:double}}TEXT{{/box}}` - box (future)
+
+**With parameters:** `{{type:style:param=value}}`
+
+### 3. Composition via Nesting
+
+**Do:** Nest templates explicitly
+```markdown
+{{frame:gradient}}{{mathbold}}TEXT{{/mathbold}}{{/frame}}
+```
+
+**Don't:** Invent pipe syntax
+```markdown
+{{mathbold|frame:gradient}}TEXT{{/mathbold}}  (Not supported)
+```
+
+### 4. Data-Driven Configuration
+
+**All character mappings in JSON:**
+- `styles.json` - Character transformations
+- `frames.json` - Frame decorations
+- `boxes.json` - Box borders (future)
+
+**Not in code** - enables user extensions without recompiling... wait, we use `include_str!()` so users DO need to recompile. That's fine - keeps deployment simple.
+
+### 5. Fail Fast
+
+**Error for unknown templates:**
+```rust
+{{frame:invalid}}TEXT{{/frame}}
+→ Error::UnknownFrame("invalid")
+```
+
+**Not silent fallback** - users should know when they typo.
+
+---
+
+## Technical Notes
+
+### Why Inline Frames Work
+
+Inline frames are **trivial** - just string concatenation:
+
+```rust
+pub fn apply_frame(&self, text: &str, frame_style: &str) -> Result<String> {
+    let frame = self.get_frame(frame_style)?;
+    Ok(format!("{}{}{}", frame.prefix, text, frame.suffix))
+}
+```
+
+No width calculation, no wrapping, no complexity.
+
+### Why Boxes Are Hard
+
+Boxes require:
+1. **Unicode width** - not same as `char.len()`
+2. **Border drawing** - top/bottom with correct width
+3. **Padding logic** - spaces inside borders
+4. **Alignment** - center/left/right
+5. **Platform testing** - terminal vs GitHub vs mobile
+
+Each adds complexity.
+
+### Performance Impact
+
+**Inline frames:** ~O(1) string concatenation
+**Boxes:** ~O(n) where n = content length (width calculation)
+
+Boxes will be slower. Document this.
 
 ---
 
 ## References
 
-### Unicode Resources
+- **Current implementation:** `src/frames.rs`
+- **Current data:** `data/frames.json`
+- **Tests:** `src/parser.rs` (frame template tests)
+- **Unicode width:** https://crates.io/crates/unicode-width
+- **Box drawing chars:** U+2500–U+257F
 
-- Box Drawing: U+2500–U+257F
-- Block Elements: U+2580–U+259F
-- Geometric Shapes: U+25A0–U+25FF
-- Miscellaneous Symbols: U+2600–U+26FF
+---
 
-### Similar Tools
-
-- **boxes** (Unix tool) - ASCII art box generator
-- **figlet** - ASCII art text generator
-- **toilet** - FIGlet clone with Unicode support
-
-### Prior Art
-
-Study how these handle box rendering:
-- `boxes` command line tool
-- Rust `tui` crate box widgets
-- Python `rich` library panels
+**Document Status:** Reflects v1.0.0 reality + proposals for v1.1+
