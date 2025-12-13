@@ -12,11 +12,17 @@
     "black": "000000"
   },
   "styles": {
+    "flat": {
+      "id": "flat",
+      "name": "Flat",
+      "description": "Flat design with rounded corners",
+      "aliases": ["rounded"]
+    },
     "flat-square": {
       "id": "flat-square",
       "name": "Flat Square",
       "description": "Flat design with square corners",
-      "aliases": ["flat", "square"]
+      "aliases": ["square"]
     },
     "for-the-badge": {
       "id": "for-the-badge",
@@ -28,7 +34,7 @@
       "id": "plastic",
       "name": "Plastic",
       "description": "Glossy plastic style",
-      "aliases": []
+      "aliases": ["shiny"]
     },
     "social": {
       "id": "social",

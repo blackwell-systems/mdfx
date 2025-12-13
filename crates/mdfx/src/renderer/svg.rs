@@ -15,6 +15,50 @@ pub struct SvgBackend {
     out_dir: String,
 }
 
+/// SVG style metrics for different badge styles
+struct SvgMetrics {
+    height: u32,
+    rx: u32,
+    plastic: bool,
+}
+
+impl SvgMetrics {
+    fn from_style(style: &str) -> Self {
+        match style {
+            "flat-square" => SvgMetrics {
+                height: 20,
+                rx: 0,
+                plastic: false,
+            },
+            "flat" => SvgMetrics {
+                height: 20,
+                rx: 3,
+                plastic: false,
+            },
+            "for-the-badge" => SvgMetrics {
+                height: 28,
+                rx: 3,
+                plastic: false,
+            },
+            "plastic" => SvgMetrics {
+                height: 20,
+                rx: 3,
+                plastic: true,
+            },
+            "social" => SvgMetrics {
+                height: 20,
+                rx: 10,
+                plastic: false,
+            },
+            _ => SvgMetrics {
+                height: 20,
+                rx: 3,
+                plastic: false,
+            },
+        }
+    }
+}
+
 impl SvgBackend {
     /// Create a new SVG backend with specified output directory
     pub fn new(out_dir: impl Into<String>) -> Self {
@@ -71,46 +115,83 @@ impl SvgBackend {
     }
 
     /// Render a swatch (single colored rectangle)
-    fn render_swatch_svg(color: &str) -> String {
-        format!(
-            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\">\n\
-  <rect width=\"20\" height=\"20\" fill=\"#{}\" rx=\"2\"/>\n\
+    fn render_swatch_svg(color: &str, style: &str) -> String {
+        let metrics = SvgMetrics::from_style(style);
+        let svg = if metrics.plastic {
+            // Plastic style: add vertical gradient for shine effect
+            format!(
+                "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"{}\" viewBox=\"0 0 20 {}\">\n\
+  <defs>\n\
+    <linearGradient id=\"shine\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n\
+      <stop offset=\"0%\" style=\"stop-color:#ffffff;stop-opacity:0.2\" />\n\
+      <stop offset=\"100%\" style=\"stop-color:#000000;stop-opacity:0.1\" />\n\
+    </linearGradient>\n\
+  </defs>\n\
+  <rect width=\"20\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <rect width=\"20\" height=\"{}\" fill=\"url(#shine)\" rx=\"{}\"/>\n\
 </svg>",
-            color
-        )
+                metrics.height, metrics.height, metrics.height, color, metrics.rx, metrics.height, metrics.rx
+            )
+        } else {
+            format!(
+                "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"{}\" viewBox=\"0 0 20 {}\">\n\
+  <rect width=\"20\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+</svg>",
+                metrics.height, metrics.height, metrics.height, color, metrics.rx
+            )
+        };
+        svg
     }
 
     /// Render a divider (multiple colored rectangles inline)
-    fn render_divider_svg(colors: &[String]) -> String {
+    fn render_divider_svg(colors: &[String], style: &str) -> String {
+        let metrics = SvgMetrics::from_style(style);
         let width_per_block = 20;
         let total_width = colors.len() * width_per_block;
-        let height = 20;
 
         let mut rects = String::new();
         for (i, color) in colors.iter().enumerate() {
             let x = i * width_per_block;
             rects.push_str(&format!(
-                "  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"2\"/>\n",
-                x, width_per_block, height, color
+                "  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n",
+                x, width_per_block, metrics.height, color, metrics.rx
+            ));
+        }
+
+        // Add plastic shine overlay if needed
+        if metrics.plastic {
+            rects.push_str(&format!(
+                "  <defs>\n\
+    <linearGradient id=\"shine\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n\
+      <stop offset=\"0%\" style=\"stop-color:#ffffff;stop-opacity:0.2\" />\n\
+      <stop offset=\"100%\" style=\"stop-color:#000000;stop-opacity:0.1\" />\n\
+    </linearGradient>\n\
+  </defs>\n\
+  <rect width=\"{}\" height=\"{}\" fill=\"url(#shine)\" rx=\"{}\"/>\n",
+                total_width, metrics.height, metrics.rx
             ));
         }
 
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n{}</svg>",
-            total_width, height, total_width, height, rects
+            total_width, metrics.height, total_width, metrics.height, rects
         )
     }
 
     /// Render a tech badge (with placeholder for logo)
-    fn render_tech_svg(name: &str, bg_color: &str, _logo_color: &str) -> String {
+    fn render_tech_svg(name: &str, bg_color: &str, _logo_color: &str, style: &str) -> String {
+        let metrics = SvgMetrics::from_style(style);
         // MVP: render with text instead of logo
         // Full implementation would require bundling Simple Icons SVGs
+        let font_size = if metrics.height > 24 { 16 } else { 12 };
+        let y_pos = metrics.height / 2 + font_size / 3;
+        
         format!(
-            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"80\" height=\"20\" viewBox=\"0 0 80 20\">\n\
-  <rect width=\"80\" height=\"20\" fill=\"#{}\" rx=\"3\"/>\n\
-  <text x=\"40\" y=\"14\" text-anchor=\"middle\" fill=\"white\" font-family=\"Arial, sans-serif\" font-size=\"12\">{}</text>\n\
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"80\" height=\"{}\" viewBox=\"0 0 80 {}\">\n\
+  <rect width=\"80\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <text x=\"40\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Arial, sans-serif\" font-size=\"{}\">{}</text>\n\
 </svg>",
-            bg_color,
+            metrics.height, metrics.height, metrics.height, bg_color, metrics.rx, y_pos, font_size,
             name.to_uppercase()
         )
     }
@@ -122,18 +203,18 @@ impl Renderer for SvgBackend {
         let relative_path = format!("{}/{}", self.out_dir, filename);
 
         let svg = match primitive {
-            Primitive::Swatch { color, .. } => Self::render_swatch_svg(color),
+            Primitive::Swatch { color, style } => Self::render_swatch_svg(color, style),
 
-            Primitive::Divider { colors, .. } => Self::render_divider_svg(colors),
+            Primitive::Divider { colors, style } => Self::render_divider_svg(colors, style),
 
-            Primitive::Status { level, .. } => Self::render_swatch_svg(level),
+            Primitive::Status { level, style } => Self::render_swatch_svg(level, style),
 
             Primitive::Tech {
                 name,
                 bg_color,
                 logo_color,
-                ..
-            } => Self::render_tech_svg(name, bg_color, logo_color),
+                style,
+            } => Self::render_tech_svg(name, bg_color, logo_color, style),
         };
 
         let markdown_ref = format!("![]({})", relative_path);

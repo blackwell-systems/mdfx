@@ -143,6 +143,26 @@ impl ComponentsRenderer {
         }
     }
 
+    /// Extract style= parameter from args, returning (remaining_args, style)
+    fn split_style_arg(args: &[String]) -> (Vec<String>, String) {
+        let mut style: Option<String> = None;
+        let mut kept = Vec::new();
+
+        for arg in args {
+            if let Some(rest) = arg.strip_prefix("style=") {
+                // Last one wins if repeated
+                style = Some(rest.to_string());
+            } else {
+                kept.push(arg.clone());
+            }
+        }
+
+        (
+            kept,
+            style.unwrap_or_else(|| Primitive::default_style().to_string()),
+        )
+    }
+
     /// Expand a native component to a Primitive
     fn expand_native(
         &self,
@@ -150,7 +170,7 @@ impl ComponentsRenderer {
         args: &[String],
         _content: Option<&str>,
     ) -> Result<ComponentOutput> {
-        let style = Primitive::default_style().to_string();
+        let (args, style) = Self::split_style_arg(args);
 
         match component {
             "divider" => {
@@ -617,5 +637,26 @@ mod tests {
         let result = renderer.apply_blockquote(input);
         // Whitespace-only lines should be treated as empty (trim() is empty)
         assert_eq!(result, "> Line 1\n>\n> Line 3");
+    }
+}
+
+#[cfg(test)]
+mod style_tests {
+    use super::*;
+
+    #[test]
+    fn test_split_style_arg_with_style() {
+        let args = vec!["F41C80".to_string(), "style=flat".to_string()];
+        let (remaining, style) = ComponentsRenderer::split_style_arg(&args);
+        assert_eq!(remaining, vec!["F41C80"]);
+        assert_eq!(style, "flat");
+    }
+
+    #[test]
+    fn test_split_style_arg_no_style() {
+        let args = vec!["F41C80".to_string()];
+        let (remaining, style) = ComponentsRenderer::split_style_arg(&args);
+        assert_eq!(remaining, vec!["F41C80"]);
+        assert_eq!(style, "flat-square");
     }
 }

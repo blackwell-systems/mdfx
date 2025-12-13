@@ -383,3 +383,63 @@ Should render three blocks with visibly different styles.
 ---
 
 **Next Steps:** Add to ROADMAP.md under v1.1.0 High Priority
+
+---
+
+## Alternative: No Backward Compatibility (Breaking Change)
+
+### If v1.1.0 is allowed to break v1.0.0 templates:
+
+**Remove default style entirely:**
+```markdown
+{{ui:swatch:F41C80/}}                    → ERROR: style required
+{{ui:swatch:F41C80:style=flat-square/}} → Explicit, clear
+```
+
+**Advantages:**
+1. **Forces intentional design** - No accidental defaults
+2. **Cleaner semantics** - Every swatch has explicit style
+3. **Simpler code** - No default handling logic
+4. **Future-proof** - No legacy default to maintain
+5. **Easier migration** - Find/replace all `{{ui:swatch:` and add style
+
+**Disadvantages:**
+1. **All v1.0.0 templates break** - Need migration
+2. **More verbose** - Users must specify style every time
+3. **User friction** - Extra typing for simple cases
+
+### Middle Ground: Global Default in Config
+
+**palette.json with default style:**
+```json
+{
+  "version": "1.0.0",
+  "default_badge_style": "flat-square",
+  "colors": {
+    "accent": "F41C80"
+  }
+}
+```
+
+**Benefits:**
+- Project-wide style consistency
+- Override per-swatch when needed
+- Explicit project choice
+- Easy to change entire project style
+
+**Syntax:**
+```markdown
+{{ui:swatch:accent/}}                      → Uses palette default style
+{{ui:swatch:accent:style=flat/}}          → Override for this one
+```
+
+### Recommendation
+
+**For v1.1.0:** Keep backward compatibility (default to flat-square)
+- Low risk, easy migration
+- Users can adopt new feature gradually
+
+**For v2.0.0:** Consider requiring explicit style OR config default
+- Breaking change window
+- Cleaner long-term design
+- Forces intentional choices
