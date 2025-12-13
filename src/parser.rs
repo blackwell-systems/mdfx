@@ -100,7 +100,7 @@ impl TemplateParser {
     /// # Example
     ///
     /// ```
-    /// use utf8fx::TemplateParser;
+    /// use mdfx::TemplateParser;
     ///
     /// let parser = TemplateParser::new().unwrap();
     /// let input = "# {{mathbold}}TITLE{{/mathbold}}";
@@ -119,8 +119,8 @@ impl TemplateParser {
     /// # Example
     ///
     /// ```ignore
-    /// use utf8fx::TemplateParser;
-    /// use utf8fx::renderer::svg::SvgBackend;
+    /// use mdfx::TemplateParser;
+    /// use mdfx::renderer::svg::SvgBackend;
     ///
     /// let backend = Box::new(SvgBackend::new("assets"));
     /// let parser = TemplateParser::with_backend(backend).unwrap();

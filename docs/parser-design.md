@@ -2,7 +2,7 @@
 
 ## Why State Machine Instead of Regex?
 
-utf8fx uses a character-by-character state machine parser instead of regex for template processing.
+mdfx uses a character-by-character state machine parser instead of regex for template processing.
 
 ### The Regex Challenge
 
@@ -260,7 +260,7 @@ Behavior: Not recognized as template, passed through unchanged
 Input: {{fakestyle}}TEXT{{/fakestyle}}
 
 Error: Unknown style 'fakestyle'
-  Run `utf8fx list` to see available styles.
+  Run `mdfx list` to see available styles.
 ```
 
 ---
@@ -308,14 +308,14 @@ Future: Process inner-first or support composition
 cargo test parser::tests
 
 # Test with real markdown
-echo "# {{mathbold}}TITLE{{/mathbold}}" | utf8fx process
+echo "# {{mathbold}}TITLE{{/mathbold}}" | mdfx process
 
 # Test error handling
-echo "{{fakestyle}}TEXT{{/fakestyle}}" | utf8fx process
+echo "{{fakestyle}}TEXT{{/fakestyle}}" | mdfx process
 # Error: Unknown style 'fakestyle'
 
 # Test code preservation
-cat <<EOF | utf8fx process
+cat <<EOF | mdfx process
 \`\`\`
 {{mathbold}}not processed{{/mathbold}}
 \`\`\`
@@ -341,7 +341,7 @@ EOF
 - Manual tag matching logic
 - Need to handle edge cases explicitly
 
-**Verdict:** State machine is the right choice for utf8fx's use case.
+**Verdict:** State machine is the right choice for mdfx's use case.
 
 ---
 

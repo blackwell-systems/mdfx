@@ -20,7 +20,7 @@
 
 ## Introduction
 
-The utf8fx template parser uses a **finite state machine** (FSM) to process markdown with embedded style templates like `{{mathbold}}TEXT{{/mathbold}}`. This guide explains how the state machine works, why we chose this approach, and how to understand and extend it.
+The mdfx template parser uses a **finite state machine** (FSM) to process markdown with embedded style templates like `{{mathbold}}TEXT{{/mathbold}}`. This guide explains how the state machine works, why we chose this approach, and how to understand and extend it.
 
 ### What You'll Learn
 
@@ -713,7 +713,7 @@ fn parse_template_at(
 
 **Debug steps:**
 1. Check if template is in code block
-2. Verify style exists: `utf8fx list`
+2. Verify style exists: `mdfx list`
 3. Check parameter syntax: `:spacing=N`
 4. Test with simple example: `{{mathbold}}Hi{{/mathbold}}`
 

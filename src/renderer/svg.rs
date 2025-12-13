@@ -11,7 +11,7 @@ use std::hash::{Hash, Hasher};
 
 /// SVG rendering backend (file-based)
 pub struct SvgBackend {
-    /// Output directory for generated SVG files (e.g., "assets/utf8fx")
+    /// Output directory for generated SVG files (e.g., "assets/mdfx")
     out_dir: String,
 }
 
@@ -152,8 +152,8 @@ mod tests {
 
     #[test]
     fn test_svg_backend_creation() {
-        let backend = SvgBackend::new("assets/utf8fx");
-        assert_eq!(backend.out_dir, "assets/utf8fx");
+        let backend = SvgBackend::new("assets/mdfx");
+        assert_eq!(backend.out_dir, "assets/mdfx");
     }
 
     #[test]

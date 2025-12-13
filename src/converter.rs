@@ -75,7 +75,7 @@ impl Converter {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::Converter;
+    /// use mdfx::Converter;
     ///
     /// let converter = Converter::new().unwrap();
     /// let result = converter.convert("HELLO", "mathbold").unwrap();
@@ -100,7 +100,7 @@ impl Converter {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::Converter;
+    /// use mdfx::Converter;
     ///
     /// let converter = Converter::new().unwrap();
     /// let result = converter.convert_with_spacing("HELLO", "mathbold", 1).unwrap();
@@ -126,7 +126,7 @@ impl Converter {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::Converter;
+    /// use mdfx::Converter;
     ///
     /// let converter = Converter::new().unwrap();
     /// let result = converter.convert_with_separator("HELLO", "mathbold", "·", 1).unwrap();

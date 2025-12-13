@@ -7,7 +7,7 @@
 
 ## Overview
 
-utf8fx uses a **component-first architecture** where users write semantic `{{ui:*}}` elements that expand into lower-level primitives at parse time. This document explains the three-layer system, expansion model, and how to extend it.
+mdfx uses a **component-first architecture** where users write semantic `{{ui:*}}` elements that expand into lower-level primitives at parse time. This document explains the three-layer system, expansion model, and how to extend it.
 
 ## Architecture Layers
 
@@ -137,7 +137,7 @@ Expansion steps:
 
 **description** (`string`)
 - Human-readable explanation
-- Used in `utf8fx components list` output
+- Used in `mdfx components list` output
 
 **args** (`string[]`, optional)
 - Positional argument names (documentation only)
@@ -406,7 +406,7 @@ Then:
 {{ui:brand-header}}MY PROJECT{{/ui}}
 ```
 
-**Note:** Currently utf8fx only reads embedded `data/components.json`. User-provided component loading is planned for v0.2.
+**Note:** Currently mdfx only reads embedded `data/components.json`. User-provided component loading is planned for v0.2.
 
 ### Design Guidelines
 
@@ -623,7 +623,7 @@ Requires Rust logic for layout, wrapping, alignment.
 
 **Planned v0.3+:**
 - Share components via GitHub gists or packages
-- `utf8fx install component awesome-header`
+- `mdfx install component awesome-header`
 - Gallery UI showcasing community components
 
 ## Testing Strategy
@@ -655,7 +655,7 @@ fn test_ui_divider() {
 
 **End-to-end tests:**
 ```bash
-echo "{{ui:header}}TEST{{/ui}}" | utf8fx process -
+echo "{{ui:header}}TEST{{/ui}}" | mdfx process -
 # Verify: ▓▒░ 𝐓·𝐄·𝐒·𝐓 ░▒▓
 ```
 
@@ -670,7 +670,7 @@ echo "{{ui:header}}TEST{{/ui}}" | utf8fx process -
 - Component not defined in `components.json`
 - Using wrong namespace (e.g., `{{frame:mycomp}}` instead of `{{ui:mycomp}}`)
 
-**Fix:** Check `utf8fx components list` for available components.
+**Fix:** Check `mdfx components list` for available components.
 
 ### Template Expansion Infinite Loop
 

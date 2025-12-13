@@ -1,4 +1,4 @@
-# utf8fx Architecture
+# mdfx Architecture
 
 **Version:** 0.1.0
 **Last Updated:** 2025-12-12
@@ -19,7 +19,7 @@
 
 ## System Overview
 
-utf8fx is a markdown preprocessor that transforms text using Unicode character mappings, decorative frames, and shields.io badges. The system consists of **five primary components** working together in a **three-layer pipeline architecture**.
+mdfx is a markdown preprocessor that transforms text using Unicode character mappings, decorative frames, and shields.io badges. The system consists of **five primary components** working together in a **three-layer pipeline architecture**.
 
 ### Three Layers
 
@@ -234,8 +234,8 @@ let rendered = backend.render(&primitive)?;
 
 **CLI Usage:**
 ```bash
-utf8fx process --backend shields input.md   # default
-utf8fx process input.md                     # same (shields is default)
+mdfx process --backend shields input.md   # default
+mdfx process input.md                     # same (shields is default)
 ```
 
 #### SvgBackend (Planned)
@@ -259,7 +259,7 @@ let rendered = backend.render(&primitive)?;
 
 **CLI Usage (future):**
 ```bash
-utf8fx process --backend svg --assets-dir ./docs/ui input.md
+mdfx process --backend svg --assets-dir ./docs/ui input.md
 ```
 
 **Implementation Notes:**
@@ -950,7 +950,7 @@ while let Some(c) = chars.next() {
 3. Use `{{ui:mycomponent/}}`
 
 **Future (v0.2):**
-- utf8fx will load project-local `components.json`
+- mdfx will load project-local `components.json`
 - Merge with built-in components
 - User components override built-in
 
@@ -1039,13 +1039,13 @@ fn progress_bar(args: &[String]) -> Result<String> {
 
 **CLI tests:**
 ```bash
-utf8fx process README.template.md > README.md
+mdfx process README.template.md > README.md
 diff README.md expected_README.md
 ```
 
 **Example validation:**
 ```bash
-echo "{{ui:header}}TEST{{/ui}}" | utf8fx process -
+echo "{{ui:header}}TEST{{/ui}}" | mdfx process -
 # Verify output matches expected rendering
 ```
 

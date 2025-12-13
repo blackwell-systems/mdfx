@@ -56,7 +56,7 @@ impl ShieldsRenderer {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::ShieldsRenderer;
+    /// use mdfx::ShieldsRenderer;
     ///
     /// let renderer = ShieldsRenderer::new().unwrap();
     /// let result = renderer.render_block("2B6CB0", "flat-square").unwrap();
@@ -85,7 +85,7 @@ impl ShieldsRenderer {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::ShieldsRenderer;
+    /// use mdfx::ShieldsRenderer;
     ///
     /// let renderer = ShieldsRenderer::new().unwrap();
     /// let result = renderer.render_twotone("111111", "2B6CB0", "flat-square").unwrap();
@@ -120,7 +120,7 @@ impl ShieldsRenderer {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::ShieldsRenderer;
+    /// use mdfx::ShieldsRenderer;
     ///
     /// let renderer = ShieldsRenderer::new().unwrap();
     /// let colors = vec!["22C55E".to_string(), "F59E0B".to_string()];
@@ -156,7 +156,7 @@ impl ShieldsRenderer {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::ShieldsRenderer;
+    /// use mdfx::ShieldsRenderer;
     ///
     /// let renderer = ShieldsRenderer::new().unwrap();
     /// let result = renderer.render_icon("rust", "000000", "white", "flat-square").unwrap();

@@ -1,9 +1,9 @@
-# utf8fx API Guide
+# mdfx API Guide
 
 **Version:** 0.1.0
 **Last Updated:** 2025-12-12
 
-Complete API reference for using utf8fx in your Rust projects.
+Complete API reference for using mdfx in your Rust projects.
 
 ---
 
@@ -30,13 +30,13 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-utf8fx = "0.1"
+mdfx = "0.1"
 ```
 
 ### Quick Start (Recommended: Components)
 
 ```rust
-use utf8fx::TemplateParser;
+use mdfx::TemplateParser;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let parser = TemplateParser::new()?;
@@ -57,7 +57,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 For programmatic use without templates:
 
 ```rust
-use utf8fx::{ComponentsRenderer, Converter};
+use mdfx::{ComponentsRenderer, Converter};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Components API
@@ -82,7 +82,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 ### Overview
 
 ```rust
-use utf8fx::ComponentsRenderer;
+use mdfx::ComponentsRenderer;
 
 let renderer = ComponentsRenderer::new()?;
 ```
@@ -92,7 +92,7 @@ The `ComponentsRenderer` expands UI components (like `{{ui:header}}`) into primi
 ### Creating a Renderer
 
 ```rust
-use utf8fx::ComponentsRenderer;
+use mdfx::ComponentsRenderer;
 
 let renderer = ComponentsRenderer::new()?;
 ```
@@ -420,7 +420,7 @@ The `ShieldsRenderer` generates shields.io badge URLs as Markdown image links. *
 ### Overview
 
 ```rust
-use utf8fx::ShieldsRenderer;
+use mdfx::ShieldsRenderer;
 
 let renderer = ShieldsRenderer::new()?;
 ```
@@ -433,7 +433,7 @@ Generates URLs like:
 ### Creating a Renderer
 
 ```rust
-use utf8fx::ShieldsRenderer;
+use mdfx::ShieldsRenderer;
 
 let renderer = ShieldsRenderer::new()?;
 ```
@@ -639,7 +639,7 @@ The `Converter` transforms text using Unicode character mappings.
 ### Creating a Converter
 
 ```rust
-use utf8fx::Converter;
+use mdfx::Converter;
 
 let converter = Converter::new()?;
 ```
@@ -843,7 +843,7 @@ The `FrameRenderer` adds decorative prefix/suffix around text.
 ### Creating a FrameRenderer
 
 ```rust
-use utf8fx::FrameRenderer;
+use mdfx::FrameRenderer;
 
 let renderer = FrameRenderer::new()?;
 ```
@@ -1034,7 +1034,7 @@ The `BadgeRenderer` encloses numbers (0-20) and letters (a-z) with pre-composed 
 ### Creating a BadgeRenderer
 
 ```rust
-use utf8fx::BadgeRenderer;
+use mdfx::BadgeRenderer;
 
 let renderer = BadgeRenderer::new()?;
 ```
@@ -1185,7 +1185,7 @@ The `TemplateParser` processes markdown files with embedded template syntax.
 ### Creating a TemplateParser
 
 ```rust
-use utf8fx::TemplateParser;
+use mdfx::TemplateParser;
 
 let parser = TemplateParser::new()?;
 ```
@@ -1322,12 +1322,12 @@ All errors implement `std::error::Error` and use the `thiserror` crate.
 ### Error Types
 
 ```rust
-use utf8fx::Error;
+use mdfx::Error;
 
 match result {
     Err(Error::UnknownStyle(name)) => {
         eprintln!("Style '{}' not found", name);
-        eprintln!("Run `utf8fx list` to see available styles");
+        eprintln!("Run `mdfx list` to see available styles");
     }
     Err(Error::UnknownFrame(name)) => {
         eprintln!("Frame '{}' not found", name);
@@ -1440,7 +1440,7 @@ Process multiple files efficiently:
 
 ```rust
 use std::fs;
-use utf8fx::TemplateParser;
+use mdfx::TemplateParser;
 
 fn process_directory(path: &str) -> Result<(), Box<dyn std::error::Error>> {
     let parser = TemplateParser::new()?; // Initialize once
@@ -1668,7 +1668,7 @@ for line in input.lines() {
 ### README Generator
 
 ```rust
-use utf8fx::{Converter, FrameRenderer, TemplateParser};
+use mdfx::{Converter, FrameRenderer, TemplateParser};
 use std::fs;
 
 fn generate_readme() -> Result<(), Box<dyn std::error::Error>> {
@@ -1716,7 +1716,7 @@ fn status_message(level: &str, text: &str) -> Result<String, Error> {
 ### Documentation Builder
 
 ```rust
-use utf8fx::TemplateParser;
+use mdfx::TemplateParser;
 use std::path::Path;
 
 fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::Error>> {

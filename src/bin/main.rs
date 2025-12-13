@@ -5,16 +5,16 @@ use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process;
-use utf8fx::renderer::shields::ShieldsBackend;
-use utf8fx::renderer::svg::SvgBackend;
-use utf8fx::{Converter, Error, StyleCategory, TemplateParser};
+use mdfx::renderer::shields::ShieldsBackend;
+use mdfx::renderer::svg::SvgBackend;
+use mdfx::{Converter, Error, StyleCategory, TemplateParser};
 
-/// Unicode text effects for markdown and beyond
+/// Markdown effects: Unicode text styling and UI components
 #[derive(Parser)]
-#[command(name = "utf8fx")]
+#[command(name = "mdfx")]
 #[command(version, about)]
 #[command(
-    long_about = "Transform text into various Unicode styles through template syntax or direct conversion.\n\nSupports 19 styles including mathbold, fullwidth, script, fraktur, and more.\nUse templates in markdown: {{mathbold}}TEXT{{/mathbold}}\n\nFor more info: https://github.com/blackwell-systems/utf8fx"
+    long_about = "Transform markdown with Unicode text effects and UI components through template syntax.\n\nSupports 19 styles including mathbold, fullwidth, script, fraktur, and more.\nUse templates: {{mathbold}}TEXT{{/mathbold}}\n\nFor more info: https://github.com/blackwell-systems/mdfx"
 )]
 struct Cli {
     #[command(subcommand)]
@@ -29,11 +29,11 @@ enum Commands {
     /// Supports style aliases (e.g., 'mb' for 'mathbold') and character spacing.
     ///
     /// Examples:
-    ///   utf8fx convert --style mathbold "Hello World"
-    ///   utf8fx convert --style mb --spacing 1 "SPACED"
-    ///   utf8fx convert --style script "Elegant Text"
+    ///   mdfx convert --style mathbold "Hello World"
+    ///   mdfx convert --style mb --spacing 1 "SPACED"
+    ///   mdfx convert --style script "Elegant Text"
     ///
-    /// Run 'utf8fx list' to see all available styles.
+    /// Run 'mdfx list' to see all available styles.
     Convert {
         /// The style to use (e.g., mathbold, fullwidth, mb)
         #[arg(short, long)]
@@ -54,9 +54,9 @@ enum Commands {
     /// its ID, aliases, and description.
     ///
     /// Examples:
-    ///   utf8fx list
-    ///   utf8fx list --samples
-    ///   utf8fx list --category bold
+    ///   mdfx list
+    ///   mdfx list --samples
+    ///   mdfx list --category bold
     List {
         /// Show only styles in a specific category
         #[arg(short, long)]
@@ -75,11 +75,11 @@ enum Commands {
     /// Templates are preserved inside code blocks (```) and inline code (`).
     ///
     /// Examples:
-    ///   utf8fx process input.md -o output.md
-    ///   utf8fx process -i README.md
-    ///   utf8fx process --backend shields input.md
-    ///   echo "{{mathbold}}Title{{/mathbold}}" | utf8fx process
-    ///   cat doc.md | utf8fx process > styled.md
+    ///   mdfx process input.md -o output.md
+    ///   mdfx process -i README.md
+    ///   mdfx process --backend shields input.md
+    ///   echo "{{mathbold}}Title{{/mathbold}}" | mdfx process
+    ///   cat doc.md | mdfx process > styled.md
     ///
     /// Template syntax:
     ///   {{mathbold}}Bold Text{{/mathbold}}
@@ -103,7 +103,7 @@ enum Commands {
         backend: String,
 
         /// Output directory for SVG assets (only used with --backend svg)
-        #[arg(long, default_value = "assets/utf8fx")]
+        #[arg(long, default_value = "assets/mdfx")]
         assets_dir: String,
     },
 
@@ -113,9 +113,9 @@ enum Commands {
     /// your shell's completion directory.
     ///
     /// Examples:
-    ///   utf8fx completions bash > /etc/bash_completion.d/utf8fx
-    ///   utf8fx completions zsh > ~/.zsh/completions/_utf8fx
-    ///   utf8fx completions fish > ~/.config/fish/completions/utf8fx.fish
+    ///   mdfx completions bash > /etc/bash_completion.d/mdfx
+    ///   mdfx completions zsh > ~/.zsh/completions/_mdfx
+    ///   mdfx completions fish > ~/.config/fish/completions/mdfx.fish
     Completions {
         /// Shell to generate completions for
         #[arg(value_enum)]
@@ -161,7 +161,7 @@ fn run(cli: Cli) -> Result<(), Error> {
 
         Commands::Completions { shell } => {
             let mut cmd = Cli::command();
-            generate(shell, &mut cmd, "utf8fx", &mut io::stdout());
+            generate(shell, &mut cmd, "mdfx", &mut io::stdout());
         }
     }
 

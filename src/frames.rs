@@ -49,7 +49,7 @@ impl FrameRenderer {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::FrameRenderer;
+    /// use mdfx::FrameRenderer;
     ///
     /// let renderer = FrameRenderer::new().unwrap();
     /// let result = renderer.apply_frame("Title", "gradient").unwrap();

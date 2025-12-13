@@ -1,4 +1,4 @@
-# utf8fx - Project Planning Document
+# mdfx - Project Planning Document
 
 **Current Version:** 1.0.0
 **Status:** Production Release - Multi-Backend Architecture Shipped
@@ -8,7 +8,7 @@
 
 ## Project Overview
 
-**utf8fx** is a Unicode text styling tool for markdown that uses a component-first architecture. Users write semantic `{{ui:*}}` elements that compile down to shields.io badges, decorative frames, and Unicode character transformations.
+**mdfx** is a Unicode text styling tool for markdown that uses a component-first architecture. Users write semantic `{{ui:*}}` elements that compile down to shields.io badges, decorative frames, and Unicode character transformations.
 
 ### Core Value Proposition
 
@@ -23,7 +23,7 @@
 1. **README authors** - Create distinctive project headers and tech stack badges
 2. **Documentation writers** - Semantic section markers and callouts
 3. **Status dashboards** - Visual system health indicators
-4. **Markdown tool developers** - Embed utf8fx in editors and generators
+4. **Markdown tool developers** - Embed mdfx in editors and generators
 
 ---
 
@@ -183,7 +183,7 @@ impl Renderer for SvgBackend {
 
 **CLI Usage:**
 ```bash
-utf8fx process --backend svg --assets-dir ./docs/ui input.md
+mdfx process --backend svg --assets-dir ./docs/ui input.md
 ```
 
 **Project-local config loading:**
@@ -232,7 +232,7 @@ fn progress_bar(args: &[String]) -> Result<String> {
 
 **Watch Mode:**
 ```bash
-utf8fx watch README.template.md
+mdfx watch README.template.md
 # Auto-regenerates README.md on changes
 ```
 
@@ -370,7 +370,7 @@ utf8fx watch README.template.md
 
 **API:**
 ```javascript
-import init, { process_template } from 'utf8fx';
+import init, { process_template } from 'mdfx';
 await init();
 const result = process_template('{{ui:header}}TITLE{{/ui}}');
 ```
@@ -379,7 +379,7 @@ const result = process_template('{{ui:header}}TITLE{{/ui}}');
 
 **Features:**
 - Discover components by category
-- Install via CLI: `utf8fx install awesome-header`
+- Install via CLI: `mdfx install awesome-header`
 - Rate and review components
 - Automatic updates
 
@@ -392,7 +392,7 @@ const result = process_template('{{ui:header}}TITLE{{/ui}}');
 
 **Concept:**
 ```bash
-utf8fx generate "Create a component for quarterly earnings with green/red indicators"
+mdfx generate "Create a component for quarterly earnings with green/red indicators"
 # Generates component definition
 # User reviews and saves to components.json
 ```
@@ -405,8 +405,8 @@ utf8fx generate "Create a component for quarterly earnings with green/red indica
 ### Multi-Language Support
 
 **Expand beyond Markdown:**
-- HTML templates (`<utf8fx-header>TITLE</utf8fx-header>`)
-- LaTeX (`\utf8fxHeader{TITLE}`)
+- HTML templates (`<mdfx-header>TITLE</mdfx-header>`)
+- LaTeX (`\mdfxHeader{TITLE}`)
 - reStructuredText
 - AsciiDoc
 
@@ -443,7 +443,7 @@ utf8fx generate "Create a component for quarterly earnings with green/red indica
 **Future Version - Config loading:**
 ```
 1. Load embedded JSON (defaults)
-2. Check ./utf8fx/components.json
+2. Check ./mdfx/components.json
 3. Check ./components.json
 4. Merge (user > project > defaults)
 ```
@@ -559,7 +559,7 @@ utf8fx generate "Create a component for quarterly earnings with green/red indica
 **Bug reports:**
 - Minimal reproduction
 - Expected vs actual output
-- utf8fx version
+- mdfx version
 
 **Documentation:**
 - Typo fixes always welcome

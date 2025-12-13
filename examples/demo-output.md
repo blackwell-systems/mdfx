@@ -52,11 +52,11 @@ Mix styles: 𝐁𝐨𝐥𝐝 and 𝑖𝑡𝑎𝑙𝑖𝑐 work together.
 
 ```bash
 # Process to stdout
-utf8fx process input.md
+mdfx process input.md
 
 # Save to new file
-utf8fx process input.md -o output.md
+mdfx process input.md -o output.md
 
 # Modify in-place
-utf8fx process input.md --in-place
+mdfx process input.md --in-place
 ```

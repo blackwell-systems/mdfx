@@ -16,11 +16,11 @@ pub enum RenderedAsset {
 
     /// File-based asset (e.g., generated SVG file)
     File {
-        /// Relative path to the generated file (e.g., "assets/utf8fx/divider_a3f8e2.svg")
+        /// Relative path to the generated file (e.g., "assets/mdfx/divider_a3f8e2.svg")
         relative_path: String,
         /// File contents as bytes
         bytes: Vec<u8>,
-        /// Markdown reference to embed (e.g., "![](assets/utf8fx/divider_a3f8e2.svg)")
+        /// Markdown reference to embed (e.g., "![](assets/mdfx/divider_a3f8e2.svg)")
         markdown_ref: String,
     },
 }

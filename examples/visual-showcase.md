@@ -1,6 +1,6 @@
 # Visual Showcase: Multi-Backend Design System
 
-> Demonstrating the power of utf8fx's pluggable rendering architecture
+> Demonstrating the power of mdfx's pluggable rendering architecture
 
 {{ui:divider/}}
 
@@ -369,12 +369,12 @@ Create simple patterns:
 **Render this file:**
 ```bash
 # Shields.io URLs (default)
-utf8fx process examples/visual-showcase.md -o showcase-shields.md
+mdfx process examples/visual-showcase.md -o showcase-shields.md
 
 # Local SVG files
-utf8fx process examples/visual-showcase.md --backend svg -o showcase-svg.md
+mdfx process examples/visual-showcase.md --backend svg -o showcase-svg.md
 ```
 
 {{ui:divider/}}
 
-*This showcase demonstrates utf8fx v1.0.0 with multi-backend rendering architecture.*
+*This showcase demonstrates mdfx v1.0.0 with multi-backend rendering architecture.*

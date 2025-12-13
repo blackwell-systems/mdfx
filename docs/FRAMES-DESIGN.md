@@ -103,7 +103,7 @@ This prevents parsing ambiguity and enables component expansion.
 
 ### Composition Model (Canonical)
 
-utf8fx composes features through **nesting**, not a separate DSL.
+mdfx composes features through **nesting**, not a separate DSL.
 
 **Example:**
 ```markdown
@@ -279,7 +279,7 @@ wrap within the box at the specified width.
 
 For GitHub width limits:
 ```bash
-utf8fx process README.md --validate-width github
+mdfx process README.md --validate-width github
 # Warning: Box on line 42 is 95 chars (GitHub limit: 90)
 ```
 

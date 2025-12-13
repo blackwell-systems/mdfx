@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Project renamed from utf8fx to mdfx** - The new name better reflects the tool's focus on markdown enhancement. "mdfx" (markdown effects) is more descriptive than "utf8fx" for a tool specifically designed to transform markdown with Unicode styling and UI components.
+
 ## [1.0.0] - 2025-12-13
 
 ### Added
@@ -257,7 +263,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **New header:**
 ```markdown
-# {{ui:header}}UTF8FX{{/ui}}
+# {{ui:header}}MDFX{{/ui}}
 ```
 
 **New quick start:**
@@ -340,7 +346,7 @@ Input: {{ui:header}}PROJECT{{/ui}}
 ### Notes
 
 **Component-first philosophy:**
-- This release shifts utf8fx from "Unicode styles with frames and badges" to "semantic components that expand to primitives"
+- This release shifts mdfx from "Unicode styles with frames and badges" to "semantic components that expand to primitives"
 - The old APIs remain and work perfectly - they're just positioned as advanced/escape hatch
 - Most users should start with `{{ui:*}}` components for concise, semantic markup
 
@@ -413,4 +419,4 @@ Input: {{ui:header}}PROJECT{{/ui}}
 
 ---
 
-[1.0.0]: https://github.com/blackwell-systems/utf8fx/releases/tag/v1.0.0
+[1.0.0]: https://github.com/blackwell-systems/mdfx/releases/tag/v1.0.0

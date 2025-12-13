@@ -1,7 +1,7 @@
 /// Shields.io backend for rendering primitives as badge URLs
 ///
 /// This backend generates shields.io badge URLs wrapped in Markdown image syntax.
-/// It's the default rendering backend for utf8fx.
+/// It's the default rendering backend for mdfx.
 use crate::error::Result;
 use crate::primitive::Primitive;
 use crate::renderer::{RenderedAsset, Renderer};

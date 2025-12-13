@@ -1,6 +1,6 @@
 # {{mathbold}}UNICODE STYLING DEMO{{/mathbold}}
 
-This demonstrates the {{negative-squared}}UTF8FX{{/negative-squared}} template processor in action.
+This demonstrates the {{negative-squared}}MDFX{{/negative-squared}} template processor in action.
 
 ## {{italic}}Available Styles{{/italic}}
 
@@ -52,11 +52,11 @@ Mix styles: {{mathbold}}Bold{{/mathbold}} and {{italic}}italic{{/italic}} work t
 
 ```bash
 # Process to stdout
-utf8fx process input.md
+mdfx process input.md
 
 # Save to new file
-utf8fx process input.md -o output.md
+mdfx process input.md -o output.md
 
 # Modify in-place
-utf8fx process input.md --in-place
+mdfx process input.md --in-place
 ```

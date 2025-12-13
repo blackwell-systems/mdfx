@@ -1,19 +1,19 @@
 use std::path::PathBuf;
 use thiserror::Error;
 
-/// Errors that can occur when using utf8fx
+/// Errors that can occur when using mdfx
 #[derive(Error, Debug)]
 pub enum Error {
     /// The requested style does not exist
-    #[error("Unknown style '{0}'. Run `utf8fx list` to see available styles.")]
+    #[error("Unknown style '{0}'. Run `mdfx list` to see available styles.")]
     UnknownStyle(String),
 
     /// The requested frame does not exist
-    #[error("Unknown frame '{0}'. Run `utf8fx frames list` to see available frames.")]
+    #[error("Unknown frame '{0}'. Run `mdfx frames list` to see available frames.")]
     UnknownFrame(String),
 
     /// The requested badge does not exist
-    #[error("Unknown badge '{0}'. Run `utf8fx badges list` to see available badges.")]
+    #[error("Unknown badge '{0}'. Run `mdfx badges list` to see available badges.")]
     UnknownBadge(String),
 
     /// Badge doesn't support the requested character
@@ -21,7 +21,7 @@ pub enum Error {
     UnsupportedChar(String, String),
 
     /// The requested shield style does not exist
-    #[error("Unknown shield style '{0}'. Run `utf8fx shields list` to see available styles.")]
+    #[error("Unknown shield style '{0}'. Run `mdfx shields list` to see available styles.")]
     UnknownShieldStyle(String),
 
     /// Invalid color specification
@@ -73,5 +73,5 @@ pub enum Error {
     InvalidUtf8(#[from] std::string::FromUtf8Error),
 }
 
-/// Result type for utf8fx operations
+/// Result type for mdfx operations
 pub type Result<T> = std::result::Result<T, Error>;

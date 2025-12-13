@@ -1,15 +1,15 @@
-//! # utf8fx
+//! # mdfx
 //!
-//! Unicode text effects for markdown and beyond.
+//! Markdown effects: Unicode text styling and UI components through template syntax.
 //!
-//! utf8fx is a library and CLI tool for converting text into various Unicode styles,
-//! such as mathematical bold, full-width, negative squared, and more. It's designed
-//! for markdown preprocessing and text styling in any context.
+//! mdfx is a library and CLI tool for transforming markdown with Unicode text effects,
+//! UI components (dividers, badges, status indicators), and visual frames. Process
+//! markdown files with intuitive template syntax for consistent, maintainable styling.
 //!
 //! ## Quick Start
 //!
 //! ```
-//! use utf8fx::Converter;
+//! use mdfx::Converter;
 //!
 //! let converter = Converter::new().unwrap();
 //! let result = converter.convert("HELLO", "mathbold").unwrap();

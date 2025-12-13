@@ -86,7 +86,7 @@ impl ComponentsRenderer {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::{ComponentsRenderer, ComponentOutput};
+    /// use mdfx::{ComponentsRenderer, ComponentOutput};
     ///
     /// let renderer = ComponentsRenderer::new().unwrap();
     ///
@@ -107,7 +107,7 @@ impl ComponentsRenderer {
         // Get component definition (single source of truth)
         let comp = self.components.get(component).ok_or_else(|| {
             Error::ParseError(format!(
-                "Unknown component '{}'. Run `utf8fx components list` to see available components.",
+                "Unknown component '{}'. Run `mdfx components list` to see available components.",
                 component
             ))
         })?;
@@ -212,7 +212,7 @@ impl ComponentsRenderer {
     ) -> Result<String> {
         let comp = self.components.get(component).ok_or_else(|| {
             Error::ParseError(format!(
-                "Unknown component '{}'. Run `utf8fx components list` to see available components.",
+                "Unknown component '{}'. Run `mdfx components list` to see available components.",
                 component
             ))
         })?;

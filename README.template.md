@@ -1,8 +1,8 @@
-# {{ui:header}}UTF8FX{{/ui}}
+# {{ui:header}}MDFX{{/ui}}
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-174_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/utf8fx/actions)
+[![Tests](https://img.shields.io/badge/tests-174_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 
 {{sans-serif-bold}}Unicode text effects for markdown and beyond{{/sans-serif-bold}}
 
@@ -38,12 +38,12 @@ Renders as:
 Unicode offers diverse styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful Ⓒⓘⓡⓒⓛⓔⓢ—but they're
 cumbersome to use. Finding glyphs requires hunting through Unicode tables and manually spacing them.
 
-**utf8fx** makes Unicode styling simple and repeatable. Use intuitive templates like `{{ui:header}}TITLE{{/ui}}`
-or CLI commands like `utf8fx convert --style script "Elegant"`.
+**mdfx** makes Unicode styling simple and repeatable. Use intuitive templates like `{{ui:header}}TITLE{{/ui}}`
+or CLI commands like `mdfx convert --style script "Elegant"`.
 
 Transform Unicode styling from a frustrating manual process into something as easy as markdown formatting.
 
-## {{mathbold}}Why utf8fx?{{/mathbold}}
+## {{mathbold}}Why mdfx?{{/mathbold}}
 
 **Why not just copy/paste Unicode characters?**
 
@@ -58,7 +58,7 @@ Think of it like CSS for text: separate content from presentation, gain power th
 
 ## {{mathbold}}UI Components{{/mathbold}}
 
-utf8fx provides high-level semantic components for common use cases. These compile down to shields.io badges,
+mdfx provides high-level semantic components for common use cases. These compile down to shields.io badges,
 frames, and character transformations.
 
 ### Visual Elements
@@ -190,15 +190,15 @@ Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━)
 
 ### From crates.io
 ```bash
-cargo install utf8fx
+cargo install mdfx
 ```
 
 ### From source
 ```bash
-git clone https://github.com/blackwell-systems/utf8fx
-cd utf8fx
+git clone https://github.com/blackwell-systems/mdfx
+cd mdfx
 cargo build --release
-./target/release/utf8fx --version
+./target/release/mdfx --version
 ```
 
 ## {{mathbold}}Usage{{/mathbold}}
@@ -206,41 +206,41 @@ cargo build --release
 ### CLI - Process Markdown Files
 ```bash
 # Process a template file
-utf8fx process README.template.md > README.md
+mdfx process README.template.md > README.md
 
 # Process and save
-utf8fx process input.md --output output.md
+mdfx process input.md --output output.md
 
 # Process from stdin
-echo "{{ui:header}}HELLO{{/ui}}" | utf8fx process -
+echo "{{ui:header}}HELLO{{/ui}}" | mdfx process -
 ```
 
 ### CLI - Direct Conversion
 ```bash
 # Convert text directly
-utf8fx convert --style mathbold "HELLO WORLD"
+mdfx convert --style mathbold "HELLO WORLD"
 # Output: 𝐇𝐄𝐋𝐋𝐎 𝐖𝐎𝐑𝐋𝐃
 
 # With separator
-utf8fx convert --style mathbold --separator dot "TITLE"
+mdfx convert --style mathbold --separator dot "TITLE"
 # Output: 𝐓·𝐈·𝐓·𝐋·𝐄
 
 # With spacing
-utf8fx convert --style script --spacing 2 "Elegant"
+mdfx convert --style script --spacing 2 "Elegant"
 # Output: 𝐸  𝓁  𝑒  𝑔  𝒶  𝓃  𝓉
 ```
 
 ### CLI - List Styles
 ```bash
-utf8fx list                    # List all styles
-utf8fx list --category bold    # Filter by category
-utf8fx frames list             # List frame styles
-utf8fx badges list             # List badge types
+mdfx list                    # List all styles
+mdfx list --category bold    # Filter by category
+mdfx frames list             # List frame styles
+mdfx badges list             # List badge types
 ```
 
 ### Rust Library
 ```rust
-use utf8fx::TemplateParser;
+use mdfx::TemplateParser;
 
 fn main() {
     let parser = TemplateParser::new().unwrap();
@@ -255,7 +255,7 @@ fn main() {
 
 ### Direct Conversion API
 ```rust
-use utf8fx::Converter;
+use mdfx::Converter;
 
 fn main() {
     let converter = Converter::new().unwrap();
@@ -291,7 +291,7 @@ Add decorative prefix/suffix around text:
 {{frame:line-double}}HEADER{{/frame}}   → ═ HEADER ═
 ```
 
-27 frame styles available. See `utf8fx frames list`.
+27 frame styles available. See `mdfx frames list`.
 
 ### Alphanumeric Badges
 
@@ -303,7 +303,7 @@ Enclose numbers and letters:
 {{badge:paren}}a{{/badge}}          → ⒜
 ```
 
-6 badge types available. See `utf8fx badges list`.
+6 badge types available. See `mdfx badges list`.
 
 ### Low-Level Primitives (Escape Hatch)
 
@@ -364,13 +364,13 @@ Configure your environment...
 
 ## {{mathbold}}How It Works{{/mathbold}}
 
-utf8fx uses a three-layer architecture:
+mdfx uses a three-layer architecture:
 
 1. **UI Components** (`{{ui:*}}`) - High-level semantic elements you author
 2. **Primitives** (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`) - Rendering engines
 3. **Styles** (`{{mathbold}}`) - Character transformations
 
-When you write `{{ui:header}}TITLE{{/ui}}`, utf8fx:
+When you write `{{ui:header}}TITLE{{/ui}}`, mdfx:
 1. Expands the component to `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`
 2. Applies the frame decoration
 3. Transforms characters with mathbold

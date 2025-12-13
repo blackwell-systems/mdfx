@@ -54,7 +54,7 @@ impl BadgeRenderer {
     /// # Examples
     ///
     /// ```
-    /// use utf8fx::BadgeRenderer;
+    /// use mdfx::BadgeRenderer;
     ///
     /// let renderer = BadgeRenderer::new().unwrap();
     /// let result = renderer.apply_badge("1", "circle").unwrap();

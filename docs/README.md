@@ -1,0 +1,251 @@
+# ▓▒░ 𝐌·𝐃·𝐅·𝐗 ░▒▓
+
+[![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
+[![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![Tests](https://img.shields.io/badge/tests-174_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+
+𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝗲𝗳𝗳𝗲𝗰𝘁𝘀 𝗳𝗼𝗿 𝗺𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗮𝗻𝗱 𝗯𝗲𝘆𝗼𝗻𝗱
+
+Transform text into various Unicode styles through a powerful template system. Create distinctive visual elements
+for READMEs, documentation, and presentations without images or external dependencies.
+
+## Quick Start
+
+Install mdfx:
+
+```bash
+cargo install mdfx
+```
+
+Create a markdown file with template syntax:
+
+```markdown
+# {{ui:header}}PROJECT NAME{{/ui}}
+
+{{ui:divider/}}
+
+## Tech Stack
+{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
+
+## Status
+{{ui:status:success/}} All systems operational
+```
+
+Process it:
+
+```bash
+mdfx process input.md -o output.md
+```
+
+The result is rendered markdown with Unicode styling and visual components.
+
+## Core Features
+
+### 19 Unicode Styles
+
+Transform text into distinctive Unicode styles:
+
+- **Bold Variants**: mathbold, sans-serif-bold
+- **Script & Cursive**: script, mathbold-italic
+- **Technical**: monospace, fullwidth, fraktur
+- **Playful**: circled, negative-circled, squared, negative-squared
+- **Elegant**: small-caps, superscript, subscript
+
+Use directly via CLI:
+
+```bash
+mdfx convert --style mathbold "BOLD TEXT"
+# Output: 𝐁𝐎𝐋𝐃 𝐓𝐄𝐗𝐓
+
+mdfx convert --style script "Elegant"
+# Output: ℰ𝓁ℯℊ𝒶𝓃𝓉
+```
+
+Or in templates:
+
+```markdown
+{{mathbold}}BOLD TEXT{{/mathbold}}
+{{script}}Elegant{{/script}}
+```
+
+### Template System
+
+Embed styling directly in markdown:
+
+**Basic Templates**
+```markdown
+{{mathbold}}Bold text{{/mathbold}}
+{{script}}Cursive text{{/script}}
+{{fullwidth}}Ｆｕｌｌｗｉｄｔｈ{{/fullwidth}}
+```
+
+**With Separators**
+```markdown
+{{mathbold:separator=dot}}SPACED OUT{{/mathbold}}
+{{mathbold:separator=arrow}}A→R→R→O→W{{/mathbold}}
+```
+
+**With Custom Spacing**
+```markdown
+{{mathbold:spacing=2}}W I D E{{/mathbold}}
+```
+
+### UI Components
+
+High-level semantic components for common visual needs:
+
+**Dividers** - Section separators
+```markdown
+{{ui:divider/}}
+```
+
+**Status Indicators**
+```markdown
+{{ui:status:success/}}  All systems operational
+{{ui:status:warning/}}  Maintenance required
+{{ui:status:error/}}    Critical failure
+```
+
+**Tech Stack Badges**
+```markdown
+{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:docker/}}
+```
+
+**Color Swatches**
+```markdown
+{{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:error/}}
+```
+
+### Frame System
+
+Wrap content in visual frames:
+
+```markdown
+{{frame:gradient}}
+### Important Section
+This content is visually emphasized
+{{/frame}}
+
+{{frame:solid-left}}
+Critical information with left border
+{{/frame}}
+```
+
+Available frame styles: `gradient`, `solid-left`, `solid-right`, `dashed`, `line-bold`
+
+### Multi-Backend Rendering
+
+Choose between shields.io URLs (default) or local SVG files:
+
+**Shields.io Backend** (online badges)
+```bash
+mdfx process input.md  # Default
+```
+
+**SVG Backend** (local files)
+```bash
+mdfx process input.md --backend svg --assets-dir assets/mdfx
+```
+
+The SVG backend generates deterministic filenames (hash-based) for reproducible builds and git-friendly assets.
+
+## Why mdfx?
+
+**Why not just copy/paste Unicode characters?**
+
+- **Repeatability**: Reuse `{{ui:header}}TITLE{{/ui}}` across dozens of files
+- **Consistency**: Change style once, regenerate all docs
+- **Maintainability**: Source files remain readable ASCII
+- **Search & Replace**: Find/replace works on template names
+- **Version Control**: Diffs show intent, not character code changes
+- **Composability**: Combine components programmatically
+
+Think of it like CSS for text: separate content from presentation, gain power through abstraction.
+
+## CLI Commands
+
+### Convert Text
+
+```bash
+mdfx convert --style mathbold "BOLD"
+mdfx convert --style script "Elegant"
+mdfx convert --style fullwidth "Wide"
+mdfx convert --style circled "123"
+```
+
+### List Available Styles
+
+```bash
+mdfx list
+mdfx list --samples
+mdfx list --category bold
+```
+
+### Process Markdown Files
+
+```bash
+# Stdout
+mdfx process input.md
+
+# Output file
+mdfx process input.md -o output.md
+
+# In-place editing
+mdfx process -i input.md
+
+# With SVG backend
+mdfx process input.md --backend svg -o output.md
+```
+
+### Generate Shell Completions
+
+```bash
+mdfx completions bash > /etc/bash_completion.d/mdfx
+mdfx completions zsh > ~/.zsh/completions/_mdfx
+mdfx completions fish > ~/.config/fish/completions/mdfx.fish
+```
+
+## Architecture
+
+mdfx uses a multi-stage processing pipeline:
+
+```
+Markdown Input
+    ↓
+Template Parser (process_with_assets)
+    ↓
+Component Resolution (native vs expand)
+    ↓
+Backend Rendering (Shields / SVG)
+    ↓
+Styled Markdown Output + Asset Files
+```
+
+### Multi-Backend System
+
+The rendering layer is pluggable:
+
+- **ShieldsBackend**: Generates shields.io URLs (no local files)
+- **SvgBackend**: Generates local SVG files with hash-based names
+- **Future**: HTML canvas, PNG rasterization, custom backends
+
+See [Architecture Guide](/ARCHITECTURE.md) for detailed design documentation.
+
+## Examples
+
+Check out the [examples directory](https://github.com/blackwell-systems/mdfx/tree/main/examples) for comprehensive demonstrations:
+
+- **visual-showcase.md** - Extensive showcase of all features
+- **simple-test.md** - Quick reference for common patterns
+
+## Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](https://github.com/blackwell-systems/mdfx/blob/main/CONTRIBUTING.md) for guidelines.
+
+## License
+
+MIT License - see [LICENSE](https://github.com/blackwell-systems/mdfx/blob/main/LICENSE) for details.
+
+---
+
+**Made by [Blackwell Systems™](https://github.com/blackwell-systems)**

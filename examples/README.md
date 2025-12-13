@@ -1,6 +1,6 @@
-# utf8fx Examples
+# mdfx Examples
 
-Comprehensive examples showcasing utf8fx capabilities, from high-level UI components to low-level primitives.
+Comprehensive examples showcasing mdfx capabilities, from high-level UI components to low-level primitives.
 
 ---
 
@@ -8,7 +8,7 @@ Comprehensive examples showcasing utf8fx capabilities, from high-level UI compon
 
 ### UI Components (Recommended)
 
-The simplest way to use utf8fx is through semantic UI components:
+The simplest way to use mdfx is through semantic UI components:
 
 ```markdown
 # {{ui:header}}PROJECT NAME{{/ui}}
@@ -398,7 +398,7 @@ Decorative prefix/suffix:
 → ═══ HEADER ═══
 ```
 
-**27 frame styles available.** See `utf8fx frames list`.
+**27 frame styles available.** See `mdfx frames list`.
 
 ### Alphanumeric Badges
 
@@ -415,7 +415,7 @@ Enclose numbers and letters:
 → ⒜
 ```
 
-**6 badge types available.** See `utf8fx badges list`.
+**6 badge types available.** See `mdfx badges list`.
 
 ### Shields (Direct)
 
@@ -478,7 +478,7 @@ Components use named colors from the palette:
 echo "# {{ui:header}}TEST{{/ui}}" > example.md
 
 # Process it
-utf8fx process example.md
+mdfx process example.md
 
 # Output:
 # ▓▒░ 𝐓·𝐄·𝐒·𝐓 ░▒▓
@@ -491,10 +491,10 @@ utf8fx process example.md
 cat examples/demo-input.md
 
 # Process and view result
-utf8fx process examples/demo-input.md
+mdfx process examples/demo-input.md
 
 # Compare with saved output
-diff <(utf8fx process examples/demo-input.md) examples/demo-output.md
+diff <(mdfx process examples/demo-input.md) examples/demo-output.md
 ```
 
 ---
@@ -511,10 +511,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install utf8fx
-        run: cargo install utf8fx
+      - name: Install mdfx
+        run: cargo install mdfx
       - name: Process README
-        run: utf8fx process README.template.md > README.md
+        run: mdfx process README.template.md > README.md
       - name: Commit changes
         run: |
           git add README.md
@@ -529,7 +529,7 @@ jobs:
 # .git/hooks/pre-commit
 
 # Process README before committing
-utf8fx process README.template.md > README.md
+mdfx process README.template.md > README.md
 git add README.md
 ```
 
@@ -539,8 +539,8 @@ git add README.md
 .PHONY: docs build
 
 docs:
-	utf8fx process README.template.md > README.md
-	utf8fx process docs/**/*.template.md
+	mdfx process README.template.md > README.md
+	mdfx process docs/**/*.template.md
 
 build: docs
 	cargo build --release
@@ -551,7 +551,7 @@ build: docs
 ```bash
 # Process all post templates
 find content/posts -name "*.template.md" | while read file; do
-  utf8fx process "$file" > "${file%.template.md}.md"
+  mdfx process "$file" > "${file%.template.md}.md"
 done
 
 hugo build
