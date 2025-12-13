@@ -99,6 +99,34 @@ Use custom separator characters between letters:
 - `bolddash` (━) - Box drawing heavy
 - `arrow` (→) - Rightward arrow
 
+### Badges
+
+Enclose numbers (0-20) or letters (a-z) with pre-composed Unicode characters:
+
+```markdown
+Step {{badge:circle}}1{{/badge}}: Install
+→ Step ①: Install
+
+Priority {{badge:negative-circle}}1{{/badge}} task
+→ Priority ❶ task
+
+Option {{badge:paren-letter}}a{{/badge}}: Accept
+→ Option ⒜: Accept
+
+Section {{badge:paren}}3{{/badge}} complete
+→ Section ⑶ complete
+```
+
+**Available badge types:**
+- `circle` (①②③) - Circled numbers 0-20
+- `negative-circle` (❶❷❸) - White on black circles 0-20
+- `double-circle` (⓵⓶⓷) - Double circles 1-10
+- `paren` (⑴⑵⑶) - Parenthesized numbers 1-20
+- `period` (🄁🄂🄃) - Period-terminated numbers 0-20
+- `paren-letter` (⒜⒝⒞) - Parenthesized letters a-z
+
+**Note:** Badges have limited charset support. Using unsupported characters (like "99" or uppercase) will return an error.
+
 ### Decorative Frames
 
 Wrap text with decorative elements:

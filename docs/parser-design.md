@@ -66,6 +66,8 @@ With state machine, we know exact position of parse errors.
    └─ Odd indices: preserve as-is
 
 3. process_templates() - State machine
+   ├─ Three template types: frames, badges, styles
+   ├─ Priority-based parsing (frames → badges → styles)
    └─ Character-by-character parsing
 ```
 
@@ -74,17 +76,42 @@ With state machine, we know exact position of parse errors.
 ```
 Normal state
     ↓ See {{
+Try parse as frame ({{frame:style}}...{{/frame}})
+    ↓ If not frame, try badge ({{badge:type}}...{{/badge}})
+    ↓ If not badge, try style ({{style}}...{{/style}})
 Parse opening tag
-    ↓ Extract style name
+    ↓ Extract template type and name
     ↓ Verify }}
 Extract content
-    ↓ Search for {{/style}}
+    ↓ Search for closing tag
 Validate closing tag
     ↓ Matches opening?
-Convert & replace
-    ↓
+Apply transformation
+    ↓ Frame: wrap with prefix/suffix
+    ↓ Badge: map to enclosed character
+    ↓ Style: convert each character
 Back to Normal
 ```
+
+### Three Template Types
+
+**1. Style Templates** - `{{style}}text{{/style}}`
+- Character-to-character Unicode transformations
+- Supports parameters: `:spacing=N`, `:separator=name`
+- Example: `{{mathbold:separator=dot}}TITLE{{/mathbold}}` → `𝐓·𝐈·𝐓·𝐋·𝐄`
+
+**2. Frame Templates** - `{{frame:type}}text{{/frame}}`
+- Decorative prefix/suffix wrapping
+- Supports recursive content (can contain style/badge templates)
+- Example: `{{frame:gradient}}TITLE{{/frame}}` → `▓▒░ TITLE ░▒▓`
+
+**3. Badge Templates** - `{{badge:type}}text{{/badge}}`
+- Enclosed alphanumeric characters
+- Limited charset: numbers 0-20, letters a-z
+- Example: `{{badge:circle}}1{{/badge}}` → `①`
+
+**Parsing Priority:**
+Parser checks templates in order: Frame → Badge → Style. This prevents ambiguity since all start with `{{`.
 
 ---
 
@@ -326,11 +353,14 @@ src/parser.rs
 ├── process()             # Entry point
 ├── process_line()        # Handle inline code
 ├── process_templates()   # State machine dispatcher
-├── parse_template_at()   # Parse single template
+├── parse_template_at()   # Parse style templates
+├── parse_frame_at()      # Parse frame templates
+├── parse_badge_at()      # Parse badge templates
 └── validate()            # Syntax validation
 ```
 
-**Total lines:** ~200 (vs ~50 with regex)
+**Total lines:** ~550 (vs ~50 with regex)
+**Template types:** 3 (styles, frames, badges)
 **Performance gain:** ~30% faster
 **Memory savings:** ~50% less
 

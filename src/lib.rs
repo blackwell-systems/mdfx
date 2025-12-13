@@ -38,6 +38,7 @@
 //! - Zero-copy operations for maximum performance
 //! - Comprehensive error handling
 
+pub mod badges;
 pub mod converter;
 pub mod error;
 pub mod frames;
@@ -45,6 +46,7 @@ pub mod parser;
 pub mod styles;
 
 // Re-export main types for convenience
+pub use badges::{BadgeRenderer, BadgeType};
 pub use converter::Converter;
 pub use error::{Error, Result};
 pub use frames::{FrameRenderer, FrameStyle};

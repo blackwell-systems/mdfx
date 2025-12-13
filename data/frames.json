@@ -120,6 +120,110 @@
       "prefix": "• ",
       "suffix": " •",
       "aliases": ["bullets"]
+    },
+    "lenticular": {
+      "id": "lenticular",
+      "name": "Lenticular Brackets",
+      "description": "Japanese/Chinese style brackets",
+      "prefix": "【",
+      "suffix": "】",
+      "aliases": ["lent", "japanese", "cjk"]
+    },
+    "angle": {
+      "id": "angle",
+      "name": "Angle Brackets",
+      "description": "Chinese style angle brackets",
+      "prefix": "《",
+      "suffix": "》",
+      "aliases": ["angles", "chinese"]
+    },
+    "guillemet": {
+      "id": "guillemet",
+      "name": "Guillemets",
+      "description": "French quotation marks",
+      "prefix": "« ",
+      "suffix": " »",
+      "aliases": ["french", "quote"]
+    },
+    "guillemet-single": {
+      "id": "guillemet-single",
+      "name": "Single Guillemets",
+      "description": "Single French quotes",
+      "prefix": "‹ ",
+      "suffix": " ›",
+      "aliases": ["french-single", "quote-single"]
+    },
+    "star": {
+      "id": "star",
+      "name": "Stars",
+      "description": "Black and white stars",
+      "prefix": "★ ",
+      "suffix": " ☆",
+      "aliases": ["stars", "featured"]
+    },
+    "diamond": {
+      "id": "diamond",
+      "name": "Diamonds",
+      "description": "Black and white diamonds",
+      "prefix": "◆ ",
+      "suffix": " ◇",
+      "aliases": ["diamonds", "gem"]
+    },
+    "triangle-right": {
+      "id": "triangle-right",
+      "name": "Triangles Horizontal",
+      "description": "Left and right pointing triangles",
+      "prefix": "▶ ",
+      "suffix": " ◀",
+      "aliases": ["triangles", "tri-h"]
+    },
+    "finger": {
+      "id": "finger",
+      "name": "Pointing Fingers",
+      "description": "Right and left pointing index fingers",
+      "prefix": "☞ ",
+      "suffix": " ☜",
+      "aliases": ["fingers", "point", "manicule"]
+    },
+    "heavy-quote": {
+      "id": "heavy-quote",
+      "name": "Heavy Double Quotes",
+      "description": "Decorative quotation marks",
+      "prefix": "❝",
+      "suffix": "❞",
+      "aliases": ["heavy-quotes", "dquote"]
+    },
+    "fisheye": {
+      "id": "fisheye",
+      "name": "Fisheye",
+      "description": "Bullseye circles",
+      "prefix": "◉ ",
+      "suffix": " ◉",
+      "aliases": ["bullseye", "target"]
+    },
+    "asterism": {
+      "id": "asterism",
+      "name": "Asterism",
+      "description": "Three-star section marker",
+      "prefix": "⁂ ",
+      "suffix": " ⁂",
+      "aliases": ["section", "divider"]
+    },
+    "arc-top": {
+      "id": "arc-top",
+      "name": "Arc Top",
+      "description": "Rounded top corners",
+      "prefix": "╭ ",
+      "suffix": " ╮",
+      "aliases": ["arctop", "rounded-top"]
+    },
+    "arc-bottom": {
+      "id": "arc-bottom",
+      "name": "Arc Bottom",
+      "description": "Rounded bottom corners",
+      "prefix": "╰ ",
+      "suffix": " ╯",
+      "aliases": ["arcbottom", "rounded-bottom"]
     }
   }
 }

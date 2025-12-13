@@ -16,27 +16,32 @@
 
 ## System Overview
 
-utf8fx is a markdown preprocessor that transforms text using Unicode character mappings. The system consists of three primary components working together in a pipeline architecture.
+utf8fx is a markdown preprocessor that transforms text using Unicode character mappings. The system consists of four primary components working together in a pipeline architecture.
 
 ```mermaid
 %%{init: {'theme':'dark'}}%%
 graph LR
     A[Input Text] --> B[Template Parser]
     B --> C[Converter]
+    B --> H[Badge Renderer]
     B --> F[Frame Renderer]
     C --> F
+    H --> F
     F --> D[Styled Output]
 
     E[styles.json] -.->|Character Mappings| C
     G[frames.json] -.->|Decorative Elements| F
+    I[badges.json] -.->|Enclosed Characters| H
 
     style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style B fill:#2d3748,stroke:#48bb78,stroke-width:2px
     style C fill:#2d3748,stroke:#ed8936,stroke-width:2px
+    style H fill:#2d3748,stroke:#f56565,stroke-width:2px
     style F fill:#2d3748,stroke:#9f7aea,stroke-width:2px
     style D fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style E fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
     style G fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
+    style I fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ### Core Principles
@@ -113,18 +118,20 @@ graph TD
 
 #### 2. TemplateParser (`src/parser.rs`)
 
-**Purpose:** Process markdown with `{{style}}text{{/style}}` and `{{frame:style}}text{{/frame}}` templates
+**Purpose:** Process markdown with `{{style}}text{{/style}}`, `{{frame:style}}text{{/frame}}`, and `{{badge:type}}text{{/badge}}` templates
 
 **Key Functions:**
 - `process(content)` - Parse and transform entire document
 - `parse_template_at(chars, pos)` - State machine for style templates
 - `parse_frame_at(chars, pos)` - State machine for frame templates
+- `parse_badge_at(chars, pos)` - State machine for badge templates
 
 **Design:**
 - State machine parser (no regex dependencies)
-- **Two template types**: style templates and frame templates
-- **Recursive processing**: Frame content can contain style templates
-- **Parameter parsing**: Supports `:spacing=N` and `:separator=name` parameters
+- **Three template types**: style templates, frame templates, and badge templates
+- **Parsing priority**: Frames → Badges → Styles (prevents ambiguity)
+- **Recursive processing**: Frame content can contain style/badge templates
+- **Parameter parsing**: Supports `:spacing=N` and `:separator=name` parameters (styles only)
 - Preserves code blocks (```) and inline code (`)
 - Tracks nesting depth for proper template matching
 - Fail-safe: invalid templates preserved as-is
@@ -142,11 +149,29 @@ graph TD
 **Design:**
 - Loads `frames.json` once at initialization
 - Simple concatenation: `prefix + text + suffix`
-- Supports 15 frame styles (gradient, solid, lines, arrows, etc.)
+- Supports 27 frame styles (gradient, solid, lines, arrows, stars, brackets, etc.)
 - Alias support for shorter names (grad = gradient)
 - Works with styled content (recursive processing by parser)
 
-#### 4. Styles Manager (`src/styles.rs`)
+#### 4. BadgeRenderer (`src/badges.rs`)
+
+**Purpose:** Enclose numbers and letters with pre-composed Unicode characters
+
+**Key Functions:**
+- `apply_badge(text, badge_type)` - Enclose text in badge character
+- `get_badge(name)` - Lookup badge by ID or alias
+- `has_badge(name)` - Check badge existence
+- `list_badges()` - Query available badges
+
+**Design:**
+- Loads `badges.json` once at initialization
+- Direct character mapping: `text -> badge_character`
+- Limited charset support: numbers (0-20), lowercase letters (a-z)
+- 6 badge types: circle (①), negative-circle (❶), double-circle (⓵), paren (⑴), period (🄁), paren-letter (⒜)
+- Returns `UnsupportedChar` error for characters outside badge's charset
+- No recursive processing (badges can't contain other templates)
+
+#### 5. Styles Manager (`src/styles.rs`)
 
 **Purpose:** Load and manage style definitions
 

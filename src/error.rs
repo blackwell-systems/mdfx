@@ -12,6 +12,14 @@ pub enum Error {
     #[error("Unknown frame '{0}'. Run `utf8fx frames list` to see available frames.")]
     UnknownFrame(String),
 
+    /// The requested badge does not exist
+    #[error("Unknown badge '{0}'. Run `utf8fx badges list` to see available badges.")]
+    UnknownBadge(String),
+
+    /// Badge doesn't support the requested character
+    #[error("Badge '{0}' does not support '{1}'. Check badge charset limits.")]
+    UnsupportedChar(String, String),
+
     /// Generic parse error
     #[error("Parse error: {0}")]
     ParseError(String),

@@ -53,7 +53,8 @@ Think of it like CSS for text: separate content from presentation, gain power th
 - Convert text to {{negative-squared}}19{{/negative-squared}} different Unicode styles
 - Custom separators (dots, dashes, arrows) between characters
 - Decorative frames around text (gradient, solid, lines)
-- Composable templates (style + separator + frame)
+- Enclosed alphanumeric badges (①②③, ⒜⒝⒞, ❶❷❸)
+- Composable templates (style + separator + frame + badges)
 - Style aliases for shorter names (e.g., `mb` for `mathbold`)
 - Preserves whitespace, punctuation, and unsupported characters
 - Zero-copy operations for maximum performance
@@ -137,7 +138,7 @@ No code changes needed - utf8fx automatically picks up new styles from the JSON 
 ### {{sans-serif-bold}}Library Usage{{/sans-serif-bold}}
 
 ```rust
-use utf8fx::{Converter, FrameRenderer};
+use utf8fx::{Converter, FrameRenderer, BadgeRenderer};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let converter = Converter::new()?;
@@ -163,6 +164,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let styled = converter.convert("HEADER", "mathbold")?;
     let result = frame_renderer.apply_frame(&styled, "gradient")?;
     println!("{}", result); // ▓▒░ 𝐇𝐄𝐀𝐃𝐄𝐑 ░▒▓
+
+    // Apply badges
+    let badge_renderer = BadgeRenderer::new()?;
+    let result = badge_renderer.apply_badge("1", "circle")?;
+    println!("{}", result); // ①
 
     // List available styles
     for style in converter.list_styles() {
@@ -218,6 +224,48 @@ Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━)
 
 Available frames: `gradient`, `solid-left`, `solid-right`, `solid-both`, `line-light`, `line-bold`, `line-double`, `line-dashed`, `block-top`, `block-bottom`, `arrow-right`, `dot`, `bullet`
 
+## {{mathbold}}Badges{{/mathbold}}
+
+Badges are pre-composed Unicode characters that enclose numbers or letters. Unlike styles (which map every character) or frames (which add decorations), badges are limited to specific charsets:
+
+**Numbers (0-20):**
+```markdown
+Step {{badge:circle}}1{{/badge}}: Install
+Priority {{badge:negative-circle}}1{{/badge}} task
+Section {{badge:paren}}3{{/badge}} complete
+Item {{badge:period}}5{{/badge}} pending
+```
+
+Output:
+```
+Step ①: Install
+Priority ❶ task
+Section ⑶ complete
+Item 🄅 pending
+```
+
+**Letters (a-z):**
+```markdown
+Option {{badge:paren-letter}}a{{/badge}}: Accept
+Option {{badge:paren-letter}}b{{/badge}}: Reject
+```
+
+Output:
+```
+Option ⒜: Accept
+Option ⒝: Reject
+```
+
+**Available badge types:**
+- `circle` - Circled numbers ①②③ (0-20) - aliases: `circled`, `number-circle`
+- `negative-circle` - White on black ❶❷❸ (0-20) - aliases: `neg-circle`, `inverse-circle`
+- `double-circle` - Double circles ⓵⓶⓷ (1-10) - aliases: `double`, `dbl-circle`
+- `paren` - Parenthesized numbers ⑴⑵⑶ (1-20) - aliases: `parenthesized`, `parens`
+- `period` - Period-terminated 🄁🄂🄃 (0-20) - aliases: `dot-number`, `period-number`
+- `paren-letter` - Parenthesized letters ⒜⒝⒞ (a-z) - aliases: `letter-paren`, `alpha-paren`
+
+**Important:** Badges have limited charset support - attempting to badge unsupported characters (like "99" or uppercase letters) will return an error.
+
 ### {{sans-serif-bold}}Visual Examples{{/sans-serif-bold}}
 
 **Before (README.template.md):**
@@ -264,12 +312,14 @@ utf8fx/
 │   ├── lib.rs          # Public API
 │   ├── converter.rs    # Core conversion logic
 │   ├── frames.rs       # Frame rendering
+│   ├── badges.rs       # Badge rendering
 │   ├── parser.rs       # Template parser
 │   ├── styles.rs       # Style definitions
 │   └── error.rs        # Error types
 ├── data/
 │   ├── styles.json     # Character mapping database
-│   └── frames.json     # Frame definitions
+│   ├── frames.json     # Frame definitions
+│   └── badges.json     # Badge definitions
 ├── tests/              # Integration tests
 ├── examples/           # Usage examples
 └── docs/               # Documentation
@@ -277,9 +327,11 @@ utf8fx/
 
 ## {{mathbold}}Documentation{{/mathbold}}
 
+- [API Guide](docs/API-GUIDE.md) - Complete API reference with examples
+- [Architecture](docs/ARCHITECTURE.md) - System design and component architecture
+- [Parser Design](docs/parser-design.md) - State machine implementation details
 - [Planning Document](docs/PLANNING.md) - Technical design and roadmap
 - [Unicode Design Elements](docs/unicode-design-elements.md) - Character reference
-- [API Documentation](https://docs.rs/utf8fx) - Full API docs (coming soon)
 
 ## {{mathbold}}Testing{{/mathbold}}
 
