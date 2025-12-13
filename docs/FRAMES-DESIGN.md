@@ -87,6 +87,7 @@ Add support for framing text with Unicode box drawing characters, brackets, and 
 3. **Composability** - Allow combining frames with existing text styles
 4. **Simplicity** - Maintain intuitive template syntax consistent with current design
 5. **Markdown Compatibility** - Preserve compatibility with markdown processors
+6. **Platform Constraints** - Work within GitHub's fixed-width rendering (100-120 chars)
 
 ### Non-Goals
 
@@ -94,6 +95,57 @@ Add support for framing text with Unicode box drawing characters, brackets, and 
 - Dynamic box sizing based on terminal width
 - Nested frames (at least initially)
 - Color support (beyond existing terminal colors)
+- Extremely wide boxes that break GitHub rendering
+
+### Design Constraints
+
+#### GitHub Rendering Environment
+
+**Fixed Width Container:**
+- GitHub READMEs render in a fixed-width content area
+- Typical width: ~100-120 characters on desktop displays
+- Mobile: Even narrower (60-80 chars)
+- Boxes wider than container will wrap poorly or overflow
+
+**Implications:**
+1. **Default box width should be conservative** (60-80 chars max)
+2. **Warn or limit excessive widths** (>100 chars)
+3. **Text content should be short** for boxes to render well
+4. **Consider mobile-first** design for maximum compatibility
+
+**Best Practices:**
+```markdown
+✅ GOOD - Short, impactful
+{{box:double}}⚠️  WARNING{{/box}}
+
+✅ GOOD - Reasonable width
+{{box:heavy}}INSTALLATION REQUIRED{{/box}}
+
+❌ BAD - Too wide for GitHub
+{{box:light}}This is a very long sentence that will probably overflow the GitHub README container and look broken{{/box}}
+
+✅ BETTER - Break into multiple lines
+{{box:light}}
+Installation Required
+See docs for details
+{{/box}}
+```
+
+#### Practical Width Guidelines
+
+- **Inline brackets:** No limit (scales with content)
+- **Single-line boxes:** 60 chars max recommended
+- **Multi-line boxes:** 80 chars width, multiple short lines
+- **Headers/Titles:** 30-40 chars ideal for visual impact
+
+#### Rendering Test Environments
+
+Before releasing frame features, test in:
+1. **GitHub README.md** - Primary target
+2. **GitHub mobile** - Narrow width constraint
+3. **Terminal (80-column)** - Classic unix width
+4. **VS Code preview** - Development environment
+5. **Hugo/Jekyll rendered** - Static site output
 
 ---
 
