@@ -1,0 +1,21 @@
+[package]
+name = "mdfx-cli"
+description = "CLI tool for mdfx: Transform markdown with Unicode text effects and UI components"
+keywords = ["markdown", "unicode", "cli", "preprocessor"]
+categories = ["command-line-utilities", "text-processing"]
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+repository.workspace = true
+license.workspace = true
+homepage.workspace = true
+
+[dependencies]
+mdfx = { path = "../mdfx" }
+clap = { version = "4.4", features = ["derive", "cargo"] }
+clap_complete = "4.4"
+colored = "2.1"
+
+[[bin]]
+name = "mdfx"
+path = "src/main.rs"

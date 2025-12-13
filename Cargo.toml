@@ -1,43 +1,17 @@
-[package]
-name = "mdfx"
+[workspace]
+resolver = "2"
+members = [
+    "crates/mdfx",
+    "crates/mdfx-cli",
+]
+
+[workspace.package]
 version = "1.0.0"
 edition = "2021"
 authors = ["Dayna Blackwell <blackwellsystems@protonmail.com>"]
-description = "Markdown effects: Unicode text styling and UI components through template syntax"
 repository = "https://github.com/blackwell-systems/mdfx"
 license = "MIT"
-keywords = ["markdown", "unicode", "preprocessor", "styling", "cli"]
-categories = ["text-processing", "command-line-utilities"]
-readme = "README.md"
 homepage = "https://github.com/blackwell-systems/mdfx"
-documentation = "https://docs.rs/mdfx"
-exclude = [
-    "docs/",
-    "README.template.md",
-    ".github/",
-    ".gitignore",
-]
-
-[dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "1.0"
-lazy_static = "1.4"
-clap = { version = "4.4", features = ["derive", "cargo"] }
-clap_complete = "4.4"
-colored = "2.1"
-
-[dev-dependencies]
-criterion = "0.5"
-tempfile = "3.8"
-
-[lib]
-name = "mdfx"
-path = "src/lib.rs"
-
-[[bin]]
-name = "mdfx"
-path = "src/bin/main.rs"
 
 [profile.release]
 opt-level = 3

@@ -1,0 +1,27 @@
+[package]
+name = "mdfx"
+description = "Markdown effects: Unicode text styling and UI components through template syntax"
+keywords = ["markdown", "unicode", "preprocessor", "styling", "text-processing"]
+categories = ["text-processing"]
+readme = "../../README.md"
+documentation = "https://docs.rs/mdfx"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+repository.workspace = true
+license.workspace = true
+homepage.workspace = true
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+lazy_static = "1.4"
+
+[dev-dependencies]
+criterion = "0.5"
+tempfile = "3.8"
+
+[lib]
+name = "mdfx"
+path = "src/lib.rs"
