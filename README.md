@@ -1,6 +1,6 @@
 # ｕ ｔ ｆ ８ ｆ ｘ
 
-𝒰𝓃𝒾𝒸ℴ𝒹ℯ 𝓉ℯ𝓍𝓉 ℯ𝒻𝒻ℯ𝒸𝓉𝓈 𝒻ℴ𝓇 𝓂𝒶𝓇𝓀𝒹ℴ𝓌𝓃 𝒶𝓃𝒹 𝒷ℯ𝓎ℴ𝓃𝒹
+𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝗲𝗳𝗳𝗲𝗰𝘁𝘀 𝗳𝗼𝗿 𝗺𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗮𝗻𝗱 𝗯𝗲𝘆𝗼𝗻𝗱
 
 Transform text into various Unicode styles (mathematical bold, full-width, negative squared, and more)
 through a powerful markdown preprocessing system.

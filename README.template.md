@@ -1,6 +1,6 @@
 # {{fullwidth:spacing=1}}utf8fx{{/fullwidth}}
 
-{{script}}Unicode text effects for markdown and beyond{{/script}}
+{{sans-serif-bold}}Unicode text effects for markdown and beyond{{/sans-serif-bold}}
 
 Transform text into various Unicode styles (mathematical bold, full-width, negative squared, and more)
 through a powerful markdown preprocessing system.
