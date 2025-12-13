@@ -1,6 +1,7 @@
 # ｕ ｔ ｆ ８ ｆ ｘ
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
+[![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 
 𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝗲𝗳𝗳𝗲𝗰𝘁𝘀 𝗳𝗼𝗿 𝗺𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗮𝗻𝗱 𝗯𝗲𝘆𝗼𝗻𝗱
 

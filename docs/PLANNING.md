@@ -309,6 +309,174 @@ build: preprocess
 
 ---
 
+### Phase 5: Creative Spacing & Decorative Elements 🔲 BRAINSTORMING
+
+**Goal:** Enhance text styling with creative spacing options and decorative frame elements
+
+**Problem Statement:**
+Current spacing (`{{mathbold:spacing=1}}TEXT{{/mathbold}}` → `𝐓 𝐄 𝐗 𝐓`) only supports blank spaces. Users want more creative spacing options like dotted and dashed separators for visual interest.
+
+**Inspiration from unicode-design-elements.md:**
+```
+B L A C K D O T      Regular spacing (current)
+B·L·A·C·K·D·O·T      Dotted spacing (middle dot)
+B─L─A─C─K─D─O─T      Dashed spacing (box drawing)
+B━L━A━C━K━D━O━T      Bold dashed
+```
+
+#### Creative Spacing Feature
+
+**Proposed Syntax:**
+```markdown
+{{mathbold:separator=space}}TEXT{{/mathbold}}      → T E X T
+{{mathbold:separator=dot}}TEXT{{/mathbold}}        → T·E·X·T
+{{mathbold:separator=dash}}TEXT{{/mathbold}}       → T─E─X─T
+{{mathbold:separator=bolddash}}TEXT{{/mathbold}}   → T━E━X━T
+{{mathbold:separator=arrow}}TEXT{{/mathbold}}      → T→E→X→T
+```
+
+**Alternative Syntax (shorthand):**
+```markdown
+{{mathbold|space:2}}TEXT{{/mathbold}}      Two spaces
+{{mathbold|dot}}TEXT{{/mathbold}}          Middle dot
+{{mathbold|dash}}TEXT{{/mathbold}}         Box drawing dash
+```
+
+**Available Unicode Separators:**
+- `·` (U+00B7) - Middle dot
+- `•` (U+2022) - Bullet
+- `‧` (U+2027) - Hyphenation point
+- `∙` (U+2219) - Bullet operator
+- `⋅` (U+22C5) - Dot operator
+- `─` (U+2500) - Box drawing horizontal
+- `━` (U+2501) - Box drawing heavy horizontal
+- `╌` (U+254C) - Box drawing dashed
+- `╍` (U+254D) - Box drawing heavy dashed
+- `→` (U+2192) - Rightward arrow
+- `⟶` (U+27F6) - Long rightward arrow
+
+**CLI API:**
+```bash
+utf8fx convert --style mathbold --separator dot "TITLE"
+# Output: 𝐓·𝐈·𝐓·𝐋·𝐄
+
+utf8fx convert --style mathbold --separator dash "HEADER"
+# Output: 𝐇─𝐄─𝐀─𝐃─𝐄─𝐑
+```
+
+**Implementation Notes:**
+- Backward compatible: `spacing=N` still works (uses spaces)
+- `separator` parameter adds between characters
+- Can combine: `{{mathbold:separator=dot:spacing=2}}` = dot + 2 spaces on each side
+- State machine parser needs minor extension to handle new parameter
+
+#### Tagline & Decorative Frames
+
+**Problem:** Users want to add decorative elements around styled text (see FRAMES-DESIGN.md)
+
+**Proposed Syntax:**
+```markdown
+{{frame:gradient}}Tagline Text{{/frame}}
+# Output: ▓▒░ Tagline Text ░▒▓
+
+{{frame:solid}}Important{{/frame}}
+# Output: █▌Important
+
+{{frame:dashed}}Section{{/frame}}
+# Output: ━━━ Section ━━━
+
+{{frame:box}}Content{{/frame}}
+# Output: ┌─────────┐
+#         │ Content │
+#         └─────────┘
+```
+
+**Gradient Frame Styles:**
+```
+▓▒░ text ░▒▓     gradient (subtle → bold → subtle)
+▒░ text ░▒       gradient-light
+░▒▓ text ▓▒░     gradient-reverse
+```
+
+**Solid Frame Styles:**
+```
+█▌text            solid-left
+text▐█            solid-right
+▀▀▀ text ▀▀▀      solid-top
+▄▄▄ text ▄▄▄      solid-bottom
+```
+
+**Line Frame Styles:**
+```
+─── text ───      line-light
+━━━ text ━━━      line-bold
+╌╌╌ text ╌╌╌      line-dashed
+═══ text ═══      line-double
+```
+
+**Box Frames (multiline):**
+```
+┌─────────────┐
+│    text     │
+└─────────────┘
+
+╔═════════════╗
+║    text     ║
+╚═════════════╝
+
+┏━━━━━━━━━━━━━┓
+┃    text     ┃
+┗━━━━━━━━━━━━━┛
+```
+
+**Combined Example:**
+```markdown
+{{frame:gradient}}{{small-caps}}configuration management made simple{{/small-caps}}{{/frame}}
+# Output: ▓▒░ ᴄᴏɴꜰɪɢᴜʀᴀᴛɪᴏɴ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ᴍᴀᴅᴇ ꜱɪᴍᴘʟᴇ ░▒▓
+
+{{mathbold|dot}}{{frame:dashed}}TITLE{{/frame}}{{/mathbold}}
+# Output: ━━━ 𝐓·𝐈·𝐓·𝐋·𝐄 ━━━
+```
+
+#### Design Considerations
+
+**Pros:**
+- Aligns with FRAMES-DESIGN.md architectural vision
+- Composable: styles + spacing + frames
+- Uses existing parser infrastructure
+- Maintains single-responsibility design
+
+**Cons:**
+- Increases complexity of template syntax
+- Frame rendering requires width calculation
+- GitHub width constraints (120 char limit)
+- May require preview/validation mode
+
+**Questions to Resolve:**
+1. Should frames be inline-only or support multiline?
+2. How to handle width constraints (auto-fit vs explicit width)?
+3. Should frames be separate feature or integrated with styles?
+4. CLI syntax: `--frame gradient` or `--decorator gradient`?
+5. Do we need a `--validate-github` flag for 120-char check?
+
+**Relationship to FRAMES-DESIGN.md:**
+This builds on the frames architecture design with focus on inline taglines first:
+- Phase 5a: Creative spacing (simple, low risk)
+- Phase 5b: Inline frames (gradient, solid, dashed)
+- Phase 5c: Box frames (multiline, more complex)
+
+**Priority:**
+- HIGH: Creative spacing (dotted, dashed)
+- MEDIUM: Inline gradient/solid frames
+- LOW: Multiline box frames (may defer to v2.0)
+
+**Estimated Scope:**
+- Creative spacing: 1-2 days (parser + converter extension)
+- Inline frames: 3-5 days (new frame renderer component)
+- Box frames: 1-2 weeks (width calculation, multiline handling)
+
+---
+
 ## Supported Unicode Styles
 
 ### Planned Styles (11 total)
