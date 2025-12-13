@@ -69,16 +69,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Error Handling
 - `Error::UnknownFrame` - Graceful handling of invalid frame names
+- `Error::UnknownBadge` - Graceful handling of invalid badge types
+- `Error::UnsupportedChar` - Clear error when badge doesn't support character
 - `Error::ParseError` - Detailed error messages for invalid separators
-- `Error::UnclosedTag` - Precise error messages for unclosed frame templates
+- `Error::UnclosedTag` - Precise error messages for unclosed templates
 
 #### Testing
-- 88 total tests (up from 73 in pre-release)
-- 11 tests for separator functionality
-- 15 tests for frame functionality
-- 3 tests for composition scenarios
+- **113 total tests** (up from 88, was 73 in pre-release)
+- 11 badge component tests (all types, aliases, charset validation)
+- 14 badge template tests (integration, composition, errors)
+- 15 frame tests (all frame types, composition, nesting)
+- 11 separator tests (all 5 separator types)
 - All tests for code block preservation, error handling, edge cases
-- Zero clippy warnings
+- Zero clippy warnings, cargo fmt compliant
 
 #### Documentation
 - Comprehensive README with "Why utf8fx?" section addressing copy/paste alternative
@@ -96,17 +99,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Public methods (`convert`, `convert_with_spacing`, `convert_with_separator`) delegate to unified implementation
   - Fast path optimization when `count=0` skips separation logic entirely
 
-- **Enhanced Parser** - Extended state machine for new template types
+- **Enhanced Parser** - Extended state machine for three template types
   - Parses `:separator=name` parameter after `:spacing=N`
   - Parses `{{frame:style}}` templates with recursive content processing
+  - Parses `{{badge:type}}` templates with charset validation
+  - Priority-based parsing (Frames → Badges → Styles) prevents ambiguity
   - Maintains existing code block preservation and error handling
-  - Returns structured `TemplateData` instead of tuples for cleaner code
+  - Returns structured data instead of tuples for cleaner code
 
-- **Component Separation** - Clear single-responsibility design
-  - `Converter` → Character transformation
-  - `FrameRenderer` → Structural decoration
+- **Component Separation** - Clear single-responsibility design (4 components)
+  - `Converter` → Character transformation (19 styles)
+  - `FrameRenderer` → Structural decoration (27 frames)
+  - `BadgeRenderer` → Enclosed alphanumerics (6 badge types)
   - `TemplateParser` → Orchestration and composition
   - Each component has distinct purpose and minimal coupling
+
+- **Documentation Update**
+  - README header now showcases composition (frame + style + separator + badges)
+  - Updated all markdown files with badge examples and current features
 
 ### Fixed
 - Parser now properly handles multiple parameters (spacing + separator)
