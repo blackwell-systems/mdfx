@@ -468,6 +468,285 @@ A: Determinism + caching. Same primitive parameters → same hash → same filen
 
 ---
 
+## Separator System
+
+**Version:** 1.0.0 (shipped as of v1.0.0)
+**Module:** `src/separators.rs`
+**Data:** `data/separators.json`
+
+### Overview
+
+The separator system allows inserting characters between styled text characters using a data-driven architecture with smart validation.
+
+### Architecture
+
+```rust
+// Template syntax
+{{mathbold:separator=dot}}TITLE{{/mathbold}}      → 𝐓·𝐈·𝐓·𝐋·𝐄
+{{mathbold:separator=⚡}}POWER{{/mathbold}}        → 𝐏⚡𝐎⚡𝐖⚡𝐄⚡𝐑
+{{mathbold:separator=👨‍💻}}CODE{{/mathbold}}         → 𝐂👨‍💻𝐎👨‍💻𝐃👨‍💻𝐄
+```
+
+### Data Structure
+
+**separators.json:**
+```json
+{
+  "version": "1.0.0",
+  "separators": [
+    {
+      "id": "dot",
+      "name": "Middle Dot",
+      "char": "·",
+      "unicode": "U+00B7",
+      "description": "Middle dot separator for elegant spacing",
+      "example": "𝐓·𝐈·𝐓·𝐋·𝐄"
+    }
+  ]
+}
+```
+
+### Resolution Logic
+
+**Hybrid approach: Named separators + direct Unicode**
+
+```rust
+impl SeparatorsData {
+    pub fn resolve(&self, input: &str) -> Result<String, String> {
+        let normalized = input.trim();
+
+        // 1. Try named separator lookup
+        if let Some(sep) = self.find_separator(normalized) {
+            return Ok(sep.char.clone());
+        }
+
+        // 2. Validate as direct Unicode character
+        let graphemes: Vec<&str> = normalized.graphemes(true).collect();
+        if graphemes.len() == 1 {
+            // Reject template delimiters
+            if grapheme == ":" || grapheme == "/" || grapheme == "}" {
+                return Err("reserved for template syntax");
+            }
+            return Ok(grapheme.to_string());
+        }
+
+        // 3. Unknown - suggest alternatives
+        Err(self.suggest_separator(normalized))
+    }
+}
+```
+
+### Grapheme Cluster Support
+
+Uses **unicode-segmentation** crate for proper Unicode handling:
+
+- ✅ Simple characters: `·`, `→`, `★`
+- ✅ Single emoji: `⭐`, `⚡`, `🔥`
+- ✅ Emoji with variation selectors: `👨‍💻` (man technologist - 5 code points, 1 grapheme)
+- ✅ Flag emoji: `🇺🇸`, `🇬🇧` (2 regional indicator scalars, 1 grapheme)
+
+**Why graphemes, not chars?**
+- `"👨‍💻".chars().count()` = 5 (wrong)
+- `"👨‍💻".graphemes(true).count()` = 1 (correct)
+
+### Validation
+
+**Normalization:**
+- Trim whitespace: `"  dot  "` → `"dot"`
+- Empty input rejected
+
+**Validation:**
+- Reject template delimiters (`:`, `/`, `}`)
+- Must be exactly 1 grapheme cluster
+- Invalid named separators get "did you mean" suggestions
+
+**Error Example:**
+```
+$ mdfx process "{{mathbold:separator=starr}}TEXT{{/mathbold}}"
+Error: Unknown separator 'starr'.
+  Did you mean: star?
+  Available named separators: dot, bullet, dash, bolddash, arrow, star, diamond, square, circle, pipe, slash, tilde
+  Or use any single Unicode character (e.g., separator=⚡)
+```
+
+### CLI Command
+
+```bash
+# List all separators
+mdfx separators
+
+# With examples
+mdfx separators --examples
+```
+
+Output includes ID, character, Unicode code point, description, and usage example.
+
+---
+
+## Asset Manifest System
+
+**Version:** 1.0.0 (shipped as of v1.0.0)
+**Module:** `src/manifest.rs`
+**Dependencies:** `sha2`, `chrono`
+
+### Overview
+
+The manifest system tracks all generated SVG assets with SHA-256 hashing, enabling verification, cleanup, and CI caching optimization.
+
+### Architecture
+
+```mermaid
+graph LR
+    PROC[mdfx process<br/>--backend svg] --> ASSETS[Generate SVG Assets]
+    ASSETS --> MANIFEST[Write manifest.json]
+
+    MANIFEST --> VERIFY[mdfx verify]
+    MANIFEST --> CLEAN[mdfx clean]
+
+    VERIFY --> CHECK{All valid?}
+    CHECK -->|Yes| OK[Exit 0]
+    CHECK -->|No| FAIL[Exit 1]
+
+    CLEAN --> ORPHAN[Find Orphaned Files]
+    ORPHAN --> DELETE[Delete Unreferenced]
+```
+
+### Manifest Structure
+
+```json
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-13T17:31:25Z",
+  "backend": "svg",
+  "assets_dir": "assets/mdfx",
+  "total_assets": 7,
+  "assets": [
+    {
+      "path": "assets/mdfx/swatch_8490176a786b203c.svg",
+      "sha256": "2c932535cd177cd4d046122ee3a08338f50835861fb6233f2e527d282ec1ae8c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "f41c80",
+        "style": "flat-square"
+      },
+      "size_bytes": 143
+    }
+  ]
+}
+```
+
+### Manifest API
+
+**Core Methods:**
+
+```rust
+impl AssetManifest {
+    /// Create new manifest
+    pub fn new(backend: &str, assets_dir: &str) -> Self;
+
+    /// Add asset with automatic SHA-256 hashing
+    pub fn add_asset(&mut self, path: String, bytes: &[u8], primitive: &Primitive, asset_type: String);
+
+    /// Write manifest to disk
+    pub fn write(&self, manifest_path: &Path) -> Result<()>;
+
+    /// Load existing manifest
+    pub fn load(manifest_path: &Path) -> Result<Self>;
+
+    /// Verify all assets exist with correct hashes
+    pub fn verify(&self, base_dir: &Path) -> Vec<VerificationResult>;
+
+    /// Get list of all tracked asset paths
+    pub fn asset_paths(&self) -> Vec<&str>;
+}
+```
+
+### Use Cases
+
+#### 1. CI Caching Optimization
+
+```bash
+# In CI pipeline
+mdfx process --backend svg README.template.md -o README.md
+
+# Check if assets changed
+if mdfx verify; then
+  echo "Assets unchanged, using cache"
+  # Skip expensive operations
+else
+  echo "Assets changed, rebuilding"
+fi
+```
+
+#### 2. Integrity Verification
+
+```bash
+# Verify assets haven't been corrupted
+mdfx verify --assets-dir assets/mdfx
+
+# Output:
+#   ✓ assets/mdfx/swatch_8490176a.svg
+#   ✓ assets/mdfx/tech_669db7ef.svg
+# ✓ All assets verified successfully!
+```
+
+#### 3. Cleanup After Refactoring
+
+```bash
+# Preview deletions
+mdfx clean --dry-run --assets-dir assets/mdfx
+
+# Actually remove orphaned files
+mdfx clean --assets-dir assets/mdfx
+
+# Output:
+#   Deleting: assets/mdfx/old_badge_abc123.svg
+# Deleted: 3 assets (1.2 KB)
+```
+
+### Deterministic Builds
+
+The manifest system capitalizes on hash-based deterministic filenames:
+
+**Same input → Same hash → Same filename → Reproducible builds**
+
+Example:
+```rust
+// Primitive
+Primitive::Swatch { color: "F41C80", style: "flat-square" }
+
+// Deterministic hash (using DefaultHasher on primitive fields)
+hash = 8490176a786b203c
+
+// Deterministic filename
+filename = "swatch_8490176a786b203c.svg"
+
+// Manifest tracks relationship
+{
+  "path": "assets/mdfx/swatch_8490176a786b203c.svg",
+  "sha256": "2c932535cd177cd4...",  // Content hash
+  "primitive": { "kind": "Swatch", "color": "f41c80", ... }
+}
+```
+
+### Future Enhancements
+
+**Smart Caching (v1.1.0):**
+```rust
+// Before writing
+if file_exists && content_hash_matches {
+    return cached_asset();  // Skip disk write
+}
+```
+
+**Incremental Updates:**
+- Only regenerate assets with changed primitives
+- Reuse existing SVGs when possible
+- Track which source files reference which assets
+
+---
+
 ## Component Responsibilities
 
 ### 1. ComponentsRenderer (`src/components.rs`)

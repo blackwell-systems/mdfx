@@ -507,7 +507,7 @@ fn verify_assets(assets_dir: &str) -> Result<(), Error> {
     let manifest = match AssetManifest::load(std::path::Path::new(&manifest_path)) {
         Ok(m) => m,
         Err(_) => {
-            eprintln!("{} {}", "Error:".red().bold(), "manifest.json not found");
+            eprintln!("{} manifest.json not found", "Error:".red().bold());
             eprintln!("Run with --backend svg to generate a manifest.");
             process::exit(1);
         }
@@ -605,7 +605,7 @@ fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
     let manifest = match AssetManifest::load(std::path::Path::new(&manifest_path)) {
         Ok(m) => m,
         Err(_) => {
-            eprintln!("{} {}", "Error:".red().bold(), "manifest.json not found");
+            eprintln!("{} manifest.json not found", "Error:".red().bold());
             eprintln!("Run with --backend svg to generate a manifest.");
             process::exit(1);
         }

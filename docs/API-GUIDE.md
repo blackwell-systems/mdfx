@@ -15,7 +15,7 @@ mdfx uses a Cargo workspace with two packages:
 
 | Package | Purpose | Dependencies |
 |---------|---------|--------------|
-| **`mdfx`** | Core library | 4 deps (serde, serde_json, thiserror, lazy_static) |
+| **`mdfx`** | Core library | 7 deps (serde, serde_json, thiserror, lazy_static, unicode-segmentation, sha2, chrono) |
 | **`mdfx-cli`** | CLI tool | mdfx + CLI deps (clap, colored) |
 
 **For library usage**, add only the `mdfx` crate - no CLI dependencies included.
@@ -1338,6 +1338,502 @@ let output = parser.process(input)?;
 
 ---
 
+## Multi-Backend Rendering
+
+mdfx supports multiple rendering backends for generating visual primitives. The current implementation includes:
+- **ShieldsBackend**: Generates shields.io badge URLs (inline Markdown)
+- **SvgBackend**: Generates local SVG files (future enhancement)
+
+### Renderer Trait
+
+The core rendering abstraction is the `Renderer` trait:
+
+```rust
+use mdfx::renderer::{Renderer, RenderedAsset};
+use mdfx::primitive::Primitive;
+
+pub trait Renderer {
+    fn render(&self, primitive: &Primitive) -> Result<RenderedAsset>;
+}
+```
+
+### RenderedAsset Types
+
+Rendering produces one of two asset types:
+
+```rust
+pub enum RenderedAsset {
+    /// Inline Markdown (e.g., shields.io URL wrapped in ![](url))
+    InlineMarkdown(String),
+
+    /// File-based asset (e.g., generated SVG file)
+    File {
+        /// Relative path to the generated file
+        relative_path: String,
+        /// File contents as bytes
+        bytes: Vec<u8>,
+        /// Markdown reference to embed
+        markdown_ref: String,
+        /// The primitive that generated this asset
+        primitive: Primitive,
+    },
+}
+```
+
+### Using ShieldsBackend
+
+The `ShieldsBackend` generates inline shields.io URLs:
+
+```rust
+use mdfx::renderer::shields::ShieldsBackend;
+use mdfx::renderer::Renderer;
+use mdfx::primitive::Primitive;
+
+let backend = ShieldsBackend::new()?;
+
+let primitive = Primitive::Swatch {
+    color: "F41C80".to_string(),
+    style: "flat-square".to_string(),
+};
+
+let asset = backend.render(&primitive)?;
+
+// asset.to_markdown() returns: "![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)"
+println!("{}", asset.to_markdown());
+```
+
+### Backend Selection
+
+When using the `TemplateParser`, backends are selected via the `--backend` CLI flag:
+
+```bash
+# Use shields.io URLs (default, inline)
+mdfx process input.md --backend shields
+
+# Generate local SVG files (future)
+mdfx process input.md --backend svg
+```
+
+**API Usage:**
+
+The library currently uses `ShieldsBackend` internally. Future versions will allow runtime backend selection:
+
+```rust
+// Future API (not yet implemented)
+let parser = TemplateParser::with_backend(Box::new(SvgBackend::new()?))?;
+```
+
+### Asset Characteristics
+
+**InlineMarkdown:**
+- No file I/O required
+- Instant rendering
+- Depends on external service (shields.io)
+- No caching needed
+
+**File (SVG):**
+- Requires file writing
+- Deterministic filenames (content-hashed)
+- Offline rendering
+- Tracked in manifest (see Asset Manifest System below)
+
+---
+
+## Separators System
+
+The Separators System provides data-driven character resolution for text styling, supporting both named separators and direct Unicode characters.
+
+### Overview
+
+Separators are used with text converters to add visual spacing between characters:
+
+```rust
+let converter = Converter::new()?;
+let result = converter.convert_with_separator("TITLE", "mathbold", "·", 1)?;
+// Output: 𝐓·𝐈·𝐓·𝐋·𝐄
+```
+
+### Separator Resolution
+
+The system supports two input methods:
+
+1. **Named Separators**: Predefined characters from `data/separators.json`
+2. **Direct Unicode**: Any single Unicode character (grapheme cluster)
+
+### SeparatorsData API
+
+```rust
+use mdfx::separators::SeparatorsData;
+
+// Singleton instance (lazy_static)
+let separators = &mdfx::separators::SEPARATORS;
+
+// Resolve named separator
+let char = separators.resolve("dot")?;  // Returns "·"
+
+// Resolve direct Unicode
+let char = separators.resolve("⚡")?;   // Returns "⚡"
+
+// List all named separators
+for (id, sep) in separators.list() {
+    println!("{}: {} ({})", id, sep.char, sep.name);
+}
+```
+
+### Named Separators
+
+**Shipped Separators:**
+
+| ID | Character | Unicode | Name | Example |
+|----|-----------|---------|------|---------|
+| `dot` | `·` | U+00B7 | Middle Dot | 𝐓·𝐈·𝐓·𝐋·𝐄 |
+| `bullet` | `•` | U+2022 | Bullet | 𝐓•𝐈•𝐓•𝐋•𝐄 |
+| `dash` | `─` | U+2500 | Light Horizontal | 𝐓─𝐈─𝐓─𝐋─𝐄 |
+| `bolddash` | `━` | U+2501 | Heavy Horizontal | 𝐓━𝐈━𝐓━𝐋━𝐄 |
+| `arrow` | `→` | U+2192 | Rightward Arrow | 𝐓→𝐈→𝐓→𝐋→𝐄 |
+| `star` | `★` | U+2605 | Black Star | 𝐓★𝐈★𝐓★𝐋★𝐄 |
+| `diamond` | `◆` | U+25C6 | Black Diamond | 𝐓◆𝐈◆𝐓◆𝐋◆𝐄 |
+| `pipe` | `|` | U+007C | Vertical Line | 𝐓|𝐈|𝐓|𝐋|𝐄 |
+| `slash` | `/` | U+002F | Solidus | 𝐓/𝐈/𝐓/𝐋/𝐄 |
+| `double` | `═` | U+2550 | Double Horizontal | 𝐓═𝐈═𝐓═𝐋═𝐄 |
+| `wave` | `∼` | U+223C | Tilde Operator | 𝐓∼𝐈∼𝐓∼𝐋∼𝐄 |
+| `section` | `§` | U+00A7 | Section Sign | 𝐓§𝐈§𝐓§𝐋§𝐄 |
+
+### Using Separators in Templates
+
+**Named separator:**
+```markdown
+{{mathbold:separator=dot}}TITLE{{/mathbold}}
+```
+
+**Direct Unicode:**
+```markdown
+{{mathbold:separator=⚡}}TITLE{{/mathbold}}
+```
+
+**Programmatic usage:**
+```rust
+// Using named separator
+let result = converter.convert_with_separator("BOLD", "mathbold", "·", 1)?;
+
+// Using any Unicode character
+let result = converter.convert_with_separator("FLOW", "mathbold", "→", 1)?;
+
+// Using emoji
+let result = converter.convert_with_separator("ZAP", "mathbold", "⚡", 1)?;
+```
+
+### Grapheme Cluster Support
+
+The system properly handles complex Unicode using grapheme clusters (via `unicode-segmentation` crate):
+
+```rust
+// These all work correctly as single separators
+separators.resolve("👨‍💻")?;  // Emoji with variation selector
+separators.resolve("🇺🇸")?;  // Flag emoji
+separators.resolve("é")?;    // Composed character
+```
+
+**Why this matters:**
+- Simple character counting breaks for emoji: `"👨‍💻".chars().count()` returns 5
+- Grapheme counting works: `"👨‍💻".graphemes(true).count()` returns 1
+- This ensures emoji and complex Unicode work as single separators
+
+### Validation Rules
+
+The resolver applies these validations:
+
+1. **Whitespace trimming**: Leading/trailing spaces removed
+2. **Single grapheme**: Input must be exactly one grapheme cluster
+3. **Reserved characters**: Cannot use `:`, `/`, `}` (template delimiters)
+4. **Empty rejection**: Empty strings are rejected
+
+**Examples:**
+
+```rust
+// Valid
+separators.resolve("·")?;      // ✓ Named separator
+separators.resolve("★")?;      // ✓ Direct Unicode
+separators.resolve("⚡")?;      // ✓ Emoji
+
+// Invalid
+separators.resolve("")?;       // ✗ Empty string
+separators.resolve("  · ")?;   // ✓ Trimmed to "·"
+separators.resolve(":")?;      // ✗ Reserved for templates
+separators.resolve("abc")?;    // ✗ Multiple graphemes
+```
+
+### Error Messages
+
+The resolver provides helpful error messages with suggestions:
+
+```rust
+match separators.resolve("dott") {
+    Err(msg) => println!("{}", msg),
+    // Prints:
+    // Unknown separator 'dott'.
+    //   Did you mean: dot?
+    //   Available named separators: dot, bullet, dash, ...
+    //   Or use any single Unicode character (e.g., separator=⚡)
+    _ => {}
+}
+```
+
+### CLI Commands
+
+**List all separators:**
+```bash
+mdfx separators
+```
+
+**Output:**
+```
+Available Separators
+────────────────────
+
+dot          · (U+00B7)  Middle Dot
+             Example: 𝐓·𝐈·𝐓·𝐋·𝐄
+
+bullet       • (U+2022)  Bullet
+             Example: 𝐓•𝐈•𝐓•𝐋•𝐄
+...
+```
+
+### Data Format
+
+Separators are defined in `data/separators.json`:
+
+```json
+{
+  "version": "1.0.0",
+  "separators": [
+    {
+      "id": "dot",
+      "name": "Middle Dot",
+      "char": "·",
+      "unicode": "U+00B7",
+      "description": "Middle dot separator for elegant spacing",
+      "example": "𝐓·𝐈·𝐓·𝐋·𝐄"
+    }
+  ]
+}
+```
+
+**Adding Custom Separators:**
+
+Edit `data/separators.json` to add new named separators. Changes take effect immediately (file is loaded lazily via `lazy_static`).
+
+---
+
+## Asset Manifest System
+
+The Asset Manifest System tracks generated SVG assets with SHA-256 hashing for verification, cleanup, and CI optimization.
+
+### Overview
+
+When using the `svg` backend, mdfx generates:
+1. **SVG files** in the assets directory (e.g., `assets/mdfx/divider_a3f8e2.svg`)
+2. **manifest.json** listing all assets with metadata
+
+### AssetManifest API
+
+```rust
+use mdfx::manifest::{AssetManifest, AssetEntry, VerificationResult};
+use std::path::Path;
+
+// Create new manifest
+let mut manifest = AssetManifest::new("svg".to_string(), "assets/mdfx".to_string());
+
+// Add asset
+let bytes = b"<svg>...</svg>";
+let primitive = Primitive::Divider { /* ... */ };
+manifest.add_asset(
+    "assets/mdfx/divider_abc123.svg".to_string(),
+    bytes,
+    &primitive,
+    "svg".to_string(),
+);
+
+// Save manifest
+manifest.write(Path::new("assets/mdfx/manifest.json"))?;
+
+// Load manifest
+let manifest = AssetManifest::load(Path::new("assets/mdfx/manifest.json"))?;
+
+// Verify assets
+let results = manifest.verify(Path::new("."));
+for result in results {
+    match result {
+        VerificationResult::Valid { path } => println!("✓ {}", path),
+        VerificationResult::Missing { path } => println!("✗ {} (missing)", path),
+        VerificationResult::HashMismatch { path, expected, actual } => {
+            println!("✗ {} (hash mismatch)", path);
+        }
+        _ => {}
+    }
+}
+```
+
+### Manifest Structure
+
+**manifest.json format:**
+
+```json
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-13T10:30:00Z",
+  "backend": "svg",
+  "assets_dir": "assets/mdfx",
+  "total_assets": 3,
+  "assets": [
+    {
+      "path": "assets/mdfx/divider_a3f8e2.svg",
+      "sha256": "a3f8e2d1c4b5a6f7e8d9c0b1a2f3e4d5c6b7a8f9e0d1c2b3a4f5e6d7c8b9a0f1",
+      "type": "svg",
+      "primitive": {
+        "kind": "Bar",
+        "colors": ["292a2d", "292c34", "f41c80", "282f3c"],
+        "style": "flat-square"
+      },
+      "size_bytes": 1234
+    }
+  ]
+}
+```
+
+### CLI Commands
+
+**Verify asset integrity:**
+```bash
+mdfx verify --assets-dir assets/mdfx
+```
+
+**Output:**
+```
+Manifest: assets/mdfx/manifest.json (2025-12-13T10:30:00Z)
+Backend: svg
+Total assets: 3
+
+Verifying assets...
+  ✓ assets/mdfx/divider_a3f8e2.svg
+  ✓ assets/mdfx/swatch_f41c80.svg
+  ✗ assets/mdfx/badge_rust.svg (missing)
+
+Summary:
+  ✓ Valid: 2
+  ✗ Missing: 1
+  ✗ Hash mismatches: 0
+```
+
+**Clean unreferenced assets:**
+```bash
+# Dry run (preview)
+mdfx clean --assets-dir assets/mdfx --dry-run
+
+# Delete orphaned files
+mdfx clean --assets-dir assets/mdfx
+```
+
+**Output:**
+```
+Manifest: assets/mdfx/manifest.json
+Backend: svg
+
+Scanning for unreferenced assets...
+  - assets/mdfx/old_badge_123abc.svg (orphaned)
+  - assets/mdfx/temp_file.svg (orphaned)
+
+Would delete 2 files (1.2 KB)
+Run without --dry-run to delete.
+```
+
+### Use Cases
+
+#### 1. CI Caching
+
+Cache SVG assets across CI runs:
+
+```yaml
+# .github/workflows/docs.yml
+- name: Cache mdfx assets
+  uses: actions/cache@v3
+  with:
+    path: assets/mdfx
+    key: mdfx-${{ hashFiles('assets/mdfx/manifest.json') }}
+```
+
+**How it works:**
+- Manifest content hash changes only when assets change
+- CI restores cached assets if manifest unchanged
+- Faster builds by skipping SVG regeneration
+
+#### 2. Asset Verification
+
+Verify assets haven't been corrupted or manually edited:
+
+```bash
+# In CI or pre-commit hook
+mdfx verify --assets-dir assets/mdfx
+if [ $? -ne 0 ]; then
+  echo "Asset verification failed!"
+  exit 1
+fi
+```
+
+#### 3. Cleanup
+
+Remove old assets after refactoring:
+
+```bash
+# Regenerate all assets
+mdfx process docs/*.md --backend svg
+
+# Remove orphaned files
+mdfx clean --assets-dir assets/mdfx
+```
+
+### Deterministic Builds
+
+Assets use content-based filenames (SHA-256 hash prefix):
+
+```
+divider_a3f8e2.svg  ← Hash of SVG content
+swatch_f41c80.svg   ← Hash of SVG content
+```
+
+**Benefits:**
+- Same primitive → same filename (reproducible builds)
+- Different content → different filename (no overwrites)
+- CI can detect changes by comparing manifest
+
+### Manifest Metadata
+
+Each asset entry includes:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `path` | string | Relative path from repo root |
+| `sha256` | string | Content hash (64 hex chars) |
+| `type` | string | Asset type (always "svg" for now) |
+| `primitive` | object | Primitive that generated this asset |
+| `size_bytes` | number | File size in bytes |
+
+**Primitive tracking** enables:
+- Reproducible builds (same input → same output)
+- Debug tracing (which template generated this?)
+- Selective regeneration (only rebuild changed primitives)
+
+### Future Enhancements
+
+Planned features:
+
+- **Incremental updates**: Only regenerate changed primitives
+- **Asset deduplication**: Reuse identical assets
+- **Compression tracking**: SVG optimization metadata
+- **Multi-format support**: Track PNG, WebP alongside SVG
+
+---
+
 ## Error Handling
 
 All errors implement `std::error::Error` and use the `thiserror` crate.
@@ -1773,4 +2269,4 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 
 ---
 
-**Last Updated:** 2025-12-12
+**Last Updated:** 2025-12-13
