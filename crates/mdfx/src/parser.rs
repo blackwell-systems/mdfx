@@ -3,16 +3,10 @@ use crate::components::{ComponentOutput, ComponentsRenderer};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
+use crate::registry::{EvalContext, Registry};
 use crate::renderer::shields::ShieldsBackend;
 use crate::renderer::{RenderedAsset, Renderer};
-use crate::separators::SeparatorsData;
 use crate::shields::ShieldsRenderer;
-use lazy_static::lazy_static;
-
-lazy_static! {
-    static ref SEPARATORS: SeparatorsData =
-        SeparatorsData::load().expect("Failed to load separators.json");
-}
 
 /// Template data extracted from parsing
 #[derive(Debug, Clone)]
@@ -74,6 +68,7 @@ pub struct TemplateParser {
     components_renderer: ComponentsRenderer,
     shields_renderer: ShieldsRenderer, // Keep for {{shields:*}} escape hatch
     backend: Box<dyn Renderer>,        // Pluggable rendering backend
+    registry: Registry,                // Unified registry for resolution
 }
 
 impl TemplateParser {
@@ -89,6 +84,7 @@ impl TemplateParser {
         let badge_renderer = BadgeRenderer::new()?;
         let components_renderer = ComponentsRenderer::new()?;
         let shields_renderer = ShieldsRenderer::new()?;
+        let registry = Registry::new()?;
         Ok(Self {
             converter,
             frame_renderer,
@@ -96,6 +92,7 @@ impl TemplateParser {
             components_renderer,
             shields_renderer,
             backend,
+            registry,
         })
     }
 
@@ -304,8 +301,8 @@ impl TemplateParser {
 
                 // Try to parse a frame template
                 if let Some(frame_data) = self.parse_frame_at(&chars, i)? {
-                    // Validate frame exists
-                    if !self.frame_renderer.has_frame(&frame_data.frame_style) {
+                    // Validate frame exists via unified Registry
+                    if self.registry.frame(&frame_data.frame_style).is_none() {
                         return Err(Error::UnknownFrame(frame_data.frame_style));
                     }
 
@@ -327,8 +324,8 @@ impl TemplateParser {
 
                 // Try to parse a badge template
                 if let Some(badge_data) = self.parse_badge_at(&chars, i)? {
-                    // Validate badge exists
-                    if !self.badge_renderer.has_badge(&badge_data.badge_type) {
+                    // Validate badge exists via unified Registry
+                    if self.registry.badge(&badge_data.badge_type).is_none() {
                         return Err(Error::UnknownBadge(badge_data.badge_type));
                     }
 
@@ -417,8 +414,8 @@ impl TemplateParser {
 
                 // Try to parse a style template
                 if let Some(template_data) = self.parse_template_at(&chars, i)? {
-                    // Validate style exists
-                    if !self.converter.has_style(&template_data.style) {
+                    // Validate style exists via unified Registry
+                    if self.registry.style(&template_data.style).is_none() {
                         return Err(Error::UnknownStyle(template_data.style));
                     }
 
@@ -544,11 +541,40 @@ impl TemplateParser {
                     i += 1;
                 }
 
-                // Resolve separator using SeparatorsData (handles validation and suggestions)
-                match SEPARATORS.resolve(&sep_input) {
-                    Ok(sep_char) => separator = Some(sep_char),
-                    Err(err_msg) => {
-                        return Err(Error::ParseError(err_msg));
+                // Resolve separator using unified Registry (inline context)
+                // First, try to resolve as a known glyph
+                if let Some(glyph) = self.registry.glyph(&sep_input) {
+                    // Check context compatibility
+                    if glyph.contexts.contains(&EvalContext::Inline) {
+                        separator = Some(glyph.value.clone());
+                    } else {
+                        return Err(Error::ParseError(format!(
+                            "Glyph '{}' cannot be used in inline context (separators must be inline-compatible)",
+                            sep_input
+                        )));
+                    }
+                } else {
+                    // Not a known glyph - check if it's a single grapheme literal
+                    use unicode_segmentation::UnicodeSegmentation;
+                    let graphemes: Vec<&str> = sep_input.graphemes(true).collect();
+
+                    if graphemes.len() == 1 {
+                        // Single grapheme - accept as literal separator
+                        separator = Some(sep_input.clone());
+                    } else {
+                        // Multi-grapheme unknown name - error with suggestions
+                        let available: Vec<&str> = self.registry.glyphs()
+                            .iter()
+                            .filter(|(_, g)| g.contexts.contains(&EvalContext::Inline))
+                            .map(|(name, _)| name.as_str())
+                            .take(8)
+                            .collect();
+
+                        return Err(Error::ParseError(format!(
+                            "Unknown separator '{}'. Available separators: {}. Or use a single character like '→' or '·'.",
+                            sep_input,
+                            available.join(", ")
+                        )));
                     }
                 }
             } else {
