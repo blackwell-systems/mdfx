@@ -188,20 +188,89 @@ Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━)
 
 ## 𝐈𝐧𝐬𝐭𝐚𝐥𝐥𝐚𝐭𝐢𝐨𝐧
 
-### From crates.io
+mdfx is distributed as two packages: a library crate (`mdfx`) and a CLI tool (`mdfx-cli`).
+
+### CLI Tool
+
+Install the command-line tool to process markdown files:
+
 ```bash
-cargo install mdfx
+cargo install mdfx-cli
 ```
 
-### From source
+This installs the `mdfx` binary for terminal use.
+
+### Library
+
+Add mdfx as a dependency in your Rust project:
+
+```toml
+[dependencies]
+mdfx = "1.0"
+```
+
+Then use it programmatically:
+
+```rust
+use mdfx::{Converter, TemplateParser};
+
+let converter = Converter::new()?;
+let result = converter.convert("HELLO", "mathbold")?;
+// result: "𝐇𝐄𝐋𝐋𝐎"
+```
+
+### From Source
+
 ```bash
 git clone https://github.com/blackwell-systems/mdfx
 cd mdfx
-cargo build --release
+cargo build --release --workspace
 ./target/release/mdfx --version
 ```
 
+## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞
+
+mdfx uses a Cargo workspace with separate library and CLI crates:
+
+```
+mdfx/
+├── Cargo.toml                    # Workspace root
+├── crates/
+│   ├── mdfx/                     # Library crate
+│   │   ├── Cargo.toml           # Package: mdfx
+│   │   ├── data/                # JSON data files
+│   │   └── src/                 # Core library
+│   └── mdfx-cli/                # CLI crate
+│       ├── Cargo.toml           # Package: mdfx-cli
+│       └── src/main.rs          # Binary: mdfx
+```
+
+**Benefits:**
+- Library users don't need CLI dependencies (clap, colored)
+- Clean separation of concerns
+- Binary still named `mdfx` for user experience
+
 ## 𝐔𝐬𝐚𝐠𝐞
+
+### Library API
+
+Use mdfx programmatically in your Rust projects:
+
+```rust
+use mdfx::{Converter, TemplateParser};
+
+// Convert text to Unicode styles
+let converter = Converter::new()?;
+let bold = converter.convert("HELLO", "mathbold")?;
+// "𝐇𝐄𝐋𝐋𝐎"
+
+// Process markdown templates
+let parser = TemplateParser::new()?;
+let result = parser.process("{{mathbold}}TITLE{{/mathbold}}")?;
+// "𝐓𝐈𝐓𝐋𝐄"
+```
+
+See [API Guide](docs/API-GUIDE.md) for comprehensive library documentation.
 
 ### CLI - Process Markdown Files
 ```bash

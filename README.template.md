@@ -188,20 +188,51 @@ Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━)
 
 ## {{mathbold}}Installation{{/mathbold}}
 
-### From crates.io
+mdfx is distributed as two packages: a library crate (`mdfx`) and a CLI tool (`mdfx-cli`).
+
+### CLI Tool
+
+Install the command-line tool:
+
 ```bash
-cargo install mdfx
+cargo install mdfx-cli
 ```
 
-### From source
+### Library
+
+Add to your Rust project:
+
+```toml
+[dependencies]
+mdfx = "1.0"
+```
+
+### From Source
+
 ```bash
 git clone https://github.com/blackwell-systems/mdfx
 cd mdfx
-cargo build --release
+cargo build --release --workspace
 ./target/release/mdfx --version
 ```
 
+## {{mathbold}}Project Structure{{/mathbold}}
+
+Cargo workspace with two crates:
+- **`crates/mdfx`** - Core library (4 dependencies)
+- **`crates/mdfx-cli`** - CLI tool (binary: `mdfx`)
+
 ## {{mathbold}}Usage{{/mathbold}}
+
+### Library API
+
+```rust
+use mdfx::{Converter, TemplateParser};
+
+let converter = Converter::new()?;
+let result = converter.convert("HELLO", "mathbold")?;
+// "𝐇𝐄𝐋𝐋𝐎"
+```
 
 ### CLI - Process Markdown Files
 ```bash

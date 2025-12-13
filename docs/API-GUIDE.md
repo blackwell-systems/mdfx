@@ -1,9 +1,24 @@
 # mdfx API Guide
 
-**Version:** 0.1.0
-**Last Updated:** 2025-12-12
+**Version:** 1.0.0
+**Last Updated:** 2025-12-13
 
-Complete API reference for using mdfx in your Rust projects.
+Complete API reference for using the mdfx library in your Rust projects.
+
+> **Note:** This guide covers the **library API** (`mdfx` crate). For CLI usage, run `mdfx --help` or see the [README](../README.md).
+
+---
+
+## Workspace Structure
+
+mdfx uses a Cargo workspace with two packages:
+
+| Package | Purpose | Dependencies |
+|---------|---------|--------------|
+| **`mdfx`** | Core library | 4 deps (serde, serde_json, thiserror, lazy_static) |
+| **`mdfx-cli`** | CLI tool | mdfx + CLI deps (clap, colored) |
+
+**For library usage**, add only the `mdfx` crate - no CLI dependencies included.
 
 ---
 
@@ -16,6 +31,7 @@ Complete API reference for using mdfx in your Rust projects.
 - [FrameRenderer API](#framerenderer-api)
 - [BadgeRenderer API](#badgerenderer-api)
 - [TemplateParser API](#templateparser-api)
+- [Multi-Backend Rendering](#multi-backend-rendering) 🆕
 - [Error Handling](#error-handling)
 - [Advanced Usage](#advanced-usage)
 - [Performance Tips](#performance-tips)
@@ -26,12 +42,14 @@ Complete API reference for using mdfx in your Rust projects.
 
 ### Installation
 
-Add to your `Cargo.toml`:
+Add mdfx as a library dependency:
 
 ```toml
 [dependencies]
-mdfx = "0.1"
+mdfx = "1.0"
 ```
+
+**Do NOT** install `mdfx-cli` as a library dependency - that's the CLI tool package.
 
 ### Quick Start (Recommended: Components)
 

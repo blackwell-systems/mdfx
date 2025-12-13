@@ -11,10 +11,14 @@ for READMEs, documentation, and presentations without images or external depende
 
 ## Quick Start
 
-Install mdfx:
+mdfx is distributed as two packages: a library (`mdfx`) and a CLI tool (`mdfx-cli`).
+
+### CLI Tool
+
+Install the command-line tool:
 
 ```bash
-cargo install mdfx
+cargo install mdfx-cli
 ```
 
 Create a markdown file with template syntax:
@@ -38,6 +42,40 @@ mdfx process input.md -o output.md
 ```
 
 The result is rendered markdown with Unicode styling and visual components.
+
+### Library Usage
+
+Add mdfx to your Rust project:
+
+```toml
+[dependencies]
+mdfx = "1.0"
+```
+
+Use it programmatically:
+
+```rust
+use mdfx::{Converter, TemplateParser};
+
+// Direct text conversion
+let converter = Converter::new()?;
+let result = converter.convert("HELLO", "mathbold")?;
+// "𝐇𝐄𝐋𝐋𝐎"
+
+// Template processing
+let parser = TemplateParser::new()?;
+let output = parser.process("{{mathbold}}TITLE{{/mathbold}}")?;
+// "𝐓𝐈𝐓𝐋𝐄"
+```
+
+## Project Structure
+
+mdfx uses a Cargo workspace with two crates:
+
+- **`crates/mdfx`** - Core library (4 dependencies: serde, serde_json, thiserror, lazy_static)
+- **`crates/mdfx-cli`** - CLI tool (depends on mdfx + clap, colored)
+
+This separation ensures library users don't need CLI dependencies. The binary is still named `mdfx` for a seamless user experience.
 
 ## Core Features
 

@@ -1,15 +1,17 @@
 # mdfx Architecture
 
-**Version:** 0.1.0
-**Last Updated:** 2025-12-12
+**Version:** 1.0.0
+**Last Updated:** 2025-12-13
 
 ## Table of Contents
 
+- [Workspace Structure](#workspace-structure) 🆕
 - [System Overview](#system-overview)
 - [Three-Layer Architecture](#three-layer-architecture)
 - [Component Responsibilities](#component-responsibilities)
 - [Expansion Model](#expansion-model)
 - [Parser Design](#parser-design)
+- [Multi-Backend Rendering](#multi-backend-rendering) 🆕
 - [Data Packaging](#data-packaging)
 - [Performance Characteristics](#performance-characteristics)
 - [Key Design Decisions](#key-design-decisions)
@@ -17,9 +19,78 @@
 
 ---
 
+## Workspace Structure
+
+mdfx uses a Cargo workspace to separate library and CLI concerns:
+
+```
+mdfx/
+├── Cargo.toml                    # Workspace root
+│   └── [workspace.package]       # Shared metadata
+├── crates/
+│   ├── mdfx/                     # Core library
+│   │   ├── Cargo.toml           # Package: mdfx
+│   │   ├── data/                # JSON data files
+│   │   │   ├── styles.json
+│   │   │   ├── components.json
+│   │   │   ├── palette.json
+│   │   │   ├── shields.json
+│   │   │   ├── frames.json
+│   │   │   └── badges.json
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── converter.rs
+│   │       ├── parser.rs
+│   │       ├── components.rs
+│   │       ├── primitive.rs
+│   │       ├── renderer/
+│   │       │   ├── mod.rs
+│   │       │   ├── shields.rs
+│   │       │   └── svg.rs
+│   │       └── ...
+│   └── mdfx-cli/                # CLI application
+│       ├── Cargo.toml           # Package: mdfx-cli
+│       └── src/
+│           └── main.rs          # Binary: mdfx
+```
+
+### Design Rationale
+
+**Library Crate (`mdfx`):**
+- Minimal dependencies (4 total)
+- No CLI-specific deps (clap, colored excluded)
+- Can be embedded in other Rust applications
+- Smaller compile times for library users
+
+**CLI Crate (`mdfx-cli`):**
+- Thin wrapper around library
+- Handles argument parsing (clap)
+- Terminal formatting (colored)
+- Binary named `mdfx` for UX
+
+### Dependency Analysis
+
+**Library (`mdfx`):**
+```toml
+serde = "1.0"          # JSON deserialization
+serde_json = "1.0"     # Data file loading
+thiserror = "1.0"      # Error handling
+lazy_static = "1.4"    # Static data loading
+```
+
+**CLI (`mdfx-cli`):**
+```toml
+mdfx = { path = "../mdfx" }     # Core library
+clap = "4.4"                     # Argument parsing
+clap_complete = "4.4"            # Shell completions
+colored = "2.1"                  # Terminal colors
+```
+
+---
+
 ## System Overview
 
-mdfx is a markdown preprocessor that transforms text using Unicode character mappings, decorative frames, and shields.io badges. The system consists of **five primary components** working together in a **three-layer pipeline architecture**.
+mdfx is a markdown preprocessor that transforms text using Unicode character mappings, decorative frames, and multi-backend rendering. The library consists of **five primary components** working together in a **three-layer pipeline architecture**.
 
 ### Three Layers
 

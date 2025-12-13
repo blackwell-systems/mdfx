@@ -1,9 +1,16 @@
 # mdfx
 
-> Unicode text effects for markdown and beyond
+> Markdown effects: Unicode text styling and UI components
 
+**CLI Tool:**
 ```bash
-cargo install mdfx
+cargo install mdfx-cli
+```
+
+**Library:**
+```toml
+[dependencies]
+mdfx = "1.0"
 ```
 
 - **19 Unicode Styles** - mathbold, script, fraktur, fullwidth, and more
