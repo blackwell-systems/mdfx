@@ -15,6 +15,7 @@
   - [CLI Commands](/#cli-commands)
 
 - **🔧 Technical Docs**
+  - [Template Syntax](/TEMPLATE-SYNTAX.md)
   - [Architecture](/ARCHITECTURE.md)
   - [API Guide](/API-GUIDE.md)
   - [Parser Design](/parser-design.md)
