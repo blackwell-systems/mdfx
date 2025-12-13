@@ -65,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dependency count increased** - From 4 to 7: added unicode-segmentation, sha2, chrono
 - **RenderedAsset::File variant** - Now includes `primitive` field for manifest tracking
 - **Documentation theme** - Changed from pink (#f41c80) to blue (#4a9eff) to match Blackwell Systems branding
-- **Test count** - Increased from 189 to 217 tests (21 new tests for GitHub blocks and whitespace handling)
+- **Test count** - Increased from 189 to 237 tests (21 new tests for GitHub blocks and whitespace handling, 20 new tests for badge style control)
 - **PostProcess enum** - Now derives `Default` (clippy optimization)
 
 ### Fixed
@@ -78,6 +78,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-12-13
 
 ### Added
+
+#### Badge Style Control
+
+- **5 visual styles** for all primitive components (divider, swatch, tech, status):
+  - **`flat`** - Rounded corners (rx=3) for friendly appearance
+  - **`flat-square`** - Sharp corners (rx=0), default, modern look
+  - **`for-the-badge`** - Tall blocks (height=28) for prominence
+  - **`plastic`** - Shiny gradient overlay for retro 3D effect
+  - **`social`** - Very rounded (rx=10) for social media style
+- **Syntax:** `{{ui:swatch:COLOR:style=STYLE/}}` - Optional style parameter
+- **Default behavior:** Omitting `style=` uses `flat-square` (backward compatible)
+- **Cross-backend support:** Works with both shields.io URLs and local SVG generation
+- **SVG metrics system:** Style-aware rendering (rx, height, gradient overlays)
+- **Deterministic hashing:** Different styles produce unique filenames
+- **Mix and match:** Compose blocks with different styles ("Minecraft bricks")
+- **20 new tests:** 11 shields.io style passthrough, 8 SVG rendering, 1 alias update
+
+**Usage:**
+```markdown
+{{ui:swatch:F41C80:style=flat/}}              ← Rounded
+{{ui:swatch:F41C80:style=for-the-badge/}}     ← Tall
+{{ui:divider:style=plastic/}}                 ← Shiny divider
+```
+
+**Design flexibility:** Create visual variety by mixing styles in compositions:
+```markdown
+{{ui:swatch:FF0000:style=flat/}}{{ui:swatch:FF0000:style=flat-square/}}{{ui:swatch:FF0000:style=for-the-badge/}}
+```
+
+**Rationale:** Users need different "brick types" for creative design compositions. Like Minecraft blocks, having variety in shape (rounded, sharp, tall) and texture (shiny, flat) enables richer visual storytelling in READMEs.
 
 #### GitHub Blocks
 
@@ -102,7 +132,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Breaking changes in v2.0!
 {{/ui}}
 
-{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
+{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:237/}}
 ```
 
 **Rationale:** GitHub's Markdown renderer has strict constraints (no custom HTML/CSS). These components work within those constraints by using blockquotes and shields.io badges, ensuring READMEs look professional while remaining portable.

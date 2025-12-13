@@ -2,7 +2,7 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-217_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Tests](https://img.shields.io/badge/tests-237_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 [![Crates.io](https://img.shields.io/crates/v/mdfx.svg)](https://crates.io/crates/mdfx)
 
 Welcome to the mdfx documentation site! This is your navigation hub for all documentation.
@@ -29,6 +29,15 @@ Welcome to the mdfx documentation site! This is your navigation hub for all docu
 - [CLI Commands](#cli-commands) - Complete command reference
 
 ## 🔧 Technical Documentation
+
+### Core Design
+
+- **[Design Document](DESIGN.md)** - **⭐ Start here**: What mdfx is (compiler + design system)
+- **[Specification](SPEC.md)** - Stability contracts, versioning policy, API guarantees
+- **[Evaluation Contexts](CONTEXTS.md)** - The key to safe composition (inline vs block)
+- **[Target Abstraction](TARGETS.md)** - Multi-surface rendering (GitHub, GitLab, PyPI, npm)
+
+### Implementation
 
 - [Template Syntax](TEMPLATE-SYNTAX.md) - Canonical syntax reference with grammar specification
 - [Architecture](ARCHITECTURE.md) - System design, workspace structure, and multi-backend architecture

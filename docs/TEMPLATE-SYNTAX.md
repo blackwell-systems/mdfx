@@ -153,13 +153,16 @@ Key-value pairs with equals (`=`)
 
 **Used by:**
 - Style templates: `separator=`, `spacing=`
-- Primitive templates: `color=`, `style=`, `colors=`
+- Primitive templates: `color=`, `colors=`
+- UI components: `style=` (badge style control)
 
 **Examples:**
 ```markdown
 {{mathbold:separator=dot}}TEXT{{/mathbold}}
 {{mathbold:separator=dot:spacing=1}}TEXT{{/mathbold}}
 {{shields:block:color=F41C80:style=flat-square/}}
+{{ui:swatch:F41C80:style=flat/}}
+{{ui:divider:style=for-the-badge/}}
 ```
 
 **Rules:**
@@ -197,6 +200,40 @@ Components are high-level semantic elements that expand to other templates.
 {{ui:component_name/}}                         ← Self-closing
 {{ui:component_name:arg1/}}                    ← With positional args
 {{ui:component_name:arg1:arg2}}content{{/ui}}  ← Block with args
+{{ui:component_name:arg:style=STYLE/}}         ← With badge style control
+```
+
+### Badge Style Control
+
+All primitive-based components (divider, swatch, tech, status) support optional `style=` parameter:
+
+| Style | Appearance | Shields.io | SVG |
+|-------|------------|-----------|-----|
+| `flat` | Rounded corners | ✓ | rx=3, h=20 |
+| `flat-square` | Sharp corners (default) | ✓ | rx=0, h=20 |
+| `for-the-badge` | Tall blocks | ✓ | rx=3, h=28 |
+| `plastic` | Shiny gradient | ✓ | rx=3, gradient overlay |
+| `social` | Very rounded | ✓ | rx=10, h=20 |
+
+**Syntax:**
+```markdown
+{{ui:swatch:F41C80:style=flat/}}              ← Rounded corners
+{{ui:swatch:F41C80:style=flat-square/}}       ← Sharp corners
+{{ui:swatch:F41C80:style=for-the-badge/}}     ← Tall block
+{{ui:swatch:F41C80:style=plastic/}}           ← Shiny effect
+{{ui:swatch:F41C80:style=social/}}            ← Very rounded
+{{ui:swatch:F41C80/}}                         ← Defaults to flat-square
+```
+
+**Applies to:**
+- `{{ui:divider:style=STYLE/}}`
+- `{{ui:swatch:COLOR:style=STYLE/}}`
+- `{{ui:tech:LOGO:style=STYLE/}}`
+- `{{ui:status:LEVEL:style=STYLE/}}`
+
+**Mix styles for design variety ("Minecraft bricks"):**
+```markdown
+{{ui:swatch:FF0000:style=flat/}}{{ui:swatch:00FF00:style=for-the-badge/}}{{ui:swatch:0000FF:style=plastic/}}
 ```
 
 ### Shipped Components
@@ -218,29 +255,37 @@ Components are high-level semantic elements that expand to other templates.
 **divider:**
 ```markdown
 {{ui:divider/}}
+{{ui:divider:style=STYLE/}}
 ```
-- No arguments
-- Expands to shields.io bar with theme colors
+- No positional arguments
+- Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
+- Expands to multi-color bar with theme colors
 
 **swatch:**
 ```markdown
 {{ui:swatch:COLOR/}}
+{{ui:swatch:COLOR:style=STYLE/}}
 ```
 - 1 arg: color name (palette) or 6-digit hex
-- Examples: `{{ui:swatch:accent/}}`, `{{ui:swatch:FF6B35/}}`
+- Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
+- Examples: `{{ui:swatch:accent/}}`, `{{ui:swatch:FF6B35:style=flat/}}`
 
 **tech:**
 ```markdown
 {{ui:tech:LOGO_NAME/}}
+{{ui:tech:LOGO_NAME:style=STYLE/}}
 ```
 - 1 arg: Simple Icons slug (lowercase)
-- Examples: `{{ui:tech:rust/}}`, `{{ui:tech:python/}}`
+- Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
+- Examples: `{{ui:tech:rust/}}`, `{{ui:tech:python:style=plastic/}}`
 
 **status:**
 ```markdown
 {{ui:status:LEVEL/}}
+{{ui:status:LEVEL:style=STYLE/}}
 ```
 - 1 arg: `success`, `warning`, `error`, `info`
+- Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
 - Renders colored block badge
 
 **header:**

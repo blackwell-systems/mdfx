@@ -2,12 +2,15 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-217_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Tests](https://img.shields.io/badge/tests-237_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 
-𝗠𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗲𝗳𝗳𝗲𝗰𝘁𝘀: 𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝘀𝘁𝘆𝗹𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗜 𝗰𝗼𝗺𝗽𝗼𝗻𝗲𝗻𝘁𝘀
+𝗠𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗰𝗼𝗺𝗽𝗶𝗹𝗲𝗿 𝘄𝗶𝘁𝗵 𝘁𝗮𝗿𝗴𝗲𝘁-𝗮𝘄𝗮𝗿𝗲 𝗿𝗲𝗻𝗱𝗲𝗿𝗶𝗻𝗴
 
-Transform text into various Unicode styles through a powerful template system. Create distinctive visual elements
-for READMEs, documentation, and presentations without images or external dependencies.
+A design system + compiler for markdown. Write once with semantic templates, compile to target-optimized output (GitHub, GitLab, PyPI). Deterministic builds, reproducible assets, version-controlled styling.
+
+**What mdfx is**: A DSL for markdown with semantic primitives (dividers, swatches, badges, styled text) that compile to target-specific markdown + optional assets. Think "Tailwind for markdown" — portable, reproducible, target-aware.
+
+**What mdfx is not**: Yet another badge generator or markdown renderer. This is a build step.
 
 ## 𝐐𝐮𝐢𝐜𝐤 𝐒𝐭𝐚𝐫𝐭
 
@@ -70,18 +73,26 @@ frames, and character transformations.
 {{ui:divider/}}
 ```
 
-**Color Swatches** - Decorative color blocks
+**Color Swatches** - Decorative color blocks with 5 visual styles
 ```markdown
-{{ui:swatch:accent/}}
-{{ui:swatch:success/}}
-{{ui:swatch:F41C80/}}  ← Any hex color
+{{ui:swatch:accent/}}                      ← Flat-square (default)
+{{ui:swatch:success:style=flat/}}          ← Rounded corners
+{{ui:swatch:F41C80:style=for-the-badge/}}  ← Tall block
+{{ui:swatch:EAB308:style=plastic/}}        ← Shiny gradient
+{{ui:swatch:22C55E:style=social/}}         ← Very rounded
 ```
 
-Compose multiple swatches for visual elements:
+**Badge Styles** ("Minecraft bricks"):
+```markdown
+{{ui:swatch:F41C80:style=flat/}} {{ui:swatch:F41C80:style=flat-square/}} {{ui:swatch:F41C80:style=for-the-badge/}} {{ui:swatch:F41C80:style=plastic/}} {{ui:swatch:F41C80:style=social/}}
+```
+![](https://img.shields.io/badge/-%20-F41C80?style=flat) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=for-the-badge) ![](https://img.shields.io/badge/-%20-F41C80?style=plastic) ![](https://img.shields.io/badge/-%20-F41C80?style=social)
+
+**Compose multiple swatches:**
 ```markdown
 {{ui:swatch:F41C80/}} {{ui:swatch:EAB308/}} {{ui:swatch:22C55E/}} {{ui:swatch:4A9EFF/}} {{ui:swatch:8B5CF6/}}
 ```
-Renders as: ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) ![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)
+![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) ![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)
 
 **Status Indicators** - Colored badges
 ```markdown
@@ -135,7 +146,7 @@ Breaking changes in v2.0!
 
 **Status Items** - Inline status badges for project metadata
 ```markdown
-{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
+{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:237/}}
 ```
 
 These components work within GitHub's Markdown constraints (no custom HTML/CSS), using blockquotes and shields.io badges. See [examples/github-blocks.md](examples/github-blocks.md) for a complete gallery.
@@ -748,7 +759,7 @@ For complete syntax reference including all tag types, parameters, nesting rules
 - Template composition and nesting
 - Multi-backend rendering (shields.io, SVG)
 - CLI and Rust library
-- 217 passing tests
+- 237 passing tests
 
 **v1.2.0 Roadmap:**
 - Grid component (table generation)
@@ -771,8 +782,18 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 𝐋𝐢𝐧𝐤𝐬
 
+### Core Design (Start Here)
+
+- **[Design Document](docs/DESIGN.md)** - What mdfx is: compiler + design system
+- **[Specification](docs/SPEC.md)** - Stability contracts and versioning policy
+- **[Evaluation Contexts](docs/CONTEXTS.md)** - Safe composition (inline vs block)
+- **[Target Abstraction](docs/TARGETS.md)** - Multi-surface rendering strategy
+
+### Implementation
+
 - [Documentation](docs/)
 - [Examples](examples/)
-- [Architecture Design](docs/ARCHITECTURE.md)
+- [Architecture](docs/ARCHITECTURE.md)
 - [API Guide](docs/API-GUIDE.md)
-- [Components Design](docs/COMPONENTS.md)
+- [Template Syntax](docs/TEMPLATE-SYNTAX.md)
+- [Components](docs/COMPONENTS.md)

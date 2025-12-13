@@ -4,27 +4,28 @@
     "divider": {
       "type": "native",
       "self_closing": true,
-      "description": "Visual divider bar with themed colors",
+      "description": "Visual divider bar with themed colors. Optional: style= (flat, flat-square, for-the-badge, plastic, social)",
+      "args": [],
       "template": ""
     },
     "swatch": {
       "type": "native",
       "self_closing": true,
-      "description": "Single color block",
+      "description": "Single color block. Optional: style= (flat, flat-square, for-the-badge, plastic, social)",
       "args": ["color"],
       "template": ""
     },
     "tech": {
       "type": "native",
       "self_closing": true,
-      "description": "Technology logo badge (uses Simple Icons)",
+      "description": "Technology logo badge (uses Simple Icons). Optional: style= (flat, flat-square, for-the-badge, plastic, social)",
       "args": ["logo"],
       "template": ""
     },
     "status": {
       "type": "native",
       "self_closing": true,
-      "description": "Status indicator block",
+      "description": "Status indicator block. Optional: style= (flat, flat-square, for-the-badge, plastic, social)",
       "args": ["level"],
       "template": ""
     },
