@@ -7,9 +7,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Data-Driven Separator System
+
+- **12 named separators** - Predefined separators with documentation: `dot`, `bullet`, `dash`, `bolddash`, `arrow`, `star`, `diamond`, `square`, `circle`, `pipe`, `slash`, `tilde`
+- **Direct Unicode separator support** - Use any single grapheme cluster as separator: `{{mathbold:separator=⚡}}TEXT{{/mathbold}}`
+- **Grapheme cluster support** - Properly handles emoji with variation selectors (👨‍💻), flag emoji (🇺🇸), and composed characters
+- **Validation & normalization** - Automatic whitespace trimming, template delimiter rejection (`:`, `/`, `}`), empty input prevention
+- **Enhanced error messages** - "Did you mean" suggestions for typos, lists all available separators
+- **New module: `separators.rs`** - Loads `data/separators.json` with lazy_static
+- **New CLI command: `mdfx separators`** - List all available separators with `--examples` flag
+- **New dependency: `unicode-segmentation`** - Proper grapheme cluster counting
+
+#### Asset Manifest System
+
+- **AssetManifest** - Tracks all generated SVG assets with metadata
+- **Automatic manifest generation** - `manifest.json` written alongside assets when using `--backend svg`
+- **SHA-256 hashing** - Content-based verification for each asset
+- **Primitive tracking** - Full primitive parameters preserved in manifest for reproducibility
+- **RFC 3339 timestamps** - Build time tracking
+- **New module: `manifest.rs`** - Complete manifest API with verification support
+- **New dependencies:** `sha2` (hashing), `chrono` (timestamps)
+
+**Manifest Format:**
+```json
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-13T17:31:25Z",
+  "backend": "svg",
+  "assets_dir": "assets/mdfx",
+  "total_assets": 7,
+  "assets": [
+    {
+      "path": "assets/mdfx/swatch_8490176a786b203c.svg",
+      "sha256": "2c932535cd177cd4...",
+      "type": "swatch",
+      "primitive": { "kind": "Swatch", "color": "f41c80", "style": "flat-square" },
+      "size_bytes": 143
+    }
+  ]
+}
+```
+
+#### Documentation
+
+- **SECURITY.md** - Vulnerability reporting process, security best practices, coordinated disclosure policy
+- **CONTRIBUTING.md** - Development setup, code style, commit conventions, PR process, project structure guide
+- **CODE_OF_CONDUCT.md** - Contributor Covenant 2.1
+- **ROADMAP.md** - v1.1-v1.3 feature planning with priority matrix
+- **Comprehensive documentation hub** - Restructured docs/README.md with organized navigation similar to dotclaude
+
 ### Changed
 
 - **Project renamed from utf8fx to mdfx** - The new name better reflects the tool's focus on markdown enhancement. "mdfx" (markdown effects) is more descriptive than "utf8fx" for a tool specifically designed to transform markdown with Unicode styling and UI components.
+- **Dependency count increased** - From 4 to 7: added unicode-segmentation, sha2, chrono
+- **RenderedAsset::File variant** - Now includes `primitive` field for manifest tracking
+- **Documentation theme** - Changed from pink (#f41c80) to blue (#4a9eff) to match Blackwell Systems branding
+
+### Fixed
+
+- **Separator resolution** - Now data-driven via separators.json instead of hardcoded match statement
+- **Test coverage** - Fixed obsolete test in renderer/mod.rs for new RenderedAsset structure
 
 ## [1.0.0] - 2025-12-13
 
@@ -70,10 +129,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Maps primitives to ShieldsRenderer methods
   - Returns inline Markdown: `InlineMarkdown("![](https://...)")`
 
-- **SvgBackend** - Planned for v1.1.0+
-  - Will generate local SVG files with hash-based naming
-  - Returns file assets: `FileAsset { path, markdown }`
-  - Architecture ready, implementation pending
+- **SvgBackend** - Local SVG file generation (shipped in v1.0.0)
+  - Generates deterministic hash-based filenames
+  - Returns file assets: `File { relative_path, bytes, markdown_ref, primitive }`
+  - Supports all primitives: Swatch, Divider, Tech, Status
+  - CLI usage: `mdfx process --backend svg --assets-dir assets/mdfx input.md`
 
 #### New Components
 
