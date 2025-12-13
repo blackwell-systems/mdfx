@@ -7,18 +7,20 @@
 
 ## Implementation Status
 
-**COMPLETED:**
+**COMPLETED (v1.0.0):**
 - Inline frames (prefix/suffix decoration)
-- 15 frame styles (gradient, solid, lines, arrows, bullets)
+- 27 frame styles: gradient, solid, lines (light/bold/double/dashed), blocks, arrows, bullets, brackets (lenticular, angle, guillemet), symbols (star, diamond, finger, fisheye, asterism), arcs
 - Frame template syntax: `{{frame:style}}content{{/frame}}`
 - Recursive processing (frames can contain styled text)
-- Full composition support (style + separator + frame)
-- 88 tests passing
+- Full composition support (style + separator + frame + badges)
+- Badge component (6 types: circle, negative-circle, double-circle, paren, period, paren-letter)
+- 113 tests passing
+- Comprehensive documentation (API-GUIDE.md, ARCHITECTURE.md)
 
-**📋 FUTURE:**
-- Full box frames (multi-line rectangular boxes)
+**FUTURE (v1.1.0+):**
+- Full box frames (multi-line rectangular boxes with borders)
 - Box width calculation for Unicode characters
-- Multiline content wrapping
+- Multiline content wrapping within boxes
 
 ---
 
@@ -55,20 +57,20 @@
 
 ### Anti-Patterns to Avoid
 
-❌ **Feature sprawl** - Adding every possible option
-**Focused features** - Each feature solves a real problem
+**AVOID: Feature sprawl** - Adding every possible option
+**DO: Focused features** - Each feature solves a real problem
 
-❌ **Inconsistent syntax** - Different template styles for each feature
-**Unified syntax** - All templates use same pattern
+**AVOID: Inconsistent syntax** - Different template styles for each feature
+**DO: Unified syntax** - All templates use same pattern
 
-❌ **Monolithic functions** - 500-line methods that do everything
-**Small, composable functions** - Single responsibility
+**AVOID: Monolithic functions** - 500-line methods that do everything
+**DO: Small, composable functions** - Single responsibility
 
-❌ **Hard-coded values** - Character mappings in code
-**Data-driven** - All mappings in JSON files
+**AVOID: Hard-coded values** - Character mappings in code
+**DO: Data-driven** - All mappings in JSON files
 
-❌ **Breaking changes** - New features break old templates
-**Backward compatibility** - Old templates always work
+**AVOID: Breaking changes** - New features break old templates
+**DO: Backward compatibility** - Old templates always work
 
 ### How Frames Fit the Architecture
 
@@ -149,12 +151,12 @@ utf8fx convert --box double --preset github "Text"
 **Best Practices:**
 ```markdown
 GOOD - Short, impactful
-{{box:double}}⚠️  WARNING{{/box}}
+{{box:double}}WARNING{{/box}}
 
 GOOD - Reasonable width
 {{box:heavy}}INSTALLATION REQUIRED{{/box}}
 
-❌ BAD - Too wide for GitHub
+BAD - Too wide for GitHub
 {{box:light}}This is a very long sentence that will probably overflow the GitHub README container and look broken{{/box}}
 
 BETTER - Break into multiple lines
@@ -199,14 +201,14 @@ Before releasing frame features, test in:
 ### 1. Warning Banners
 
 ```markdown
-{{box:heavy}}⚠️  WARNING: This action cannot be undone{{/box}}
+{{box:heavy}}WARNING: This action cannot be undone{{/box}}
 ```
 
 Output:
 ```
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ ⚠️  WARNING: This action cannot be undone ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ WARNING: This action cannot be undone ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
 ### 2. Section Headers
