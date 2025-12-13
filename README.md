@@ -43,7 +43,7 @@ or CLI commands like `mdfx convert --style script "Elegant"`.
 
 Transform Unicode styling from a frustrating manual process into something as easy as markdown formatting.
 
-## 𝐖𝐡𝐲 𝐮𝐭𝐟𝟖𝐟𝐱?
+## 𝐖𝐡𝐲 𝐦𝐝𝐟𝐱?
 
 **Why not just copy/paste Unicode characters?**
 
