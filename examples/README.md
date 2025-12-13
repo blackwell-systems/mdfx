@@ -334,12 +334,29 @@ Add characters between letters:
 → 𝒩•𝑜•𝓉•ℯ
 ```
 
-**Available Separators:**
-- `dot` (·) - Middle dot
-- `bullet` (•) - Bullet
-- `dash` (─) - Horizontal line
-- `bolddash` (━) - Heavy line
-- `arrow` (→) - Rightward arrow
+**Named Separators:**
+- `dot` (·) - Middle dot for elegant spacing
+- `bullet` (•) - Bullet point for emphasis
+- `dash` (─) - Box drawing light horizontal line
+- `bolddash` (━) - Box drawing heavy horizontal line
+- `arrow` (→) - Rightward arrow for flow visualization
+- `star` (★) - Black star for decorative separation
+- `diamond` (◆) - Black diamond for geometric separation
+- `square` (■) - Black square for bold separation
+- `circle` (●) - Black circle for soft separation
+- `pipe` (|) - Vertical bar for technical contexts
+- `slash` (/) - Forward slash for path-like separation
+- `tilde` (~) - Tilde for wave-like separation
+
+**Direct Unicode Characters:**
+Any single Unicode character works:
+```markdown
+{{mathbold:separator=⚡}}LIGHTNING{{/mathbold}}
+{{mathbold:separator=★}}STARS{{/mathbold}}
+{{mathbold:separator=|}}PIPES{{/mathbold}}
+```
+
+Run `mdfx separators` to see all available named separators.
 
 ### With Spacing
 

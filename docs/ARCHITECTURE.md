@@ -935,10 +935,11 @@ let styles: StylesData = serde_json::from_str(data)?;
 | `frames.json` | Prefix/suffix decorations (27 frames) | ~3KB | FrameRenderer |
 | `badges.json` | Enclosed character mappings (6 types) | ~2KB | BadgeRenderer |
 | `shields.json` | Shield styles + palette (4 styles) | ~1KB | ShieldsRenderer |
+| `separators.json` | Named separator characters (12 separators) | ~2KB | TemplateParser |
 | `components.json` | UI component definitions (6 components) | ~1KB | ComponentsRenderer |
 | `palette.json` | Design tokens (15 colors) | <1KB | ComponentsRenderer |
 
-**Total:** ~22KB embedded data
+**Total:** ~24KB embedded data
 
 ---
 

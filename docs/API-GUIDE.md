@@ -742,7 +742,12 @@ let result = converter.convert_with_separator("BOLD", "mathbold", "━", 2)?;
 - `─` (U+2500) - Box drawing horizontal
 - `━` (U+2501) - Box drawing heavy horizontal
 - `→` (U+2192) - Rightward arrow
-- `⋅` (U+22C5) - Dot operator
+- `★` (U+2605) - Black star
+- `◆` (U+25C6) - Black diamond
+- `|` (U+007C) - Vertical bar
+- `⚡` - Lightning bolt (any Unicode character works!)
+
+**Note:** In template syntax, use named separators from `data/separators.json` (e.g., `separator=dot`) or any single Unicode character directly (e.g., `separator=⚡`). Named separators provide discoverability - run `mdfx separators` to see all 12 predefined options.
 
 #### `has_style(name: &str) -> bool`
 

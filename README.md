@@ -176,9 +176,12 @@ Transform text into 19 different Unicode character styles.
 {{mathbold:separator=dot}}TITLE{{/mathbold}}     → 𝐓·𝐈·𝐓·𝐋·𝐄
 {{mathbold:separator=bullet}}CODE{{/mathbold}}   → 𝐂•𝐎•𝐃•𝐄
 {{mathbold:separator=arrow}}FLOW{{/mathbold}}    → 𝐅→𝐎→𝐖
+{{mathbold:separator=⚡}}POWER{{/mathbold}}       → 𝐏⚡𝐎⚡𝐖⚡𝐄⚡𝐑
 ```
 
-Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━), `arrow` (→)
+**12 named separators:** `dot`, `bullet`, `dash`, `bolddash`, `arrow`, `star`, `diamond`, `square`, `circle`, `pipe`, `slash`, `tilde`
+
+**Or use any Unicode character:** Any single character works directly. Run `mdfx separators` for details.
 
 **Spacing** - Add spaces between characters
 ```markdown
