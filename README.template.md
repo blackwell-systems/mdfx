@@ -1,11 +1,11 @@
-# ｕ ｔ ｆ ８ ｆ ｘ
+# {{fullwidth:spacing=1}}utf8fx{{/fullwidth}}
 
-𝒰𝓃𝒾𝒸ℴ𝒹ℯ 𝓉ℯ𝓍𝓉 ℯ𝒻𝒻ℯ𝒸𝓉𝓈 𝒻ℴ𝓇 𝓂𝒶𝓇𝓀𝒹ℴ𝓌𝓃 𝒶𝓃𝒹 𝒷ℯ𝓎ℴ𝓃𝒹
+{{script}}Unicode text effects for markdown and beyond{{/script}}
 
 Transform text into various Unicode styles (mathematical bold, full-width, negative squared, and more)
 through a powerful markdown preprocessing system.
 
-## 𝐌𝐨𝐭𝐢𝐯𝐚𝐭𝐢𝐨𝐧
+## {{mathbold}}Motivation{{/mathbold}}
 
 Unicode offers a plethora of diverse and interesting styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful
 Ⓒⓘⓡⓒⓛⓔⓢ—but they feel hidden and cumbersome to interact with. Finding the right glyphs requires hunting
@@ -19,18 +19,18 @@ This tool transforms Unicode styling from a frustrating manual process into some
 formatting—perfect for README files, documentation, and any text where you want distinctive visual
 elements without leaving your editor.
 
-## 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬
+## {{mathbold}}Features{{/mathbold}}
 
-- Convert text to 19 different Unicode styles
+- Convert text to {{negative-squared}}19{{/negative-squared}} different Unicode styles
 - Style aliases for shorter names (e.g., `mb` for `mathbold`)
 - Preserves whitespace, punctuation, and unsupported characters
 - Zero-copy operations for maximum performance
 - Comprehensive error handling
 - Rust library with CLI and planned WASM bindings
 
-## 𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐒𝐭𝐲𝐥𝐞𝐬
+## {{mathbold}}Available Styles{{/mathbold}}
 
-### 𝗕𝗼𝗹𝗱 & 𝗘𝗺𝗽𝗵𝗮𝘀𝗶𝘀
+### {{sans-serif-bold}}Bold & Emphasis{{/sans-serif-bold}}
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `mathbold` | 𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓 | Professional headers |
@@ -38,7 +38,7 @@ elements without leaving your editor.
 | `sans-serif-bold` | 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧 | Modern, strong |
 | `sans-serif-bold-italic` | 𝘽𝙇𝘼𝘾𝙆𝘿𝙊𝙏 | Maximum emphasis |
 
-### 𝗕𝗼𝘅𝗲𝗱 𝗦𝘁𝘆𝗹𝗲𝘀
+### {{sans-serif-bold}}Boxed Styles{{/sans-serif-bold}}
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `negative-squared` | 🅱🅻🅰🅲🅺🅳🅾🆃 | Maximum contrast |
@@ -46,7 +46,7 @@ elements without leaving your editor.
 | `squared-latin` | 🄱🄻🄰🄲🄺🄳🄾🅃 | Elegant boxes |
 | `circled-latin` | Ⓑⓛⓐⓒⓚⓓⓞⓣ | Playful circles |
 
-### 𝗘𝗹𝗲𝗴𝗮𝗻𝘁 & 𝗦𝗰𝗿𝗶𝗽𝘁
+### {{sans-serif-bold}}Elegant & Script{{/sans-serif-bold}}
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `script` | 𝐵𝐿𝒜𝒞𝒦𝒟𝒪𝒯 | Elegant cursive |
@@ -57,7 +57,7 @@ elements without leaving your editor.
 | `bold-italic` | 𝑩𝑳𝑨𝑪𝑲𝑫𝑶𝑻 | Strong + flow |
 | `small-caps` | ʙʟᴀᴄᴋᴅᴏᴛ | Subtle elegance |
 
-### 𝗧𝗲𝗰𝗵𝗻𝗶𝗰𝗮𝗹
+### {{sans-serif-bold}}Technical{{/sans-serif-bold}}
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `monospace` | 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝 | Code-like |
@@ -65,9 +65,9 @@ elements without leaving your editor.
 | `sans-serif` | 𝖡𝖫𝖠𝖢𝖪𝖣𝖮𝖳 | Clean, modern |
 | `sans-serif-italic` | 𝘉𝘓𝘈𝘊𝘒𝘋𝘖𝘛 | Modern slant |
 
-## 𝐐𝐮𝐢𝐜𝐤 𝐒𝐭𝐚𝐫𝐭
+## {{mathbold}}Quick Start{{/mathbold}}
 
-### 𝗟𝗶𝗯𝗿𝗮𝗿𝘆 𝗨𝘀𝗮𝗴𝗲
+### {{sans-serif-bold}}Library Usage{{/sans-serif-bold}}
 
 ```rust
 use utf8fx::Converter;
@@ -96,7 +96,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-### 𝗖𝗟𝗜 𝗨𝘀𝗮𝗴𝗲
+### {{sans-serif-bold}}CLI Usage{{/sans-serif-bold}}
 
 ```bash
 # Convert text
@@ -110,7 +110,7 @@ utf8fx convert --style mathbold --spacing 1 "HEADER"
 utf8fx process input.md -o output.md
 ```
 
-### 𝗧𝗲𝗺𝗽𝗹𝗮𝘁𝗲 𝗦𝘆𝗻𝘁𝗮𝘅
+### {{sans-serif-bold}}Template Syntax{{/sans-serif-bold}}
 
 Add Unicode styling directly in your markdown:
 
@@ -122,7 +122,7 @@ Use {{script:spacing=2}}elegant spacing{{/script}} for headers.
 {{negative-squared:spacing=1}}WARNING{{/negative-squared}}
 ```
 
-### 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗮𝘁𝗶𝗼𝗻
+### {{sans-serif-bold}}Installation{{/sans-serif-bold}}
 
 Add to your `Cargo.toml`:
 
@@ -131,7 +131,7 @@ Add to your `Cargo.toml`:
 utf8fx = "1.0"
 ```
 
-## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞
+## {{mathbold}}Project Structure{{/mathbold}}
 
 ```
 utf8fx/
@@ -147,13 +147,13 @@ utf8fx/
 └── docs/               # Documentation
 ```
 
-## 𝐃𝐨𝐜𝐮𝐦𝐞𝐧𝐭𝐚𝐭𝐢𝐨𝐧
+## {{mathbold}}Documentation{{/mathbold}}
 
 - [Planning Document](PLANNING.md) - Technical design and roadmap
 - [Unicode Design Elements](unicode-design-elements.md) - Character reference
 - [API Documentation](https://docs.rs/utf8fx) - Full API docs (coming soon)
 
-## 𝐓𝐞𝐬𝐭𝐢𝐧𝐠
+## {{mathbold}}Testing{{/mathbold}}
 
 ```bash
 # Run all tests
@@ -166,15 +166,15 @@ cargo test -- --nocapture
 cargo test test_convert_mathbold
 ```
 
-## 𝐂𝐨𝐧𝐭𝐫𝐢𝐛𝐮𝐭𝐢𝐧𝐠
+## {{mathbold}}Contributing{{/mathbold}}
 
 Contributions are welcome! Please read our contributing guidelines (coming soon) before submitting PRs.
 
-## 𝐋𝐢𝐜𝐞𝐧𝐬𝐞
+## {{mathbold}}License{{/mathbold}}
 
 MIT License - see LICENSE file for details
 
-## 𝐋𝐢𝐧𝐤𝐬
+## {{mathbold}}Links{{/mathbold}}
 
 - [GitHub Repository](https://github.com/blackwell-systems/utf8fx)
 - [Crates.io](https://crates.io/crates/utf8fx) (coming soon)
