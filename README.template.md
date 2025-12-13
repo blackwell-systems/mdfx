@@ -1,5 +1,7 @@
 # {{fullwidth:spacing=1}}utf8fx{{/fullwidth}}
 
+[![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
+
 {{sans-serif-bold}}Unicode text effects for markdown and beyond{{/sans-serif-bold}}
 
 Transform text into various Unicode styles (mathematical bold, full-width, negative squared, and more)
