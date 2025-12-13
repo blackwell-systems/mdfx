@@ -70,11 +70,18 @@ frames, and character transformations.
 {{ui:divider/}}
 ```
 
-**Color Swatches** - Single color blocks
+**Color Swatches** - Decorative color blocks
 ```markdown
 {{ui:swatch:accent/}}
 {{ui:swatch:success/}}
+{{ui:swatch:F41C80/}}  ← Any hex color
 ```
+
+Compose multiple swatches for visual elements:
+```markdown
+{{ui:swatch:F41C80/}} {{ui:swatch:EAB308/}} {{ui:swatch:22C55E/}} {{ui:swatch:4A9EFF/}} {{ui:swatch:8B5CF6/}}
+```
+Renders as: ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) ![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)
 
 **Status Indicators** - Colored badges
 ```markdown
@@ -597,6 +604,50 @@ Configure your environment...
 
 {{ui:callout:info}}See migration guide for upgrade path{{/ui}}
 ```
+
+### Color Block Design Patterns
+
+Color swatches can be composed to create visual design elements:
+
+**Brand Color Palette:**
+```markdown
+{{ui:swatch:F41C80/}} {{ui:swatch:EAB308/}} {{ui:swatch:22C55E/}} {{ui:swatch:4A9EFF/}} {{ui:swatch:8B5CF6/}} {{ui:swatch:EC4899/}}
+```
+![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) ![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square) ![](https://img.shields.io/badge/-%20-EC4899?style=flat-square)
+
+**Monochrome Gradient:**
+```markdown
+{{ui:swatch:1A1A1A/}} {{ui:swatch:333333/}} {{ui:swatch:4D4D4D/}} {{ui:swatch:666666/}} {{ui:swatch:808080/}} {{ui:swatch:999999/}} {{ui:swatch:B3B3B3/}} {{ui:swatch:CCCCCC/}}
+```
+![](https://img.shields.io/badge/-%20-1A1A1A?style=flat-square) ![](https://img.shields.io/badge/-%20-333333?style=flat-square) ![](https://img.shields.io/badge/-%20-4D4D4D?style=flat-square) ![](https://img.shields.io/badge/-%20-666666?style=flat-square) ![](https://img.shields.io/badge/-%20-808080?style=flat-square) ![](https://img.shields.io/badge/-%20-999999?style=flat-square) ![](https://img.shields.io/badge/-%20-B3B3B3?style=flat-square) ![](https://img.shields.io/badge/-%20-CCCCCC?style=flat-square)
+
+**Status Bar:**
+```markdown
+API: {{ui:swatch:22C55E/}} Database: {{ui:swatch:22C55E/}} Cache: {{ui:swatch:EAB308/}} CDN: {{ui:swatch:22C55E/}}
+```
+API: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Database: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Cache: ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) CDN: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)
+
+**Color Legend:**
+```markdown
+{{ui:swatch:22C55E/}} Complete | {{ui:swatch:EAB308/}} In Progress | {{ui:swatch:EF4444/}} Blocked | {{ui:swatch:6B7280/}} Not Started
+```
+![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Complete | ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) In Progress | ![](https://img.shields.io/badge/-%20-EF4444?style=flat-square) Blocked | ![](https://img.shields.io/badge/-%20-6B7280?style=flat-square) Not Started
+
+**Wide Color Bar** (no spaces between blocks):
+```markdown
+{{ui:swatch:F41C80/}}{{ui:swatch:F41C80/}}{{ui:swatch:EAB308/}}{{ui:swatch:EAB308/}}{{ui:swatch:22C55E/}}{{ui:swatch:22C55E/}}{{ui:swatch:4A9EFF/}}{{ui:swatch:4A9EFF/}}{{ui:swatch:8B5CF6/}}{{ui:swatch:8B5CF6/}}
+```
+![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-EAB308?style=flat-square)![](https://img.shields.io/badge/-%20-EAB308?style=flat-square)![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square)![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square)![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)
+
+**Section Headers with Color Accents:**
+```markdown
+## {{ui:swatch:F41C80/}} Features
+## {{ui:swatch:4A9EFF/}} Architecture  
+## {{ui:swatch:22C55E/}} Getting Started
+```
+## ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) Features
+## ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) Architecture  
+## ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Getting Started
 
 ## 𝐇𝐨𝐰 𝐈𝐭 𝐖𝐨𝐫𝐤𝐬
 
