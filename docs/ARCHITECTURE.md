@@ -148,37 +148,37 @@ The template parser uses a state machine to process markdown without regex. This
 stateDiagram-v2
     [*] --> Normal
 
-    Normal --> OpenBrace1: char == '{'
-    OpenBrace1 --> OpenBrace2: char == '{'
-    OpenBrace2 --> StyleName: alphanumeric
+    Normal --> OpenBrace1: see opening brace
+    OpenBrace1 --> OpenBrace2: see second brace
+    OpenBrace2 --> StyleName: letter found
 
-    StyleName --> StyleName: alphanumeric or '-'
-    StyleName --> ParamColon: char == ':'
-    StyleName --> CloseTag1: char == '}'
+    StyleName --> StyleName: letter or hyphen
+    StyleName --> ParamColon: colon found
+    StyleName --> CloseTag1: closing brace
 
-    ParamColon --> ParamKey: char == 's' (spacing)
-    ParamKey --> ParamEquals: char == '='
-    ParamEquals --> ParamValue: digit
-    ParamValue --> ParamValue: digit
-    ParamValue --> CloseTag1: char == '}'
+    ParamColon --> ParamKey: spacing keyword
+    ParamKey --> ParamEquals: equals sign
+    ParamEquals --> ParamValue: digit found
+    ParamValue --> ParamValue: more digits
+    ParamValue --> CloseTag1: closing brace
 
-    CloseTag1 --> CloseTag2: char == '}'
-    CloseTag2 --> Content: any char
+    CloseTag1 --> CloseTag2: second closing brace
+    CloseTag2 --> Content: reading content
 
-    Content --> Content: any char
-    Content --> EndTag1: char == '{'
+    Content --> Content: any character
+    Content --> EndTag1: opening brace
 
-    EndTag1 --> EndTag2: char == '{'
-    EndTag2 --> EndSlash: char == '/'
-    EndSlash --> EndStyleName: alphanumeric
-    EndStyleName --> EndStyleName: alphanumeric or '-'
-    EndStyleName --> EndClose1: char == '}'
-    EndClose1 --> EndClose2: char == '}'
-    EndClose2 --> [*]: Match!
+    EndTag1 --> EndTag2: second opening brace
+    EndTag2 --> EndSlash: forward slash
+    EndSlash --> EndStyleName: letter found
+    EndStyleName --> EndStyleName: letter or hyphen
+    EndStyleName --> EndClose1: closing brace
+    EndClose1 --> EndClose2: second closing brace
+    EndClose2 --> [*]: template complete
 
-    Normal --> Normal: any other char
-    OpenBrace1 --> Normal: char != '{'
-    OpenBrace2 --> Normal: not alphanumeric
+    Normal --> Normal: other characters
+    OpenBrace1 --> Normal: not second brace
+    OpenBrace2 --> Normal: not letter
 
     style Normal fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style CloseTag2 fill:#2d3748,stroke:#48bb78,stroke-width:2px
@@ -216,19 +216,19 @@ The parser tracks markdown context to preserve code blocks:
 stateDiagram-v2
     [*] --> TextMode
 
-    TextMode --> FencedCodeCheck: line starts with ```
-    FencedCodeCheck --> FencedCode: count == 3
-    FencedCode --> FencedCode: any line
-    FencedCode --> FencedCodeCheck2: line starts with ```
-    FencedCodeCheck2 --> TextMode: count == 3
+    TextMode --> FencedCodeCheck: three backticks
+    FencedCodeCheck --> FencedCode: code fence start
+    FencedCode --> FencedCode: read lines
+    FencedCode --> FencedCodeCheck2: three backticks
+    FencedCodeCheck2 --> TextMode: code fence end
 
-    TextMode --> InlineCodeCheck: char == '`'
-    InlineCodeCheck --> InlineCode: single backtick
-    InlineCode --> InlineCode: any char
-    InlineCode --> TextMode: char == '`'
+    TextMode --> InlineCodeCheck: single backtick
+    InlineCodeCheck --> InlineCode: inline code start
+    InlineCode --> InlineCode: read chars
+    InlineCode --> TextMode: closing backtick
 
-    TextMode --> TemplateProcessing: char == '{'
-    TemplateProcessing --> TextMode: template complete
+    TextMode --> TemplateProcessing: opening brace
+    TemplateProcessing --> TextMode: template done
 
     style TextMode fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style FencedCode fill:#2d3748,stroke:#ed8936,stroke-width:2px
