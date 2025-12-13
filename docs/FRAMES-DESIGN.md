@@ -1,9 +1,24 @@
 # Frames & Boxes Design Document
 
 **Feature:** Box drawing, brackets, and decorative frames for text
-**Status:** Design Phase
-**Version:** Draft 1.0
+**Status:** Implemented (Inline Frames)
+**Version:** 1.0.0
 **Last Updated:** 2025-12-12
+
+## Implementation Status
+
+**COMPLETED:**
+- Inline frames (prefix/suffix decoration)
+- 15 frame styles (gradient, solid, lines, arrows, bullets)
+- Frame template syntax: `{{frame:style}}content{{/frame}}`
+- Recursive processing (frames can contain styled text)
+- Full composition support (style + separator + frame)
+- 88 tests passing
+
+**📋 FUTURE:**
+- Full box frames (multi-line rectangular boxes)
+- Box width calculation for Unicode characters
+- Multiline content wrapping
 
 ---
 
@@ -41,19 +56,19 @@
 ### Anti-Patterns to Avoid
 
 ❌ **Feature sprawl** - Adding every possible option
-✅ **Focused features** - Each feature solves a real problem
+**Focused features** - Each feature solves a real problem
 
 ❌ **Inconsistent syntax** - Different template styles for each feature
-✅ **Unified syntax** - All templates use same pattern
+**Unified syntax** - All templates use same pattern
 
 ❌ **Monolithic functions** - 500-line methods that do everything
-✅ **Small, composable functions** - Single responsibility
+**Small, composable functions** - Single responsibility
 
 ❌ **Hard-coded values** - Character mappings in code
-✅ **Data-driven** - All mappings in JSON files
+**Data-driven** - All mappings in JSON files
 
 ❌ **Breaking changes** - New features break old templates
-✅ **Backward compatibility** - Old templates always work
+**Backward compatibility** - Old templates always work
 
 ### How Frames Fit the Architecture
 
@@ -133,16 +148,16 @@ utf8fx convert --box double --preset github "Text"
 
 **Best Practices:**
 ```markdown
-✅ GOOD - Short, impactful
+GOOD - Short, impactful
 {{box:double}}⚠️  WARNING{{/box}}
 
-✅ GOOD - Reasonable width
+GOOD - Reasonable width
 {{box:heavy}}INSTALLATION REQUIRED{{/box}}
 
 ❌ BAD - Too wide for GitHub
 {{box:light}}This is a very long sentence that will probably overflow the GitHub README container and look broken{{/box}}
 
-✅ BETTER - Break into multiple lines
+BETTER - Break into multiple lines
 {{box:light}}
 Installation Required
 See docs for details

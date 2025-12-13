@@ -21,6 +21,50 @@ impl Converter {
         })
     }
 
+    /// Internal unified method for converting text with optional character separation
+    ///
+    /// This method handles all conversion cases: no spacing, space-based spacing,
+    /// and custom separator characters. All public conversion methods delegate to this.
+    ///
+    /// # Arguments
+    ///
+    /// * `text` - The text to convert
+    /// * `style` - The style ID or alias
+    /// * `separator` - The separator string to insert between characters
+    /// * `count` - Number of times to repeat the separator (0 = no separation)
+    fn convert_with_char_between(
+        &self,
+        text: &str,
+        style: &str,
+        separator: &str,
+        count: usize,
+    ) -> Result<String> {
+        let style_obj = self.get_style(style)?;
+
+        // Fast path: no separation needed
+        if count == 0 || separator.is_empty() {
+            let result: String = text.chars().map(|c| style_obj.convert_char(c)).collect();
+            return Ok(result);
+        }
+
+        // With separation: convert each char and add separator between
+        let chars: Vec<char> = text.chars().collect();
+        let mut result = String::new();
+
+        for (i, c) in chars.iter().enumerate() {
+            result.push(style_obj.convert_char(*c));
+
+            // Add separator after each character except the last
+            if i < chars.len() - 1 {
+                for _ in 0..count {
+                    result.push_str(separator);
+                }
+            }
+        }
+
+        Ok(result)
+    }
+
     /// Convert text to a specified Unicode style
     ///
     /// # Arguments
@@ -42,7 +86,7 @@ impl Converter {
     ///
     /// Returns `Error::UnknownStyle` if the style doesn't exist.
     pub fn convert(&self, text: &str, style: &str) -> Result<String> {
-        self.convert_with_spacing(text, style, 0)
+        self.convert_with_char_between(text, style, "", 0)
     }
 
     /// Convert text to a specified Unicode style with character spacing
@@ -67,30 +111,39 @@ impl Converter {
     ///
     /// Returns `Error::UnknownStyle` if the style doesn't exist.
     pub fn convert_with_spacing(&self, text: &str, style: &str, spacing: usize) -> Result<String> {
-        let style_obj = self.get_style(style)?;
+        self.convert_with_char_between(text, style, " ", spacing)
+    }
 
-        if spacing == 0 {
-            // No spacing - original behavior
-            let result: String = text.chars().map(|c| style_obj.convert_char(c)).collect();
-            return Ok(result);
-        }
-
-        // With spacing: convert each char and add spaces between
-        let chars: Vec<char> = text.chars().collect();
-        let mut result = String::new();
-
-        for (i, c) in chars.iter().enumerate() {
-            result.push(style_obj.convert_char(*c));
-
-            // Add spacing after each character except the last
-            if i < chars.len() - 1 {
-                for _ in 0..spacing {
-                    result.push(' ');
-                }
-            }
-        }
-
-        Ok(result)
+    /// Convert text to a style with custom separator between characters
+    ///
+    /// # Arguments
+    ///
+    /// * `text` - The text to convert
+    /// * `style` - The style ID or alias (e.g., "mathbold" or "mb")
+    /// * `separator` - The separator character(s) to insert between each character
+    /// * `count` - Number of times to repeat the separator (1 = single separator)
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use utf8fx::Converter;
+    ///
+    /// let converter = Converter::new().unwrap();
+    /// let result = converter.convert_with_separator("HELLO", "mathbold", "·", 1).unwrap();
+    /// assert_eq!(result, "𝐇·𝐄·𝐋·𝐋·𝐎");
+    /// ```
+    ///
+    /// # Errors
+    ///
+    /// Returns `Error::UnknownStyle` if the style doesn't exist.
+    pub fn convert_with_separator(
+        &self,
+        text: &str,
+        style: &str,
+        separator: &str,
+        count: usize,
+    ) -> Result<String> {
+        self.convert_with_char_between(text, style, separator, count)
     }
 
     /// Get a style by ID or alias
@@ -297,6 +350,60 @@ mod tests {
         let converter = Converter::new().unwrap();
         let result = converter.convert_with_spacing("GO", "fraktur", 3).unwrap();
         assert_eq!(result, "𝔊   𝔒");
+    }
+
+    #[test]
+    fn test_separator_dot() {
+        let converter = Converter::new().unwrap();
+        let result = converter
+            .convert_with_separator("HELLO", "mathbold", "·", 1)
+            .unwrap();
+        assert_eq!(result, "𝐇·𝐄·𝐋·𝐋·𝐎");
+    }
+
+    #[test]
+    fn test_separator_dash() {
+        let converter = Converter::new().unwrap();
+        let result = converter
+            .convert_with_separator("ABC", "mathbold", "─", 1)
+            .unwrap();
+        assert_eq!(result, "𝐀─𝐁─𝐂");
+    }
+
+    #[test]
+    fn test_separator_bold_dash() {
+        let converter = Converter::new().unwrap();
+        let result = converter
+            .convert_with_separator("HI", "mathbold", "━", 1)
+            .unwrap();
+        assert_eq!(result, "𝐇━𝐈");
+    }
+
+    #[test]
+    fn test_separator_arrow() {
+        let converter = Converter::new().unwrap();
+        let result = converter
+            .convert_with_separator("ABC", "mathbold", "→", 1)
+            .unwrap();
+        assert_eq!(result, "𝐀→𝐁→𝐂");
+    }
+
+    #[test]
+    fn test_separator_multiple_count() {
+        let converter = Converter::new().unwrap();
+        let result = converter
+            .convert_with_separator("AB", "mathbold", "·", 3)
+            .unwrap();
+        assert_eq!(result, "𝐀···𝐁");
+    }
+
+    #[test]
+    fn test_separator_single_char() {
+        let converter = Converter::new().unwrap();
+        let result = converter
+            .convert_with_separator("X", "mathbold", "·", 1)
+            .unwrap();
+        assert_eq!(result, "𝐗");
     }
 
     #[test]

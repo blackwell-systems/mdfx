@@ -23,15 +23,20 @@ utf8fx is a markdown preprocessor that transforms text using Unicode character m
 graph LR
     A[Input Text] --> B[Template Parser]
     B --> C[Converter]
-    C --> D[Styled Output]
+    B --> F[Frame Renderer]
+    C --> F
+    F --> D[Styled Output]
 
     E[styles.json] -.->|Character Mappings| C
+    G[frames.json] -.->|Decorative Elements| F
 
     style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style B fill:#2d3748,stroke:#48bb78,stroke-width:2px
     style C fill:#2d3748,stroke:#ed8936,stroke-width:2px
+    style F fill:#2d3748,stroke:#9f7aea,stroke-width:2px
     style D fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style E fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
+    style G fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ### Core Principles
@@ -88,15 +93,19 @@ graph TD
 
 #### 1. Converter (`src/converter.rs`)
 
-**Purpose:** Character-to-character Unicode mapping
+**Purpose:** Character-to-character Unicode mapping with optional separation
 
 **Key Functions:**
 - `convert(text, style)` - Transform text using a style
-- `convert_with_spacing(text, style, spacing)` - Add character spacing
+- `convert_with_spacing(text, style, spacing)` - Add space-based character spacing
+- `convert_with_separator(text, style, separator, count)` - Add custom separator characters
 - `list_styles()` - Query available styles
 - `has_style(name)` - Check style existence
 
 **Design:**
+- **Unified algorithm**: Internal `convert_with_char_between()` method handles all cases
+- Public methods delegate to unified implementation (eliminates duplication)
+- Fast path optimization: When count=0, skip separation logic entirely
 - Loads `styles.json` once at initialization (lazy_static)
 - O(1) style lookup via HashMap
 - Preserves whitespace, punctuation, unsupported characters
@@ -104,19 +113,40 @@ graph TD
 
 #### 2. TemplateParser (`src/parser.rs`)
 
-**Purpose:** Process markdown with `{{style}}text{{/style}}` templates
+**Purpose:** Process markdown with `{{style}}text{{/style}}` and `{{frame:style}}text{{/frame}}` templates
 
 **Key Functions:**
 - `process(content)` - Parse and transform entire document
-- `parse_template_at(chars, pos)` - State machine for single template
+- `parse_template_at(chars, pos)` - State machine for style templates
+- `parse_frame_at(chars, pos)` - State machine for frame templates
 
 **Design:**
 - State machine parser (no regex dependencies)
+- **Two template types**: style templates and frame templates
+- **Recursive processing**: Frame content can contain style templates
+- **Parameter parsing**: Supports `:spacing=N` and `:separator=name` parameters
 - Preserves code blocks (```) and inline code (`)
 - Tracks nesting depth for proper template matching
 - Fail-safe: invalid templates preserved as-is
 
-#### 3. Styles Manager (`src/styles.rs`)
+#### 3. FrameRenderer (`src/frames.rs`)
+
+**Purpose:** Add decorative prefix/suffix around text (taglines, accents)
+
+**Key Functions:**
+- `apply_frame(text, frame_style)` - Wrap text with decorative elements
+- `get_frame(name)` - Lookup frame by ID or alias
+- `has_frame(name)` - Check frame existence
+- `list_frames()` - Query available frames
+
+**Design:**
+- Loads `frames.json` once at initialization
+- Simple concatenation: `prefix + text + suffix`
+- Supports 15 frame styles (gradient, solid, lines, arrows, etc.)
+- Alias support for shorter names (grad = gradient)
+- Works with styled content (recursive processing by parser)
+
+#### 4. Styles Manager (`src/styles.rs`)
 
 **Purpose:** Load and manage style definitions
 
@@ -325,6 +355,37 @@ graph TD
     style D fill:#2d3748,stroke:#e53e3e,stroke-width:2px
     style G fill:#2d3748,stroke:#e53e3e,stroke-width:2px
     style H fill:#2d3748,stroke:#9f7aea,stroke-width:2px
+```
+
+### Composition Flow
+
+Example: `{{frame:gradient}}{{mathbold:separator=dash}}TITLE{{/mathbold}}{{/frame}}`
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+sequenceDiagram
+    participant User
+    participant Parser
+    participant Converter
+    participant FrameRenderer
+
+    User->>Parser: process(template)
+    Parser->>Parser: parse_frame_at()
+    Note over Parser: Found: frame="gradient"<br/>content="{{mathbold:separator=dash}}TITLE{{/mathbold}}"
+
+    Parser->>Parser: process_templates(content) [RECURSIVE]
+    Parser->>Parser: parse_template_at()
+    Note over Parser: Found: style="mathbold"<br/>separator="─"<br/>content="TITLE"
+
+    Parser->>Converter: convert_with_separator("TITLE", "mathbold", "─", 1)
+    Converter-->>Parser: "𝐓─𝐈─𝐓─𝐋─𝐄"
+
+    Parser->>FrameRenderer: apply_frame("𝐓─𝐈─𝐓─𝐋─𝐄", "gradient")
+    FrameRenderer-->>Parser: "▓▒░ 𝐓─𝐈─𝐓─𝐋─𝐄 ░▒▓"
+
+    Parser-->>User: "▓▒░ 𝐓─𝐈─𝐓─𝐋─𝐄 ░▒▓"
+
+    note over Parser: Recursive processing<br/>enables composition
 ```
 
 ---

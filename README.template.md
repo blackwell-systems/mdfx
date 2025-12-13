@@ -25,6 +25,9 @@ elements without leaving your editor.
 ## {{mathbold}}Features{{/mathbold}}
 
 - Convert text to {{negative-squared}}19{{/negative-squared}} different Unicode styles
+- Custom separators (dots, dashes, arrows) between characters
+- Decorative frames around text (gradient, solid, lines)
+- Composable templates (style + separator + frame)
 - Style aliases for shorter names (e.g., `mb` for `mathbold`)
 - Preserves whitespace, punctuation, and unsupported characters
 - Zero-copy operations for maximum performance
@@ -73,7 +76,7 @@ elements without leaving your editor.
 ### {{sans-serif-bold}}Library Usage{{/sans-serif-bold}}
 
 ```rust
-use utf8fx::Converter;
+use utf8fx::{Converter, FrameRenderer};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let converter = Converter::new()?;
@@ -89,6 +92,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Add spacing between characters
     let result = converter.convert_with_spacing("HELLO", "mathbold", 1)?;
     println!("{}", result); // 𝐇 𝐄 𝐋 𝐋 𝐎
+
+    // Add custom separators
+    let result = converter.convert_with_separator("TITLE", "mathbold", "·", 1)?;
+    println!("{}", result); // 𝐓·𝐈·𝐓·𝐋·𝐄
+
+    // Add decorative frames
+    let frame_renderer = FrameRenderer::new()?;
+    let styled = converter.convert("HEADER", "mathbold")?;
+    let result = frame_renderer.apply_frame(&styled, "gradient")?;
+    println!("{}", result); // ▓▒░ 𝐇𝐄𝐀𝐃𝐄𝐑 ░▒▓
 
     // List available styles
     for style in converter.list_styles() {
@@ -120,10 +133,29 @@ Add Unicode styling directly in your markdown:
 ```markdown
 # {{mathbold}}TITLE{{/mathbold}}
 
+## Style with Spacing
 Use {{script:spacing=2}}elegant spacing{{/script}} for headers.
 
+## Style with Separators
+{{mathbold:separator=dot}}T I T L E{{/mathbold}}
+{{mathbold:separator=dash}}H E A D E R{{/mathbold}}
+{{mathbold:separator=arrow}}F L O W{{/mathbold}}
+
+## Decorative Frames
+{{frame:gradient}}Important Note{{/frame}}
+{{frame:solid-left}}Action Item{{/frame}}
+{{frame:line-bold}}Section Header{{/frame}}
+
+## Composition (Style + Separator + Frame)
+{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+
+## Warnings and Alerts
 {{negative-squared:spacing=1}}WARNING{{/negative-squared}}
 ```
+
+Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━), `arrow` (→)
+
+Available frames: `gradient`, `solid-left`, `solid-right`, `solid-both`, `line-light`, `line-bold`, `line-double`, `line-dashed`, `block-top`, `block-bottom`, `arrow-right`, `dot`, `bullet`
 
 ### {{sans-serif-bold}}Installation{{/sans-serif-bold}}
 
@@ -141,10 +173,13 @@ utf8fx/
 ├── src/
 │   ├── lib.rs          # Public API
 │   ├── converter.rs    # Core conversion logic
+│   ├── frames.rs       # Frame rendering
+│   ├── parser.rs       # Template parser
 │   ├── styles.rs       # Style definitions
 │   └── error.rs        # Error types
 ├── data/
-│   └── styles.json     # Character mapping database
+│   ├── styles.json     # Character mapping database
+│   └── frames.json     # Frame definitions
 ├── tests/              # Integration tests
 ├── examples/           # Usage examples
 └── docs/               # Documentation

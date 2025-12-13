@@ -1,16 +1,40 @@
 use crate::converter::Converter;
 use crate::error::{Error, Result};
+use crate::frames::FrameRenderer;
+
+/// Template data extracted from parsing
+#[derive(Debug, Clone)]
+struct TemplateData {
+    end_pos: usize,
+    style: String,
+    spacing: usize,
+    separator: Option<String>,
+    content: String,
+}
+
+/// Frame template data
+#[derive(Debug, Clone)]
+struct FrameData {
+    end_pos: usize,
+    frame_style: String,
+    content: String,
+}
 
 /// Parser for processing markdown with style templates
 pub struct TemplateParser {
     converter: Converter,
+    frame_renderer: FrameRenderer,
 }
 
 impl TemplateParser {
     /// Create a new template parser
     pub fn new() -> Result<Self> {
         let converter = Converter::new()?;
-        Ok(Self { converter })
+        let frame_renderer = FrameRenderer::new()?;
+        Ok(Self {
+            converter,
+            frame_renderer,
+        })
     }
 
     /// Process markdown text, converting all style templates
@@ -99,25 +123,62 @@ impl TemplateParser {
         let mut i = 0;
 
         while i < chars.len() {
-            // Look for opening tag {{style}}
+            // Look for opening tag {{ (could be style or frame template)
             if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
-                // Try to parse a complete template
-                if let Some((template_end, style, spacing, content)) =
-                    self.parse_template_at(&chars, i)?
-                {
-                    // Validate style exists
-                    if !self.converter.has_style(&style) {
-                        return Err(Error::UnknownStyle(style));
+                // Try to parse a frame template first
+                if let Some(frame_data) = self.parse_frame_at(&chars, i)? {
+                    // Validate frame exists
+                    if !self.frame_renderer.has_frame(&frame_data.frame_style) {
+                        return Err(Error::UnknownFrame(frame_data.frame_style));
                     }
 
-                    // Convert and add the styled content with spacing
-                    let converted = self
-                        .converter
-                        .convert_with_spacing(&content, &style, spacing)?;
+                    // Process content recursively (may contain style templates)
+                    let processed_content = self.process_templates(&frame_data.content)?;
+
+                    // Apply frame to processed content
+                    let framed = self
+                        .frame_renderer
+                        .apply_frame(&processed_content, &frame_data.frame_style)?;
+                    result.push_str(&framed);
+
+                    // Skip past the frame template
+                    i = frame_data.end_pos;
+                    continue;
+                }
+
+                // Try to parse a style template
+                if let Some(template_data) = self.parse_template_at(&chars, i)? {
+                    // Validate style exists
+                    if !self.converter.has_style(&template_data.style) {
+                        return Err(Error::UnknownStyle(template_data.style));
+                    }
+
+                    // Convert content based on whether separator is specified
+                    let converted = if let Some(ref sep) = template_data.separator {
+                        // Use separator-based conversion
+                        self.converter.convert_with_separator(
+                            &template_data.content,
+                            &template_data.style,
+                            sep,
+                            1, // count = 1 for single separator between chars
+                        )?
+                    } else if template_data.spacing > 0 {
+                        // Use spacing-based conversion (spaces between chars)
+                        self.converter.convert_with_spacing(
+                            &template_data.content,
+                            &template_data.style,
+                            template_data.spacing,
+                        )?
+                    } else {
+                        // No spacing or separator, just convert normally
+                        self.converter
+                            .convert(&template_data.content, &template_data.style)?
+                    };
+
                     result.push_str(&converted);
 
                     // Skip past the template
-                    i = template_end;
+                    i = template_data.end_pos;
                     continue;
                 }
             }
@@ -131,12 +192,8 @@ impl TemplateParser {
     }
 
     /// Try to parse a template starting at position i
-    /// Returns: Some((end_position, style_name, spacing, content)) or None if not a valid template
-    fn parse_template_at(
-        &self,
-        chars: &[char],
-        start: usize,
-    ) -> Result<Option<(usize, String, usize, String)>> {
+    /// Returns: Some(TemplateData) or None if not a valid template
+    fn parse_template_at(&self, chars: &[char], start: usize) -> Result<Option<TemplateData>> {
         let mut i = start;
 
         // Must start with {{
@@ -165,48 +222,77 @@ impl TemplateParser {
             return Ok(None);
         }
 
-        // Parse optional spacing parameter: :spacing=N
+        // Parse optional parameters: :spacing=N and/or :separator=name
         let mut spacing = 0;
-        if i < chars.len() && chars[i] == ':' {
+        let mut separator: Option<String> = None;
+
+        // Helper function to check if chars match a string at position i
+        let matches_str = |chars: &[char], i: usize, s: &str| -> bool {
+            let s_chars: Vec<char> = s.chars().collect();
+            if i + s_chars.len() > chars.len() {
+                return false;
+            }
+            for (idx, &expected) in s_chars.iter().enumerate() {
+                if chars[i + idx] != expected {
+                    return false;
+                }
+            }
+            true
+        };
+
+        // Parse parameters (can have multiple separated by :)
+        while i < chars.len() && chars[i] == ':' {
             i += 1; // skip ':'
 
-            // Expect "spacing="
-            let spacing_str = "spacing=";
-            let spacing_chars: Vec<char> = spacing_str.chars().collect();
+            // Check for "spacing="
+            if matches_str(chars, i, "spacing=") {
+                i += 8; // length of "spacing="
 
-            // Check if we have "spacing="
-            if i + spacing_chars.len() <= chars.len() {
-                let mut matches = true;
-                for (idx, &expected) in spacing_chars.iter().enumerate() {
-                    if chars[i + idx] != expected {
-                        matches = false;
-                        break;
-                    }
+                // Parse the number
+                let mut num_str = String::new();
+                while i < chars.len() && chars[i].is_ascii_digit() {
+                    num_str.push(chars[i]);
+                    i += 1;
                 }
 
-                if matches {
-                    i += spacing_chars.len();
-
-                    // Parse the number
-                    let mut num_str = String::new();
-                    while i < chars.len() && chars[i].is_ascii_digit() {
-                        num_str.push(chars[i]);
-                        i += 1;
-                    }
-
-                    // Parse the spacing value
-                    if let Ok(value) = num_str.parse::<usize>() {
-                        spacing = value;
-                    } else {
-                        // Invalid number
-                        return Ok(None);
-                    }
+                // Parse the spacing value
+                if let Ok(value) = num_str.parse::<usize>() {
+                    spacing = value;
                 } else {
-                    // Invalid parameter syntax
+                    // Invalid number
                     return Ok(None);
                 }
+            }
+            // Check for "separator="
+            else if matches_str(chars, i, "separator=") {
+                i += 10; // length of "separator="
+
+                // Parse separator name (letters only)
+                let mut sep_name = String::new();
+                while i < chars.len() && chars[i].is_alphabetic() {
+                    sep_name.push(chars[i]);
+                    i += 1;
+                }
+
+                // Map separator name to Unicode character
+                separator = Some(
+                    match sep_name.as_str() {
+                        "dot" => "·",
+                        "bullet" => "•",
+                        "dash" => "─",
+                        "bolddash" => "━",
+                        "arrow" => "→",
+                        _ => {
+                            return Err(Error::ParseError(format!(
+                            "Unknown separator '{}'. Available: dot, bullet, dash, bolddash, arrow",
+                            sep_name
+                        )))
+                        }
+                    }
+                    .to_string(),
+                );
             } else {
-                // Invalid parameter syntax
+                // Unknown parameter
                 return Ok(None);
             }
         }
@@ -237,8 +323,14 @@ impl TemplateParser {
                 if matches {
                     // Found closing tag
                     let content: String = chars[content_start..i].iter().collect();
-                    let end = i + close_chars.len();
-                    return Ok(Some((end, style, spacing, content)));
+                    let end_pos = i + close_chars.len();
+                    return Ok(Some(TemplateData {
+                        end_pos,
+                        style,
+                        spacing,
+                        separator,
+                        content,
+                    }));
                 }
             }
 
@@ -247,6 +339,88 @@ impl TemplateParser {
 
         // No closing tag found
         Err(Error::UnclosedTag(style))
+    }
+
+    /// Try to parse a frame template starting at position i
+    /// Returns: Some(FrameData) or None if not a valid frame template
+    fn parse_frame_at(&self, chars: &[char], start: usize) -> Result<Option<FrameData>> {
+        let mut i = start;
+
+        // Must start with {{frame:
+        if i + 8 >= chars.len() {
+            return Ok(None);
+        }
+
+        // Check for "{{frame:"
+        let frame_start = "{{frame:";
+        let frame_chars: Vec<char> = frame_start.chars().collect();
+        for (idx, &expected) in frame_chars.iter().enumerate() {
+            if chars[i + idx] != expected {
+                return Ok(None);
+            }
+        }
+        i += frame_chars.len();
+
+        // Parse frame style name (alphanumeric and hyphens)
+        let mut frame_style = String::new();
+        while i < chars.len() {
+            let ch = chars[i];
+            if ch.is_alphanumeric() || ch == '-' {
+                frame_style.push(ch);
+                i += 1;
+            } else if ch == '}' {
+                break;
+            } else {
+                // Invalid character in frame style name
+                return Ok(None);
+            }
+        }
+
+        // Frame style must be non-empty
+        if frame_style.is_empty() {
+            return Ok(None);
+        }
+
+        // Must have closing }} for opening tag
+        if i + 1 >= chars.len() || chars[i] != '}' || chars[i + 1] != '}' {
+            return Ok(None);
+        }
+        i += 2;
+
+        let content_start = i;
+
+        // Find closing tag {{/frame}}
+        let close_tag = "{{/frame}}";
+        let close_chars: Vec<char> = close_tag.chars().collect();
+
+        while i < chars.len() {
+            // Check if we've found the closing tag
+            if i + close_chars.len() <= chars.len() {
+                let mut matches = true;
+                for (j, &close_ch) in close_chars.iter().enumerate() {
+                    if chars[i + j] != close_ch {
+                        matches = false;
+                        break;
+                    }
+                }
+
+                if matches {
+                    // Found closing tag
+                    let content: String = chars[content_start..i].iter().collect();
+                    let end_pos = i + close_chars.len();
+                    return Ok(Some(FrameData {
+                        end_pos,
+                        frame_style,
+                        content,
+                    }));
+                }
+            }
+
+            i += 1;
+        }
+
+        // No closing tag found
+        Err(Error::UnclosedTag("frame".to_string()))
     }
 
     /// Validate template syntax without processing
@@ -445,5 +619,227 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{mathbold:spacing=0}}HELLO{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐇𝐄𝐋𝐋𝐎");
+    }
+
+    #[test]
+    fn test_template_with_separator_dot() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:separator=dot}}HELLO{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐇·𝐄·𝐋·𝐋·𝐎");
+    }
+
+    #[test]
+    fn test_template_with_separator_dash() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:separator=dash}}HEADER{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐇─𝐄─𝐀─𝐃─𝐄─𝐑");
+    }
+
+    #[test]
+    fn test_template_with_separator_bolddash() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:separator=bolddash}}BOLD{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐁━𝐎━𝐋━𝐃");
+    }
+
+    #[test]
+    fn test_template_with_separator_arrow() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:separator=arrow}}ABC{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐀→𝐁→𝐂");
+    }
+
+    #[test]
+    fn test_template_with_separator_bullet() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:separator=bullet}}TEST{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐓•𝐄•𝐒•𝐓");
+    }
+
+    #[test]
+    fn test_template_separator_in_heading() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "# {{mathbold:separator=dot}}TITLE{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "# 𝐓·𝐈·𝐓·𝐋·𝐄");
+    }
+
+    #[test]
+    fn test_template_separator_with_punctuation() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:separator=dash}}Hello, World!{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐇─𝐞─𝐥─𝐥─𝐨─,─ ─𝐖─𝐨─𝐫─𝐥─𝐝─!");
+    }
+
+    #[test]
+    fn test_template_spacing_and_separator_mutually_exclusive() {
+        let parser = TemplateParser::new().unwrap();
+        // When both are specified, separator takes precedence
+        let input = "{{mathbold:spacing=2:separator=dot}}HI{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐇·𝐈");
+    }
+
+    #[test]
+    fn test_template_unknown_separator_error() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold:separator=invalid}}TEST{{/mathbold}}";
+        let result = parser.process(input);
+        assert!(result.is_err());
+        if let Err(Error::ParseError(msg)) = result {
+            assert!(msg.contains("Unknown separator"));
+        } else {
+            panic!("Expected ParseError");
+        }
+    }
+
+    #[test]
+    fn test_template_mixed_with_and_without_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input =
+            "{{mathbold}}no sep{{/mathbold}} {{mathbold:separator=dot}}with sep{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐧𝐨 𝐬𝐞𝐩 𝐰·𝐢·𝐭·𝐡· ·𝐬·𝐞·𝐩");
+    }
+
+    // Frame template tests
+    #[test]
+    fn test_frame_template_plain_text() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ Title ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_template_with_styled_text() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}{{mathbold}}TITLE{{/mathbold}}{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ 𝐓𝐈𝐓𝐋𝐄 ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_with_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:solid-left}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "█▌𝐓·𝐈·𝐓·𝐋·𝐄");
+    }
+
+    #[test]
+    fn test_frame_with_spacing() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}{{mathbold:spacing=1}}HI{{/mathbold}}{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ 𝐇 𝐈 ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_alias() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:grad}}Test{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ Test ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_solid_left() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:solid-left}}Important{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "█▌Important");
+    }
+
+    #[test]
+    fn test_frame_line_bold() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:line-bold}}Section{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "━━━ Section ━━━");
+    }
+
+    #[test]
+    fn test_multiple_frames_in_line() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:solid-left}}A{{/frame}} and {{frame:solid-right}}B{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "█▌A and B▐█");
+    }
+
+    #[test]
+    fn test_frame_in_heading() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "# {{frame:gradient}}{{mathbold}}HEADER{{/mathbold}}{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "# ▓▒░ 𝐇𝐄𝐀𝐃𝐄𝐑 ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_unknown_style_error() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:invalid}}Text{{/frame}}";
+        let result = parser.process(input);
+        assert!(result.is_err());
+        if let Err(Error::UnknownFrame(name)) = result {
+            assert_eq!(name, "invalid");
+        } else {
+            panic!("Expected UnknownFrame error");
+        }
+    }
+
+    #[test]
+    fn test_frame_preserves_code_blocks() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "```\n{{frame:gradient}}CODE{{/frame}}\n```";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "```\n{{frame:gradient}}CODE{{/frame}}\n```");
+    }
+
+    #[test]
+    fn test_frame_preserves_inline_code() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "Text `{{frame:gradient}}code{{/frame}}` more";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "Text `{{frame:gradient}}code{{/frame}}` more");
+    }
+
+    #[test]
+    fn test_composition_frame_style_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}{{mathbold:separator=dash}}STYLED{{/mathbold}}{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ 𝐒─𝐓─𝐘─𝐋─𝐄─𝐃 ░▒▓");
+    }
+
+    #[test]
+    fn test_composition_multiple_styles_in_frame() {
+        let parser = TemplateParser::new().unwrap();
+        let input =
+            "{{frame:solid-both}}{{mathbold}}A{{/mathbold}} and {{italic}}B{{/italic}}{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "█▌𝐀 and 𝐵▐█");
+    }
+
+    #[test]
+    fn test_complex_composition() {
+        let parser = TemplateParser::new().unwrap();
+        let input = r#"# {{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+
+{{frame:solid-left}}{{italic}}Important note{{/italic}}{{/frame}}
+
+Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
+
+        let result = parser.process(input).unwrap();
+
+        assert!(result.contains("▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓"));
+        assert!(result.contains("█▌𝐼𝑚𝑝𝑜𝑟𝑡𝑎𝑛𝑡 𝑛𝑜𝑡𝑒"));
+        assert!(result.contains("𝐬 𝐩 𝐚 𝐜 𝐢 𝐧 𝐠"));
     }
 }

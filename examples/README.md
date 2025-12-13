@@ -42,6 +42,15 @@ diff <(utf8fx process examples/demo-input.md) examples/demo-output.md
 
 # With spacing parameter
 {{style:spacing=N}}content{{/style}}
+
+# With separator parameter
+{{style:separator=name}}content{{/style}}
+
+# With decorative frame
+{{frame:style}}content{{/frame}}
+
+# Composition (style + separator + frame)
+{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
 ```
 
 ### Spacing Parameter
@@ -60,6 +69,85 @@ Add spaces between each character for artistic headers and design elements:
 
 {{fraktur:spacing=3}}Gothic{{/fraktur}}
 → 𝔊   𝔬   𝔱   𝔥   𝔦   𝔠
+```
+
+### Separator Parameter
+
+Use custom separator characters between letters:
+
+```markdown
+{{mathbold:separator=dot}}T I T L E{{/mathbold}}
+→ 𝐓·𝐈·𝐓·𝐋·𝐄
+
+{{mathbold:separator=dash}}H E A D E R{{/mathbold}}
+→ 𝐇─𝐄─𝐀─𝐃─𝐄─𝐑
+
+{{mathbold:separator=bolddash}}B O L D{{/mathbold}}
+→ 𝐁━𝐎━𝐋━𝐃
+
+{{mathbold:separator=arrow}}F L O W{{/mathbold}}
+→ 𝐅→𝐋→𝐎→𝐖
+
+{{script:separator=bullet}}Note{{/script}}
+→ 𝒩•𝑜•𝓉•ℯ
+```
+
+**Available separators:**
+- `dot` (·) - Middle dot
+- `bullet` (•) - Bullet point
+- `dash` (─) - Box drawing horizontal
+- `bolddash` (━) - Box drawing heavy
+- `arrow` (→) - Rightward arrow
+
+### Decorative Frames
+
+Wrap text with decorative elements:
+
+```markdown
+{{frame:gradient}}Important Note{{/frame}}
+→ ▓▒░ Important Note ░▒▓
+
+{{frame:solid-left}}Action Item{{/frame}}
+→ █▌Action Item
+
+{{frame:line-bold}}Section Header{{/frame}}
+→ ━━━ Section Header ━━━
+
+{{frame:arrow-right}}Next Step{{/frame}}
+→ → Next Step →
+```
+
+**Available frames:**
+- `gradient` - Gradient blocks (▓▒░ ... ░▒▓)
+- `solid-left` - Left solid block (█▌...)
+- `solid-right` - Right solid block (...▐█)
+- `solid-both` - Both sides (█▌...▐█)
+- `line-light` - Light lines (─── ... ───)
+- `line-bold` - Bold lines (━━━ ... ━━━)
+- `line-double` - Double lines (═══ ... ═══)
+- `line-dashed` - Dashed lines (╌╌╌ ... ╌╌╌)
+- `block-top` - Top blocks (▀▀▀ ... ▀▀▀)
+- `block-bottom` - Bottom blocks (▄▄▄ ... ▄▄▄)
+- `arrow-right` - Arrows (→ ... →)
+- `dot` - Middle dots (· ... ·)
+- `bullet` - Bullet points (• ... •)
+
+### Composition Examples
+
+Combine styles, separators, and frames:
+
+```markdown
+# Styled + Framed
+{{frame:gradient}}{{mathbold}}TITLE{{/mathbold}}{{/frame}}
+→ ▓▒░ 𝐓𝐈𝐓𝐋𝐄 ░▒▓
+
+# Styled + Separator + Framed
+{{frame:solid-left}}{{mathbold:separator=dash}}HEADER{{/mathbold}}{{/frame}}
+→ █▌𝐇─𝐄─𝐀─𝐃─𝐄─𝐑
+
+# Multiple styles in one frame
+{{frame:gradient}}{{mathbold}}Bold{{/mathbold}} and {{italic}}Italic{{/italic}}{{/frame}}
+→ ▓▒░ 𝐁𝐨𝐥𝐝 and 𝐼𝑡𝑎𝑙𝑖𝑐 ░▒▓
 ```
 
 **Available styles:**

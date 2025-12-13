@@ -8,6 +8,14 @@ pub enum Error {
     #[error("Unknown style '{0}'. Run `utf8fx list` to see available styles.")]
     UnknownStyle(String),
 
+    /// The requested frame does not exist
+    #[error("Unknown frame '{0}'. Run `utf8fx frames list` to see available frames.")]
+    UnknownFrame(String),
+
+    /// Generic parse error
+    #[error("Parse error: {0}")]
+    ParseError(String),
+
     /// Style doesn't support the requested character type
     #[error("Style '{0}' does not support {1}")]
     StyleNotSupported(String, String),

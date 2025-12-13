@@ -40,12 +40,14 @@
 
 pub mod converter;
 pub mod error;
+pub mod frames;
 pub mod parser;
 pub mod styles;
 
 // Re-export main types for convenience
 pub use converter::Converter;
 pub use error::{Error, Result};
+pub use frames::{FrameRenderer, FrameStyle};
 pub use parser::TemplateParser;
 pub use styles::{Style, StyleCategory, StyleSupport, StylesData};
 
