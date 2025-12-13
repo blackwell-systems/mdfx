@@ -356,6 +356,12 @@ Any single Unicode character works:
 {{mathbold:separator=|}}PIPES{{/mathbold}}
 ```
 
+**Validation & Error Handling:**
+- Whitespace is automatically trimmed: `separator=  dot  ` works
+- Invalid separators show "did you mean" suggestions
+- Template delimiters (`:`, `/`, `}`) are rejected
+- Helpful error messages list all available options
+
 Run `mdfx separators` to see all available named separators.
 
 ### With Spacing
