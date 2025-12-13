@@ -48,14 +48,14 @@ impl Converter {
         }
 
         // With separation: convert each char and add separator between
-        let chars: Vec<char> = text.chars().collect();
         let mut result = String::new();
+        let mut chars = text.chars().peekable();
 
-        for (i, c) in chars.iter().enumerate() {
-            result.push(style_obj.convert_char(*c));
+        while let Some(c) = chars.next() {
+            result.push(style_obj.convert_char(c));
 
             // Add separator after each character except the last
-            if i < chars.len() - 1 {
+            if chars.peek().is_some() {
                 for _ in 0..count {
                     result.push_str(separator);
                 }

@@ -47,9 +47,9 @@ graph LR
 ### Core Principles
 
 1. **Single Responsibility** - Each component has one clear purpose
-2. **Zero-Copy Operations** - Minimize memory allocations
+2. **Allocation-Minimized** - Single-pass processing, no regex backtracking
 3. **Data-Driven** - Configuration over code (styles.json)
-4. **Fail-Safe** - Preserve original text on errors
+4. **Strict by Default** - Returns errors for invalid templates (use `--help` for CLI behavior)
 5. **Composable** - Features work together cleanly
 
 ---
@@ -114,7 +114,7 @@ graph TD
 - Loads `styles.json` once at initialization (lazy_static)
 - O(1) style lookup via HashMap
 - Preserves whitespace, punctuation, unsupported characters
-- Zero allocations for unsupported characters
+- Allocates output String for converted text (standard Rust string transformation)
 
 #### 2. TemplateParser (`src/parser.rs`)
 
@@ -133,8 +133,8 @@ graph TD
 - **Recursive processing**: Frame content can contain style/badge templates
 - **Parameter parsing**: Supports `:spacing=N` and `:separator=name` parameters (styles only)
 - Preserves code blocks (```) and inline code (`)
-- Tracks nesting depth for proper template matching
-- Fail-safe: invalid templates preserved as-is
+- **Error handling**: Returns `Error` for unknown styles/frames/badges or unclosed tags
+- **Limitation**: Nested templates of the same type not supported (e.g., `{{mb}}{{mb}}X{{/mb}}{{/mb}}`)
 
 #### 3. FrameRenderer (`src/frames.rs`)
 
@@ -446,7 +446,7 @@ lazy_static! {
 
 **Trade-off:** Panic if styles.json invalid (acceptable for v1.0.0)
 
-### 3. Zero-Copy for Unsupported Characters
+### 3. Preserve Unsupported Characters
 
 **Decision:** Return original character if no mapping exists
 
@@ -454,8 +454,9 @@ lazy_static! {
 - **Predictable behavior**: Users see what they expect
 - **Punctuation preserved**: "Hello!" → "𝐇𝐞𝐥𝐥𝐨!"
 - **Emoji safe**: "Test 🎉" → "𝐓𝐞𝐬𝐭 🎉"
+- **Implementation**: Characters without mappings pass through unchanged
 
-**Trade-off:** None - strictly better UX
+**Note:** While individual characters may be preserved, the conversion process allocates new Strings for the output (standard for Rust string transformations).
 
 ### 4. Template Preservation in Code Blocks
 
