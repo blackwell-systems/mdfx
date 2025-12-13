@@ -563,7 +563,9 @@ impl TemplateParser {
                         separator = Some(sep_input.clone());
                     } else {
                         // Multi-grapheme unknown name - error with suggestions
-                        let available: Vec<&str> = self.registry.glyphs()
+                        let available: Vec<&str> = self
+                            .registry
+                            .glyphs()
                             .iter()
                             .filter(|(_, g)| g.contexts.contains(&EvalContext::Inline))
                             .map(|(name, _)| name.as_str())

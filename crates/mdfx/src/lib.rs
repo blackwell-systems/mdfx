@@ -62,11 +62,11 @@ pub use frames::{FrameRenderer, FrameStyle};
 pub use manifest::{AssetEntry, AssetManifest, PrimitiveInfo, VerificationResult};
 pub use parser::{ProcessedMarkdown, TemplateParser};
 pub use primitive::Primitive;
-pub use renderer::{RenderedAsset, Renderer};
 pub use registry::{EvalContext, Registry, ResolvedRenderable};
+pub use renderer::{RenderedAsset, Renderer};
 pub use separators::{Separator, SeparatorsData};
-pub use shields::ShieldsRenderer;
 pub use shields::ShieldStyle as ShieldsShieldStyle;
+pub use shields::ShieldsRenderer;
 pub use styles::{Style, StyleCategory, StyleSupport, StylesData};
 pub use targets::{BackendType, GitHubTarget, LocalDocsTarget, NpmTarget, Target};
 

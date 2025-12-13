@@ -16,21 +16,16 @@ use crate::error::Result;
 use serde::{Deserialize, Serialize};
 
 /// Backend types for rendering primitives
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum BackendType {
     /// shields.io URL-based badges (GitHub, npm)
+    #[default]
     Shields,
     /// Local SVG file generation (local docs)
     Svg,
     /// Plain text fallback (PyPI, ASCII-only contexts)
     PlainText,
-}
-
-impl Default for BackendType {
-    fn default() -> Self {
-        BackendType::Shields
-    }
 }
 
 /// Target trait defines a rendering destination with specific capabilities
@@ -334,10 +329,7 @@ mod tests {
             detect_target_from_path(Path::new("/project/docs/index.md")),
             Some("local")
         );
-        assert_eq!(
-            detect_target_from_path(Path::new("PKG-INFO")),
-            Some("pypi")
-        );
+        assert_eq!(detect_target_from_path(Path::new("PKG-INFO")), Some("pypi"));
         assert_eq!(detect_target_from_path(Path::new("random.md")), None);
     }
 

@@ -9,6 +9,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Unified Registry System
+
+- **Single source of truth** - Consolidated 7 separate JSON data files into unified `registry.json` (1139 lines)
+  - Replaces: `styles.json`, `frames.json`, `badges.json`, `palette.json`, `components.json`, `shields.json`, `separators.json`
+  - Enables IntelliSense tooling with single schema (#1 priority)
+- **Registry module** - New `registry.rs` with complete typed API
+  - `Registry::new()` - Load and validate unified registry
+  - `resolve()` - Unified resolution: glyphs → snippets → components → literal
+  - Lookup methods: `glyph()`, `snippet()`, `component()`, `frame()`, `style()`, `badge()`, `shield_style()`
+  - Color resolution: `resolve_color()` with palette support
+  - Alias support for all renderable types
+- **EvalContext system** - Context-aware validation for safe composition
+  - Three contexts: `Inline`, `Block`, `FrameChrome`
+  - Context promotion rules (Inline can promote to Block/FrameChrome)
+  - All renderables annotated with allowed contexts
+  - Runtime validation prevents invalid compositions
+- **Renderables taxonomy**:
+  - **Glyphs** (21): Unicode character mappings (`dot`, `bullet`, `arrow`, etc.)
+  - **Snippets** (10): Template expansion shortcuts (`sep.accent`, `header.bold`, etc.)
+  - **Components** (9): Semantic UI elements (`divider`, `swatch`, `tech`, `status`, etc.)
+  - **Frames** (32): Decorative wrappers (`gradient`, `solid-left`, `dashed`, etc.)
+  - **Styles** (19): Character transformations (`mathbold`, `italic`, `monospace`, etc.)
+  - **Badges** (6): Character modifiers (`circle`, `paren`, `period`, etc.)
+- **Shield styles** - 5 visual styles with default marking (`flat`, `flat-square`, `for-the-badge`, `plastic`, `social`)
+
+#### Target Trait (Multi-Surface Rendering)
+
+- **Target abstraction** - Trait for rendering destination capabilities
+  - `supports_html()`, `supports_svg_embed()`, `supports_external_images()`
+  - `max_line_length()`, `preferred_backend()`, `supports_unicode_styling()`
+  - `post_process()` - Platform-specific markdown transformations
+- **BackendType enum** - `Shields`, `Svg`, `PlainText` with derived Default
+- **Shipped targets**:
+  - **GitHubTarget** - shields.io badges, no HTML, 100 char line limit
+  - **LocalDocsTarget** - SVG files, offline-first, unlimited line length
+  - **NpmTarget** - Similar constraints to GitHub
+- **Target detection** - `detect_target_from_path()` for automatic target selection
+- **Future targets** (v2.0): `GitLabTarget`, `PyPITarget`
+
 #### Data-Driven Separator System
 
 - **12 named separators** - Predefined separators with documentation: `dot`, `bullet`, `dash`, `bolddash`, `arrow`, `star`, `diamond`, `square`, `circle`, `pipe`, `slash`, `tilde`
@@ -61,11 +100,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Parser refactored to unified resolution** - All validation now flows through Registry
+  - Style validation via `registry.style()` instead of `converter.has_style()`
+  - Frame validation via `registry.frame()` instead of `frame_renderer.has_frame()`
+  - Badge validation via `registry.badge()` instead of `badge_renderer.has_badge()`
+  - Separator resolution via `registry.glyph()` with EvalContext checking
+  - Removed lazy_static SEPARATORS dependency from parser
+  - Improved error messages with available glyph suggestions
+- **BackendType enum** - Now uses `#[derive(Default)]` with `#[default]` attribute (clippy optimization)
 - **Project renamed from utf8fx to mdfx** - The new name better reflects the tool's focus on markdown enhancement. "mdfx" (markdown effects) is more descriptive than "utf8fx" for a tool specifically designed to transform markdown with Unicode styling and UI components.
 - **Dependency count increased** - From 4 to 7: added unicode-segmentation, sha2, chrono
 - **RenderedAsset::File variant** - Now includes `primitive` field for manifest tracking
 - **Documentation theme** - Changed from pink (#f41c80) to blue (#4a9eff) to match Blackwell Systems branding
-- **Test count** - Increased from 189 to 237 tests (21 new tests for GitHub blocks and whitespace handling, 20 new tests for badge style control)
+- **Test count** - Increased from 189 to 256 tests (21 new tests for GitHub blocks and whitespace handling, 20 new tests for badge style control, 8 new tests for Target trait, 8 new tests for Registry)
 - **PostProcess enum** - Now derives `Default` (clippy optimization)
 
 ### Fixed

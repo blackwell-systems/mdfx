@@ -484,10 +484,7 @@ impl Registry {
         // 1. Check glyphs
         if let Some(glyph) = self.glyph(name) {
             if glyph.contexts.contains(&context)
-                || glyph
-                    .contexts
-                    .iter()
-                    .any(|c| c.can_promote_to(context))
+                || glyph.contexts.iter().any(|c| c.can_promote_to(context))
             {
                 return ResolvedRenderable::Glyph(glyph.clone());
             }
@@ -496,10 +493,7 @@ impl Registry {
         // 2. Check snippets
         if let Some(snippet) = self.snippet(name) {
             if snippet.contexts.contains(&context)
-                || snippet
-                    .contexts
-                    .iter()
-                    .any(|c| c.can_promote_to(context))
+                || snippet.contexts.iter().any(|c| c.can_promote_to(context))
             {
                 return ResolvedRenderable::Snippet(snippet.clone());
             }
@@ -508,10 +502,7 @@ impl Registry {
         // 3. Check components
         if let Some(component) = self.component(name) {
             if component.contexts.contains(&context)
-                || component
-                    .contexts
-                    .iter()
-                    .any(|c| c.can_promote_to(context))
+                || component.contexts.iter().any(|c| c.can_promote_to(context))
             {
                 return ResolvedRenderable::Component(component.clone());
             }
