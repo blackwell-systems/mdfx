@@ -25,15 +25,15 @@ for READMEs, documentation, and presentations without images or external depende
 
 Renders as:
 
-# ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓·𝐍·𝐀·𝐌·𝐄 ░▒▓
+# ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓· ·𝐍·𝐀·𝐌·𝐄 ░▒▓
 
-![Divider](https://img.shields.io/badge/%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0%E2%96%A0-F41C80_EAB308_22C55E_4A9EFF_8B5CF6_EC4899?style=flat-square)
+![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
 
 ## Tech Stack
-![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=python&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=postgresql&logoColor=FFFFFF&label=&labelColor=292A2D)
 
 ## Status
-![Success](https://img.shields.io/badge/%E2%96%A0-22C55E?style=flat-square) All systems operational
+![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) All systems operational
 
 ## 𝐌𝐨𝐭𝐢𝐯𝐚𝐭𝐢𝐨𝐧
 
@@ -393,9 +393,9 @@ let output = parser.process(input)?;
 
 **Markdown Output:**
 ```markdown
-![](https://img.shields.io/badge/-22C55E?style=flat-square)
+![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)
 ```
-This URL renders as: ![](https://img.shields.io/badge/-22C55E?style=flat-square)
+This URL renders as: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)
 
 **When to use:**
 - GitHub READMEs (renders automatically)
