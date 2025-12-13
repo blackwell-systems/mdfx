@@ -1,7 +1,11 @@
 use crate::badges::BadgeRenderer;
+use crate::components::{ComponentOutput, ComponentsRenderer};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
+use crate::renderer::shields::ShieldsBackend;
+use crate::renderer::Renderer;
+use crate::shields::ShieldsRenderer;
 
 /// Template data extracted from parsing
 #[derive(Debug, Clone)]
@@ -29,23 +33,49 @@ struct BadgeData {
     content: String,
 }
 
+/// UI component template data
+#[derive(Debug, Clone)]
+struct UIData {
+    end_pos: usize,
+    component_name: String,
+    args: Vec<String>,
+    content: Option<String>, // None for self-closing
+}
+
+/// Shield template data
+#[derive(Debug, Clone)]
+struct ShieldData {
+    end_pos: usize,
+    shield_type: String, // "block", "twotone", "bar", "icon"
+    params: std::collections::HashMap<String, String>,
+}
+
 /// Parser for processing markdown with style templates
 pub struct TemplateParser {
     converter: Converter,
     frame_renderer: FrameRenderer,
     badge_renderer: BadgeRenderer,
+    components_renderer: ComponentsRenderer,
+    shields_renderer: ShieldsRenderer,
+    backend: ShieldsBackend,  // Rendering backend for primitives
 }
 
 impl TemplateParser {
-    /// Create a new template parser
+    /// Create a new template parser with default (shields.io) backend
     pub fn new() -> Result<Self> {
         let converter = Converter::new()?;
         let frame_renderer = FrameRenderer::new()?;
         let badge_renderer = BadgeRenderer::new()?;
+        let components_renderer = ComponentsRenderer::new()?;
+        let shields_renderer = ShieldsRenderer::new()?;
+        let backend = ShieldsBackend::new()?;
         Ok(Self {
             converter,
             frame_renderer,
             badge_renderer,
+            components_renderer,
+            shields_renderer,
+            backend,
         })
     }
 
@@ -135,9 +165,37 @@ impl TemplateParser {
         let mut i = 0;
 
         while i < chars.len() {
-            // Look for opening tag {{ (could be style or frame template)
+            // Look for opening tag {{ (could be ui, frame, badge, or style template)
             if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
-                // Try to parse a frame template first
+                // Try to parse a UI component first (highest priority)
+                if let Some(ui_data) = self.parse_ui_at(&chars, i)? {
+                    // Expand the UI component
+                    let output = self.components_renderer.expand(
+                        &ui_data.component_name,
+                        &ui_data.args,
+                        ui_data.content.as_deref(),
+                    )?;
+
+                    match output {
+                        ComponentOutput::Primitive(primitive) => {
+                            // Render the primitive using the backend
+                            let rendered = self.backend.render(&primitive)?;
+                            result.push_str(rendered.to_markdown());
+                        }
+                        ComponentOutput::Template(template) => {
+                            // Recursively process the template
+                            // (it may contain shields, frames, or styles)
+                            let processed = self.process_templates(&template)?;
+                            result.push_str(&processed);
+                        }
+                    }
+
+                    // Skip past the UI template
+                    i = ui_data.end_pos;
+                    continue;
+                }
+
+                // Try to parse a frame template
                 if let Some(frame_data) = self.parse_frame_at(&chars, i)? {
                     // Validate frame exists
                     if !self.frame_renderer.has_frame(&frame_data.frame_style) {
@@ -173,6 +231,55 @@ impl TemplateParser {
 
                     // Skip past the badge template
                     i = badge_data.end_pos;
+                    continue;
+                }
+
+                // Try to parse a shields template (escape hatch for primitives)
+                if let Some(shield_data) = self.parse_shields_at(&chars, i)? {
+                    // Render based on shield type
+                    let rendered = match shield_data.shield_type.as_str() {
+                        "block" => {
+                            let color = shield_data.params.get("color")
+                                .ok_or_else(|| Error::MissingShieldParam("color".to_string(), "block".to_string()))?;
+                            let style = shield_data.params.get("style")
+                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "block".to_string()))?;
+                            self.shields_renderer.render_block(color, style)?
+                        }
+                        "twotone" => {
+                            let left = shield_data.params.get("left")
+                                .ok_or_else(|| Error::MissingShieldParam("left".to_string(), "twotone".to_string()))?;
+                            let right = shield_data.params.get("right")
+                                .ok_or_else(|| Error::MissingShieldParam("right".to_string(), "twotone".to_string()))?;
+                            let style = shield_data.params.get("style")
+                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "twotone".to_string()))?;
+                            self.shields_renderer.render_twotone(left, right, style)?
+                        }
+                        "bar" => {
+                            let colors_str = shield_data.params.get("colors")
+                                .ok_or_else(|| Error::MissingShieldParam("colors".to_string(), "bar".to_string()))?;
+                            let colors: Vec<String> = colors_str.split(',').map(|s| s.to_string()).collect();
+                            let style = shield_data.params.get("style")
+                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "bar".to_string()))?;
+                            self.shields_renderer.render_bar(&colors, style)?
+                        }
+                        "icon" => {
+                            let logo = shield_data.params.get("logo")
+                                .ok_or_else(|| Error::MissingShieldParam("logo".to_string(), "icon".to_string()))?;
+                            let bg = shield_data.params.get("bg")
+                                .ok_or_else(|| Error::MissingShieldParam("bg".to_string(), "icon".to_string()))?;
+                            let logo_color = shield_data.params.get("logoColor")
+                                .ok_or_else(|| Error::MissingShieldParam("logoColor".to_string(), "icon".to_string()))?;
+                            let style = shield_data.params.get("style")
+                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "icon".to_string()))?;
+                            self.shields_renderer.render_icon(logo, bg, logo_color, style)?
+                        }
+                        _ => return Err(Error::UnknownShieldType(shield_data.shield_type)),
+                    };
+
+                    result.push_str(&rendered);
+
+                    // Skip past the shields template
+                    i = shield_data.end_pos;
                     continue;
                 }
 
@@ -533,6 +640,219 @@ impl TemplateParser {
 
         // No closing tag found
         Err(Error::UnclosedTag("badge".to_string()))
+    }
+
+    /// Try to parse a UI component template starting at position i
+    /// Returns: Some(UIData) or None if not a valid UI template
+    ///
+    /// Supports both self-closing and block-style:
+    /// - Self-closing: {{ui:divider/}}
+    /// - Block: {{ui:header}}CONTENT{{/ui}}
+    /// - With args: {{ui:tech:rust/}}
+    fn parse_ui_at(&self, chars: &[char], start: usize) -> Result<Option<UIData>> {
+        let mut i = start;
+
+        // Must start with {{ui:
+        if i + 5 >= chars.len() {
+            return Ok(None);
+        }
+
+        // Check for "{{ui:"
+        let ui_start = "{{ui:";
+        let ui_chars: Vec<char> = ui_start.chars().collect();
+        for (idx, &expected) in ui_chars.iter().enumerate() {
+            if chars[i + idx] != expected {
+                return Ok(None);
+            }
+        }
+        i += ui_chars.len();
+
+        // Parse component name (alphanumeric and hyphens)
+        let mut component_name = String::new();
+        while i < chars.len() {
+            let ch = chars[i];
+            if ch.is_alphanumeric() || ch == '-' || ch == '_' {
+                component_name.push(ch);
+                i += 1;
+            } else if ch == ':' || ch == '/' || ch == '}' {
+                break;
+            } else {
+                // Invalid character in component name
+                return Ok(None);
+            }
+        }
+
+        // Component name must be non-empty
+        if component_name.is_empty() {
+            return Ok(None);
+        }
+
+        // Parse optional args (separated by :)
+        let mut args = Vec::new();
+
+        while i < chars.len() && chars[i] == ':' {
+            i += 1; // skip ':'
+
+            // Parse arg value (until next : or } or /)
+            let mut arg = String::new();
+            while i < chars.len() {
+                let ch = chars[i];
+                if ch == ':' || ch == '}' || ch == '/' {
+                    break;
+                }
+                arg.push(ch);
+                i += 1;
+            }
+
+            if !arg.is_empty() {
+                args.push(arg);
+            }
+        }
+
+        // Check for self-closing tag (ends with /}})
+        if i + 2 < chars.len() && chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
+            // Self-closing tag
+            let end_pos = i + 3;
+            return Ok(Some(UIData {
+                end_pos,
+                component_name,
+                args,
+                content: None,
+            }));
+        }
+
+        // Must have closing }} for opening tag
+        if i + 1 >= chars.len() || chars[i] != '}' || chars[i + 1] != '}' {
+            return Ok(None);
+        }
+        i += 2;
+
+        let content_start = i;
+
+        // Find closing tag {{/ui}}
+        let close_tag = "{{/ui}}";
+        let close_chars: Vec<char> = close_tag.chars().collect();
+
+        while i < chars.len() {
+            // Check if we've found the closing tag
+            if i + close_chars.len() <= chars.len() {
+                let mut matches = true;
+                for (j, &close_ch) in close_chars.iter().enumerate() {
+                    if chars[i + j] != close_ch {
+                        matches = false;
+                        break;
+                    }
+                }
+
+                if matches {
+                    // Found closing tag
+                    let content: String = chars[content_start..i].iter().collect();
+                    let end_pos = i + close_chars.len();
+                    return Ok(Some(UIData {
+                        end_pos,
+                        component_name,
+                        args,
+                        content: Some(content),
+                    }));
+                }
+            }
+
+            i += 1;
+        }
+
+        // No closing tag found
+        Err(Error::UnclosedTag("ui".to_string()))
+    }
+
+    /// Try to parse a shields template starting at position i
+    /// Returns: Some(ShieldData) or None if not a valid shields template
+    ///
+    /// Supports self-closing only: {{shields:block:color=accent:style=flat-square/}}
+    fn parse_shields_at(&self, chars: &[char], start: usize) -> Result<Option<ShieldData>> {
+        let mut i = start;
+
+        // Must start with {{shields:
+        if i + 11 >= chars.len() {
+            return Ok(None);
+        }
+
+        // Check for "{{shields:"
+        let shields_start = "{{shields:";
+        let shields_chars: Vec<char> = shields_start.chars().collect();
+        for (idx, &expected) in shields_chars.iter().enumerate() {
+            if chars[i + idx] != expected {
+                return Ok(None);
+            }
+        }
+        i += shields_chars.len();
+
+        // Parse shield type (block, twotone, bar, icon)
+        let mut shield_type = String::new();
+        while i < chars.len() {
+            let ch = chars[i];
+            if ch.is_alphanumeric() {
+                shield_type.push(ch);
+                i += 1;
+            } else if ch == ':' || ch == '/' {
+                break;
+            } else {
+                // Invalid character in shield type
+                return Ok(None);
+            }
+        }
+
+        // Shield type must be non-empty
+        if shield_type.is_empty() {
+            return Ok(None);
+        }
+
+        // Parse parameters (key=value pairs separated by :)
+        let mut params = std::collections::HashMap::new();
+
+        while i < chars.len() && chars[i] == ':' {
+            i += 1; // skip ':'
+
+            // Parse key
+            let mut key = String::new();
+            while i < chars.len() && chars[i] != '=' {
+                key.push(chars[i]);
+                i += 1;
+            }
+
+            // Must have '='
+            if i >= chars.len() || chars[i] != '=' {
+                return Ok(None);
+            }
+            i += 1; // skip '='
+
+            // Parse value (until next : or / or })
+            let mut value = String::new();
+            while i < chars.len() {
+                let ch = chars[i];
+                if ch == ':' || ch == '/' || ch == '}' {
+                    break;
+                }
+                value.push(ch);
+                i += 1;
+            }
+
+            if !key.is_empty() && !value.is_empty() {
+                params.insert(key, value);
+            }
+        }
+
+        // Must be self-closing (ends with /}})
+        if i + 2 < chars.len() && chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
+            let end_pos = i + 3;
+            return Ok(Some(ShieldData {
+                end_pos,
+                shield_type,
+                params,
+            }));
+        }
+
+        // Not a valid shields template
+        Ok(None)
     }
 
     /// Validate template syntax without processing
@@ -1068,5 +1388,124 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let input = "{{badge:circle}}1";
         let result = parser.process(input);
         assert!(result.is_err());
+    }
+
+    // UI Component Tests
+
+    #[test]
+    fn test_ui_divider() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:divider/}}";
+        let result = parser.process(input).unwrap();
+        // Should expand to shields:bar and render as Markdown image
+        assert!(result.contains("![]("));
+        assert!(result.contains("img.shields.io"));
+    }
+
+    #[test]
+    fn test_ui_swatch() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:accent/}}";
+        let result = parser.process(input).unwrap();
+        // Should expand to shields:block with accent color resolved
+        assert!(result.contains("![]("));
+        assert!(result.contains("F41C80")); // accent color (uppercased by shields)
+    }
+
+    #[test]
+    fn test_ui_tech() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:tech:rust/}}";
+        let result = parser.process(input).unwrap();
+        // Should expand to shields:icon with logo
+        assert!(result.contains("![]("));
+        assert!(result.contains("logo=rust"));
+    }
+
+    #[test]
+    fn test_ui_status() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:status:success/}}";
+        let result = parser.process(input).unwrap();
+        // Should expand to shields:block with success color
+        assert!(result.contains("![]("));
+        assert!(result.contains("22C55E")); // success color (uppercased)
+    }
+
+    #[test]
+    fn test_ui_header_with_content() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:header}}TITLE{{/ui}}";
+        let result = parser.process(input).unwrap();
+        // Should expand to frame+mathbold and render
+        assert!(result.contains("▓▒░")); // gradient frame prefix
+        assert!(result.contains("𝐓")); // mathbold T
+    }
+
+    #[test]
+    fn test_ui_callout_with_content() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:callout:warning}}Breaking change{{/ui}}";
+        let result = parser.process(input).unwrap();
+        // Should have frame + shield + content
+        assert!(result.contains("Breaking change"));
+        assert!(result.contains("![]("));
+    }
+
+    #[test]
+    fn test_ui_multiple_inline() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:tech:rust/}} {{ui:tech:python/}}";
+        let result = parser.process(input).unwrap();
+        // Should have two shields
+        assert_eq!(result.matches("![](").count(), 2);
+        assert!(result.contains("logo=rust"));
+        assert!(result.contains("logo=python"));
+    }
+
+    #[test]
+    fn test_ui_in_markdown() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "# Header\n\n{{ui:divider/}}\n\n## Section";
+        let result = parser.process(input).unwrap();
+        assert!(result.contains("# Header"));
+        assert!(result.contains("![]("));
+        assert!(result.contains("## Section"));
+    }
+
+    #[test]
+    fn test_ui_unknown_component() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:nonexistent/}}";
+        let result = parser.process(input);
+        assert!(result.is_err());
+        assert!(result.unwrap_err().to_string().contains("Unknown component"));
+    }
+
+    #[test]
+    fn test_ui_unclosed() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:header}}TITLE";
+        let result = parser.process(input);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_shields_primitive_block() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{shields:block:color=cobalt:style=flat-square/}}";
+        let result = parser.process(input).unwrap();
+        // Should render shields directly (cobalt is in shields.json palette)
+        assert!(result.contains("![]("));
+        assert!(result.contains("2B6CB0")); // cobalt resolved from shields palette
+    }
+
+    #[test]
+    fn test_shields_primitive_bar() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{shields:bar:colors=success,warning,error:style=flat-square/}}";
+        let result = parser.process(input).unwrap();
+        // Should render 3 inline badges
+        assert_eq!(result.matches("![](").count(), 3);
     }
 }

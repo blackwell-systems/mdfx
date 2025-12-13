@@ -1,14 +1,17 @@
 # utf8fx Architecture
 
-**Version:** 1.0.0
+**Version:** 0.1.0
 **Last Updated:** 2025-12-12
 
 ## Table of Contents
 
 - [System Overview](#system-overview)
-- [Component Architecture](#component-architecture)
-- [State Machine Design](#state-machine-design)
-- [Data Flow](#data-flow)
+- [Three-Layer Architecture](#three-layer-architecture)
+- [Component Responsibilities](#component-responsibilities)
+- [Expansion Model](#expansion-model)
+- [Parser Design](#parser-design)
+- [Data Packaging](#data-packaging)
+- [Performance Characteristics](#performance-characteristics)
 - [Key Design Decisions](#key-design-decisions)
 - [Extension Points](#extension-points)
 
@@ -16,484 +19,760 @@
 
 ## System Overview
 
-utf8fx is a markdown preprocessor that transforms text using Unicode character mappings. The system consists of four primary components working together in a pipeline architecture.
+utf8fx is a markdown preprocessor that transforms text using Unicode character mappings, decorative frames, and shields.io badges. The system consists of **five primary components** working together in a **three-layer pipeline architecture**.
+
+### Three Layers
+
+1. **UI Components** (`{{ui:*}}`) - High-level semantic elements users write
+2. **Primitives** (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`) - Rendering engines
+3. **Styles** (`{{mathbold}}`) - Character transformations
+
+**Key Innovation:** Components **expand** to primitives at parse time, keeping user-facing syntax concise while maintaining full customization power.
+
+### System Diagram
 
 ```mermaid
 %%{init: {'theme':'dark'}}%%
 graph LR
     A[Input Text] --> B[Template Parser]
-    B --> C[Converter]
-    B --> H[Badge Renderer]
-    B --> F[Frame Renderer]
-    C --> F
-    H --> F
-    F --> D[Styled Output]
+    B --> UI[ComponentsRenderer]
+    UI --> B2[Recursive Parse]
+    B2 --> F[FrameRenderer]
+    B2 --> H[BadgeRenderer]
+    B2 --> S[ShieldsRenderer]
+    B2 --> C[Converter]
+    F --> O[Styled Output]
+    H --> O
+    S --> O
+    C --> O
 
-    E[styles.json] -.->|Character Mappings| C
-    G[frames.json] -.->|Decorative Elements| F
-    I[badges.json] -.->|Enclosed Characters| H
+    P[palette.json] -.->|Design Tokens| UI
+    COM[components.json] -.->|Expansion Rules| UI
+    SH[shields.json] -.->|Shield Styles| S
+    FR[frames.json] -.->|Decorations| F
+    BA[badges.json] -.->|Enclosed Chars| H
+    ST[styles.json] -.->|Character Maps| C
 
     style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style B fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style C fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style H fill:#2d3748,stroke:#f56565,stroke-width:2px
+    style UI fill:#2d3748,stroke:#f56565,stroke-width:3px
+    style B2 fill:#2d3748,stroke:#48bb78,stroke-width:2px
     style F fill:#2d3748,stroke:#9f7aea,stroke-width:2px
-    style D fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style E fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
-    style G fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
-    style I fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
+    style H fill:#2d3748,stroke:#ed8936,stroke-width:2px
+    style S fill:#2d3748,stroke:#f56565,stroke-width:2px
+    style C fill:#2d3748,stroke:#ed8936,stroke-width:2px
+    style O fill:#2d3748,stroke:#4299e1,stroke-width:2px
 ```
 
 ### Core Principles
 
-1. **Single Responsibility** - Each component has one clear purpose
-2. **Allocation-Minimized** - Single-pass processing, no regex backtracking
-3. **Data-Driven** - Configuration over code (styles.json)
-4. **Strict by Default** - Returns errors for invalid templates (use `--help` for CLI behavior)
-5. **Composable** - Features work together cleanly
+1. **Component-First** - Users write semantic `{{ui:*}}`, not verbose primitives
+2. **Expansion Over Rendering** - Components expand to primitives (data, not code)
+3. **Single Responsibility** - Each renderer has one clear purpose
+4. **Allocation-Minimized** - Single-pass processing, streaming where possible
+5. **Data-Driven** - Configuration over code (JSON files)
+6. **Strict by Default** - Returns errors for invalid templates
+7. **Composable** - Nest templates for complex effects
 
 ---
 
-## Component Architecture
+## Three-Layer Architecture
 
-```mermaid
-%%{init: {'theme':'dark'}}%%
-graph TD
-    subgraph "Public API Layer"
-        A[Converter API]
-        B[TemplateParser API]
-    end
+### Layer 1: UI Components (User-Facing)
 
-    subgraph "Core Logic Layer"
-        C[Converter]
-        D[Parser State Machine]
-        E[Styles Manager]
-    end
+**Purpose:** High-level semantic elements optimized for common use cases
 
-    subgraph "Data Layer"
-        F[styles.json]
-        G[Style Definitions]
-        H[Character Mappings]
-    end
-
-    A --> C
-    B --> D
-    C --> E
-    D --> C
-    E --> F
-    F --> G
-    F --> H
-
-    style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style B fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style C fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style D fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style E fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style F fill:#2d3748,stroke:#9f7aea,stroke-width:2px
-    style G fill:#2d3748,stroke:#9f7aea,stroke-width:2px
-    style H fill:#2d3748,stroke:#9f7aea,stroke-width:2px
+**Example:**
+```markdown
+{{ui:header}}TITLE{{/ui}}
+{{ui:divider/}}
+{{ui:tech:rust/}}
 ```
 
-### Component Responsibilities
+**Characteristics:**
+- Self-documenting names (`header`, `divider`, `tech`)
+- Self-closing tags (`/}}`) for contentless elements
+- Generic closer (`{{/ui}}`) for ergonomics
+- Design token integration (palette colors)
 
-#### 1. Converter (`src/converter.rs`)
+**Implementation:**
+- Defined in `data/components.json`
+- Processed by `ComponentsRenderer` (`src/components.rs`)
+- Expand to primitives before rendering
 
-**Purpose:** Character-to-character Unicode mapping with optional separation
+### Layer 2: Primitives (Rendering Engines)
 
-**Key Functions:**
-- `convert(text, style)` - Transform text using a style
-- `convert_with_spacing(text, style, spacing)` - Add space-based character spacing
-- `convert_with_separator(text, style, separator, count)` - Add custom separator characters
-- `list_styles()` - Query available styles
-- `has_style(name)` - Check style existence
+**Purpose:** Low-level rendering for specific output types
 
-**Design:**
-- **Unified algorithm**: Internal `convert_with_char_between()` method handles all cases
-- Public methods delegate to unified implementation (eliminates duplication)
-- Fast path optimization: When count=0, skip separation logic entirely
-- Loads `styles.json` once at initialization (lazy_static)
-- O(1) style lookup via HashMap
-- Preserves whitespace, punctuation, unsupported characters
-- Allocates output String for converted text (standard Rust string transformation)
+**Types:**
+1. **Shields** (`{{shields:*}}`) - shields.io badge URLs as Markdown images
+2. **Frames** (`{{frame:*}}`) - Decorative prefix/suffix (▓▒░ TEXT ░▒▓)
+3. **Badges** (`{{badge:*}}`) - Enclosed alphanumerics (①②③, ⓐⓑⓒ)
 
-#### 2. TemplateParser (`src/parser.rs`)
+**Example:**
+```markdown
+{{shields:block:color=F41C80:style=flat-square/}}
+{{frame:gradient}}TEXT{{/frame}}
+{{badge:circle}}1{{/badge}}
+```
 
-**Purpose:** Process markdown with `{{style}}text{{/style}}`, `{{frame:style}}text{{/frame}}`, and `{{badge:type}}text{{/badge}}` templates
+**Characteristics:**
+- Verbose parameter syntax (explicit control)
+- Specific closers (`{{/frame}}`, `{{/badge}}`)
+- Direct mapping to output format
+- Available as escape hatch for advanced users
 
-**Key Functions:**
-- `process(content)` - Parse and transform entire document
-- `parse_template_at(chars, pos)` - State machine for style templates
-- `parse_frame_at(chars, pos)` - State machine for frame templates
-- `parse_badge_at(chars, pos)` - State machine for badge templates
+**Implementation:**
+- ShieldsRenderer (`src/shields.rs`) - Generate shields.io URLs
+- FrameRenderer (`src/frames.rs`) - Add decorative borders
+- BadgeRenderer (`src/badges.rs`) - Map to enclosed Unicode
 
-**Design:**
-- State machine parser (no regex dependencies)
-- **Three template types**: style templates, frame templates, and badge templates
-- **Parsing priority**: Frames → Badges → Styles (prevents ambiguity)
-- **Recursive processing**: Frame content can contain style/badge templates
-- **Parameter parsing**: Supports `:spacing=N` and `:separator=name` parameters (styles only)
-- Preserves code blocks (```) and inline code (`)
-- **Error handling**: Returns `Error` for unknown styles/frames/badges or unclosed tags
-- **Limitation**: Nested templates of the same type not supported (e.g., `{{mb}}{{mb}}X{{/mb}}{{/mb}}`)
+### Layer 3: Styles (Character Transformation)
 
-#### 3. FrameRenderer (`src/frames.rs`)
+**Purpose:** Unicode character-to-character transformations
 
-**Purpose:** Add decorative prefix/suffix around text (taglines, accents)
+**Example:**
+```markdown
+{{mathbold}}TEXT{{/mathbold}}                      → 𝐓𝐄𝐗𝐓
+{{mathbold:separator=dot}}TITLE{{/mathbold}}       → 𝐓·𝐈·𝐓·𝐋·𝐄
+{{script:spacing=2}}ELEGANT{{/script}}             → 𝐸  𝓁  𝑒  𝑔  𝒶  𝓃  𝓉
+```
 
-**Key Functions:**
-- `apply_frame(text, frame_style)` - Wrap text with decorative elements
-- `get_frame(name)` - Lookup frame by ID or alias
-- `has_frame(name)` - Check frame existence
-- `list_frames()` - Query available frames
+**Characteristics:**
+- 19 Unicode styles (mathbold, script, fullwidth, etc.)
+- Modifiers: spacing, separators
+- Character-level mapping
+- Composable with other layers
 
-**Design:**
-- Loads `frames.json` once at initialization
-- Simple concatenation: `prefix + text + suffix`
-- Supports 27 frame styles (gradient, solid, lines, arrows, stars, brackets, etc.)
-- Alias support for shorter names (grad = gradient)
-- Works with styled content (recursive processing by parser)
+**Implementation:**
+- Converter (`src/converter.rs`) - Character transformation
+- Styles data (`data/styles.json`) - Unicode mappings
 
-#### 4. BadgeRenderer (`src/badges.rs`)
+### How Layers Interact
 
-**Purpose:** Enclose numbers and letters with pre-composed Unicode characters
+**Input:** `{{ui:header}}PROJECT{{/ui}}`
 
-**Key Functions:**
-- `apply_badge(text, badge_type)` - Enclose text in badge character
-- `get_badge(name)` - Lookup badge by ID or alias
-- `has_badge(name)` - Check badge existence
-- `list_badges()` - Query available badges
+**Processing:**
+```
+1. Layer 1 (UI):    Expand "header" component
+   → {{frame:gradient}}{{mathbold:separator=dot}}PROJECT{{/mathbold}}{{/frame}}
 
-**Design:**
-- Loads `badges.json` once at initialization
-- Direct character mapping: `text -> badge_character`
-- Limited charset support: numbers (0-20), lowercase letters (a-z)
-- 6 badge types: circle (①), negative-circle (❶), double-circle (⓵), paren (⑴), period (🄁), paren-letter (⒜)
-- Returns `UnsupportedChar` error for characters outside badge's charset
-- No recursive processing (badges can't contain other templates)
+2. Layer 2 (Frame): Add prefix/suffix
+   → ▓▒░ {{mathbold:separator=dot}}PROJECT{{/mathbold}} ░▒▓
 
-#### 5. Styles Manager (`src/styles.rs`)
+3. Layer 3 (Style): Transform characters + separators
+   → ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓 ░▒▓
 
-**Purpose:** Load and manage style definitions
+4. Output
+```
 
-**Key Functions:**
-- `load_styles()` - Parse styles.json
-- `find_style_by_id(id)` - Lookup by primary ID
-- `find_style_by_alias(alias)` - Lookup by alias
-- `convert_char(ch, mappings)` - Apply character mapping
-
-**Design:**
-- Serde-based JSON deserialization
-- Category-based organization (Bold, Boxed, Technical, Elegant)
-- Alias support for shorter names (mb = mathbold)
+**Key insight:** Expansion happens **once** at UI layer, then rendering flows through primitives/styles naturally. No special-casing needed.
 
 ---
 
-## State Machine Design
+## Multi-Backend Rendering Architecture
 
-The template parser uses a state machine to process markdown without regex. This enables:
-- Precise error messages ("expected closing tag at line X")
-- Code block preservation (no accidental transformations)
-- O(n) linear time complexity
-- No catastrophic backtracking
+**Version:** 0.1.0
+**Status:** Architecture shipped, ShieldsBackend implemented
 
-### Parser State Machine
+### Overview
 
-```mermaid
-%%{init: {'theme':'dark'}}%%
-stateDiagram-v2
-    [*] --> Normal
+UI components (divider, swatch, tech, status) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
 
-    Normal --> OpenBrace1: see opening brace
-    OpenBrace1 --> OpenBrace2: see second brace
-    OpenBrace2 --> StyleName: letter found
+### Primitive AST
 
-    StyleName --> StyleName: letter or hyphen
-    StyleName --> ParamColon: colon found
-    StyleName --> CloseTag1: closing brace
-
-    ParamColon --> ParamKey: spacing keyword
-    ParamKey --> ParamEquals: equals sign
-    ParamEquals --> ParamValue: digit found
-    ParamValue --> ParamValue: more digits
-    ParamValue --> CloseTag1: closing brace
-
-    CloseTag1 --> CloseTag2: second closing brace
-    CloseTag2 --> Content: reading content
-
-    Content --> Content: any character
-    Content --> EndTag1: opening brace
-
-    EndTag1 --> EndTag2: second opening brace
-    EndTag2 --> EndSlash: forward slash
-    EndSlash --> EndStyleName: letter found
-    EndStyleName --> EndStyleName: letter or hyphen
-    EndStyleName --> EndClose1: closing brace
-    EndClose1 --> EndClose2: second closing brace
-    EndClose2 --> [*]: template complete
-
-    Normal --> Normal: other characters
-    OpenBrace1 --> Normal: not second brace
-    OpenBrace2 --> Normal: not letter
-
-    style Normal fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style CloseTag2 fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style EndClose2 fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style ParamValue fill:#2d3748,stroke:#ed8936,stroke-width:2px
-```
-
-### State Transitions
-
-| State | Input | Next State | Action |
-|-------|-------|------------|--------|
-| Normal | `{` | OpenBrace1 | Start potential template |
-| OpenBrace1 | `{` | OpenBrace2 | Confirm opening |
-| OpenBrace2 | alphanumeric | StyleName | Begin style name |
-| StyleName | `-` or alphanumeric | StyleName | Accumulate name |
-| StyleName | `:` | ParamColon | Start parameter |
-| StyleName | `}` | CloseTag1 | End style name |
-| ParamColon | `s` | ParamKey | Expect "spacing" |
-| ParamValue | digit | ParamValue | Accumulate number |
-| ParamValue | `}` | CloseTag1 | End parameter |
-| CloseTag1 | `}` | CloseTag2 | Opening tag complete |
-| Content | any | Content | Accumulate content |
-| Content | `{` | EndTag1 | Start closing tag |
-| EndTag1 | `{` | EndTag2 | Confirm closing |
-| EndTag2 | `/` | EndSlash | Expect closing tag |
-| EndStyleName | match | EndClose1 | Verify tag matches |
-| EndClose2 | `}` | Match | Template complete |
-
-### Code Block Handling
-
-The parser tracks markdown context to preserve code blocks:
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-stateDiagram-v2
-    [*] --> TextMode
-
-    TextMode --> FencedCodeCheck: three backticks
-    FencedCodeCheck --> FencedCode: code fence start
-    FencedCode --> FencedCode: read lines
-    FencedCode --> FencedCodeCheck2: three backticks
-    FencedCodeCheck2 --> TextMode: code fence end
-
-    TextMode --> InlineCodeCheck: single backtick
-    InlineCodeCheck --> InlineCode: inline code start
-    InlineCode --> InlineCode: read chars
-    InlineCode --> TextMode: closing backtick
-
-    TextMode --> TemplateProcessing: opening brace
-    TemplateProcessing --> TextMode: template done
-
-    style TextMode fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style FencedCode fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style InlineCode fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style TemplateProcessing fill:#2d3748,stroke:#48bb78,stroke-width:2px
-```
-
-**Key Feature:** Templates inside code blocks are preserved as-is:
+Components that generate images (not text effects) expand to a **Primitive enum** instead of template strings:
 
 ```rust
-// This will NOT be transformed:
-// `{{mathbold}}CODE{{/mathbold}}`
-//
-// ```
-// let x = {{script}}test{{/script}};
-// ```
-```
-
----
-
-## Data Flow
-
-### Direct Conversion Flow
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-sequenceDiagram
-    participant User
-    participant Converter
-    participant StyleManager
-    participant StylesJSON
-
-    User->>Converter: convert("Hello", "mathbold")
-    Converter->>StyleManager: find_style("mathbold")
-    StyleManager->>StylesJSON: load mappings
-    StylesJSON-->>StyleManager: character map
-    StyleManager-->>Converter: Style{mappings}
-
-    loop For each character
-        Converter->>StyleManager: convert_char('H', mappings)
-        StyleManager-->>Converter: '𝐇'
-    end
-
-    Converter-->>User: "𝐇𝐞𝐥𝐥𝐨"
-
-    note over Converter,StyleManager: O(n) time, n = text length
-```
-
-### Template Processing Flow
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-sequenceDiagram
-    participant User
-    participant Parser
-    participant StateMachine
-    participant Converter
-
-    User->>Parser: process("{{mathbold}}Hi{{/mathbold}}")
-    Parser->>StateMachine: parse_template_at(0)
-
-    Note over StateMachine: State: Normal → OpenBrace1 → OpenBrace2
-    Note over StateMachine: State: StyleName → CloseTag1 → CloseTag2
-
-    StateMachine->>Parser: Template found: style="mathbold", content="Hi"
-    Parser->>Converter: convert_with_spacing("Hi", "mathbold", 0)
-    Converter-->>Parser: "𝐇𝐢"
-    Parser-->>User: "𝐇𝐢"
-
-    note over Parser,StateMachine: O(n) time, n = document length
-```
-
-### Error Handling Flow
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-graph TD
-    A[Template Found] --> B{Valid Style?}
-    B -->|Yes| C[Convert Content]
-    B -->|No| D[Error: Unknown Style]
-
-    C --> E{Closing Tag Matches?}
-    E -->|Yes| F[Return Styled Text]
-    E -->|No| G[Error: Mismatched Tags]
-
-    D --> H[Preserve Original]
-    G --> H
-
-    style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style B fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style C fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style E fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style F fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style D fill:#2d3748,stroke:#e53e3e,stroke-width:2px
-    style G fill:#2d3748,stroke:#e53e3e,stroke-width:2px
-    style H fill:#2d3748,stroke:#9f7aea,stroke-width:2px
-```
-
-### Composition Flow
-
-Example: `{{frame:gradient}}{{mathbold:separator=dash}}TITLE{{/mathbold}}{{/frame}}`
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-sequenceDiagram
-    participant User
-    participant Parser
-    participant Converter
-    participant FrameRenderer
-
-    User->>Parser: process(template)
-    Parser->>Parser: parse_frame_at()
-    Note over Parser: Found: frame="gradient"<br/>content="{{mathbold:separator=dash}}TITLE{{/mathbold}}"
-
-    Parser->>Parser: process_templates(content) [RECURSIVE]
-    Parser->>Parser: parse_template_at()
-    Note over Parser: Found: style="mathbold"<br/>separator="─"<br/>content="TITLE"
-
-    Parser->>Converter: convert_with_separator("TITLE", "mathbold", "─", 1)
-    Converter-->>Parser: "𝐓─𝐈─𝐓─𝐋─𝐄"
-
-    Parser->>FrameRenderer: apply_frame("𝐓─𝐈─𝐓─𝐋─𝐄", "gradient")
-    FrameRenderer-->>Parser: "▓▒░ 𝐓─𝐈─𝐓─𝐋─𝐄 ░▒▓"
-
-    Parser-->>User: "▓▒░ 𝐓─𝐈─𝐓─𝐋─𝐄 ░▒▓"
-
-    note over Parser: Recursive processing<br/>enables composition
-```
-
----
-
-## Key Design Decisions
-
-### 1. State Machine over Regex
-
-**Decision:** Implement custom state machine parser instead of regex
-
-**Rationale:**
-- **Precise error messages**: "Unclosed tag: {{mathbold}} at line 42"
-- **No catastrophic backtracking**: O(n) guaranteed performance
-- **Context awareness**: Track code blocks, inline code, nesting
-- **Zero dependencies**: No regex crate needed
-
-**Trade-off:** More code, but better UX and performance
-
-### 2. Lazy Static Styles Loading
-
-**Decision:** Load styles.json once at first use via lazy_static
-
-**Rationale:**
-- **Fast startup**: Don't load unless needed
-- **Memory efficiency**: Single shared instance
-- **Thread-safe**: lazy_static handles concurrency
-
-```rust
-lazy_static! {
-    static ref STYLES: StylesData = load_styles().unwrap();
+pub enum Primitive {
+    Swatch { color: String, style: String },
+    Divider { colors: Vec<String>, style: String },
+    Tech { name: String, bg_color: String, logo_color: String, style: String },
+    Status { level: String, style: String },
 }
 ```
 
-**Trade-off:** Panic if styles.json invalid (acceptable for v1.0.0)
+**Why primitives:**
+- **Backend-neutral:** Represents *intent* (a tech badge), not implementation (shields.io URL)
+- **Type-safe:** Compiler-verified parameters
+- **Testable:** Can assert on primitive generation independent of rendering
 
-### 3. Preserve Unsupported Characters
+### Renderer Trait
 
-**Decision:** Return original character if no mapping exists
+All backends implement a common interface:
 
-**Rationale:**
-- **Predictable behavior**: Users see what they expect
-- **Punctuation preserved**: "Hello!" → "𝐇𝐞𝐥𝐥𝐨!"
-- **Emoji safe**: "Test 🎉" → "𝐓𝐞𝐬𝐭 🎉"
-- **Implementation**: Characters without mappings pass through unchanged
+```rust
+pub trait Renderer {
+    fn render(&self, primitive: &Primitive) -> Result<RenderedAsset>;
+}
 
-**Note:** While individual characters may be preserved, the conversion process allocates new Strings for the output (standard for Rust string transformations).
-
-### 4. Template Preservation in Code Blocks
-
-**Decision:** Don't process templates inside ``` or ` markers
-
-**Rationale:**
-- **Markdown semantics**: Code blocks are literal
-- **Documentation safe**: Can show template syntax in docs
-- **No escape sequences needed**: Just use code blocks
-
-**Implementation:** Track `in_code_block` and `in_inline_code` flags
-
-### 5. Data-Driven Character Mappings
-
-**Decision:** Store all character mappings in styles.json
-
-**Rationale:**
-- **Easy to extend**: Add styles without code changes
-- **Auditable**: See all mappings in one file
-- **Version controlled**: Track changes to character sets
-
-**Format:**
-```json
-{
-  "id": "mathbold",
-  "uppercase": {
-    "A": "𝐀",
-    "B": "𝐁"
-  },
-  "lowercase": {
-    "a": "𝐚",
-    "b": "𝐛"
-  }
+pub enum RenderedAsset {
+    InlineMarkdown(String),          // e.g., ![](https://...)
+    FileAsset { path: String, markdown: String },  // e.g., ![](assets/badge.svg)
 }
 ```
 
+### Available Backends
+
+#### ShieldsBackend (Default)
+
+**Status:** ✅ Shipped in v1.0.0
+
+Generates shields.io badge URLs wrapped in Markdown image syntax:
+```rust
+let backend = ShieldsBackend::new()?;
+let primitive = Primitive::Tech { name: "rust", bg_color: "292A2D", logo_color: "FFFFFF", style: "flat-square" };
+let rendered = backend.render(&primitive)?;
+// Returns: InlineMarkdown("![](https://img.shields.io/badge/...)")
+```
+
+**Advantages:**
+- Zero asset management (no files to commit)
+- Works everywhere (GitHub, GitLab, crates.io docs)
+- 2000+ logos via Simple Icons
+- Always renders with latest shields.io features
+
+**CLI Usage:**
+```bash
+utf8fx process --backend shields input.md   # default
+utf8fx process input.md                     # same (shields is default)
+```
+
+#### SvgBackend (Planned)
+
+**Status:** ⏳ Architecture ready, implementation pending (v1.1.0+)
+
+Will generate local SVG files with hash-based naming:
+```rust
+let backend = SvgBackend::new("./assets")?;
+let primitive = Primitive::Swatch { color: "F41C80", style: "flat-square" };
+let rendered = backend.render(&primitive)?;
+// Returns: FileAsset { path: "assets/swatch_a3f8e2.svg", markdown: "![](assets/swatch_a3f8e2.svg)" }
+// Writes: ./assets/swatch_a3f8e2.svg (actual SVG file)
+```
+
+**Advantages:**
+- Offline docs (works without internet)
+- Full control over styling
+- No external dependencies (some orgs block shields.io)
+- Deterministic builds (same input → same hash → same file)
+
+**CLI Usage (future):**
+```bash
+utf8fx process --backend svg --assets-dir ./docs/ui input.md
+```
+
+**Implementation Notes:**
+- Hash-based filenames prevent collisions: `divider_<hash>.svg`
+- Caching: if file exists with same hash, skip write
+- Phase 1: Support swatch/divider/status (solid colors only)
+- Phase 2: Tech badges (requires bundling logo SVGs)
+
+### Rendering Flow
+
+```
+{{ui:tech:rust/}}
+  ↓ ComponentsRenderer.expand()
+Primitive::Tech { name: "rust", bg_color: "292A2D", ... }
+  ↓ backend.render() [trait dispatch]
+  ├─ ShieldsBackend  → InlineMarkdown("![](https://img.shields.io/...)")
+  └─ SvgBackend      → FileAsset { path: "assets/tech_rust_a3f.svg", markdown: "![](assets/...)" }
+  ↓
+Markdown output
+```
+
+### Dual-Mode Components
+
+Not all components use primitives. Components fall into two categories:
+
+**1. Primitive-based (image rendering):**
+- `divider`, `swatch`, `tech`, `status`
+- Return `ComponentOutput::Primitive(Primitive)`
+- Rendered by backend trait
+
+**2. Template-based (text effects):**
+- `header`, `callout`
+- Return `ComponentOutput::Template(String)`
+- Recursively parsed (contain `{{frame:*}}`, `{{mathbold}}`)
+
+Example:
+```rust
+match renderer.expand("tech", &["rust"], None)? {
+    ComponentOutput::Primitive(p) => backend.render(&p)?,  // shields.io or SVG
+    ComponentOutput::Template(t) => parser.process_templates(&t)?,  // frames/styles
+}
+```
+
+### Adding New Backends
+
+To implement a new backend:
+
+1. Create `src/renderer/your_backend.rs`
+2. Implement `Renderer` trait:
+   ```rust
+   pub struct YourBackend { /* ... */ }
+
+   impl Renderer for YourBackend {
+       fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
+           match primitive {
+               Primitive::Swatch { color, style } => { /* generate output */ }
+               Primitive::Divider { colors, style } => { /* generate output */ }
+               // ...
+           }
+       }
+   }
+   ```
+3. Update `TemplateParser::new()` to accept backend parameter
+4. Add CLI flag validation in `src/bin/main.rs`
+
+### Design Decisions
+
+**Q: Why not always use primitives for everything?**
+
+A: Text effects (frames, styles, badges) compose naturally through template expansion. Converting them to primitives would complicate the parser for no benefit. Primitives are only needed for **cross-backend image rendering**.
+
+**Q: Why not make backend selectable at component level?**
+
+A: Consistency. Mixing shields.io and SVG in the same document creates inconsistent visual appearance. Backend is a **document-level choice**, not per-component.
+
+**Q: Why hash-based SVG filenames?**
+
+A: Determinism + caching. Same primitive parameters → same hash → same filename. This makes builds reproducible and prevents unnecessary file writes (important for CI).
+
 ---
+
+## Component Responsibilities
+
+### 1. ComponentsRenderer (`src/components.rs`)
+
+**Purpose:** Expand UI components into either Primitives or Templates
+
+**Key Functions:**
+```rust
+pub fn new() -> Result<Self>
+pub fn expand(&self, component: &str, args: &[String], content: Option<&str>) -> Result<ComponentOutput>
+pub fn has(&self, name: &str) -> bool
+pub fn list(&self) -> Vec<(&String, &ComponentDef)>
+pub fn list_palette(&self) -> Vec<(&String, &String)>
+```
+
+**ComponentOutput Enum:**
+```rust
+pub enum ComponentOutput {
+    Primitive(Primitive),  // For image-based components (divider, swatch, tech, status)
+    Template(String),      // For text-effect components (header, callout)
+}
+```
+
+**Expansion Algorithm:**
+
+**For Primitive components (divider, swatch, tech, status):**
+1. Resolve palette colors from args
+2. Construct Primitive enum variant directly
+3. Return `ComponentOutput::Primitive(primitive)`
+
+**For Template components (header, callout):**
+1. Load component definition from `components.json`
+2. Substitute positional args (`$1`, `$2`, ...) with provided values
+3. Substitute content (`$content`) with inner text (if not self-closing)
+4. Resolve palette colors (e.g., `accent` → `F41C80`)
+5. Return `ComponentOutput::Template(expanded_string)`
+
+**Example (Primitive):**
+```rust
+let result = renderer.expand("tech", &["rust".to_string()], None)?;
+// Returns: ComponentOutput::Primitive(
+//   Primitive::Tech {
+//     name: "rust",
+//     bg_color: "292A2D",
+//     logo_color: "FFFFFF",
+//     style: "flat-square"
+//   }
+// )
+```
+
+**Example (Template):**
+```rust
+// Component definition in components.json:
+// "header": { "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}" }
+
+let result = renderer.expand("header", &[], Some("TITLE"))?;
+// Returns: ComponentOutput::Template(
+//   "{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}"
+// )
+```
+
+**Design:**
+- **Dual-mode expansion:** Returns Primitive OR Template based on component type
+- **Palette integration:** Resolves design tokens before rendering
+- **Type-safe primitives:** Image components get compiler-verified parameters
+- **Template recursion:** Template-based components parsed recursively
+
+**Data Files:**
+- `data/components.json` - Component definitions (for template-based only)
+- `data/palette.json` - Design token colors
+
+### 2. ShieldsRenderer (`src/shields.rs`)
+
+**Purpose:** Generate shields.io badge URLs as Markdown image links
+
+**Key Functions:**
+```rust
+pub fn new() -> Result<Self>
+pub fn render_block(&self, color: &str, style: &str) -> Result<String>
+pub fn render_twotone(&self, left: &str, right: &str, style: &str) -> Result<String>
+pub fn render_bar(&self, colors: &[String], style: &str) -> Result<String>
+pub fn render_icon(&self, logo: &str, bg: &str, logo_color: &str, style: &str) -> Result<String>
+pub fn resolve_color(&self, color: &str) -> Result<String>
+```
+
+**Output Format:**
+```markdown
+![](https://img.shields.io/badge/-%20-2B6CB0?style=flat-square)
+```
+
+**Design:**
+- **URL generation only:** Does not fetch images (shields.io renders on GitHub)
+- **Simple Icons integration:** Uses `logo` parameter for 2000+ logos
+- **Color resolution:** Palette name or 6-digit hex passthrough
+- **Self-closing only:** Shields don't have inner content
+
+**Primitives:**
+1. **block** - Single solid color block
+2. **twotone** - Two-color block (left/right)
+3. **bar** - Multiple inline blocks
+4. **icon** - Logo chip with background
+
+**Data File:**
+- `data/shields.json` - Shield styles and palette
+
+**Note:** ShieldsRenderer is used internally by `ShieldsBackend` which implements the `Renderer` trait. Direct shields.io template parsing (`{{shields:*}}`) is also supported as an escape hatch.
+
+### 3. Renderer Trait & Backends (`src/renderer/`)
+
+**Purpose:** Backend-agnostic rendering for Primitive types
+
+**Trait Definition:**
+```rust
+pub trait Renderer {
+    fn render(&self, primitive: &Primitive) -> Result<RenderedAsset>;
+}
+```
+
+**RenderedAsset:**
+```rust
+pub enum RenderedAsset {
+    InlineMarkdown(String),          // e.g., shields.io URL
+    FileAsset { path: String, markdown: String },  // e.g., local SVG
+}
+```
+
+**Implementations:**
+
+**ShieldsBackend** (`src/renderer/shields.rs`):
+- Default backend for v1.0.0
+- Wraps `ShieldsRenderer` to implement `Renderer` trait
+- Maps primitives to shields.io rendering methods:
+  - `Primitive::Swatch` → `ShieldsRenderer::render_block()`
+  - `Primitive::Divider` → `ShieldsRenderer::render_bar()`
+  - `Primitive::Tech` → `ShieldsRenderer::render_icon()`
+  - `Primitive::Status` → `ShieldsRenderer::render_block()`
+- Returns `RenderedAsset::InlineMarkdown`
+
+**SvgBackend** (planned):
+- Will generate local SVG files
+- Hash-based filenames for caching
+- Returns `RenderedAsset::FileAsset`
+
+**Design:**
+- **Separation of concerns:** Shield URL generation (ShieldsRenderer) separate from backend abstraction (ShieldsBackend)
+- **Extensibility:** New backends add without touching existing code
+- **Type safety:** Renderer trait enforces consistent return type
+- **Testability:** Can mock backends for testing parser logic
+
+### 4. FrameRenderer (`src/frames.rs`)
+
+**Purpose:** Add decorative prefix/suffix around text
+
+**Key Functions:**
+```rust
+pub fn new() -> Result<Self>
+pub fn apply_frame(&self, text: &str, frame_style: &str) -> Result<String>
+pub fn get_frame(&self, name: &str) -> Option<&Frame>
+pub fn has_frame(&self, name: &str) -> bool
+pub fn list_frames(&self) -> Vec<&Frame>
+```
+
+**Example:**
+```rust
+apply_frame("TITLE", "gradient")
+// Returns: "▓▒░ TITLE ░▒▓"
+```
+
+**Design:**
+- **String concatenation:** `format!("{}{}{}", frame.prefix, text, frame.suffix)`
+- **No width calculation:** Frames don't adjust based on content length
+- **Recursive content:** Frame content can contain styles/badges
+- **27 styles:** gradient, solid, lines, arrows, brackets, etc.
+
+**Frame Types:**
+- Gradient (▓▒░), solid (█▌), lines (═), arrows (→), brackets (【】)
+
+**Data File:**
+- `data/frames.json` - Frame definitions with prefix/suffix
+
+### 4. BadgeRenderer (`src/badges.rs`)
+
+**Purpose:** Enclose alphanumeric characters in Unicode badges
+
+**Key Functions:**
+```rust
+pub fn new() -> Result<Self>
+pub fn apply_badge(&self, text: &str, badge_type: &str) -> Result<String>
+pub fn get_badge(&self, name: &str) -> Option<&Badge>
+pub fn has_badge(&self, name: &str) -> bool
+pub fn list_badges(&self) -> Vec<&Badge>
+```
+
+**Example:**
+```rust
+apply_badge("1", "circle")     // → ①
+apply_badge("A", "circle")     // → Ⓐ
+apply_badge("2", "negative-circle")  // → ❷
+```
+
+**Design:**
+- **Character mapping:** Direct Unicode codepoint offset
+- **Limited charset:** 0-9, A-Z, a-z (depends on badge type)
+- **Error on unsupported:** Returns `UnsupportedChar` error
+- **6 types:** circle, double-circle, negative-circle, paren, period, negative-paren
+
+**Data File:**
+- `data/badges.json` - Badge definitions with base codepoints
+
+### 5. Converter (`src/converter.rs`)
+
+**Purpose:** Character-to-character Unicode mapping with optional spacing/separators
+
+**Key Functions:**
+```rust
+pub fn new() -> Result<Self>
+pub fn convert(&self, text: &str, style: &str) -> Result<String>
+pub fn convert_with_spacing(&self, text: &str, style: &str, spacing: usize) -> Result<String>
+pub fn convert_with_separator(&self, text: &str, style: &str, separator: &str, count: usize) -> Result<String>
+pub fn has_style(&self, name: &str) -> bool
+pub fn list_styles(&self) -> Vec<&Style>
+```
+
+**Example:**
+```rust
+convert("HELLO", "mathbold")
+// Returns: "𝐇𝐄𝐋𝐋𝐎"
+
+convert_with_separator("TITLE", "mathbold", "·", 1)
+// Returns: "𝐓·𝐈·𝐓·𝐋·𝐄"
+```
+
+**Design:**
+- **Unified algorithm:** Internal `convert_with_char_between()` handles all cases
+- **Streaming:** Uses `chars().peekable()` to avoid Vec allocation
+- **Preserves unsupported:** Whitespace, punctuation, unsupported chars pass through
+- **O(1) lookup:** HashMap for style resolution
+- **19 styles:** mathbold, fullwidth, script, fraktur, monospace, etc.
+
+**Data File:**
+- `data/styles.json` - Character mappings per style
+
+---
+
+## Expansion Model
+
+### Why Expansion?
+
+**Problem:** Verbose primitives are powerful but tedious
+```markdown
+{{shields:icon:logo=rust:bg=292A2D:logoColor=FFFFFF:style=flat-square/}}
+```
+
+**Solution:** Components expand to primitives
+```markdown
+{{ui:tech:rust/}}
+```
+
+**Benefit:** Concise authoring + full customization when needed
+
+### Expansion Flow
+
+```
+┌─────────────────────┐
+│ {{ui:header}}TEXT{{/ui}} │  ← User writes this
+└─────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────┐
+│ ComponentsRenderer.expand("header", [], "TEXT")     │
+│ → Lookup in components.json                         │
+│ → Substitute $content → TEXT                         │
+│ → Resolve palette refs → ui.bg → 292A2D            │
+└─────────────────────────────────────────────────────┘
+           │
+           ▼
+┌───────────────────────────────────────────────────────────────┐
+│ {{frame:gradient}}{{mathbold:separator=dot}}TEXT{{/mathbold}}{{/frame}} │
+└───────────────────────────────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────┐
+│ process_templates()      │  ← Recursive parse
+│ → Parse frame            │
+│ → Parse style            │
+│ → Render                 │
+└─────────────────────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓ │  ← Final output
+└─────────────────────┘
+```
+
+### Expansion vs. Direct Rendering
+
+**Expansion (current):**
+- Components → Template strings → Recursive parse
+- All rendering logic in primitives
+- Users can override components via JSON
+- No Rust compilation needed
+
+**Direct Rendering (alternative):**
+- Components → Call renderer methods directly
+- Faster (skips parsing)
+- Requires Rust code for each component
+- No user customization
+
+**Decision:** Expansion keeps components as **data**, not code. Enables extensibility.
+
+---
+
+## Parser Design
+
+### State Machine Architecture
+
+The parser uses a character-by-character state machine (no regex) for predictable performance and clear error messages.
+
+### Parsing Priority
+
+**Critical for expansion to work:**
+
+1. **UI** (`{{ui:*}}`) - Expand first
+2. **Frame** (`{{frame:*}}`) - After expansion
+3. **Badge** (`{{badge:*}}`) - After frames
+4. **Shields** (`{{shields:*}}`) - After badges (from expanded UI)
+5. **Style** (`{{mathbold}}`) - Last (innermost)
+
+**Why this order:**
+- UI must expand before primitives can parse
+- Frames wrap other elements
+- Badges/shields are leaf nodes
+- Styles transform characters (innermost operation)
+
+### Template Parsing
+
+**Three tag types:**
+
+**1. Self-closing** (`/}}`)
+```markdown
+{{ui:divider/}}
+{{ui:tech:rust/}}
+{{shields:block:color=accent:style=flat-square/}}
+```
+
+Parser detects `/}}` before `}}`, skips closer search.
+
+**2. Block with generic closer** (`{{/ui}}`)
+```markdown
+{{ui:header}}CONTENT{{/ui}}
+{{ui:callout:warning}}MESSAGE{{/ui}}
+```
+
+Parser uses stack to match `{{/ui}}` with most recent `ui:*` opener.
+
+**3. Block with specific closer** (`{{/mathbold}}`)
+```markdown
+{{mathbold}}TEXT{{/mathbold}}
+{{frame:gradient}}TEXT{{/frame}}
+```
+
+Parser searches for exact closing tag `{{/{tag}}}`.
+
+### Parameter Parsing
+
+**Colon-separated segments:**
+```
+{{type:arg1:arg2:key=value:key=value}}
+```
+
+**Rules:**
+- No `=` → Positional arg
+- Has `=` → Key-value param
+- Order-insensitive (params stored in HashMap)
+
+**Example:**
+```markdown
+{{ui:tech:rust/}}
+→ component="tech", args=["rust"]
+
+{{shields:block:color=accent:style=flat-square/}}
+→ type="block", params={color: "accent", style: "flat-square"}
+```
+
+### Recursive Processing
+
+Frames and UI components support **nested templates**:
+
+```markdown
+{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+```
+
+**Processing:**
+1. Parse frame → extract content
+2. Recursively call `process_templates()` on content
+3. Apply frame to processed content
+
+**Limitation:** No same-type nesting (e.g., `{{mb}}{{mb}}X{{/mb}}{{/mb}}` fails)
+
+### Code Block Preservation
+
+**Markdown code blocks skipped:**
+````markdown
+```rust
+{{mathbold}}NOT_PROCESSED{{/mathbold}}
+```
+````
+
+**Inline code skipped:**
+```markdown
+Use `{{mathbold}}template{{/mathbold}}` syntax
+     └─ NOT processed ─┘
+```
+
+**Implementation:**
+```rust
+// Track code block state
+let mut in_code_block = false;
+if line.trim().starts_with("```") {
+    in_code_block = !in_code_block;
+}
+
+// Split on backticks for inline code
+let parts: Vec<&str> = line.split('`').collect();
+for (i, part) in parts.iter().enumerate() {
+    if i % 2 == 0 {
+        // Process (outside code)
+    } else {
+        // Skip (inside code)
+    }
+}
+```
 
 ---
 
@@ -501,130 +780,33 @@ lazy_static! {
 
 ### Embedded JSON Files
 
-All character mappings and configurations are **embedded at compile time** using `include_str!()`:
+All configuration is **embedded at compile time** using `include_str!()`:
 
 ```rust
-// src/styles.rs
-const STYLES_JSON: &str = include_str!("../data/styles.json");
-
-// src/frames.rs
-let data = include_str!("../data/frames.json");
-
-// src/badges.rs
-let data = include_str!("../data/badges.json");
+let data = include_str!("../data/styles.json");
+let styles: StylesData = serde_json::from_str(data)?;
 ```
 
-**This means:**
-- No runtime file I/O - data is baked into the binary
-- No deployment concerns - everything is self-contained
-- Works in any environment (containers, embedded systems, WASM)
-- No file path configuration needed
-- Data versioned with code in git
+**Benefits:**
+- No runtime file I/O
+- Self-contained binary
+- Works in any environment (containers, WASM, embedded systems)
+- No deployment concerns
 
-**Library users:** Just `use utf8fx::Converter` - data is already embedded
-**CLI users:** Single binary, no external files required
+**Trade-off:** Users must recompile to change built-in data (custom components planned for v0.2)
 
-### Why Embedded?
+### Data Files
 
-1. **Simplicity**: No "where are my data files?" support issues
-2. **Performance**: Data parsed once at compile time validation, loaded instantly
-3. **Portability**: Binary works anywhere without file dependencies
-4. **Security**: No file system access, no path traversal concerns
-5. **Versioning**: Data and code versioned together
+| File | Purpose | Size | Loaded By |
+|------|---------|------|-----------|
+| `styles.json` | Character mappings (19 styles) | ~15KB | Converter |
+| `frames.json` | Prefix/suffix decorations (27 frames) | ~3KB | FrameRenderer |
+| `badges.json` | Enclosed character mappings (6 types) | ~2KB | BadgeRenderer |
+| `shields.json` | Shield styles + palette (4 styles) | ~1KB | ShieldsRenderer |
+| `components.json` | UI component definitions (6 components) | ~1KB | ComponentsRenderer |
+| `palette.json` | Design tokens (15 colors) | <1KB | ComponentsRenderer |
 
-### Trade-offs
-
-- **Pro**: Zero deployment complexity, guaranteed data availability
-- **Con**: Cannot modify mappings without recompiling (intentional - ensures consistency)
-- **Con**: Binary size includes ~50KB of JSON data (negligible for most uses)
-
-**For custom mappings:** Edit `data/*.json` and recompile. See "Extension Points" below.
-
----
-
-## Extension Points
-
-### Adding New Styles
-
-1. **Add to styles.json:**
-```json
-{
-  "id": "new-style",
-  "name": "New Style",
-  "category": "Technical",
-  "description": "Description here",
-  "aliases": ["ns", "new"],
-  "uppercase": { ... },
-  "lowercase": { ... },
-  "digits": { ... }
-}
-```
-
-2. **No code changes needed** - system automatically picks it up
-
-### Adding New Parameters
-
-Current: `{{style:spacing=N}}`
-
-To add new parameters (e.g., `color`, `variant`):
-
-1. **Update parser state machine** (src/parser.rs:~170)
-2. **Extend parameter parsing** to handle new syntax
-3. **Pass parameters to Converter**
-4. **Implement parameter logic**
-
-Example future syntax:
-```markdown
-{{mathbold:spacing=2:case=upper}}Text{{/mathbold}}
-```
-
-### Adding New Frames
-
-Frames are already implemented and extensible:
-
-1. **Add to frames.json:**
-```json
-{
-  "id": "my-frame",
-  "name": "My Frame",
-  "description": "Custom decorative frame",
-  "prefix": "« ",
-  "suffix": " »",
-  "aliases": ["mf"]
-}
-```
-
-2. **Use immediately:**
-```rust
-let result = renderer.apply_frame("text", "my-frame")?;
-// Output: « text »
-```
-
-See [FRAMES-DESIGN.md](FRAMES-DESIGN.md) for frame design patterns and examples.
-
-**Integration point:** New `FrameRenderer` component
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-graph LR
-    A[Parser] --> B[Converter]
-    B --> C[FrameRenderer]
-    C --> D[Output]
-
-    E[frames.json] -.->|Box Chars| C
-
-    style A fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style B fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style C fill:#2d3748,stroke:#9f7aea,stroke-width:2px
-    style D fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style E fill:#2d3748,stroke:#9f7aea,stroke-width:2px,stroke-dasharray: 5 5
-```
-
-**Template syntax:**
-```markdown
-{{box:double}}Framed Text{{/box}}
-{{mathbold|box:single}}Bold + Frame{{/mathbold}}
-```
+**Total:** ~22KB embedded data
 
 ---
 
@@ -634,107 +816,249 @@ graph LR
 
 | Operation | Complexity | Notes |
 |-----------|------------|-------|
-| Style lookup | O(1) | HashMap-based |
-| Character conversion | O(n) | n = text length |
-| Template parsing | O(n) | n = document length |
-| Code block detection | O(n) | Single pass |
+| Style lookup | O(1) | HashMap |
+| Character conversion | O(n) | n = input length |
+| Template parsing | O(n) | Single-pass state machine |
+| Component expansion | O(1) | String substitution |
+| Recursive processing | O(d*n) | d = nesting depth, n = input length |
 
 ### Space Complexity
 
-| Component | Space | Notes |
-|-----------|-------|-------|
-| styles.json | ~90KB | Loaded once, shared |
-| Style HashMap | O(s) | s = number of styles (19) |
-| Parse buffer | O(n) | n = document length |
-| Output buffer | O(n) | n = output length |
+| Component | Allocation | Notes |
+|-----------|------------|-------|
+| Converter | Output String | Size ≈ input length * max char width (4 bytes) |
+| Parser | Char vector | Converted to Vec for indexing |
+| Component expansion | Template String | Small (component templates are short) |
 
-### Optimization Strategies
+**No regex:** Eliminates backtracking performance issues
 
-1. **Lazy loading**: Don't load styles until first use
-2. **String interning**: Reuse style name strings
-3. **Capacity hints**: Pre-allocate output buffers
-4. **Zero-copy paths**: Return original on no-op
+### Optimization Notes
+
+**Streaming in Converter:**
+```rust
+// Avoids Vec<char> allocation
+let mut chars = text.chars().peekable();
+while let Some(c) = chars.next() {
+    result.push(style_obj.convert_char(c));
+    if chars.peek().is_some() {
+        // Add separator
+    }
+}
+```
+
+**Single-pass parsing:**
+- Parser iterates input once
+- Recursive calls for nested templates
+- No backtracking
+
+**Lazy JSON parsing:**
+- JSON parsed once at renderer creation
+- Stored in HashMap for O(1) lookup
+- Reused across all conversions
+
+---
+
+## Key Design Decisions
+
+### Decision: Components Expand (Not Render Directly)
+
+**Options:**
+- A) Components expand to template strings → recursive parse
+- B) Components call renderer methods directly in Rust
+
+**Chose A** because:
+- Components are data (JSON), not code
+- Users can define custom components without recompiling
+- Composability: expanded templates can use any primitive
+- Simpler implementation: reuse existing parsing logic
+
+**Trade-off:** Slight performance cost (re-parsing), but negligible for typical use
+
+### Decision: Generic {{/ui}} Closer
+
+**Options:**
+- A) Specific closers: `{{ui:header}}...{{/ui:header}}`
+- B) Generic closer: `{{ui:header}}...{{/ui}}`
+
+**Chose B** because:
+- UI is high-frequency authoring layer (ergonomics matter)
+- Reduces visual noise
+- Stack-based parsing is simple and reliable
+
+**Trade-off:** Potential mismatch bugs if nesting multiple UI blocks (rare)
+
+### Decision: Self-Closing Tags
+
+**Options:**
+- A) All tags require closers: `{{ui:divider}}{{/ui}}`
+- B) Self-closing for contentless: `{{ui:divider/}}`
+
+**Chose B** because:
+- Contentless components are common (dividers, icons, swatches)
+- Reduces verbosity by ~50% for these cases
+- Familiar syntax (XML/React JSX)
+
+**Trade-off:** Two tag syntaxes to learn
+
+### Decision: No Pipe Syntax
+
+**Rejected:** `{{mathbold|frame:gradient}}TEXT{{/mathbold}}`
+
+**Reasons:**
+- Ambiguous ordering (left-to-right or right-to-left?)
+- Parameter passing unclear
+- New grammar with edge cases
+- Nesting already works and is explicit
+
+**Alternative:** Use explicit nesting (current approach)
+
+### Decision: Palette at Component Layer
+
+**Options:**
+- A) Palette in ComponentsRenderer (current)
+- B) Palette in ShieldsRenderer
+- C) Global palette shared by all renderers
+
+**Chose A** because:
+- Components are the primary user-facing API
+- Color resolution happens at expansion time
+- Shields sees resolved hex (no palette lookup needed)
+- Single source of truth for design tokens
+
+### Decision: Primitives as Escape Hatch
+
+**Options:**
+- A) Hide primitives entirely (only UI components)
+- B) Expose primitives for advanced users (current)
+
+**Chose B** because:
+- Power users need direct control
+- Debugging: can test primitives in isolation
+- Migration path: existing primitive templates keep working
+
+**Documentation strategy:** Feature UI prominently, mention primitives briefly
+
+---
+
+## Extension Points
+
+### Adding New Components
+
+**User workflow:**
+1. Create `components.json` in project
+2. Define component with template
+3. Use `{{ui:mycomponent/}}`
+
+**Future (v0.2):**
+- utf8fx will load project-local `components.json`
+- Merge with built-in components
+- User components override built-in
+
+### Adding New Primitives
+
+**Developer workflow:**
+1. Create new renderer (e.g., `TableRenderer`)
+2. Add data file (e.g., `tables.json`)
+3. Add parser method (`parse_table_at()`)
+4. Integrate into `process_templates()` priority order
+5. Components can now use `{{table:*}}` in templates
+
+### Adding New Styles
+
+**Contributor workflow:**
+1. Find Unicode codepoint ranges (e.g., Mathematical Bold Italic)
+2. Update `data/styles.json` with mappings
+3. Add to appropriate category
+4. No code changes needed (data-driven)
+
+### Custom Palette (Per-Project)
+
+**Planned v0.2:**
+```json
+// my-project/palette.json
+{
+  "version": "1.0.0",
+  "colors": {
+    "brand": "FF6B35",
+    "accent": "F41C80"
+  }
+}
+```
+
+Then: `{{ui:swatch:brand/}}`
+
+### Native Components (Complex Logic)
+
+**Planned v0.2+:**
+
+For components requiring logic (not just template expansion):
+```json
+{
+  "progress": {
+    "type": "native",
+    "handler": "progress_bar"
+  }
+}
+```
+
+Rust implements:
+```rust
+fn progress_bar(args: &[String]) -> Result<String> {
+    let value = args[0].parse::<f32>()?;
+    // Calculate bar segments
+    // Return shields:bar with computed colors
+}
+```
 
 ---
 
 ## Testing Strategy
 
-```mermaid
-%%{init: {'theme':'dark'}}%%
-graph TD
-    A[Unit Tests] --> B[Converter Tests]
-    A --> C[Parser Tests]
-    A --> D[Styles Tests]
+### Unit Tests
 
-    E[Integration Tests] --> F[End-to-End Conversion]
-    E --> G[Template Processing]
-    E --> H[CLI Commands]
+**Per-component testing:**
+- `src/components.rs` - Expansion logic (14 tests)
+- `src/shields.rs` - URL generation (14 tests)
+- `src/frames.rs` - Prefix/suffix (27 tests)
+- `src/badges.rs` - Character mapping (18 tests)
+- `src/converter.rs` - Character transformation (41 tests)
 
-    I[Doc Tests] --> J[README Examples]
-    I --> K[API Examples]
+**Total:** 114+ unit tests
 
-    style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style E fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style I fill:#2d3748,stroke:#ed8936,stroke-width:2px
+### Integration Tests
+
+**Parser integration:**
+- UI component parsing (12 tests)
+- Composition tests (frame + style + badge)
+- Recursive nesting
+- Error handling
+
+**Total:** 38+ integration tests
+
+### End-to-End Tests
+
+**CLI tests:**
+```bash
+utf8fx process README.template.md > README.md
+diff README.md expected_README.md
 ```
 
-**Test Coverage:**
-- **49 unit tests**: Component-level functionality
-- **4 doc tests**: Documentation examples
-- **100% of public API**: Every public function tested
-
----
-
-## Future Architecture Considerations
-
-### 1. Plugin System
-
-**Goal:** Allow users to add custom styles without forking
-
-**Design:**
-```rust
-pub trait StyleProvider {
-    fn list_styles(&self) -> Vec<StyleInfo>;
-    fn convert(&self, text: &str, style: &str) -> Result<String>;
-}
-
-impl Converter {
-    pub fn register_provider(&mut self, provider: Box<dyn StyleProvider>);
-}
-```
-
-### 2. WASM Support
-
-**Goal:** Run utf8fx in browsers
-
-**Requirements:**
-- No filesystem access (inline styles.json)
-- No color output (browser handles styling)
-- Smaller binary size (<100KB compressed)
-
-### 3. Streaming API
-
-**Goal:** Process large documents without loading entire file
-
-**Design:**
-```rust
-pub struct StreamingParser {
-    pub fn process_chunk(&mut self, chunk: &str) -> Result<String>;
-    pub fn finalize(&mut self) -> Result<String>;
-}
+**Example validation:**
+```bash
+echo "{{ui:header}}TEST{{/ui}}" | utf8fx process -
+# Verify output matches expected rendering
 ```
 
 ---
 
 ## References
 
-- [Parser Design](parser-design.md) - Detailed parser implementation
-- [Frames Design](FRAMES-DESIGN.md) - Future frame feature architecture
-- [Planning Document](PLANNING.md) - Product roadmap and milestones
-- [Unicode Reference](unicode-design-elements.md) - Character set details
+- **Source:** `src/` directory
+- **Data:** `data/` directory (JSON files)
+- **Components Design:** [COMPONENTS.md](COMPONENTS.md)
+- **API Guide:** [API-GUIDE.md](API-GUIDE.md)
+- **Frames Design:** [FRAMES-DESIGN.md](FRAMES-DESIGN.md)
 
 ---
 
-**Document Version:** 1.0.0
-**Last Updated:** 2025-12-12
-**Maintained By:** Dayna Blackwell <blackwellsystems@protonmail.com>
+**Document Status:** Reflects v1.0.0 implementation with component-first architecture

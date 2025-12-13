@@ -75,12 +75,15 @@ enum Commands {
     /// Examples:
     ///   utf8fx process input.md -o output.md
     ///   utf8fx process -i README.md
+    ///   utf8fx process --backend shields input.md
     ///   echo "{{mathbold}}Title{{/mathbold}}" | utf8fx process
     ///   cat doc.md | utf8fx process > styled.md
     ///
     /// Template syntax:
     ///   {{mathbold}}Bold Text{{/mathbold}}
     ///   {{script:spacing=2}}Spaced Script{{/script}}
+    ///   {{ui:divider/}}
+    ///   {{ui:tech:rust/}}
     Process {
         /// Input file (use - or omit for stdin)
         input: Option<PathBuf>,
@@ -92,6 +95,10 @@ enum Commands {
         /// Modify file in place
         #[arg(short = 'i', long)]
         in_place: bool,
+
+        /// Rendering backend for UI components (shields = shields.io URLs, svg = local SVG files)
+        #[arg(short, long, default_value = "shields")]
+        backend: String,
     },
 
     /// Generate shell completions
@@ -140,8 +147,9 @@ fn run(cli: Cli) -> Result<(), Error> {
             input,
             output,
             in_place,
+            backend,
         } => {
-            process_file(input, output, in_place)?;
+            process_file(input, output, in_place, &backend)?;
         }
 
         Commands::Completions { shell } => {
@@ -216,7 +224,26 @@ fn process_file(
     input: Option<PathBuf>,
     output: Option<PathBuf>,
     in_place: bool,
+    backend: &str,
 ) -> Result<(), Error> {
+    // Validate backend
+    match backend {
+        "shields" => {
+            // Currently only shields.io backend is implemented
+        }
+        "svg" => {
+            return Err(Error::ParseError(
+                "SVG backend not yet implemented. Use --backend shields (default)".to_string(),
+            ));
+        }
+        _ => {
+            return Err(Error::ParseError(format!(
+                "Unknown backend '{}'. Available: shields, svg (planned)",
+                backend
+            )));
+        }
+    }
+
     let parser = TemplateParser::new()?;
 
     // Read input

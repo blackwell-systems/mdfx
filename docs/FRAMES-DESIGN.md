@@ -93,11 +93,13 @@ Frames can contain other templates:
 ```
 
 Parser processes in priority order:
-1. Frame templates (outer)
-2. Badge templates (middle)
-3. Style templates (inner)
+1. UI templates (expand to primitives)
+2. Frame templates (outer)
+3. Badge templates (middle)
+4. Shields templates (visual primitives)
+5. Style templates (inner)
 
-This prevents parsing ambiguity.
+This prevents parsing ambiguity and enables component expansion.
 
 ### Composition Model (Canonical)
 

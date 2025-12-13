@@ -1,69 +1,139 @@
-# ▓▒░ 𝐔· ·𝐓· ·𝐅· ·𝟖· ·𝐅· ·𝐗 ░▒▓ ①.⓪
+# ▓▒░ 𝐔·𝐓·𝐅·𝟖·𝐅·𝐗 ░▒▓
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 
 𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝗲𝗳𝗳𝗲𝗰𝘁𝘀 𝗳𝗼𝗿 𝗺𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗮𝗻𝗱 𝗯𝗲𝘆𝗼𝗻𝗱
 
-Transform text into various Unicode styles (mathematical bold, full-width, negative squared, and more)
-through a powerful markdown preprocessing system. Perfect for READMEs, documentation, slide decks, or
-anywhere you want your project branding to stand out without images.
+Transform text into various Unicode styles through a powerful template system. Create distinctive visual elements
+for READMEs, documentation, and presentations without images or external dependencies.
+
+## 𝐐𝐮𝐢𝐜𝐤 𝐒𝐭𝐚𝐫𝐭
+
+```markdown
+# {{ui:header}}PROJECT NAME{{/ui}}
+
+{{ui:divider/}}
+
+## Tech Stack
+{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
+
+## Status
+{{ui:status:success/}} All systems operational
+```
+
+Renders as:
+
+# ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓·𝐍·𝐀·𝐌·𝐄 ░▒▓
+
+![](https://img.shields.io/badge/...) (colorful divider bar)
+
+🦀 🐍 🐘 (tech badges)
+
+🟢 All systems operational
 
 ## 𝐌𝐨𝐭𝐢𝐯𝐚𝐭𝐢𝐨𝐧
 
-Unicode offers a plethora of diverse and interesting styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful
-Ⓒⓘⓡⓒⓛⓔⓢ—but they feel hidden and cumbersome to interact with. Finding the right glyphs requires hunting
-through Unicode tables, manually copying characters, and tediously spacing them by hand.
+Unicode offers diverse styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful Ⓒⓘⓡⓒⓛⓔⓢ—but they're
+cumbersome to use. Finding glyphs requires hunting through Unicode tables and manually spacing them.
 
-**utf8fx** makes Unicode styling simple and repeatable. Instead of searching for individual characters,
-you use intuitive template syntax like `{{mathbold}}TITLE{{/mathbold}}` or CLI commands like
-`utf8fx convert --style script "Elegant"`. Need spaced letters for a header? Just add `:spacing=2` and you're done.
+**utf8fx** makes Unicode styling simple and repeatable. Use intuitive templates like `{{ui:header}}TITLE{{/ui}}`
+or CLI commands like `utf8fx convert --style script "Elegant"`.
 
-This tool transforms Unicode styling from a frustrating manual process into something as easy as markdown
-formatting—perfect for README files, documentation, and any text where you want distinctive visual
-elements without leaving your editor.
+Transform Unicode styling from a frustrating manual process into something as easy as markdown formatting.
 
 ## 𝐖𝐡𝐲 𝐮𝐭𝐟𝟖𝐟𝐱?
 
 **Why not just copy/paste Unicode characters?**
 
-You could manually copy `𝐓𝐈𝐓𝐋𝐄` from a Unicode table, but:
-
-- **Repeatability**: With templates, you can reuse `{{mathbold}}TITLE{{/mathbold}}` across dozens of files
-- **Consistency**: Change `mathbold` to `script` once, regenerate all docs - instant rebrand
-- **Maintainability**: Your source files remain readable ASCII, styled output is generated
-- **Search & Replace**: Find/replace works on template names, not opaque Unicode glyphs
-- **Version Control**: Diffs show intent (`mathbold` → `script`), not character code changes
-- **Composability**: Combine styles + separators + frames in ways copy/paste can't match
-
-**The difference:**
-
-```markdown
-# Manual approach (fragile):
-𝐓·𝐈·𝐓·𝐋·𝐄  ← You copied each character. Now change the style...
-
-# utf8fx approach (maintainable):
-{{mathbold:separator=dot}}TITLE{{/mathbold}}  ← Change style="script" in one place
-```
+- **Repeatability**: Reuse `{{ui:header}}TITLE{{/ui}}` across dozens of files
+- **Consistency**: Change style once, regenerate all docs - instant rebrand
+- **Maintainability**: Source files remain readable ASCII, styled output is generated
+- **Search & Replace**: Find/replace works on template names, not opaque glyphs
+- **Version Control**: Diffs show intent, not character code changes
+- **Composability**: Combine components in ways copy/paste can't match
 
 Think of it like CSS for text: separate content from presentation, gain power through abstraction.
 
-## 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬
+## 𝐔𝐈 𝐂𝐨𝐦𝐩𝐨𝐧𝐞𝐧𝐭𝐬
 
-- Convert text to 19 different Unicode styles
-- Custom separators (dots, dashes, arrows) between characters
-- Decorative frames around text (gradient, solid, lines)
-- Enclosed alphanumeric badges (①②③, ⒜⒝⒞, ❶❷❸)
-- Composable templates (style + separator + frame + badges)
-- Style aliases for shorter names (e.g., `mb` for `mathbold`)
-- Preserves whitespace, punctuation, and unsupported characters
-- Zero-copy operations for maximum performance
-- Comprehensive error handling
-- Rust library with CLI and planned WASM bindings
+utf8fx provides high-level semantic components for common use cases. These compile down to shields.io badges,
+frames, and character transformations.
 
-## 𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐒𝐭𝐲𝐥𝐞𝐬
+### Visual Elements
 
-### 𝗕𝗼𝗹𝗱 & 𝗘𝗺𝗽𝗵𝗮𝘀𝗶𝘀
+**Dividers** - Section separators
+```markdown
+{{ui:divider/}}
+```
+
+**Color Swatches** - Single color blocks
+```markdown
+{{ui:swatch:accent/}}
+{{ui:swatch:success/}}
+```
+
+**Status Indicators** - Colored badges
+```markdown
+{{ui:status:success/}}  → 🟢 Green block
+{{ui:status:warning/}}  → 🟡 Yellow block
+{{ui:status:error/}}    → 🔴 Red block
+```
+
+### Tech Stack Badges
+
+**Technology Logos** - Simple Icons integration
+```markdown
+{{ui:tech:rust/}}
+{{ui:tech:python/}}
+{{ui:tech:postgresql/}}
+{{ui:tech:docker/}}
+{{ui:tech:kubernetes/}}
+```
+
+Uses [Simple Icons](https://simpleicons.org/) logo library (2000+ logos available).
+
+### Content Blocks
+
+**Section Headers** - Gradient frames with bold text
+```markdown
+{{ui:header}}INSTALLATION{{/ui}}
+{{ui:header}}API REFERENCE{{/ui}}
+```
+
+**Callouts** - Framed messages with indicators
+```markdown
+{{ui:callout:info}}Remember to run tests{{/ui}}
+{{ui:callout:warning}}Breaking change in v2.0{{/ui}}
+{{ui:callout:error}}Deprecated{{/ui}}
+```
+
+### Design Tokens
+
+Components use named colors from `palette.json`:
+
+| Token | Hex | Use |
+|-------|-----|-----|
+| `accent` | F41C80 | Primary brand color |
+| `success` | 22C55E | Success states |
+| `warning` | EAB308 | Warning states |
+| `error` | EF4444 | Error states |
+| `slate` | 6B7280 | Neutral gray |
+| `ui.bg` | 292A2D | Dark background |
+| `ui.surface` | 292C34 | Elevated surface |
+| `ui.panel` | 282F3C | Panel background |
+
+You can reference these in any component:
+```markdown
+{{ui:swatch:accent/}}
+{{ui:status:success/}}
+```
+
+## 𝐓𝐞𝐱𝐭 𝐒𝐭𝐲𝐥𝐞𝐬
+
+Transform text into 19 different Unicode character styles.
+
+### Bold & Emphasis
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `mathbold` | 𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓 | Professional headers |
@@ -71,7 +141,7 @@ Think of it like CSS for text: separate content from presentation, gain power th
 | `sans-serif-bold` | 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧 | Modern, strong |
 | `sans-serif-bold-italic` | 𝘽𝙇𝘼𝘾𝙆𝘿𝙊𝙏 | Maximum emphasis |
 
-### 𝗕𝗼𝘅𝗲𝗱 𝗦𝘁𝘆𝗹𝗲𝘀
+### Boxed Styles
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `negative-squared` | 🅱🅻🅰🅲🅺🅳🅾🆃 | Maximum contrast |
@@ -79,7 +149,7 @@ Think of it like CSS for text: separate content from presentation, gain power th
 | `squared-latin` | 🄱🄻🄰🄲🄺🄳🄾🅃 | Elegant boxes |
 | `circled-latin` | Ⓑⓛⓐⓒⓚⓓⓞⓣ | Playful circles |
 
-### 𝗘𝗹𝗲𝗴𝗮𝗻𝘁 & 𝗦𝗰𝗿𝗶𝗽𝘁
+### Elegant & Script
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `script` | 𝐵𝐿𝒜𝒞𝒦𝒟𝒪𝒯 | Elegant cursive |
@@ -90,7 +160,7 @@ Think of it like CSS for text: separate content from presentation, gain power th
 | `bold-italic` | 𝑩𝑳𝑨𝑪𝑲𝑫𝑶𝑻 | Strong + flow |
 | `small-caps` | ʙʟᴀᴄᴋᴅᴏᴛ | Subtle elegance |
 
-### 𝗧𝗲𝗰𝗵𝗻𝗶𝗰𝗮𝗹
+### Technical
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `monospace` | 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝 | Code-like |
@@ -98,264 +168,319 @@ Think of it like CSS for text: separate content from presentation, gain power th
 | `sans-serif` | 𝖡𝖫𝖠𝖢𝖪𝖣𝖮𝖳 | Clean, modern |
 | `sans-serif-italic` | 𝘉𝘓𝘈𝘊𝘒𝘋𝘖𝘛 | Modern slant |
 
-### 𝗔𝗱𝗱𝗶𝗻𝗴 𝗖𝘂𝘀𝘁𝗼𝗺 𝗦𝘁𝘆𝗹𝗲𝘀
+### Style Modifiers
 
-Want to add your own Unicode style? It's just JSON:
-
-1. **Find your Unicode range** (e.g., [Unicode Mathematical Alphanumeric Symbols](https://en.wikipedia.org/wiki/Mathematical_Alphanumeric_Symbols))
-2. **Edit `data/styles.json`** and add your mappings:
-
-```json
-{
-  "id": "my-custom-style",
-  "name": "My Custom Style",
-  "category": "Custom",
-  "description": "Your custom Unicode transformation",
-  "aliases": ["custom", "mcs"],
-  "uppercase": {
-    "A": "𝒜",
-    "B": "ℬ",
-    ...
-  },
-  "lowercase": {
-    "a": "𝒶",
-    "b": "𝒷",
-    ...
-  },
-  "digits": {
-    "0": "𝟢",
-    ...
-  }
-}
-```
-
-3. **Use it immediately**: `{{my-custom-style}}TEXT{{/my-custom-style}}`
-
-No code changes needed - utf8fx automatically picks up new styles from the JSON file.
-
-## 𝐐𝐮𝐢𝐜𝐤 𝐒𝐭𝐚𝐫𝐭
-
-### 𝗟𝗶𝗯𝗿𝗮𝗿𝘆 𝗨𝘀𝗮𝗴𝗲
-
-```rust
-use utf8fx::{Converter, FrameRenderer, BadgeRenderer};
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let converter = Converter::new()?;
-
-    // Convert text directly
-    let result = converter.convert("HELLO WORLD", "mathbold")?;
-    println!("{}", result); // 𝐇𝐄𝐋𝐋𝐎 𝐖𝐎𝐑𝐋𝐃
-
-    // Use aliases
-    let result = converter.convert("Test", "mb")?;
-    println!("{}", result); // 𝐓𝐞𝐬𝐭
-
-    // Add spacing between characters
-    let result = converter.convert_with_spacing("HELLO", "mathbold", 1)?;
-    println!("{}", result); // 𝐇 𝐄 𝐋 𝐋 𝐎
-
-    // Add custom separators
-    let result = converter.convert_with_separator("TITLE", "mathbold", "·", 1)?;
-    println!("{}", result); // 𝐓·𝐈·𝐓·𝐋·𝐄
-
-    // Add decorative frames
-    let frame_renderer = FrameRenderer::new()?;
-    let styled = converter.convert("HEADER", "mathbold")?;
-    let result = frame_renderer.apply_frame(&styled, "gradient")?;
-    println!("{}", result); // ▓▒░ 𝐇𝐄𝐀𝐃𝐄𝐑 ░▒▓
-
-    // Apply badges
-    let badge_renderer = BadgeRenderer::new()?;
-    let result = badge_renderer.apply_badge("1", "circle")?;
-    println!("{}", result); // ①
-
-    // List available styles
-    for style in converter.list_styles() {
-        println!("{}: {}", style.id, style.name);
-    }
-
-    Ok(())
-}
-```
-
-### 𝗖𝗟𝗜 𝗨𝘀𝗮𝗴𝗲
-
-```bash
-# Convert text
-utf8fx convert --style mathbold "HELLO WORLD"
-
-# Add spacing between characters
-utf8fx convert --style mathbold --spacing 1 "HEADER"
-# Output: 𝐇 𝐄 𝐀 𝐃 𝐄 𝐑
-
-# Process markdown files with templates
-utf8fx process input.md -o output.md
-```
-
-### 𝗧𝗲𝗺𝗽𝗹𝗮𝘁𝗲 𝗦𝘆𝗻𝘁𝗮𝘅
-
-Add Unicode styling directly in your markdown:
-
+**Separators** - Add characters between letters
 ```markdown
-# {{mathbold}}TITLE{{/mathbold}}
-
-## Style with Spacing
-Use {{script:spacing=2}}elegant spacing{{/script}} for headers.
-
-## Style with Separators
-{{mathbold:separator=dot}}T I T L E{{/mathbold}}
-{{mathbold:separator=dash}}H E A D E R{{/mathbold}}
-{{mathbold:separator=arrow}}F L O W{{/mathbold}}
-
-## Decorative Frames
-{{frame:gradient}}Important Note{{/frame}}
-{{frame:solid-left}}Action Item{{/frame}}
-{{frame:line-bold}}Section Header{{/frame}}
-
-## Composition (Style + Separator + Frame)
-{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
-
-## Warnings and Alerts
-{{negative-squared:spacing=1}}WARNING{{/negative-squared}}
+{{mathbold:separator=dot}}TITLE{{/mathbold}}     → 𝐓·𝐈·𝐓·𝐋·𝐄
+{{mathbold:separator=bullet}}CODE{{/mathbold}}   → 𝐂•𝐎•𝐃•𝐄
+{{mathbold:separator=arrow}}FLOW{{/mathbold}}    → 𝐅→𝐎→𝐖
 ```
 
 Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━), `arrow` (→)
 
-Available frames: `gradient`, `solid-left`, `solid-right`, `solid-both`, `line-light`, `line-bold`, `line-double`, `line-dashed`, `block-top`, `block-bottom`, `arrow-right`, `dot`, `bullet`
-
-## 𝐁𝐚𝐝𝐠𝐞𝐬
-
-Badges are pre-composed Unicode characters that enclose numbers or letters. Unlike styles (which map every character) or frames (which add decorations), badges are limited to specific charsets:
-
-**Numbers (0-20):**
+**Spacing** - Add spaces between characters
 ```markdown
-Step {{badge:circle}}1{{/badge}}: Install
-Priority {{badge:negative-circle}}1{{/badge}} task
-Section {{badge:paren}}3{{/badge}} complete
-Item {{badge:period}}5{{/badge}} pending
+{{mathbold:spacing=1}}HELLO{{/mathbold}}  → 𝐇 𝐄 𝐋 𝐋 𝐎
+{{mathbold:spacing=2}}WIDE{{/mathbold}}   → 𝐖  𝐈  𝐃  𝐄
 ```
 
-Output:
-```
-Step ①: Install
-Priority ❶ task
-Section ⑶ complete
-Item 🄅 pending
-```
+## 𝐈𝐧𝐬𝐭𝐚𝐥𝐥𝐚𝐭𝐢𝐨𝐧
 
-**Letters (a-z):**
-```markdown
-Option {{badge:paren-letter}}a{{/badge}}: Accept
-Option {{badge:paren-letter}}b{{/badge}}: Reject
-```
-
-Output:
-```
-Option ⒜: Accept
-Option ⒝: Reject
-```
-
-**Available badge types:**
-- `circle` - Circled numbers ①②③ (0-20) - aliases: `circled`, `number-circle`
-- `negative-circle` - White on black ❶❷❸ (0-20) - aliases: `neg-circle`, `inverse-circle`
-- `double-circle` - Double circles ⓵⓶⓷ (1-10) - aliases: `double`, `dbl-circle`
-- `paren` - Parenthesized numbers ⑴⑵⑶ (1-20) - aliases: `parenthesized`, `parens`
-- `period` - Period-terminated 🄁🄂🄃 (0-20) - aliases: `dot-number`, `period-number`
-- `paren-letter` - Parenthesized letters ⒜⒝⒞ (a-z) - aliases: `letter-paren`, `alpha-paren`
-
-**Important:** Badges have limited charset support - attempting to badge unsupported characters (like "99" or uppercase letters) will return an error.
-
-### 𝗩𝗶𝘀𝘂𝗮𝗹 𝗘𝘅𝗮𝗺𝗽𝗹𝗲𝘀
-
-**Before (README.template.md):**
-```markdown
-# {{mathbold}}utf8fx{{/mathbold}}
-
-{{frame:gradient}}{{mathbold:separator=dot}}FEATURES{{/mathbold}}{{/frame}}
-
-- {{negative-squared}}HIGH{{/negative-squared}} contrast alerts
-- {{script:spacing=1}}Elegant{{/script}} headers
-```
-
-**After (README.md generated by `utf8fx process`):**
-```markdown
-# 𝐮𝐭𝐟𝟖𝐟𝐱
-
-▓▒░ 𝐅·𝐄·𝐀·𝐓·𝐔·𝐑·𝐄·𝐒 ░▒▓
-
-- 🅷🅸🅶🅷 contrast alerts
-- ℰ 𝓁 ℯ 𝓰 𝒶 𝓃 𝓉 headers
-```
-
-**Command:**
+### From crates.io
 ```bash
-utf8fx process README.template.md -o README.md
+cargo install utf8fx
 ```
 
-This README was generated using utf8fx - check `README.template.md` to see the source!
-
-### 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗮𝘁𝗶𝗼𝗻
-
-Add to your `Cargo.toml`:
-
-```toml
-[dependencies]
-utf8fx = "1.0"
-```
-
-## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞
-
-```
-utf8fx/
-├── src/
-│   ├── lib.rs          # Public API
-│   ├── converter.rs    # Core conversion logic
-│   ├── frames.rs       # Frame rendering
-│   ├── badges.rs       # Badge rendering
-│   ├── parser.rs       # Template parser
-│   ├── styles.rs       # Style definitions
-│   └── error.rs        # Error types
-├── data/
-│   ├── styles.json     # Character mapping database
-│   ├── frames.json     # Frame definitions
-│   └── badges.json     # Badge definitions
-├── tests/              # Integration tests
-├── examples/           # Usage examples
-└── docs/               # Documentation
-```
-
-## 𝐃𝐨𝐜𝐮𝐦𝐞𝐧𝐭𝐚𝐭𝐢𝐨𝐧
-
-- [API Guide](docs/API-GUIDE.md) - Complete API reference with examples
-- [Architecture](docs/ARCHITECTURE.md) - System design and component architecture
-- [Parser Design](docs/parser-design.md) - State machine implementation details
-- [Planning Document](docs/PLANNING.md) - Technical design and roadmap
-- [Unicode Design Elements](docs/unicode-design-elements.md) - Character reference
-
-## 𝐓𝐞𝐬𝐭𝐢𝐧𝐠
-
+### From source
 ```bash
-# Run all tests
-cargo test
-
-# Run with output
-cargo test -- --nocapture
-
-# Run specific test
-cargo test test_convert_mathbold
+git clone https://github.com/blackwell-systems/utf8fx
+cd utf8fx
+cargo build --release
+./target/release/utf8fx --version
 ```
+
+## 𝐔𝐬𝐚𝐠𝐞
+
+### CLI - Process Markdown Files
+```bash
+# Process a template file
+utf8fx process README.template.md > README.md
+
+# Process and save
+utf8fx process input.md --output output.md
+
+# Process from stdin
+echo "{{ui:header}}HELLO{{/ui}}" | utf8fx process -
+```
+
+### CLI - Direct Conversion
+```bash
+# Convert text directly
+utf8fx convert --style mathbold "HELLO WORLD"
+# Output: 𝐇𝐄𝐋𝐋𝐎 𝐖𝐎𝐑𝐋𝐃
+
+# With separator
+utf8fx convert --style mathbold --separator dot "TITLE"
+# Output: 𝐓·𝐈·𝐓·𝐋·𝐄
+
+# With spacing
+utf8fx convert --style script --spacing 2 "Elegant"
+# Output: 𝐸  𝓁  𝑒  𝑔  𝒶  𝓃  𝓉
+```
+
+### CLI - List Styles
+```bash
+utf8fx list                    # List all styles
+utf8fx list --category bold    # Filter by category
+utf8fx frames list             # List frame styles
+utf8fx badges list             # List badge types
+```
+
+### Rust Library
+```rust
+use utf8fx::TemplateParser;
+
+fn main() {
+    let parser = TemplateParser::new().unwrap();
+
+    // Process templates
+    let input = "# {{ui:header}}PROJECT{{/ui}}";
+    let output = parser.process(input).unwrap();
+
+    println!("{}", output);
+}
+```
+
+### Direct Conversion API
+```rust
+use utf8fx::Converter;
+
+fn main() {
+    let converter = Converter::new().unwrap();
+
+    // Convert with style
+    let result = converter.convert("HELLO", "mathbold").unwrap();
+    println!("{}", result);  // 𝐇𝐄𝐋𝐋𝐎
+
+    // Convert with separator
+    let result = converter.convert_with_separator(
+        "TITLE", "mathbold", "·", 1
+    ).unwrap();
+    println!("{}", result);  // 𝐓·𝐈·𝐓·𝐋·𝐄
+}
+```
+
+## 𝐀𝐝𝐯𝐚𝐧𝐜𝐞𝐝 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬
+
+### Composition
+
+Nest templates for complex effects:
+```markdown
+{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+```
+Output: `▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓`
+
+### Inline Frames
+
+Add decorative prefix/suffix around text:
+```markdown
+{{frame:gradient}}TITLE{{/frame}}       → ▓▒░ TITLE ░▒▓
+{{frame:solid-left}}WARNING{{/frame}}   → █▌ WARNING
+{{frame:line-double}}HEADER{{/frame}}   → ═ HEADER ═
+```
+
+27 frame styles available. See `utf8fx frames list`.
+
+### Alphanumeric Badges
+
+Enclose numbers and letters:
+```markdown
+{{badge:circle}}1{{/badge}}         → ①
+{{badge:circle}}A{{/badge}}         → Ⓐ
+{{badge:negative-circle}}2{{/badge}} → ❷
+{{badge:paren}}a{{/badge}}          → ⒜
+```
+
+6 badge types available. See `utf8fx badges list`.
+
+### Low-Level Primitives (Escape Hatch)
+
+For advanced users, direct shield rendering is available:
+```markdown
+{{shields:block:color=F41C80:style=flat-square/}}
+{{shields:bar:colors=success,warning,error:style=flat-square/}}
+```
+
+UI components are recommended for most use cases.
+
+## 𝐄𝐱𝐚𝐦𝐩𝐥𝐞𝐬
+
+### Project README Header
+```markdown
+# {{ui:header}}BLACKWELL SYSTEMS{{/ui}}
+
+{{ui:divider/}}
+
+## Built With
+{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:postgresql/}}
+```
+
+### Status Dashboard
+```markdown
+## System Status
+
+{{ui:status:success/}} API Server: Operational
+{{ui:status:success/}} Database: Healthy
+{{ui:status:warning/}} Cache: Degraded
+```
+
+### Documentation Sections
+```markdown
+{{ui:header}}INSTALLATION{{/ui}}
+
+Follow these steps...
+
+{{ui:divider/}}
+
+{{ui:header}}CONFIGURATION{{/ui}}
+
+Configure your environment...
+```
+
+### Release Notes
+```markdown
+# Release v2.0.0
+
+{{ui:callout:warning}}Breaking changes in this release{{/ui}}
+
+## New Features
+- Feature A
+- Feature B
+
+{{ui:callout:info}}See migration guide for upgrade path{{/ui}}
+```
+
+## 𝐇𝐨𝐰 𝐈𝐭 𝐖𝐨𝐫𝐤𝐬
+
+utf8fx uses a three-layer architecture:
+
+1. **UI Components** (`{{ui:*}}`) - High-level semantic elements you author
+2. **Primitives** (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`) - Rendering engines
+3. **Styles** (`{{mathbold}}`) - Character transformations
+
+When you write `{{ui:header}}TITLE{{/ui}}`, utf8fx:
+1. Expands the component to `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`
+2. Applies the frame decoration
+3. Transforms characters with mathbold
+4. Adds dot separators
+
+This expansion model keeps your markdown concise while allowing full customization when needed.
+
+## 𝐂𝐨𝐧𝐟𝐢𝐠𝐮𝐫𝐚𝐭𝐢𝐨𝐧
+
+### Custom Palette
+
+Create `palette.json` in your project:
+```json
+{
+  "version": "1.0.0",
+  "colors": {
+    "brand": "FF6B35",
+    "accent": "F41C80",
+    "success": "22C55E"
+  }
+}
+```
+
+Then use in components:
+```markdown
+{{ui:swatch:brand/}}
+{{ui:status:accent/}}
+```
+
+### Custom Components
+
+Create `components.json`:
+```json
+{
+  "version": "1.0.0",
+  "components": {
+    "myheader": {
+      "type": "expand",
+      "self_closing": false,
+      "template": "{{frame:solid-left}}{{mathbold}}$content{{/mathbold}}{{/frame}}"
+    }
+  }
+}
+```
+
+Use as:
+```markdown
+{{ui:myheader}}CUSTOM{{/ui}}
+```
+
+## 𝐓𝐞𝐦𝐩𝐥𝐚𝐭𝐞 𝐒𝐲𝐧𝐭𝐚𝐱
+
+### Self-Closing Tags
+For contentless elements:
+```markdown
+{{ui:divider/}}
+{{ui:tech:rust/}}
+{{ui:swatch:accent/}}
+```
+
+### Block Tags
+For elements with content:
+```markdown
+{{ui:header}}TITLE{{/ui}}
+{{ui:callout:warning}}Message{{/ui}}
+{{mathbold}}TEXT{{/mathbold}}
+```
+
+Note: UI components use generic `{{/ui}}` closer. Other templates use specific closers (`{{/mathbold}}`, `{{/frame}}`).
+
+### Parameters
+Colon-separated key=value pairs:
+```markdown
+{{mathbold:separator=dot:spacing=1}}TEXT{{/mathbold}}
+{{ui:tech:rust/}}    ← Positional arg
+{{ui:callout:warning}}...{{/ui}}    ← Positional arg
+```
+
+## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐚𝐭𝐮𝐬
+
+**Current Version:** v0.1.0 (Pre-release)
+
+**Shipped:**
+- 19 Unicode text styles with aliases
+- 6 UI components (divider, swatch, tech, status, header, callout)
+- 27 inline frames
+- 6 alphanumeric badge types
+- Custom separators and spacing
+- Design token system (palette.json)
+- Template composition and nesting
+- CLI and Rust library
+
+**Planned:**
+- Additional UI components (progress bars, tables, diagrams)
+- WASM bindings for browser/Node.js
+- VS Code extension with preview
+- Watch mode for live regeneration
+- Component marketplace/gallery
 
 ## 𝐂𝐨𝐧𝐭𝐫𝐢𝐛𝐮𝐭𝐢𝐧𝐠
 
-Contributions are welcome! Please read our contributing guidelines (coming soon) before submitting PRs.
+Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 𝐋𝐢𝐜𝐞𝐧𝐬𝐞
 
-MIT License - see LICENSE file for details
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## 𝐋𝐢𝐧𝐤𝐬
 
-- [GitHub Repository](https://github.com/blackwell-systems/utf8fx)
-- [Crates.io](https://crates.io/crates/utf8fx) (coming soon)
-- [Documentation](https://docs.rs/utf8fx) (coming soon)
+- [Documentation](docs/)
+- [Examples](examples/)
+- [Architecture Design](docs/ARCHITECTURE.md)
+- [API Guide](docs/API-GUIDE.md)
+- [Components Design](docs/COMPONENTS.md)

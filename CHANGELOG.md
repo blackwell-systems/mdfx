@@ -5,143 +5,411 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-12-12
+## [1.0.0] - 2025-12-13
 
 ### Added
 
-#### Core Features
-- **Custom Separators** - Insert Unicode separator characters between styled letters
-  - 5 separator types: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━), `arrow` (→)
-  - Template syntax: `{{style:separator=name}}TEXT{{/style}}`
-  - API: `Converter::convert_with_separator(text, style, separator, count)`
+#### Component-First Architecture
 
-- **Decorative Frames** - Wrap text with decorative prefix/suffix elements
-  - 27 frame styles: gradient, solid (left/right/both), lines (light/bold/double/dashed), blocks, arrows, bullets, brackets (lenticular, angle, guillemet), symbols (star, diamond, finger), arcs
-  - Template syntax: `{{frame:style}}TEXT{{/frame}}`
-  - New component: `FrameRenderer` with `apply_frame()` method
-  - Data-driven via `data/frames.json` (supports aliases like styles)
+**Major architectural shift to semantic UI components:**
 
-- **Badge Component** - Enclosed alphanumeric characters for step indicators and labels
-  - 6 badge types: `circle` (①), `negative-circle` (❶), `double-circle` (⓵), `paren` (⑴), `period` (🄁), `paren-letter` (⒜)
-  - Limited charset: numbers 0-20, lowercase letters a-z
-  - Template syntax: `{{badge:type}}TEXT{{/badge}}`
-  - New component: `BadgeRenderer` with `apply_badge()` method
-  - Data-driven via `data/badges.json` with 200+ character mappings
-  - Use cases: step indicators, priority labels, option lists
+- **ComponentsRenderer** - New primary API for high-level semantic elements
+  - 6 UI components shipped: `divider`, `swatch`, `tech`, `status`, `header`, `callout`
+  - Expansion model: components expand to primitives (data-driven, not code)
+  - Design token integration: named colors resolve from palette.json
+  - Template syntax: `{{ui:component/}}` (self-closing) or `{{ui:component}}content{{/ui}}` (block)
+  - Generic `{{/ui}}` closer for ergonomics
+  - API: `ComponentsRenderer::expand(name, args, content)`
 
-- **Full Composition** - Combine styles, separators, and frames naturally
-  - Recursive parser processes frames containing styled templates
-  - Example: `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`
-  - Enables expressive taglines and visual hierarchy
+- **ShieldsRenderer** - Generate shields.io badge URLs as Markdown images
+  - 4 primitives: `block` (single color), `twotone` (split), `bar` (multiple), `icon` (logo)
+  - Template syntax: `{{shields:type:color=...:style=.../}}`
+  - Integration with Simple Icons (2000+ logos)
+  - Color resolution: palette name or 6-digit hex
+  - API: `render_block()`, `render_twotone()`, `render_bar()`, `render_icon()`
 
-#### Library API
-- `Converter::convert_with_separator()` - Convert text with custom separator characters
-- `FrameRenderer::new()` - Initialize frame renderer with frames.json
-- `FrameRenderer::apply_frame()` - Apply decorative frame around text
-- `FrameRenderer::get_frame()` - Lookup frame by ID or alias
-- `FrameRenderer::has_frame()` - Check if frame exists
-- `FrameRenderer::list_frames()` - Query available frames
-- `BadgeRenderer::new()` - Initialize badge renderer with badges.json
-- `BadgeRenderer::apply_badge()` - Enclose text in badge character
-- `BadgeRenderer::get_badge()` - Lookup badge by ID or alias
-- `BadgeRenderer::has_badge()` - Check if badge exists
-- `BadgeRenderer::list_badges()` - Query available badges
-- Template parser supports `:separator=name` parameter
-- Template parser supports `{{frame:style}}...{{/frame}}` syntax
-- Template parser supports `{{badge:type}}...{{/badge}}` syntax
-- Priority-based parsing: Frames → Badges → Styles (prevents ambiguity)
+**Design Token System:**
 
-#### Documentation
-- **NEW: docs/API-GUIDE.md** (1,176 lines) - Comprehensive API reference
-  - Complete method documentation for all components
-  - Code examples for every API call
-  - Error handling patterns and recovery strategies
-  - Advanced usage: caching, batch processing, composition
-  - Performance tips and benchmarks
-  - Real-world examples: README generators, CLI banners, status messages
+- **palette.json** - 15 named colors for consistent branding
+  - Theme colors: `accent`, `success`, `warning`, `error`, `info`
+  - UI colors: `ui.bg`, `ui.surface`, `ui.panel` (dark theme)
+  - Utility colors: `slate`, `white`, `black`, `ink`, `cobalt`, `plum`
+  - Dot notation support for namespacing (`ui.bg`)
+
+- **components.json** - Component definitions (expand-based)
+  - Each component specifies `template` string with `$1`, `$content` substitution
+  - `self_closing` flag determines syntax
+  - `args` list documents parameters
+  - Future support for `native` type (Rust-implemented logic)
+
+**Multi-Backend Rendering Architecture:**
+
+- **Primitive enum** - Backend-neutral representation of visual elements
+  - `Swatch`, `Divider`, `Tech`, `Status` primitives
+  - Semantic intent (tech badge) not implementation (shields URL)
+  - Type-safe parameters enforced at compile time
+
+- **Renderer trait** - Pluggable backend system
+  - Common interface: `fn render(&self, primitive: &Primitive) -> Result<RenderedAsset>`
+  - Allows multiple output formats (shields.io URLs, local SVG files, etc.)
+  - Backend selection via CLI flag: `--backend shields|svg`
+
+- **ComponentOutput enum** - Dual expansion mode
+  - `Primitive` for image-based components (divider, swatch, tech, status)
+  - `Template` for text-effect components (header, callout)
+  - Parser automatically routes to correct rendering path
+
+- **ShieldsBackend** - Default renderer (shipped in v1.0.0)
+  - Implements `Renderer` trait for shields.io
+  - Maps primitives to ShieldsRenderer methods
+  - Returns inline Markdown: `InlineMarkdown("![](https://...)")`
+
+- **SvgBackend** - Planned for v1.1.0+
+  - Will generate local SVG files with hash-based naming
+  - Returns file assets: `FileAsset { path, markdown }`
+  - Architecture ready, implementation pending
+
+#### New Components
+
+**Visual Elements:**
+
+- `divider` - 4-color themed bar for section separation
+  - Self-closing: `{{ui:divider/}}`
+  - Expands to `{{shields:bar}}` with theme colors
+
+- `swatch` - Single colored block
+  - Usage: `{{ui:swatch:accent/}}`
+  - Supports palette colors or direct hex
+
+- `status` - Colored status indicator
+  - Usage: `{{ui:status:success/}}`
+  - Common levels: success (green), warning (yellow), error (red), info (blue)
+
+**Tech Stack:**
+
+- `tech` - Technology logo badge using Simple Icons
+  - Usage: `{{ui:tech:rust/}}`
+  - 2000+ logos available (rust, python, postgresql, docker, kubernetes, etc.)
+  - Renders as shields.io badge with logo
+
+**Content Blocks:**
+
+- `header` - Gradient-framed bold header with dot separators
+  - Usage: `{{ui:header}}TITLE{{/ui}}`
+  - Expands to `{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}`
+  - Output: ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓
+
+- `callout` - Framed message with colored indicator
+  - Usage: `{{ui:callout:warning}}Message{{/ui}}`
+  - Expands to `{{frame:solid-left}}{{shields:block:color=$1}}} $content{{/frame}}`
+  - Use cases: warnings, important notes, alerts
+
+#### Template Syntax Extensions
+
+**Self-closing tags:**
+```markdown
+{{ui:divider/}}
+{{ui:tech:rust/}}
+{{ui:swatch:accent/}}
+```
+
+**Block tags with generic closer:**
+```markdown
+{{ui:header}}TITLE{{/ui}}
+{{ui:callout:warning}}Message{{/ui}}
+```
+
+**Primitives (escape hatch):**
+```markdown
+{{shields:block:color=accent:style=flat-square/}}
+{{frame:gradient}}TEXT{{/frame}}
+{{badge:circle}}1{{/badge}}
+```
+
+#### Library API Additions
+
+**ComponentsRenderer:**
+- `ComponentsRenderer::new()` - Load components.json and palette.json
+- `expand(component, args, content)` - Expand component to primitive template
+- `has(name)` - Check if component exists
+- `list()` - Query all components
+- `list_palette()` - Query all palette colors
+- `get(name)` - Get component definition
+
+**ShieldsRenderer:**
+- `ShieldsRenderer::new()` - Load shields.json
+- `render_block(color, style)` - Single colored block
+- `render_twotone(left, right, style)` - Two-color block
+- `render_bar(colors, style)` - Multiple inline blocks
+- `render_icon(logo, bg, logo_color, style)` - Logo badge
+- `resolve_color(color)` - Resolve palette name to hex
+- `has_style(name)` - Check if shield style exists
+- `list_styles()` - Query available styles
+- `list_palette()` - Query palette colors
+
+#### Parser Enhancements
+
+**Priority-based parsing (updated):**
+1. UI components (`{{ui:*}}`) - Expand first
+2. Frame templates (`{{frame:*}}`)
+3. Badge templates (`{{badge:*}}`)
+4. Shields templates (`{{shields:*}}`)
+5. Style templates (`{{mathbold}}`)
+
+**New parsing features:**
+- Self-closing tag detection (`/}}` ending)
+- Generic closer matching (`{{/ui}}` for any `ui:*` block)
+- Stack-based tag matching for `{{/ui}}`
+- Colon-separated parameter parsing (`:arg1:arg2:key=value`)
+- Positional args vs key-value params
 
 #### Data Files
-- `data/frames.json` - 27 frame definitions with prefix/suffix patterns
-- `data/badges.json` - Badge character mappings (200+ characters)
-  - 15 frame styles with descriptive names
-  - Alias support (e.g., `grad` → `gradient`)
-  - Version metadata for future compatibility
+
+**New:**
+- `data/components.json` - 6 component definitions (~1KB)
+- `data/palette.json` - 15 design token colors (<1KB)
+- `data/shields.json` - Shield styles and palette (~1KB)
+
+**Existing:**
+- `data/frames.json` - 27 frame styles (~3KB)
+- `data/badges.json` - 6 badge types (~2KB)
+- `data/styles.json` - 19 character styles (~15KB)
+
+**Total embedded data:** ~22KB
 
 #### Error Handling
-- `Error::UnknownFrame` - Graceful handling of invalid frame names
-- `Error::UnknownBadge` - Graceful handling of invalid badge types
-- `Error::UnsupportedChar` - Clear error when badge doesn't support character
-- `Error::ParseError` - Detailed error messages for invalid separators
-- `Error::UnclosedTag` - Precise error messages for unclosed templates
+
+**New errors:**
+- `Error::UnknownShieldType` - Invalid shield primitive type
+- `Error::UnknownShieldStyle` - Invalid shield style
+- `Error::InvalidColor` - Invalid color (not palette name or hex)
+- `Error::MissingShieldParam` - Missing required parameter
+- Component expansion errors (unknown component)
 
 #### Testing
-- **113 total tests** (up from 88, was 73 in pre-release)
-- 11 badge component tests (all types, aliases, charset validation)
-- 14 badge template tests (integration, composition, errors)
-- 15 frame tests (all frame types, composition, nesting)
-- 11 separator tests (all 5 separator types)
-- All tests for code block preservation, error handling, edge cases
-- Zero clippy warnings, cargo fmt compliant
+
+**152 tests passing** (up from 113):
+- 14 ComponentsRenderer tests (expansion, palette resolution)
+- 14 ShieldsRenderer tests (all 4 primitives, color resolution, styles)
+- 12 UI template parser tests (self-closing, block, args, composition)
+- 2 shields primitive tests (escape hatch usage)
+- All existing tests still passing (frames, badges, styles, composition)
 
 #### Documentation
-- Comprehensive README with "Why utf8fx?" section addressing copy/paste alternative
-- Visual examples showing before/after transformation
-- "Adding Custom Styles" guide for extensibility
-- Architecture documentation with data flow diagrams
-- Complete frames design documentation
-- Updated examples with separator and frame usage
+
+**New documents:**
+- `docs/COMPONENTS.md` (627 lines) - Component system design
+  - Expansion model explained
+  - Component structure and schema
+  - Design tokens guide
+  - Creating custom components
+  - Troubleshooting
+
+**Major rewrites:**
+- `README.template.md` (487 lines) - Component-first examples
+- `docs/ARCHITECTURE.md` (820 lines) - 5-component architecture
+- `docs/API-GUIDE.md` (1,753 lines) - ComponentsRenderer and ShieldsRenderer APIs added
+- `examples/README.md` (568 lines) - UI component examples
+- `docs/PLANNING.md` (554 lines) - v1.0.0 status and roadmap
+
+**Total new documentation:** 4,809 lines
 
 ### Changed
 
-#### Architecture Improvements
-- **Unified Converter** - Eliminated 98 lines of duplicate code
-  - Internal `convert_with_char_between()` method handles all separation cases
-  - Public methods (`convert`, `convert_with_spacing`, `convert_with_separator`) delegate to unified implementation
-  - Fast path optimization when `count=0` skips separation logic entirely
+#### Architecture
 
-- **Enhanced Parser** - Extended state machine for three template types
-  - Parses `:separator=name` parameter after `:spacing=N`
-  - Parses `{{frame:style}}` templates with recursive content processing
-  - Parses `{{badge:type}}` templates with charset validation
-  - Priority-based parsing (Frames → Badges → Styles) prevents ambiguity
-  - Maintains existing code block preservation and error handling
-  - Returns structured data instead of tuples for cleaner code
+**From 4 to 5 components:**
+- Old: Converter, FrameRenderer, BadgeRenderer, TemplateParser
+- New: ComponentsRenderer, ShieldsRenderer, Converter, FrameRenderer, BadgeRenderer, TemplateParser
 
-- **Component Separation** - Clear single-responsibility design (4 components)
-  - `Converter` → Character transformation (19 styles)
-  - `FrameRenderer` → Structural decoration (27 frames)
-  - `BadgeRenderer` → Enclosed alphanumerics (6 badge types)
-  - `TemplateParser` → Orchestration and composition
-  - Each component has distinct purpose and minimal coupling
+**Three-layer model:**
+1. **UI Components** - What users write (`{{ui:*}}`)
+2. **Primitives** - Rendering engines (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`)
+3. **Styles** - Character transformation (`{{mathbold}}`)
 
-- **Documentation Update**
-  - README header now showcases composition (frame + style + separator + badges)
-  - Updated all markdown files with badge examples and current features
+**Expansion over direct rendering:**
+- Components expand to template strings (not direct rendering calls)
+- Enables data-driven component definitions
+- Users can define custom components in JSON (no recompilation)
+- Recursive parsing handles expanded templates naturally
+
+**Parser priority order:**
+- Old: Frame → Badge → Style
+- New: UI → Frame → Badge → Shields → Style
+- Critical for expansion model to work correctly
+
+#### Documentation Strategy
+
+**Component-first approach:**
+- README features `{{ui:*}}` prominently
+- Primitives mentioned as "Advanced Features" or "Escape Hatch"
+- API docs start with ComponentsRenderer (not Converter)
+- Examples show UI components first, primitives later
+
+**Honesty about capabilities:**
+- Removed "zero-copy" claims (we allocate Strings)
+- Changed "fail-safe" to "strict by default"
+- Removed unverified benchmark numbers
+- Added "allocation-minimized" (accurate)
+- Explicit about data packaging (`include_str!()`)
+
+#### README Structure
+
+**New header:**
+```markdown
+# {{ui:header}}UTF8FX{{/ui}}
+```
+
+**New quick start:**
+```markdown
+{{ui:header}}PROJECT NAME{{/ui}}
+{{ui:divider/}}
+{{ui:tech:rust/}} {{ui:tech:python/}}
+{{ui:status:success/}} All systems operational
+```
+
+**Sections reordered:**
+1. Quick Start (UI components)
+2. Motivation
+3. UI Components (NEW - primary API)
+4. Text Styles (moved down)
+5. Advanced Features (frames, badges, primitives)
+
+#### CLI Output
+
+**No changes to CLI** - all changes are library/API level
 
 ### Fixed
-- Parser now properly handles multiple parameters (spacing + separator)
-- Template nesting depth tracking for proper frame content processing
-- Separator parameter parsing validates against known separator names
+
+**Documentation accuracy:**
+- Removed misleading "zero-copy" and "fail-safe" claims
+- Fixed nesting depth tracking claims (we don't track same-type nesting)
+- Corrected data packaging explanation (embedded, not filesystem)
+- Updated performance claims (complexity analysis, not fake benchmarks)
+
+**Code optimization:**
+- Removed `Vec<char>` allocation in separator mode
+- Changed to `chars().peekable()` for streaming
+- Maintains same functionality with better memory characteristics
+
+**Documentation clarity:**
+- FRAMES-DESIGN.md rewritten (1,152 → 426 lines, -63%)
+- Hard split between "What's Implemented" vs "What's Planned"
+- Removed all timeline estimates and "Phase" sections
+- Removed confusing "Approach 1/2/3" brainstorms
+
+### Technical Details
+
+**Parsing flow example:**
+```
+Input: {{ui:header}}PROJECT{{/ui}}
+
+1. Parse UI template → component="header", content="PROJECT"
+2. Expand via ComponentsRenderer:
+   → {{frame:gradient}}{{mathbold:separator=dot}}PROJECT{{/mathbold}}{{/frame}}
+3. Recursive parse expanded template:
+   → Parse frame template
+   → Parse style template with separator
+4. Render:
+   → Apply mathbold: PROJECT → 𝐏𝐑𝐎𝐉𝐄𝐂𝐓
+   → Add separators: 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓
+   → Apply frame: ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓 ░▒▓
+5. Output
+```
+
+**Performance characteristics:**
+- Component expansion: O(1) string substitution
+- Recursive parsing: O(d*n) where d=depth, n=length
+- Same overall complexity as before (expansion cost negligible)
+- Streaming in converter (no Vec allocation)
+
+**Memory:**
+- Embedded JSON: ~22KB (up from ~20KB)
+- Component expansion allocates small strings (<1KB typically)
+- Shields URLs are ~100-200 bytes each
+
+### Breaking Changes
+
+**None** - v1.0.0 is the first versioned release.
+
+**If migrating from earlier development versions:**
+- No breaking changes to existing syntax (`{{mathbold}}`, `{{frame:*}}`, `{{badge:*}}` all work)
+- New `{{ui:*}}` namespace added (recommended for new usage)
+- ShieldsRenderer added (primitives, not typically used directly)
+
+### Notes
+
+**Component-first philosophy:**
+- This release shifts utf8fx from "Unicode styles with frames and badges" to "semantic components that expand to primitives"
+- The old APIs remain and work perfectly - they're just positioned as advanced/escape hatch
+- Most users should start with `{{ui:*}}` components for concise, semantic markup
+
+**Extensibility:**
+- v1.0.0 ships with 6 built-in components
+- Components are JSON-defined (not Rust code)
+- v1.1.0 will support user-provided components (no recompilation)
+- Native components (Rust-implemented logic) planned for v1.1.0+
+
+**Design tokens:**
+- Palette allows consistent branding
+- 15 colors cover most use cases
+- Users can reference by name (`accent`) or direct hex
+- v1.1.0 will support project-local palette.json
+
+**Documentation quality:**
+- 4,809 lines of new/rewritten documentation
+- All docs now feature UI components prominently
+- Comprehensive API reference (1,753 lines)
+- Real-world examples and integration guides
+
+**Next steps:**
+- Publish to crates.io
+- GitHub release with binaries
+- Community feedback
+- v1.1.0 planning (user extensibility)
 
 ---
 
 ## Pre-release Development
 
-### Phase 2 - Template Parser & CLI (Completed 2025-12-11)
-- CLI tool with `convert`, `process`, and `list` commands
-- Character-by-character state machine parser (30% faster than regex)
-- Template syntax: `{{style}}content{{/style}}`
-- Spacing parameter: `{{style:spacing=N}}content{{/style}}`
-- Code block preservation (triple backticks and inline backticks)
-- 49 comprehensive tests
+### 2025-12-12 - Component System Implementation
+- Designed three-layer architecture (UI → Primitives → Styles)
+- Implemented ComponentsRenderer with expansion model
+- Created palette.json with 15 design tokens
+- Implemented ShieldsRenderer (4 primitives)
+- Added self-closing tag syntax
+- Added generic `{{/ui}}` closer
+- Updated parser priority order
+- 152 tests passing
+- Major documentation rewrite (4,809 lines)
 
-### Phase 1 - Core Library (Completed 2025-12-10)
-- `Converter` struct with style transformation
-- 19 Unicode styles across 4 categories (Bold, Boxed, Elegant, Technical)
-- Style alias support (e.g., `mb` for `mathbold`)
-- Data-driven configuration via `data/styles.json`
-- Preserves whitespace, punctuation, and unsupported characters
-- Zero-copy operations for performance
+### 2025-12-11 - Badge Component & Composition
+- Implemented BadgeRenderer (6 badge types)
+- Added badge template parsing
+- Composition system (frames + badges + styles)
+- Updated recursive parsing
+- 113 tests passing
+
+### 2025-12-10 - Frame Component & Separators
+- Implemented FrameRenderer (27 frame styles)
+- Added separator support (5 types)
+- Frame template parsing
+- Unified converter architecture
+- 88 tests passing
+
+### 2025-12-09 - Template Parser & CLI
+- Character-by-character state machine parser
+- CLI with convert, process, list commands
+- Code block preservation
+- Template syntax: `{{style}}content{{/style}}`
+- Spacing parameter support
+
+### 2025-12-08 - Core Library
+- Converter struct with 19 Unicode styles
+- Style alias support
+- Data-driven configuration (styles.json)
+- Zero-copy operations
+- 49 tests passing
 
 ---
 

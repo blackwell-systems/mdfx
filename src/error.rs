@@ -20,6 +20,22 @@ pub enum Error {
     #[error("Badge '{0}' does not support '{1}'. Check badge charset limits.")]
     UnsupportedChar(String, String),
 
+    /// The requested shield style does not exist
+    #[error("Unknown shield style '{0}'. Run `utf8fx shields list` to see available styles.")]
+    UnknownShieldStyle(String),
+
+    /// Invalid color specification
+    #[error("Invalid color '{0}'. Use 6-digit hex codes (e.g., 2B6CB0) or palette names (e.g., cobalt).")]
+    InvalidColor(String),
+
+    /// Unknown shield type in template
+    #[error("Unknown shield type '{0}'. Available types: block, twotone, bar, icon")]
+    UnknownShieldType(String),
+
+    /// Missing required parameter for shield
+    #[error("Missing required parameter '{0}' for shield type '{1}'")]
+    MissingShieldParam(String, String),
+
     /// Generic parse error
     #[error("Parse error: {0}")]
     ParseError(String),

@@ -1,31 +1,493 @@
 # utf8fx Examples
 
-This directory contains demonstration files showing utf8fx capabilities.
+Comprehensive examples showcasing utf8fx capabilities, from high-level UI components to low-level primitives.
 
-## Files
+---
 
-### demo-input.md
-Markdown file with template syntax showing all 11 Unicode styles.
+## Quick Start
 
-### demo-output.md
-The processed result with Unicode characters applied.
+### UI Components (Recommended)
 
-## Comparison
+The simplest way to use utf8fx is through semantic UI components:
 
-**Before (demo-input.md):**
 ```markdown
-# {{mathbold}}UNICODE STYLING DEMO{{/mathbold}}
+# {{ui:header}}PROJECT NAME{{/ui}}
+
+{{ui:divider/}}
+
+## Tech Stack
+{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
+
+## Status
+{{ui:status:success/}} All systems operational
 ```
 
-**After (demo-output.md):**
+**Renders as:**
+
 ```markdown
-# 𝐔𝐍𝐈𝐂𝐎𝐃𝐄 𝐒𝐓𝐘𝐋𝐈𝐍𝐆 𝐃𝐄𝐌𝐎
+# ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓·𝐍·𝐀·𝐌·𝐄 ░▒▓
+
+![](https://img.shields.io/badge/...) (colorful bar)
+
+## Tech Stack
+🦀 🐍 🐘
+
+## Status
+🟢 All systems operational
 ```
 
-## Try It Yourself
+---
+
+## UI Components Reference
+
+### Visual Elements
+
+#### Dividers
+
+Section separators using themed colors:
+
+```markdown
+{{ui:divider/}}
+```
+
+**Use Cases:**
+- Separate sections in README
+- Visual breaks between content
+- Design accents
+
+#### Color Swatches
+
+Single colored blocks:
+
+```markdown
+{{ui:swatch:accent/}}
+{{ui:swatch:success/}}
+{{ui:swatch:slate/}}
+```
+
+**Arguments:**
+- Palette color name (`accent`, `success`, `warning`, etc.)
+- Or direct hex: `{{ui:swatch:ff6b35/}}`
+
+**Use Cases:**
+- Color palette documentation
+- Status indicators
+- Design system swatches
+
+#### Status Indicators
+
+Colored status badges:
+
+```markdown
+{{ui:status:success/}} Service healthy
+{{ui:status:warning/}} Degraded performance
+{{ui:status:error/}} Service down
+{{ui:status:info/}} Maintenance scheduled
+```
+
+**Use Cases:**
+- System health dashboards
+- CI/CD status
+- Service monitoring pages
+
+### Tech Stack Badges
+
+Technology logos using Simple Icons:
+
+```markdown
+{{ui:tech:rust/}}
+{{ui:tech:python/}}
+{{ui:tech:postgresql/}}
+{{ui:tech:docker/}}
+{{ui:tech:kubernetes/}}
+{{ui:tech:react/}}
+{{ui:tech:typescript/}}
+{{ui:tech:nodejs/}}
+```
+
+**2000+ logos available** at [simpleicons.org](https://simpleicons.org/)
+
+**Use Cases:**
+- README tech stack sections
+- Project dependencies
+- Integration showcases
+
+### Content Blocks
+
+#### Headers
+
+Gradient-framed section headers with bold dotted text:
+
+```markdown
+{{ui:header}}INSTALLATION{{/ui}}
+{{ui:header}}API REFERENCE{{/ui}}
+{{ui:header}}TROUBLESHOOTING{{/ui}}
+```
+
+**Use Cases:**
+- Major section headers
+- Chapter titles
+- Prominent headings
+
+#### Callouts
+
+Framed messages with colored indicators:
+
+```markdown
+{{ui:callout:info}}Remember to run tests before deploying{{/ui}}
+
+{{ui:callout:warning}}Breaking changes in v2.0{{/ui}}
+
+{{ui:callout:error}}This feature is deprecated{{/ui}}
+```
+
+**Levels:** `info`, `warning`, `error`, `success`
+
+**Use Cases:**
+- Important notes
+- Warnings and alerts
+- Migration guides
+- Release notes
+
+---
+
+## Complete Examples
+
+### Project README
+
+```markdown
+# {{ui:header}}BLACKWELL SYSTEMS{{/ui}}
+
+{{ui:divider/}}
+
+## Overview
+
+Enterprise-grade system architecture platform.
+
+## Built With
+
+{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:postgresql/}} {{ui:tech:docker/}} {{ui:tech:kubernetes/}}
+
+## System Status
+
+{{ui:status:success/}} API Server: Operational
+{{ui:status:success/}} Database: Healthy
+{{ui:status:warning/}} Cache: Degraded
+{{ui:status:success/}} Queue: Processing
+
+{{ui:divider/}}
+
+## Quick Start
+
+{{ui:callout:info}}Requires Rust 1.70+ and Docker{{/ui}}
+
+1. Clone the repository
+2. Run `make setup`
+3. Start services: `docker-compose up`
+
+{{ui:callout:warning}}First-time setup may take 10-15 minutes{{/ui}}
+```
+
+### Status Dashboard
+
+```markdown
+# System Health Dashboard
+
+## Production Environment
+
+{{ui:status:success/}} **API Gateway** - 99.9% uptime
+{{ui:status:success/}} **Web Servers** - All 12 nodes healthy
+{{ui:status:warning/}} **Cache Layer** - 1 node degraded
+{{ui:status:success/}} **Database** - Primary + 2 replicas OK
+
+## Staging Environment
+
+{{ui:status:success/}} All services operational
+
+## Development Environment
+
+{{ui:status:success/}} All services operational
+
+{{ui:divider/}}
+
+**Last Updated:** 2025-12-12 10:30 UTC
+```
+
+### Release Notes
+
+```markdown
+# Release v2.0.0
+
+{{ui:callout:warning}}This release contains breaking changes{{/ui}}
+
+## New Features
+
+- Feature A
+- Feature B
+- Feature C
+
+## Breaking Changes
+
+{{ui:callout:error}}The old API has been removed{{/ui}}
+
+1. Update imports from `v1` to `v2`
+2. Migrate configuration files
+3. Run database migrations
+
+{{ui:callout:info}}See migration guide for detailed instructions{{/ui}}
+
+## Tech Stack Updates
+
+{{ui:tech:rust/}} Rust 1.75
+{{ui:tech:postgresql/}} PostgreSQL 16
+{{ui:tech:docker/}} Docker 24
+
+{{ui:divider/}}
+
+{{ui:status:success/}} All tests passing
+```
+
+### Documentation Page
+
+```markdown
+# {{ui:header}}INSTALLATION GUIDE{{/ui}}
+
+{{ui:divider/}}
+
+## Prerequisites
+
+You'll need:
+
+- {{ui:tech:rust/}} Rust 1.70+
+- {{ui:tech:docker/}} Docker 20+
+- {{ui:tech:postgresql/}} PostgreSQL 14+
+
+{{ui:callout:warning}}macOS users: Install via Homebrew{{/ui}}
+
+## Step 1: Install Dependencies
+
+\`\`\`bash
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Install Docker
+brew install --cask docker
+\`\`\`
+
+{{ui:callout:info}}Windows users: Use WSL2 for best compatibility{{/ui}}
+
+{{ui:divider/}}
+
+## Step 2: Clone Repository
+
+\`\`\`bash
+git clone https://github.com/example/project
+cd project
+\`\`\`
+
+{{ui:divider/}}
+
+## Step 3: Build
+
+\`\`\`bash
+cargo build --release
+\`\`\`
+
+{{ui:status:success/}} Build complete!
+```
+
+---
+
+## Text Styles (Character Transformation)
+
+Transform text into Unicode character styles:
+
+```markdown
+{{mathbold}}PROFESSIONAL{{/mathbold}}
+→ 𝐏𝐑𝐎𝐅𝐄𝐒𝐒𝐈𝐎𝐍𝐀𝐋
+
+{{script}}Elegant{{/script}}
+→ ℰ𝓁ℯℊ𝒶𝓃𝓉
+
+{{fullwidth}}WIDE{{/fullwidth}}
+→ ＷＩＤＥ
+
+{{fraktur}}Gothic{{/fraktur}}
+→ 𝔊𝔬𝔱𝔥𝔦𝔠
+
+{{monospace}}code{{/monospace}}
+→ 𝚌𝚘𝚍𝚎
+```
+
+### With Separators
+
+Add characters between letters:
+
+```markdown
+{{mathbold:separator=dot}}TITLE{{/mathbold}}
+→ 𝐓·𝐈·𝐓·𝐋·𝐄
+
+{{mathbold:separator=arrow}}FLOW{{/mathbold}}
+→ 𝐅→𝐋→𝐎→𝐖
+
+{{script:separator=bullet}}Note{{/script}}
+→ 𝒩•𝑜•𝓉•ℯ
+```
+
+**Available Separators:**
+- `dot` (·) - Middle dot
+- `bullet` (•) - Bullet
+- `dash` (─) - Horizontal line
+- `bolddash` (━) - Heavy line
+- `arrow` (→) - Rightward arrow
+
+### With Spacing
+
+Add spaces between characters:
+
+```markdown
+{{mathbold:spacing=1}}SPACED{{/mathbold}}
+→ 𝐒 𝐏 𝐀 𝐂 𝐄 𝐃
+
+{{mathbold:spacing=2}}WIDE{{/mathbold}}
+→ 𝐖  𝐈  𝐃  𝐄
+```
+
+### Available Styles
+
+**19 styles total:**
+
+- `mathbold` - Mathematical Bold (𝐀𝐁𝐂)
+- `fullwidth` - Full-Width (ＡＢＣ)
+- `negative-squared` - Negative Squared (🅰🅱🅲)
+- `negative-circled` - Negative Circled (🅐🅑🅒)
+- `squared-latin` - Squared Latin (🄰🄱🄲)
+- `circled-latin` - Circled Latin (Ⓐⓑⓒ)
+- `small-caps` - Small Capitals (ᴀʙᴄ)
+- `monospace` - Monospace (𝙰𝙱𝙲)
+- `double-struck` - Double-Struck (𝔸𝔹ℂ)
+- `sans-serif` - Sans-Serif (𝖠𝖡𝖢)
+- `sans-serif-bold` - Sans-Serif Bold (𝗔𝗕𝗖)
+- `sans-serif-italic` - Sans-Serif Italic (𝘈𝘉𝘊)
+- `sans-serif-bold-italic` - Sans-Serif Bold Italic (𝘼𝘽𝘾)
+- `italic` - Italic (𝐴𝐵𝐶)
+- `bold-italic` - Bold Italic (𝑨𝑩𝑪)
+- `script` - Script/Cursive (𝒜ℬ𝒞)
+- `bold-script` - Bold Script (𝓐𝓑𝓒)
+- `fraktur` - Fraktur/Gothic (𝔄𝔅ℭ)
+- `bold-fraktur` - Bold Fraktur (𝕬𝕭𝕮)
+
+---
+
+## Advanced: Primitives
+
+For power users who need direct control, primitives are available as an escape hatch.
+
+### Inline Frames
+
+Decorative prefix/suffix:
+
+```markdown
+{{frame:gradient}}TITLE{{/frame}}
+→ ▓▒░ TITLE ░▒▓
+
+{{frame:solid-left}}WARNING{{/frame}}
+→ █▌ WARNING
+
+{{frame:line-double}}HEADER{{/frame}}
+→ ═══ HEADER ═══
+```
+
+**27 frame styles available.** See `utf8fx frames list`.
+
+### Alphanumeric Badges
+
+Enclose numbers and letters:
+
+```markdown
+{{badge:circle}}1{{/badge}}
+→ ①
+
+{{badge:negative-circle}}2{{/badge}}
+→ ❷
+
+{{badge:paren}}a{{/badge}}
+→ ⒜
+```
+
+**6 badge types available.** See `utf8fx badges list`.
+
+### Shields (Direct)
+
+Generate shields.io badges directly:
+
+```markdown
+{{shields:block:color=F41C80:style=flat-square/}}
+→ ![](https://img.shields.io/badge/...)
+
+{{shields:bar:colors=success,warning,error:style=flat-square/}}
+→ ![](...)![](...)![](...)
+```
+
+**Note:** Most users should use `{{ui:*}}` components instead. Shields primitives are verbose but powerful.
+
+### Composition
+
+Combine primitives for custom effects:
+
+```markdown
+{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+→ ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓
+
+{{frame:solid-left}}{{badge:circle}}1{{/badge}} {{mathbold}}FIRST{{/mathbold}}{{/frame}}
+→ █▌① 𝐅𝐈𝐑𝐒𝐓
+```
+
+---
+
+## Design Tokens
+
+Components use named colors from the palette:
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `accent` | F41C80 | Primary brand |
+| `success` | 22C55E | Success states |
+| `warning` | EAB308 | Warnings |
+| `error` | EF4444 | Errors |
+| `info` | 3B82F6 | Information |
+| `slate` | 6B7280 | Neutral gray |
+| `ui.bg` | 292A2D | Dark background |
+| `ui.surface` | 292C34 | Elevated surface |
+| `ui.panel` | 282F3C | Panel |
+
+**Use in components:**
+```markdown
+{{ui:swatch:accent/}}
+{{ui:status:success/}}
+```
+
+---
+
+## Try the Examples
+
+### Process a File
 
 ```bash
-# View original
+# Create example
+echo "# {{ui:header}}TEST{{/ui}}" > example.md
+
+# Process it
+utf8fx process example.md
+
+# Output:
+# ▓▒░ 𝐓·𝐄·𝐒·𝐓 ░▒▓
+```
+
+### View Demo Files
+
+```bash
+# View original template
 cat examples/demo-input.md
 
 # Process and view result
@@ -35,204 +497,71 @@ utf8fx process examples/demo-input.md
 diff <(utf8fx process examples/demo-input.md) examples/demo-output.md
 ```
 
-## Template Syntax
-
-```markdown
-{{style}}content{{/style}}
-
-# With spacing parameter
-{{style:spacing=N}}content{{/style}}
-
-# With separator parameter
-{{style:separator=name}}content{{/style}}
-
-# With decorative frame
-{{frame:style}}content{{/frame}}
-
-# Composition (style + separator + frame)
-{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
-```
-
-### Spacing Parameter
-
-Add spaces between each character for artistic headers and design elements:
-
-```markdown
-# {{mathbold:spacing=1}}H E A D E R{{/mathbold}}
-→ # 𝐇 𝐄 𝐀 𝐃 𝐄 𝐑
-
-## {{script:spacing=2}}E l e g a n t{{/script}}
-→ ## ℰ   𝓁   ℯ   ℊ   𝒶   𝓃   𝓉
-
-{{negative-squared:spacing=1}}WARNING{{/negative-squared}}
-→ 🆆 🅰 🆁 🅽 🅸 🅽 🅶
-
-{{fraktur:spacing=3}}Gothic{{/fraktur}}
-→ 𝔊   𝔬   𝔱   𝔥   𝔦   𝔠
-```
-
-### Separator Parameter
-
-Use custom separator characters between letters:
-
-```markdown
-{{mathbold:separator=dot}}T I T L E{{/mathbold}}
-→ 𝐓·𝐈·𝐓·𝐋·𝐄
-
-{{mathbold:separator=dash}}H E A D E R{{/mathbold}}
-→ 𝐇─𝐄─𝐀─𝐃─𝐄─𝐑
-
-{{mathbold:separator=bolddash}}B O L D{{/mathbold}}
-→ 𝐁━𝐎━𝐋━𝐃
-
-{{mathbold:separator=arrow}}F L O W{{/mathbold}}
-→ 𝐅→𝐋→𝐎→𝐖
-
-{{script:separator=bullet}}Note{{/script}}
-→ 𝒩•𝑜•𝓉•ℯ
-```
-
-**Available separators:**
-- `dot` (·) - Middle dot
-- `bullet` (•) - Bullet point
-- `dash` (─) - Box drawing horizontal
-- `bolddash` (━) - Box drawing heavy
-- `arrow` (→) - Rightward arrow
-
-### Badges
-
-Enclose numbers (0-20) or letters (a-z) with pre-composed Unicode characters:
-
-```markdown
-Step {{badge:circle}}1{{/badge}}: Install
-→ Step ①: Install
-
-Priority {{badge:negative-circle}}1{{/badge}} task
-→ Priority ❶ task
-
-Option {{badge:paren-letter}}a{{/badge}}: Accept
-→ Option ⒜: Accept
-
-Section {{badge:paren}}3{{/badge}} complete
-→ Section ⑶ complete
-```
-
-**Available badge types:**
-- `circle` (①②③) - Circled numbers 0-20
-- `negative-circle` (❶❷❸) - White on black circles 0-20
-- `double-circle` (⓵⓶⓷) - Double circles 1-10
-- `paren` (⑴⑵⑶) - Parenthesized numbers 1-20
-- `period` (🄁🄂🄃) - Period-terminated numbers 0-20
-- `paren-letter` (⒜⒝⒞) - Parenthesized letters a-z
-
-**Note:** Badges have limited charset support. Using unsupported characters (like "99" or uppercase) will return an error.
-
-### Decorative Frames
-
-Wrap text with decorative elements:
-
-```markdown
-{{frame:gradient}}Important Note{{/frame}}
-→ ▓▒░ Important Note ░▒▓
-
-{{frame:solid-left}}Action Item{{/frame}}
-→ █▌Action Item
-
-{{frame:line-bold}}Section Header{{/frame}}
-→ ━━━ Section Header ━━━
-
-{{frame:arrow-right}}Next Step{{/frame}}
-→ → Next Step →
-```
-
-**Available frames:**
-- `gradient` - Gradient blocks (▓▒░ ... ░▒▓)
-- `solid-left` - Left solid block (█▌...)
-- `solid-right` - Right solid block (...▐█)
-- `solid-both` - Both sides (█▌...▐█)
-- `line-light` - Light lines (─── ... ───)
-- `line-bold` - Bold lines (━━━ ... ━━━)
-- `line-double` - Double lines (═══ ... ═══)
-- `line-dashed` - Dashed lines (╌╌╌ ... ╌╌╌)
-- `block-top` - Top blocks (▀▀▀ ... ▀▀▀)
-- `block-bottom` - Bottom blocks (▄▄▄ ... ▄▄▄)
-- `arrow-right` - Arrows (→ ... →)
-- `dot` - Middle dots (· ... ·)
-- `bullet` - Bullet points (• ... •)
-
-### Composition Examples
-
-Combine styles, separators, and frames:
-
-```markdown
-# Styled + Framed
-{{frame:gradient}}{{mathbold}}TITLE{{/mathbold}}{{/frame}}
-→ ▓▒░ 𝐓𝐈𝐓𝐋𝐄 ░▒▓
-
-# Styled + Separator + Framed
-{{frame:solid-left}}{{mathbold:separator=dash}}HEADER{{/mathbold}}{{/frame}}
-→ █▌𝐇─𝐄─𝐀─𝐃─𝐄─𝐑
-
-# Multiple styles in one frame
-{{frame:gradient}}{{mathbold}}Bold{{/mathbold}} and {{italic}}Italic{{/italic}}{{/frame}}
-→ ▓▒░ 𝐁𝐨𝐥𝐝 and 𝐼𝑡𝑎𝑙𝑖𝑐 ░▒▓
-```
-
-**Available styles:**
-- `mathbold` (alias: `mb`)
-- `fullwidth` (alias: `fw`)
-- `negative-squared` (alias: `neg-sq`)
-- `negative-circled` (alias: `neg-circle`)
-- `squared-latin` (alias: `sq-latin`)
-- `circled-latin` (alias: `circled`, `circle`)
-- `small-caps` (alias: `sc`)
-- `monospace` (alias: `mono`)
-- `double-struck` (alias: `ds`)
-- `sans-serif` (alias: `ss`, `sans`)
-- `sans-serif-bold` (alias: `ssb`)
-- `sans-serif-italic` (alias: `ssi`, `sans-italic`)
-- `sans-serif-bold-italic` (alias: `ssbi`, `sans-bold-italic`)
-- `italic` (alias: `it`)
-- `bold-italic` (alias: `bi`)
-- `script` (alias: `scr`, `cursive`, `calligraphic`)
-- `bold-script` (alias: `bscr`, `bold-cursive`)
-- `fraktur` (alias: `fr`, `gothic`, `blackletter`)
-- `bold-fraktur` (alias: `bfr`, `bold-gothic`)
+---
 
 ## Integration Examples
+
+### GitHub Actions
+
+```yaml
+name: Process README
+on: [push]
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install utf8fx
+        run: cargo install utf8fx
+      - name: Process README
+        run: utf8fx process README.template.md > README.md
+      - name: Commit changes
+        run: |
+          git add README.md
+          git commit -m "Update README"
+          git push
+```
+
+### Pre-commit Hook
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+
+# Process README before committing
+utf8fx process README.template.md > README.md
+git add README.md
+```
+
+### Makefile
+
+```makefile
+.PHONY: docs build
+
+docs:
+	utf8fx process README.template.md > README.md
+	utf8fx process docs/**/*.template.md
+
+build: docs
+	cargo build --release
+```
 
 ### Hugo Blog
 
 ```bash
-# Process all posts before building
-utf8fx process content/posts/*.md --in-place
+# Process all post templates
+find content/posts -name "*.template.md" | while read file; do
+  utf8fx process "$file" > "${file%.template.md}.md"
+done
+
 hugo build
 ```
 
-### Jekyll
+---
 
-```bash
-# Process posts
-utf8fx process _posts/*.md --in-place
-jekyll build
-```
+## Documentation
 
-### MkDocs
-
-```bash
-# Process docs
-utf8fx process docs/**/*.md --in-place
-mkdocs build
-```
-
-### As a Build Step
-
-```makefile
-.PHONY: preprocess build
-
-preprocess:
-	utf8fx process content/**/*.md --in-place
-
-build: preprocess
-	hugo build
-```
+- [Main README](../README.md)
+- [API Guide](../docs/API-GUIDE.md)
+- [Components Design](../docs/COMPONENTS.md)
+- [Architecture](../docs/ARCHITECTURE.md)

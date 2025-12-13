@@ -1,6 +1,6 @@
 # utf8fx API Guide
 
-**Version:** 1.0.0
+**Version:** 0.1.0
 **Last Updated:** 2025-12-12
 
 Complete API reference for using utf8fx in your Rust projects.
@@ -10,6 +10,8 @@ Complete API reference for using utf8fx in your Rust projects.
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [ComponentsRenderer API](#componentsrenderer-api) ⭐ **Primary API**
+- [ShieldsRenderer API](#shieldsrenderer-api)
 - [Converter API](#converter-api)
 - [FrameRenderer API](#framerenderer-api)
 - [BadgeRenderer API](#badgerenderer-api)
@@ -28,25 +30,607 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-utf8fx = "1.0"
+utf8fx = "0.1"
 ```
 
-### Basic Usage
+### Quick Start (Recommended: Components)
 
 ```rust
-use utf8fx::{Converter, FrameRenderer, BadgeRenderer, TemplateParser};
+use utf8fx::TemplateParser;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Convert text to Unicode styles
+    let parser = TemplateParser::new()?;
+    
+    // Process UI components (primary API)
+    let input = "# {{ui:header}}PROJECT{{/ui}}";
+    let output = parser.process(input)?;
+    
+    println!("{}", output);
+    // Output: # ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓 ░▒▓
+    
+    Ok(())
+}
+```
+
+### Direct API Usage
+
+For programmatic use without templates:
+
+```rust
+use utf8fx::{ComponentsRenderer, Converter};
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Components API
+    let components = ComponentsRenderer::new()?;
+    let expanded = components.expand("tech", &["rust".to_string()], None)?;
+    
+    // Converter API (character transformation)
     let converter = Converter::new()?;
     let result = converter.convert("HELLO", "mathbold")?;
     println!("{}", result); // 𝐇𝐄𝐋𝐋𝐎
-
+    
     Ok(())
 }
 ```
 
 ---
+
+## ComponentsRenderer API
+
+⭐ **This is the primary user-facing API.** Components provide high-level semantic elements that expand to primitives.
+
+### Overview
+
+```rust
+use utf8fx::ComponentsRenderer;
+
+let renderer = ComponentsRenderer::new()?;
+```
+
+The `ComponentsRenderer` expands UI components (like `{{ui:header}}`) into primitive templates (like `{{frame:*}}{{mathbold}}...{{/mathbold}}{{/frame}}`).
+
+### Creating a Renderer
+
+```rust
+use utf8fx::ComponentsRenderer;
+
+let renderer = ComponentsRenderer::new()?;
+```
+
+**Error:** Returns `Error::ParseError` if `components.json` or `palette.json` are malformed.
+
+**Data Sources:**
+- `data/components.json` - Component definitions
+- `data/palette.json` - Design token colors
+
+### Methods
+
+#### `expand(component: &str, args: &[String], content: Option<&str>) -> Result<String>`
+
+Expand a component into its primitive template.
+
+**Parameters:**
+- `component` - Component name (e.g., "divider", "tech", "header")
+- `args` - Positional arguments (e.g., `["rust"]` for `tech:rust`)
+- `content` - Inner content for non-self-closing components
+
+**Returns:** Expanded template string ready for parsing
+
+**Examples:**
+
+```rust
+// Self-closing component (no content)
+let result = renderer.expand("divider", &[], None)?;
+// Returns: "{{shields:bar:colors=292a2d,292c34,f41c80,282f3c:style=flat-square/}}"
+
+// Component with positional arg
+let result = renderer.expand("tech", &["rust".to_string()], None)?;
+// Returns: "{{shields:icon:logo=rust:bg=292A2D:logoColor=FFFFFF:style=flat-square/}}"
+
+// Component with content
+let result = renderer.expand("header", &[], Some("TITLE"))?;
+// Returns: "{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}"
+
+// Component with arg + content
+let result = renderer.expand("callout", &["warning".to_string()], Some("Breaking change"))?;
+// Returns: "{{frame:solid-left}}{{shields:block:color=eab308:style=flat-square/}} Breaking change{{/frame}}"
+```
+
+**Color Resolution:**
+
+Args are automatically resolved against the palette:
+
+```rust
+// "accent" resolves to "f41c80"
+let result = renderer.expand("swatch", &["accent".to_string()], None)?;
+// Returns: "{{shields:block:color=f41c80:style=flat-square/}}"
+
+// Hex codes pass through
+let result = renderer.expand("swatch", &["abc123".to_string()], None)?;
+// Returns: "{{shields:block:color=abc123:style=flat-square/}}"
+```
+
+#### `has(name: &str) -> bool`
+
+Check if a component exists.
+
+```rust
+if renderer.has("divider") {
+    println!("Component exists!");
+}
+
+if renderer.has("nonexistent") {
+    println!("This won't print");
+}
+```
+
+#### `list() -> Vec<(&String, &ComponentDef)>`
+
+Get all available components, sorted alphabetically.
+
+```rust
+for (name, def) in renderer.list() {
+    println!("{}: {}", name, def.description);
+    println!("  Self-closing: {}", def.self_closing);
+    println!("  Type: {}", def.component_type);
+}
+```
+
+**Output:**
+```
+callout: Framed messages with indicators
+  Self-closing: false
+  Type: expand
+divider: Visual divider bar with themed colors
+  Self-closing: true
+  Type: expand
+header: Section header with gradient frame and bold text
+  Self-closing: false
+  Type: expand
+...
+```
+
+#### `list_palette() -> Vec<(&String, &String)>`
+
+Get all palette colors (design tokens).
+
+```rust
+for (name, hex) in renderer.list_palette() {
+    println!("{}: #{}", name, hex);
+}
+```
+
+**Output:**
+```
+accent: #f41c80
+error: #ef4444
+info: #3b82f6
+slate: #6b7280
+success: #22c55e
+ui.bg: #292a2d
+ui.panel: #282f3c
+ui.surface: #292c34
+warning: #eab308
+white: #ffffff
+...
+```
+
+#### `get(name: &str) -> Option<&ComponentDef>`
+
+Get a component definition.
+
+```rust
+if let Some(def) = renderer.get("header") {
+    println!("Template: {}", def.template);
+    println!("Args: {:?}", def.args);
+}
+```
+
+### Shipped Components
+
+#### divider
+
+**Type:** Self-closing
+**Args:** None
+**Usage:** `{{ui:divider/}}`
+
+```rust
+let result = renderer.expand("divider", &[], None)?;
+```
+
+**Output:** 4-color bar using theme colors
+
+**Template:**
+```
+{{shields:bar:colors=ui.bg,ui.surface,accent,ui.panel:style=flat-square/}}
+```
+
+#### swatch
+
+**Type:** Self-closing
+**Args:** `[color]`
+**Usage:** `{{ui:swatch:accent/}}`
+
+```rust
+let result = renderer.expand("swatch", &["accent".to_string()], None)?;
+```
+
+**Output:** Single colored block
+
+**Template:**
+```
+{{shields:block:color=$1:style=flat-square/}}
+```
+
+#### tech
+
+**Type:** Self-closing
+**Args:** `[logo]`
+**Usage:** `{{ui:tech:rust/}}`
+
+```rust
+let result = renderer.expand("tech", &["rust".to_string()], None)?;
+```
+
+**Output:** Technology logo badge (uses Simple Icons)
+
+**Template:**
+```
+{{shields:icon:logo=$1:bg=ui.bg:logoColor=white:style=flat-square/}}
+```
+
+**Available Logos:** 2000+ from [Simple Icons](https://simpleicons.org/) (rust, python, postgresql, docker, kubernetes, etc.)
+
+#### status
+
+**Type:** Self-closing
+**Args:** `[level]`
+**Usage:** `{{ui:status:success/}}`
+
+```rust
+let result = renderer.expand("status", &["success".to_string()], None)?;
+```
+
+**Output:** Colored status indicator
+
+**Common levels:** `success` (green), `warning` (yellow), `error` (red), `info` (blue)
+
+**Template:**
+```
+{{shields:block:color=$1:style=flat-square/}}
+```
+
+#### header
+
+**Type:** Block (requires content)
+**Args:** None
+**Usage:** `{{ui:header}}TITLE{{/ui}}`
+
+```rust
+let result = renderer.expand("header", &[], Some("TITLE"))?;
+```
+
+**Output:** Gradient frame with bold dotted text
+
+**Template:**
+```
+{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}
+```
+
+#### callout
+
+**Type:** Block (requires content)
+**Args:** `[level]`
+**Usage:** `{{ui:callout:warning}}Message{{/ui}}`
+
+```rust
+let result = renderer.expand("callout", &["warning".to_string()], Some("Message"))?;
+```
+
+**Output:** Left-framed message with colored indicator
+
+**Template:**
+```
+{{frame:solid-left}}{{shields:block:color=$1:style=flat-square/}} $content{{/frame}}
+```
+
+### Design Tokens (Palette)
+
+Components use named colors from `palette.json`. These resolve during expansion.
+
+**Shipped Tokens:**
+
+| Token | Hex | Purpose |
+|-------|-----|---------|
+| `accent` | F41C80 | Primary brand color |
+| `slate` | 6B7280 | Neutral gray |
+| `success` | 22C55E | Success states |
+| `warning` | EAB308 | Warning states |
+| `error` | EF4444 | Error states |
+| `info` | 3B82F6 | Info states |
+| `ui.bg` | 292A2D | Dark background |
+| `ui.surface` | 292C34 | Elevated surface |
+| `ui.panel` | 282F3C | Panel background |
+| `ui.raised` | 263143 | Raised element |
+| `white` | FFFFFF | Pure white |
+| `black` | 000000 | Pure black |
+| `ink` | 111111 | Near-black text |
+| `cobalt` | 2B6CB0 | Blue accent |
+| `plum` | 6B46C1 | Purple accent |
+
+**Example:**
+
+```rust
+// Using palette color
+let result = renderer.expand("swatch", &["accent".to_string()], None)?;
+// accent → f41c80
+
+// Using hex directly
+let result = renderer.expand("swatch", &["ff6b35".to_string()], None)?;
+// Passes through as-is
+```
+
+### Expansion Algorithm
+
+The renderer performs these steps:
+
+1. **Lookup:** Find component definition in `components.json`
+2. **Substitute args:** Replace `$1`, `$2`, ... with provided args
+3. **Substitute content:** Replace `$content` with inner text (if applicable)
+4. **Resolve palette:** Replace color names with hex codes
+5. **Return:** Expanded template string
+
+**Example Trace:**
+
+```rust
+renderer.expand("tech", &["rust".to_string()], None)
+
+1. Lookup: components.json["tech"]
+   → template: "{{shields:icon:logo=$1:bg=ui.bg:logoColor=white:style=flat-square/}}"
+
+2. Substitute $1:
+   → "{{shields:icon:logo=rust:bg=ui.bg:logoColor=white:style=flat-square/}}"
+
+3. Resolve palette (ui.bg → 292A2D, white → FFFFFF):
+   → "{{shields:icon:logo=rust:bg=292A2D:logoColor=FFFFFF:style=flat-square/}}"
+
+4. Return expanded string
+```
+
+### Error Handling
+
+```rust
+match renderer.expand("nonexistent", &[], None) {
+    Ok(result) => println!("{}", result),
+    Err(e) => eprintln!("Error: {}", e),
+    // Prints: "Error: Unknown component 'nonexistent'"
+}
+```
+
+**Common Errors:**
+- `ParseError` - Component not found or invalid definition
+- Component validation happens at expansion time
+
+---
+
+## ShieldsRenderer API
+
+The `ShieldsRenderer` generates shields.io badge URLs as Markdown image links. **This is a primitive API**—most users should use `ComponentsRenderer` instead.
+
+### Overview
+
+```rust
+use utf8fx::ShieldsRenderer;
+
+let renderer = ShieldsRenderer::new()?;
+```
+
+Generates URLs like:
+```markdown
+![](https://img.shields.io/badge/-%20-2B6CB0?style=flat-square)
+```
+
+### Creating a Renderer
+
+```rust
+use utf8fx::ShieldsRenderer;
+
+let renderer = ShieldsRenderer::new()?;
+```
+
+**Error:** Returns `Error::ParseError` if `shields.json` is malformed.
+
+**Data Source:** `data/shields.json` - Shield styles and palette
+
+### Methods
+
+#### `render_block(color: &str, style: &str) -> Result<String>`
+
+Generate a single solid color block.
+
+```rust
+let result = renderer.render_block("2B6CB0", "flat-square")?;
+// Returns: "![](https://img.shields.io/badge/-%20-2B6CB0?style=flat-square)"
+
+// Using palette color
+let result = renderer.render_block("cobalt", "flat-square")?;
+// Returns: "![](https://img.shields.io/badge/-%20-2B6CB0?style=flat-square)"
+```
+
+**Parameters:**
+- `color` - Palette name or 6-digit hex (no `#`)
+- `style` - Shield style ID or alias
+
+**Use Cases:**
+- Status indicators
+- Color swatches
+- Simple dividers
+
+#### `render_twotone(left: &str, right: &str, style: &str) -> Result<String>`
+
+Generate a two-color block (left/right split).
+
+```rust
+let result = renderer.render_twotone("111111", "2B6CB0", "flat-square")?;
+// Returns: "![](https://img.shields.io/badge/-%20-2B6CB0?style=flat-square&label=&labelColor=111111)"
+```
+
+**Parameters:**
+- `left` - Left side color (palette name or hex)
+- `right` - Right side color (palette name or hex)
+- `style` - Shield style
+
+**Use Cases:**
+- Dual-tone design elements
+- Before/after comparisons
+
+#### `render_bar(colors: &[String], style: &str) -> Result<String>`
+
+Generate multiple inline color blocks.
+
+```rust
+let colors = vec![
+    "22C55E".to_string(),  // success
+    "F59E0B".to_string(),  // warning
+    "DC2626".to_string(),  // error
+];
+let result = renderer.render_bar(&colors, "flat-square")?;
+// Returns: "![](...)![](...)![](...)"  (3 inline badges)
+```
+
+**Parameters:**
+- `colors` - Slice of colors (palette names or hex)
+- `style` - Shield style
+
+**Use Cases:**
+- Progress bars
+- Multi-color dividers
+- Status dashboards
+
+#### `render_icon(logo: &str, bg: &str, logo_color: &str, style: &str) -> Result<String>`
+
+Generate a logo chip with Simple Icons.
+
+```rust
+let result = renderer.render_icon("rust", "000000", "white", "flat-square")?;
+// Returns: "![](https://img.shields.io/badge/-%20-000000?style=flat-square&logo=rust&logoColor=FFFFFF&label=&labelColor=000000)"
+```
+
+**Parameters:**
+- `logo` - Simple Icons slug (e.g., "rust", "python", "postgresql")
+- `bg` - Background color (palette name or hex)
+- `logo_color` - Logo color (palette name or hex)
+- `style` - Shield style
+
+**Available Logos:** 2000+ from [simpleicons.org](https://simpleicons.org/)
+
+**Use Cases:**
+- Tech stack badges
+- Tool/service indicators
+- Integration logos
+
+#### `resolve_color(color: &str) -> Result<String>`
+
+Resolve a color from palette or validate hex.
+
+```rust
+let hex = renderer.resolve_color("cobalt")?;
+// Returns: "2B6CB0"
+
+let hex = renderer.resolve_color("ABC123")?;
+// Returns: "ABC123" (validated and uppercased)
+
+let hex = renderer.resolve_color("invalid");
+// Err: InvalidColor
+```
+
+**Validation:**
+- Palette lookup first
+- Falls back to hex validation (must be 6 hex digits)
+- Returns uppercase hex
+
+#### `has_style(name: &str) -> bool`
+
+Check if a shield style exists (by ID or alias).
+
+```rust
+if renderer.has_style("flat-square") {
+    println!("Style exists!");
+}
+
+if renderer.has_style("flat") {  // Alias
+    println!("Alias works too!");
+}
+```
+
+#### `list_styles() -> Vec<&ShieldStyle>`
+
+Get all available shield styles.
+
+```rust
+for style in renderer.list_styles() {
+    println!("{}: {}", style.id, style.name);
+    if !style.aliases.is_empty() {
+        println!("  Aliases: {:?}", style.aliases);
+    }
+}
+```
+
+**Output:**
+```
+flat-square: Flat Square
+  Aliases: ["flat", "square"]
+for-the-badge: For The Badge
+  Aliases: ["badge", "header"]
+plastic: Plastic
+social: Social
+```
+
+#### `list_palette() -> Vec<(&String, &String)>`
+
+Get all palette colors.
+
+```rust
+for (name, hex) in renderer.list_palette() {
+    println!("{}: #{}", name, hex);
+}
+```
+
+### Shield Styles
+
+**Shipped Styles:**
+
+| ID | Name | Aliases | Visual |
+|----|------|---------|--------|
+| `flat-square` | Flat Square | `flat`, `square` | Minimal, clean |
+| `for-the-badge` | For The Badge | `badge`, `header` | Tall, bold |
+| `plastic` | Plastic | - | Glossy, 3D |
+| `social` | Social | - | GitHub-style |
+
+### Palette
+
+Same 15 colors as ComponentsRenderer (shared `shields.json`).
+
+### Error Handling
+
+```rust
+// Invalid color
+match renderer.render_block("invalid", "flat-square") {
+    Ok(_) => {},
+    Err(e) => eprintln!("{}", e),
+    // Prints: "Invalid color 'invalid' (use palette name or 6-digit hex)"
+}
+
+// Unknown style
+match renderer.render_block("cobalt", "nonexistent") {
+    Ok(_) => {},
+    Err(e) => eprintln!("{}", e),
+    // Prints: "Unknown shield style 'nonexistent'"
+}
+```
+
+---
+
 
 ## Converter API
 
@@ -1167,4 +1751,3 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 ---
 
 **Last Updated:** 2025-12-12
-**Version:** 1.0.0

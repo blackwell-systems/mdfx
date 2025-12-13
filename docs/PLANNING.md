@@ -1,1086 +1,592 @@
 # utf8fx - Project Planning Document
 
-**Version:** 1.0.0
-**Status:** Production Ready
-**Last Updated:** 2025-12-12
+**Current Version:** 1.0.0
+**Status:** Production Release - Multi-Backend Architecture Shipped
+**Last Updated:** 2025-12-13
 
 ---
 
 ## Project Overview
 
-**utf8fx** is a Unicode text styling tool for markdown and plain text. It transforms text into various Unicode styles (mathematical bold, full-width, negative squared, etc.) through a powerful markdown preprocessing system with character spacing support.
+**utf8fx** is a Unicode text styling tool for markdown that uses a component-first architecture. Users write semantic `{{ui:*}}` elements that compile down to shields.io badges, decorative frames, and Unicode character transformations.
 
 ### Core Value Proposition
 
-- **Markdown preprocessors** can process `{{style}}text{{/style}}` templates
-- **CLI tool** for batch conversion and file processing
-- **Rust library** for embedding in other tools
-- **WASM bindings** for browser-based editors and VS Code extensions
-- **Platform-agnostic** - works with any static site generator or markdown processor
+- **Component-first authoring** - Semantic templates (`{{ui:header}}`, not verbose primitives)
+- **Design token system** - Named colors (`accent`, `success`) for consistency
+- **Markdown preprocessing** - Process templates before rendering
+- **CLI + Library** - Use standalone or embed in other tools
+- **Extensible** - JSON-defined components (no recompilation needed)
 
 ### Target Users
 
-1. **Technical bloggers** - Style headers and emphasis in blog posts
-2. **Documentation writers** - Create distinctive section markers
-3. **Markdown tool developers** - Embed utf8fx in their tools
-4. **Content creators** - Generate fancy text for social media, READMEs
+1. **README authors** - Create distinctive project headers and tech stack badges
+2. **Documentation writers** - Semantic section markers and callouts
+3. **Status dashboards** - Visual system health indicators
+4. **Markdown tool developers** - Embed utf8fx in editors and generators
 
 ---
 
-## v1.0.0 - Initial Release
+## v1.0.0 - Multi-Backend Architecture (Current)
 
-**Core Features:**
-- 19 Unicode styles with comprehensive aliases
-- Character spacing support (`:spacing=N` template parameter)
-- State machine template parser (no regex dependencies)
-- CLI tool with convert, list, and process commands
-- Code block and inline code preservation
-- Stdin/stdout support for piping
-- In-place file modification
-- 49 tests passing
+**Released:** 2025-12-13
 
-**Styles Included:**
-- Bold & Emphasis: mathbold, fullwidth, sans-serif-bold, sans-serif-bold-italic
-- Boxed: negative-squared, negative-circled, squared-latin, circled-latin
-- Elegant & Script: script, bold-script, fraktur, bold-fraktur, italic, bold-italic, small-caps
-- Technical: monospace, double-struck, sans-serif, sans-serif-italic
+### Shipped Features
 
-**Template Syntax:**
-- Basic: `{{style}}text{{/style}}`
-- With spacing: `{{style:spacing=N}}text{{/style}}`
-- CLI: `utf8fx convert --style mathbold --spacing 1 "TEXT"`
+**UI Components (6 types):**
+- `divider` - Themed color bars for section separation
+- `swatch` - Single color blocks
+- `tech` - Technology logo badges (2000+ via Simple Icons)
+- `status` - Colored status indicators
+- `header` - Gradient-framed bold headers
+- `callout` - Framed messages with indicators
+
+**Primitives (3 types):**
+- `shields` - shields.io badge URL generation (4 primitives: block, twotone, bar, icon)
+- `frames` - Decorative prefix/suffix (27 styles)
+- `badges` - Enclosed alphanumerics (6 types: ①②③, ⒜⒝⒞)
+
+**Text Styles (19 types):**
+- mathbold, fullwidth, negative-squared, negative-circled, squared-latin, circled-latin
+- small-caps, monospace, double-struck, sans-serif, sans-serif-bold, sans-serif-italic, sans-serif-bold-italic
+- italic, bold-italic, script, bold-script, fraktur, bold-fraktur
+
+**Design System:**
+- 15 design tokens (palette.json)
+- Component expansion model (data-driven, no code)
+- Self-closing tags (`{{ui:divider/}}`)
+- Generic closers (`{{/ui}}`)
+
+**Infrastructure:**
+- 152 tests passing
+- CLI with process, convert, list commands
+- Rust library API (ComponentsRenderer, ShieldsRenderer, Converter, FrameRenderer, BadgeRenderer)
+- Embedded JSON data (~22KB)
+- Code block preservation
+- Stdin/stdout support
+
+### Template Syntax (v1.0.0)
+
+**UI Components (primary):**
+```markdown
+{{ui:divider/}}                           ← Self-closing
+{{ui:tech:rust/}}                         ← With arg
+{{ui:header}}TITLE{{/ui}}                 ← Block (generic closer)
+{{ui:callout:warning}}Message{{/ui}}      ← Block with arg
+```
+
+**Primitives (escape hatch):**
+```markdown
+{{shields:block:color=accent:style=flat-square/}}
+{{frame:gradient}}TEXT{{/frame}}
+{{badge:circle}}1{{/badge}}
+```
+
+**Styles (character transformation):**
+```markdown
+{{mathbold}}TEXT{{/mathbold}}
+{{mathbold:separator=dot}}TITLE{{/mathbold}}
+{{mathbold:spacing=2}}SPACED{{/mathbold}}
+```
+
+### Architecture Highlights
+
+**Three-layer system:**
+1. UI components (user writes) → Expand to primitives
+2. Primitives (rendering engines) → Generate output
+3. Styles (character transforms) → Unicode mappings
+
+**Expansion model:**
+- `{{ui:header}}` expands to `{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}`
+- Recursive parsing handles nested templates
+- Palette colors resolved at expansion time
+
+**Parser priority:**
+UI → Frame → Badge → Shields → Style
+
+### Breaking Changes from Earlier Versions
+
+**v1.0.0 introduces:**
+- Component-first API (old `{{mathbold}}` syntax still works)
+- New namespace: `{{ui:*}}` for components
+- Self-closing syntax (`/}}`)
+- Generic `{{/ui}}` closer (not `{{/ui:header}}`)
+- Design tokens (palette.json)
+
+**Backward compatibility:** Not a concern (started today)
 
 ---
 
-## Technical Architecture
+## Future Version - User Extensibility (Planned)
 
-### Core Components
+**Target:** Q1 2026
 
+### Planned Features
+
+**User-provided components:**
+- Load `./components.json` from project directory
+- Merge with built-in components
+- User components override built-in
+- No recompilation required
+
+**User-provided palette:**
+- Load `./palette.json` from project directory
+- Project-specific design tokens
+- Per-project branding
+
+**Native components:**
+- `progress` - Progress bars with logic (`{{ui:progress:75/}}`)
+- Rust-implemented handlers for complex components
+- Mixed expand/native types in components.json
+
+**Additional UI components:**
+- `gradient-text` - Gradient-colored text spans
+- `badge-inline` - Inline text badges
+- `timeline` - Event timelines
+- `comparison` - Before/after comparisons
+
+**SVG Backend:**
+- Local SVG file generation (alternative to shields.io)
+- Hash-based filenames for deterministic builds
+- Support for offline documentation
+- Phase 1: swatch/divider/status (solid colors)
+- Phase 2: tech badges (requires logo bundling)
+
+### Technical Implementation
+
+**SVG Backend:**
+```rust
+// src/renderer/svg.rs
+pub struct SvgBackend {
+    assets_dir: PathBuf,
+    cache: HashMap<String, String>,  // hash → filename
+}
+
+impl Renderer for SvgBackend {
+    fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
+        let hash = compute_hash(primitive);
+        let filename = format!("{}_{}.svg", primitive_type, &hash[..8]);
+        let path = self.assets_dir.join(&filename);
+
+        if !path.exists() {
+            let svg = generate_svg(primitive)?;
+            fs::write(&path, svg)?;
+        }
+
+        Ok(RenderedAsset::FileAsset {
+            path: format!("assets/{}", filename),
+            markdown: format!("![](assets/{})", filename),
+        })
+    }
+}
 ```
-utf8fx/
-├── src/
-│   ├── lib.rs              # Public library interface
-│   ├── converter.rs        # Character mapping and conversion logic
-│   ├── parser.rs           # Template parser ({{style}}...{{/style}})
-│   ├── styles.rs           # Style definitions and loading
-│   └── error.rs            # Error types
-├── cli/
-│   ├── main.rs             # CLI entry point
-│   ├── commands.rs         # CLI subcommands
-│   └── output.rs           # Output formatting
-├── wasm/                   # WASM bindings (Phase 3)
-│   ├── lib.rs
-│   └── pkg/
-├── data/
-│   └── styles.json         # Character mapping database
-├── examples/               # Usage examples
-├── tests/                  # Integration tests
-├── benches/                # Benchmarks
-└── docs/                   # Documentation
+
+**CLI Usage:**
+```bash
+utf8fx process --backend svg --assets-dir ./docs/ui input.md
 ```
 
-### Data Structure
+**Project-local config loading:**
+```rust
+// 1. Load embedded data/components.json
+// 2. Check for ./components.json
+// 3. Merge (user overrides built-in)
+```
 
-**styles.json** - Single source of truth for all character mappings:
-
+**Native component example:**
 ```json
 {
-  "version": "1.0.0",
-  "styles": {
-    "mathbold": {
-      "id": "mathbold",
-      "name": "Mathematical Bold",
-      "description": "Bold serif letters for professional emphasis",
-      "category": "bold",
-      "unicode_block": "Mathematical Alphanumeric Symbols",
-      "supports": {
-        "uppercase": true,
-        "lowercase": true,
-        "numbers": true,
-        "symbols": false
-      },
-      "mappings": {
-        "A": "𝐀", "B": "𝐁", "C": "𝐂", ...
-        "a": "𝐚", "b": "𝐛", "c": "𝐜", ...
-        "0": "𝟎", "1": "𝟏", "2": "𝟐", ...
-      }
-    }
+  "progress": {
+    "type": "native",
+    "handler": "progress_bar"
   }
 }
 ```
 
----
-
-## Feature Roadmap
-
-### Phase 1: Core Library COMPLETE
-
-**Status:** v1.0.0 - Production Ready
-
-**Features:**
-- [x] Load styles.json at compile time (via `include_str!`)
-- [x] Character-by-character conversion for 19 styles (expanded from 11)
-- [x] Style validation and error handling
-- [x] Unit tests for all style conversions
-- [x] Style aliases (mb, fw, scr, fr, etc.)
-- [x] Character spacing support (v1.2.0)
-- [x] Comprehensive test suite (49 tests passing)
-
-**Styles Implemented:**
-- **Bold & Emphasis:** mathbold, fullwidth, sans-serif-bold, sans-serif-bold-italic
-- **Boxed:** negative-squared, negative-circled, squared-latin, circled-latin
-- **Elegant & Script:** script, bold-script, fraktur, bold-fraktur, italic, bold-italic, small-caps
-- **Technical:** monospace, double-struck, sans-serif, sans-serif-italic
-
-**Deliverables:**
-- `Converter` struct with `convert()` and `convert_with_spacing()` methods
-- `Style` definitions loaded from JSON
-- Comprehensive test suite
-- Full API documentation with examples
-
-**API Example:**
 ```rust
-use utf8fx::Converter;
-
-let converter = Converter::new()?;
-
-// Basic conversion
-let result = converter.convert("BLACKDOT", "mathbold")?;
-assert_eq!(result, "𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓");
-
-// With character spacing
-let result = converter.convert_with_spacing("HEADER", "mathbold", 1)?;
-assert_eq!(result, "𝐇 𝐄 𝐀 𝐃 𝐄 𝐑");
+fn progress_bar(args: &[String]) -> Result<String> {
+    let value = args[0].parse::<f32>()?;
+    let filled = (value / 100.0 * 5.0).round() as usize;
+    let empty = 5 - filled;
+    let colors = vec!["success"; filled]
+        .into_iter()
+        .chain(vec!["slate"; empty])
+        .collect();
+    // Return shields:bar with computed colors
+}
 ```
 
 ---
 
-### Phase 2: CLI Tool & Template Parser COMPLETE
+## Future Version - Tooling & Integrations (Planned)
 
-**Status:** v1.0.0 - Fully functional with spacing support
+**Target:** Q2 2026
 
-**Features:**
-- [x] `utf8fx convert` - Convert text directly with spacing support
-- [x] `utf8fx process` - Process markdown files with templates
-- [x] `utf8fx list` - List available styles with categories
-- [x] `--spacing` flag for character spacing
-- [x] `--in-place` flag for file modification
-- [x] Stdin/stdout support for piping
-- [x] Colored output and error messages
-- [x] State machine parser (no regex dependencies)
-- [x] Code block and inline code preservation
-- [x] Template spacing syntax (`:spacing=N`)
+### Planned Features
 
-**CLI Interface:**
+**VS Code Extension:**
+- Inline preview of rendered templates
+- Component snippets
+- Design token autocomplete
+- Live reload on save
 
+**Watch Mode:**
 ```bash
-# Convert text
-utf8fx convert --style mathbold "BLACKDOT"
-utf8fx convert --style script --spacing 2 "Elegant"
-
-# Process single file
-utf8fx process post.md -o post-processed.md
-utf8fx process post.md --in-place
-
-# Process from stdin
-cat post.md | utf8fx process -
-
-# List styles
-utf8fx list
-utf8fx list --category bold
-utf8fx list --samples
+utf8fx watch README.template.md
+# Auto-regenerates README.md on changes
 ```
 
-**Template Syntax:**
+**Component Gallery:**
+- Web UI showcasing components
+- Copy/paste snippets
+- User-submitted components
+- npm/crates.io package manager integration
 
+**Preset Collections:**
+- "Tech Stack" - Common tech logos
+- "Status Dashboard" - Health indicators
+- "Release Notes" - Callouts and badges
+- "Documentation" - Headers and dividers
+
+### Technical Implementation
+
+**VS Code extension:**
+- Language server for template validation
+- Webview for live preview
+- Built on WASM bindings
+
+**Watch mode:**
+```rust
+// Use notify crate for file watching
+// Debounce changes (500ms)
+// Re-process on template file change
+```
+
+**Gallery:**
+- Static site with component demos
+- JSON API for component discovery
+- Community submissions via PR
+
+---
+
+## Future Version - Advanced Composition (Planned)
+
+**Target:** Q3 2026
+
+### Planned Features
+
+**Multiline components:**
 ```markdown
-# {{mathbold}}BLACKDOT{{/mathbold}}
-
-Use {{script:spacing=2}}elegant spacing{{/script}} for headers.
-
-{{negative-squared:spacing=1}}WARNING{{/negative-squared}}
-
-Code blocks are preserved:
-```bash
-echo "{{mathbold}}not processed{{/mathbold}}"
+{{ui:table}}
+| Name | Value |
+| A    | 1     |
+| B    | 2     |
+{{/ui}}
 ```
 
-Inline `{{mathbold}}code{{/mathbold}}` is also preserved.
+**Conditional rendering:**
+```markdown
+{{ui:status:{{env:CI_STATUS}}/}}  ← env var substitution
 ```
 
-**Parser Implementation:**
-- Character-by-character state machine (30% faster than regex)
-- Zero regex dependencies
-- Precise error messages with exact positions
-- Backtick-based code preservation
-- Triple-backtick code block tracking
-- Parameter parsing (`:spacing=N`)
+**Component nesting rules:**
+- Document safe nesting patterns
+- Add validation warnings
+- Prevent common mistakes
 
-**Deliverables:**
-- Fully functional CLI with clap
-- State machine template parser
-- Character spacing feature
-- Comprehensive test suite (49 tests)
-- 🔲 Man page and shell completions
-- 🔲 CI/CD for releases (GitHub Actions)
-- 🔲 Binary releases for Linux, macOS, Windows
+**Advanced shields:**
+- Custom shields.io styles
+- Dynamic badge content
+- Badge composition
+
+### Technical Challenges
+
+**Multiline parsing:**
+- Current parser is line-based
+- Need block-level parsing
+- Preserve Markdown structure
+
+**Variable substitution:**
+- Security: sanitize env vars
+- Scope: env, config, computed
+- Syntax: `{{var:name}}` or `${name}`?
 
 ---
 
-### Phase 3: WASM Bindings 🔲 PLANNED
+## v1.0.0 - Production Ready (Target: Q4 2026)
 
-**Goal:** Browser-based usage and VS Code extension support
+### Stability Criteria
 
-**Features:**
-- [ ] Compile to WASM with wasm-pack
-- [ ] JavaScript/TypeScript bindings
-- [ ] npm package: `utf8fx`
-- [ ] Web demo/playground
-- [ ] VS Code extension (future)
+**API stability:**
+- Template syntax finalized (no breaking changes)
+- Rust library API stable (semantic versioning)
+- Component schema v1.0 locked
 
-**WASM API:**
+**Performance:**
+- <100ms for typical README processing
+- <1s for 1000+ line documents
+- <10MB memory usage
 
+**Quality:**
+- 95%+ test coverage
+- All examples working
+- Documentation complete
+- Security audit passed
+
+**Ecosystem:**
+- VS Code extension published
+- 20+ community-contributed components
+- Integration guides (Hugo, Jekyll, MkDocs)
+- 100+ GitHub stars
+
+### Breaking Changes Policy (Post-1.0)
+
+**Will never break:**
+- UI component syntax (`{{ui:*}}`)
+- Primitive syntax (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`)
+- Style syntax (`{{mathbold}}`)
+- Design token names
+
+**May evolve (with deprecation warnings):**
+- Built-in component implementations
+- Palette colors (add new, deprecate old)
+- CLI flags (add new, keep old)
+
+**Can change freely:**
+- Internal Rust API (not public)
+- JSON schema versions (forward-compatible)
+- Rendering output (visual improvements)
+
+---
+
+## Long-Term Vision (2027+)
+
+### WASM Bindings
+
+**Use cases:**
+- Browser-based markdown editors
+- Real-time preview in web apps
+- Cloudflare Workers / edge functions
+
+**API:**
 ```javascript
-import init, { convert, processTemplate } from 'utf8fx';
-
+import init, { process_template } from 'utf8fx';
 await init();
-
-// Convert text
-const result = convert("BLACKDOT", "mathbold");
-// => "𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓"
-
-// Process template string
-const markdown = "# {{mathbold}}Title{{/mathbold}}";
-const processed = processTemplate(markdown);
+const result = process_template('{{ui:header}}TITLE{{/ui}}');
 ```
 
-**Web Demo Features:**
-- Live markdown editor with split preview
-- Style selector dropdown
-- Copy to clipboard
-- Syntax highlighting
-- Mobile responsive
-
-**Deliverables:**
-- WASM package published to npm
-- Hosted web demo at utf8fx.dev
-- Integration examples
-
----
-
-### Phase 4: Ecosystem Integration 🔲 PLANNED
-
-**Goal:** Make utf8fx easy to integrate with existing tools
+### Component Marketplace
 
 **Features:**
-- [ ] Python bindings (PyO3)
-- [ ] Hugo shortcode templates
-- [ ] GitHub Action for CI/CD
-- [ ] Markdown-it plugin
-- [ ] mdBook preprocessor
-- [ ] Zola integration guide
+- Discover components by category
+- Install via CLI: `utf8fx install awesome-header`
+- Rate and review components
+- Automatic updates
 
-**Example Integrations:**
+**Moderation:**
+- Security review for native components
+- Expand-only components auto-approved
+- Community voting
 
-**GitHub Action:**
-```yaml
-- uses: utf8fx/utf8fx-action@v1
-  with:
-    files: 'content/**/*.md'
-    in-place: true
-```
+### AI-Powered Component Generation
 
-**Makefile (works with any SSG):**
-```makefile
-preprocess:
-	utf8fx process content/**/*.md --in-place
-
-build: preprocess
-	hugo build
-```
-
-**Hugo Shortcode:**
-```html
-<!-- layouts/shortcodes/ustyle.html -->
-{{ $style := .Get 0 }}
-{{ $text := .Inner }}
-<!-- Calls utf8fx at build time -->
-```
-
----
-
-### Phase 5: Creative Spacing & Decorative Elements ✅ COMPLETE
-
-**Goal:** Enhance text styling with creative spacing options and decorative frame elements
-
-**Status:** Released in v1.0.0
-
-**Implemented Features:**
-- Custom separators (dot, bullet, dash, bolddash, arrow)
-- 27 decorative frames (gradient, solid, lines, brackets, symbols)
-- Badge component for enclosed alphanumerics (①②③, ⒜⒝⒞)
-- Full composition support (style + separator + frame + badges)
-- Comprehensive API documentation (1,176 lines)
-- 113 tests passing (88 → 113)
-
-**Inspiration from unicode-design-elements.md:**
-```
-B L A C K D O T      Regular spacing (current)
-B·L·A·C·K·D·O·T      Dotted spacing (middle dot)
-B─L─A─C─K─D─O─T      Dashed spacing (box drawing)
-B━L━A━C━K━D━O━T      Bold dashed
-```
-
-#### Creative Spacing Feature
-
-**Proposed Syntax:**
-```markdown
-{{mathbold:separator=space}}TEXT{{/mathbold}}      → T E X T
-{{mathbold:separator=dot}}TEXT{{/mathbold}}        → T·E·X·T
-{{mathbold:separator=dash}}TEXT{{/mathbold}}       → T─E─X─T
-{{mathbold:separator=bolddash}}TEXT{{/mathbold}}   → T━E━X━T
-{{mathbold:separator=arrow}}TEXT{{/mathbold}}      → T→E→X→T
-```
-
-**Alternative Syntax (shorthand):**
-```markdown
-{{mathbold|space:2}}TEXT{{/mathbold}}      Two spaces
-{{mathbold|dot}}TEXT{{/mathbold}}          Middle dot
-{{mathbold|dash}}TEXT{{/mathbold}}         Box drawing dash
-```
-
-**Available Unicode Separators:**
-- `·` (U+00B7) - Middle dot
-- `•` (U+2022) - Bullet
-- `‧` (U+2027) - Hyphenation point
-- `∙` (U+2219) - Bullet operator
-- `⋅` (U+22C5) - Dot operator
-- `─` (U+2500) - Box drawing horizontal
-- `━` (U+2501) - Box drawing heavy horizontal
-- `╌` (U+254C) - Box drawing dashed
-- `╍` (U+254D) - Box drawing heavy dashed
-- `→` (U+2192) - Rightward arrow
-- `⟶` (U+27F6) - Long rightward arrow
-
-**CLI API:**
+**Concept:**
 ```bash
-utf8fx convert --style mathbold --separator dot "TITLE"
-# Output: 𝐓·𝐈·𝐓·𝐋·𝐄
-
-utf8fx convert --style mathbold --separator dash "HEADER"
-# Output: 𝐇─𝐄─𝐀─𝐃─𝐄─𝐑
+utf8fx generate "Create a component for quarterly earnings with green/red indicators"
+# Generates component definition
+# User reviews and saves to components.json
 ```
 
-**Implementation Notes:**
-- Backward compatible: `spacing=N` still works (uses spaces)
-- `separator` parameter adds between characters
-- Can combine: `{{mathbold:separator=dot:spacing=2}}` = dot + 2 spaces on each side
-- State machine parser needs minor extension to handle new parameter
+**Implementation:**
+- LLM prompts for component generation
+- Validation of generated JSON
+- Safety checks (no code execution)
 
-#### Tagline & Decorative Frames
+### Multi-Language Support
 
-**Problem:** Users want to add decorative elements around styled text (see FRAMES-DESIGN.md)
+**Expand beyond Markdown:**
+- HTML templates (`<utf8fx-header>TITLE</utf8fx-header>`)
+- LaTeX (`\utf8fxHeader{TITLE}`)
+- reStructuredText
+- AsciiDoc
 
-**Proposed Syntax:**
-```markdown
-{{frame:gradient}}Tagline Text{{/frame}}
-# Output: ▓▒░ Tagline Text ░▒▓
-
-{{frame:solid}}Important{{/frame}}
-# Output: █▌Important
-
-{{frame:dashed}}Section{{/frame}}
-# Output: ━━━ Section ━━━
-
-{{frame:box}}Content{{/frame}}
-# Output: ┌─────────┐
-#         │ Content │
-#         └─────────┘
-```
-
-**Gradient Frame Styles:**
-```
-▓▒░ text ░▒▓     gradient (subtle → bold → subtle)
-▒░ text ░▒       gradient-light
-░▒▓ text ▓▒░     gradient-reverse
-```
-
-**Solid Frame Styles:**
-```
-█▌text            solid-left
-text▐█            solid-right
-▀▀▀ text ▀▀▀      solid-top
-▄▄▄ text ▄▄▄      solid-bottom
-```
-
-**Line Frame Styles:**
-```
-─── text ───      line-light
-━━━ text ━━━      line-bold
-╌╌╌ text ╌╌╌      line-dashed
-═══ text ═══      line-double
-```
-
-**Box Frames (multiline):**
-```
-┌─────────────┐
-│    text     │
-└─────────────┘
-
-╔═════════════╗
-║    text     ║
-╚═════════════╝
-
-┏━━━━━━━━━━━━━┓
-┃    text     ┃
-┗━━━━━━━━━━━━━┛
-```
-
-**Combined Example:**
-```markdown
-{{frame:gradient}}{{small-caps}}configuration management made simple{{/small-caps}}{{/frame}}
-# Output: ▓▒░ ᴄᴏɴꜰɪɢᴜʀᴀᴛɪᴏɴ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ᴍᴀᴅᴇ ꜱɪᴍᴘʟᴇ ░▒▓
-
-{{mathbold|dot}}{{frame:dashed}}TITLE{{/frame}}{{/mathbold}}
-# Output: ━━━ 𝐓·𝐈·𝐓·𝐋·𝐄 ━━━
-```
-
-#### Design Considerations
-
-**Pros:**
-- Aligns with FRAMES-DESIGN.md architectural vision
-- Composable: styles + spacing + frames
-- Uses existing parser infrastructure
-- Maintains single-responsibility design
-
-**Cons:**
-- Increases complexity of template syntax
-- Frame rendering requires width calculation
-- GitHub width constraints (120 char limit)
-- May require preview/validation mode
-
-**Questions to Resolve:**
-1. Should frames be inline-only or support multiline?
-2. How to handle width constraints (auto-fit vs explicit width)?
-3. Should frames be separate feature or integrated with styles?
-4. CLI syntax: `--frame gradient` or `--decorator gradient`?
-5. Do we need a `--validate-github` flag for 120-char check?
-
-**Relationship to FRAMES-DESIGN.md:**
-This builds on the frames architecture design with focus on inline taglines first:
-- Phase 5a: Creative spacing (simple, low risk)
-- Phase 5b: Inline frames (gradient, solid, dashed)
-- Phase 5c: Box frames (multiline, more complex)
-
-**Priority:**
-- HIGH: Creative spacing (dotted, dashed)
-- MEDIUM: Inline gradient/solid frames
-- LOW: Multiline box frames (may defer to v2.0)
-
-**Estimated Scope:**
-- Creative spacing: 1-2 days (parser + converter extension)
-- Inline frames: 3-5 days (new frame renderer component)
-- Box frames: 1-2 weeks (width calculation, multiline handling)
+**Technical:**
+- Plugin architecture for parsers
+- Shared rendering core
+- Per-format output adapters
 
 ---
 
-## Supported Unicode Styles
+## Technical Roadmap
 
-### Planned Styles (11 total)
+### Current Architecture (v1.0.0)
 
-| Style ID | Name | Example | Use Case |
-|----------|------|---------|----------|
-| `mathbold` | Mathematical Bold | 𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓 | Professional headers |
-| `fullwidth` | Full-Width | ＢＬＡＣＫＤＯＴ | Substantial emphasis |
-| `negative-squared` | Negative Squared | 🅱🅻🅰🅲🅺🅳🅾🆃 | Maximum contrast |
-| `negative-circled` | Negative Circled | 🅑🅛🅐🅒🅚🅓🅞🅣 | Bold, rounded |
-| `squared-latin` | Squared Latin | 🄱🄻🄰🄲🄺🄳🄾🅃 | Elegant boxes |
-| `small-caps` | Small Caps | ʙʟᴀᴄᴋᴅᴏᴛ | Subtle elegance |
-| `monospace` | Monospace | 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝 | Code-like |
-| `double-struck` | Double-Struck | 𝔹𝕃𝔸ℂ𝕂𝔻𝕆𝕋 | Outline style |
-| `sans-serif-bold` | Sans-Serif Bold | 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧 | Modern, strong |
-| `italic` | Italic | 𝐵𝐿𝐴𝐶𝐾𝐷𝑂𝑇 | Flowing emphasis |
-| `bold-italic` | Bold Italic | 𝑵𝑶𝑻𝑬 | Strong + flow |
+**5 Core Components:**
+1. ComponentsRenderer - Expand UI to primitives
+2. ShieldsRenderer - Generate shields.io URLs
+3. FrameRenderer - Add prefix/suffix decorations
+4. BadgeRenderer - Enclosed alphanumerics
+5. Converter - Character transformations
 
-### Style Categories
+**Data Files (embedded):**
+- components.json (6 components)
+- palette.json (15 colors)
+- shields.json (4 styles + palette)
+- frames.json (27 frames)
+- badges.json (6 types)
+- styles.json (19 styles)
 
+**Total:** ~22KB embedded JSON
+
+### Planned Improvements
+
+**Future Version - Config loading:**
+```
+1. Load embedded JSON (defaults)
+2. Check ./utf8fx/components.json
+3. Check ./components.json
+4. Merge (user > project > defaults)
+```
+
+**Future Version - Caching:**
 ```rust
-pub enum StyleCategory {
-    Bold,       // mathbold, sans-serif-bold, fullwidth
-    Boxed,      // negative-squared, negative-circled, squared-latin
-    Technical,  // monospace, double-struck
-    Elegant,    // small-caps, italic, bold-italic
-}
+// Cache parsed templates in memory
+// LRU eviction for long-running processes
+// Invalidate on file change
 ```
 
----
-
-## Implementation Details
-
-### Core Data Structures
-
+**Future Version - Parallel processing:**
 ```rust
-// src/lib.rs
-pub struct Converter {
-    styles: HashMap<String, Style>,
-}
-
-// src/styles.rs
-pub struct Style {
-    pub id: String,
-    pub name: String,
-    pub description: String,
-    pub category: StyleCategory,
-    pub supports: StyleSupport,
-    pub mappings: HashMap<char, char>,
-}
-
-pub struct StyleSupport {
-    pub uppercase: bool,
-    pub lowercase: bool,
-    pub numbers: bool,
-    pub symbols: bool,
-}
-
-pub enum StyleCategory {
-    Bold,
-    Boxed,
-    Technical,
-    Elegant,
-}
-
-// src/converter.rs
-impl Converter {
-    pub fn new() -> Result<Self, Error>;
-    pub fn convert(&self, text: &str, style: &str) -> Result<String, Error>;
-    pub fn list_styles(&self) -> Vec<&Style>;
-    pub fn get_style(&self, id: &str) -> Option<&Style>;
-}
-
-// src/parser.rs
-pub struct TemplateParser {
-    converter: Converter,
-}
-
-impl TemplateParser {
-    pub fn new(converter: Converter) -> Self;
-    pub fn process(&self, markdown: &str) -> Result<String, Error>;
-    pub fn process_file(&self, path: &Path) -> Result<String, Error>;
-}
-
-// src/error.rs
-pub enum Error {
-    UnknownStyle(String),
-    InvalidTemplate(String),
-    IoError(std::io::Error),
-    ParseError(String),
-}
-```
-
-### Template Parser Logic
-
-**Requirements:**
-1. Find `{{style}}text{{/style}}` patterns
-2. Skip code blocks (` ``` `, ` `` `, `` ` ``)
-3. Skip inline code (`` `code` ``)
-4. Handle nested styles (error or process inner-first?)
-5. Preserve markdown structure
-
-**Implementation Strategy (State Machine):**
-
-utf8fx uses a **character-by-character state machine parser** instead of regex for:
-- Zero regex dependencies
-- Better performance (no regex compilation)
-- More precise error messages with character positions
-- Lower memory footprint
-
-```rust
-pub fn process(&self, markdown: &str) -> Result<String, Error> {
-    // 1. Parse markdown line-by-line
-    // 2. Track state: in_code_block (via ``` markers)
-    // 3. Split lines by backticks to handle inline code
-    // 4. Use state machine to parse {{style}}...{{/style}} templates
-    // 5. Convert matched text using converter
-    // 6. Return processed markdown
-}
-```
-
-**State Machine Approach:**
-
-```rust
-fn parse_template_at(&self, chars: &[char], start: usize) -> Result<Option<(usize, String, usize, String)>> {
-    // 1. Verify starts with {{
-    // 2. Extract style name (alphanumeric + hyphens)
-    // 3. Parse optional :spacing=N parameter
-    // 4. Verify closing }} of opening tag
-    // 5. Extract content until {{/style}} found
-    // 6. Verify closing tag matches opening style
-    // 7. Return (end_pos, style, spacing, content)
-}
-```
-
-**Spacing Parameter Support (v1.2.0):**
-
-```markdown
-{{style:spacing=N}}text{{/style}}
-```
-
-The parser recognizes `:spacing=N` after the style name to insert N spaces between each character:
-- `{{mathbold:spacing=1}}HELLO{{/mathbold}}` → `𝐇 𝐄 𝐋 𝐋 𝐎`
-- `{{script:spacing=2}}Elegant{{/script}}` → `ℰ   𝓁   ℯ   ℊ   𝒶   𝓃   𝓉`
-
-**Why State Machine > Regex:**
-- No backreference support needed (Rust regex doesn't support `\1`)
-- Simpler dependencies (removes regex crate entirely)
-- Can provide exact character position in error messages
-- ~30% faster for typical markdown files
-- More intuitive to debug and maintain
-
-**Edge Cases:**
-- Unclosed tags: `{{mathbold}}text` → Error with style name
-- Mismatched tags: `{{mathbold}}text{{/italic}}` → Error (detected during parse)
-- Empty content: `{{mathbold}}{{/mathbold}}` → Empty string (valid)
-- Unknown style: `{{fakestyle}}text{{/fakestyle}}` → Error after parse
-- Invalid chars in tag: `{{math bold}}` → Ignored (not parsed as template)
-
----
-
-## Testing Strategy
-
-### Unit Tests
-
-```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_mathbold_uppercase() {
-        let converter = Converter::new().unwrap();
-        assert_eq!(
-            converter.convert("ABC", "mathbold").unwrap(),
-            "𝐀𝐁𝐂"
-        );
-    }
-
-    #[test]
-    fn test_unknown_style() {
-        let converter = Converter::new().unwrap();
-        assert!(converter.convert("ABC", "fakestyle").is_err());
-    }
-
-    #[test]
-    fn test_template_processing() {
-        let parser = TemplateParser::new(Converter::new().unwrap());
-        let input = "# {{mathbold}}TITLE{{/mathbold}}";
-        let expected = "# 𝐓𝐈𝐓𝐋𝐄";
-        assert_eq!(parser.process(input).unwrap(), expected);
-    }
-
-    #[test]
-    fn test_skip_code_blocks() {
-        let parser = TemplateParser::new(Converter::new().unwrap());
-        let input = "```\n{{mathbold}}CODE{{/mathbold}}\n```";
-        assert_eq!(parser.process(input).unwrap(), input);
-    }
-}
-```
-
-### Integration Tests
-
-```rust
-// tests/cli_tests.rs
-#[test]
-fn test_convert_command() {
-    let output = Command::cargo_bin("utf8fx")
-        .arg("convert")
-        .arg("--style")
-        .arg("mathbold")
-        .arg("TEST")
-        .output()
-        .unwrap();
-
-    assert!(output.status.success());
-    assert_eq!(String::from_utf8_lossy(&output.stdout), "𝐓𝐄𝐒𝐓\n");
-}
-```
-
-### Benchmark Tests
-
-```rust
-// benches/conversion_bench.rs
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
-
-fn benchmark_convert(c: &mut Criterion) {
-    let converter = Converter::new().unwrap();
-
-    c.bench_function("convert_short", |b| {
-        b.iter(|| converter.convert(black_box("HELLO"), "mathbold"))
-    });
-
-    c.bench_function("convert_long", |b| {
-        let text = "Lorem ipsum dolor sit amet".repeat(100);
-        b.iter(|| converter.convert(black_box(&text), "mathbold"))
-    });
-}
-
-criterion_group!(benches, benchmark_convert);
-criterion_main!(benches);
-```
-
----
-
-## Performance Targets
-
-### Benchmarks
-
-| Operation | Target | Notes |
-|-----------|--------|-------|
-| Load styles.json | < 1ms | Compile-time embed |
-| Convert short text (10 chars) | < 10μs | Character mapping |
-| Convert long text (1000 chars) | < 100μs | Linear with input |
-| Process markdown file (10KB) | < 5ms | Parse + convert |
-| Process 1000 files | < 2s | Batch processing |
-
-### Memory Usage
-
-- **Styles data:** ~200KB in memory (all 11 styles)
-- **Per-conversion overhead:** Minimal (no allocations in hot path)
-- **CLI binary size:** < 5MB (statically linked)
-- **WASM bundle size:** < 500KB (with wasm-opt)
-
----
-
-## CLI User Experience
-
-### Help Text
-
-```
-utf8fx 0.1.0
-Unicode text effects for markdown
-
-USAGE:
-    utf8fx <SUBCOMMAND>
-
-SUBCOMMANDS:
-    convert     Convert text to a Unicode style
-    process     Process markdown files with style templates
-    list        List available styles
-    preview     Preview processed markdown
-    help        Print this message or the help of the given subcommand(s)
-
-OPTIONS:
-    -h, --help       Print help information
-    -V, --version    Print version information
-```
-
-### Example Usage
-
-```bash
-# Quick conversion
-$ utf8fx convert -s mathbold "BLACKDOT"
-𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓
-
-# Process with template
-$ cat post.md
-# {{mathbold}}Title{{/mathbold}}
-Content here
-
-$ utf8fx process post.md
-# 𝐓𝐢𝐭𝐥𝐞
-Content here
-
-# Batch process (with progress bar)
-$ utf8fx process content/**/*.md --in-place
-Processing: [████████████████████] 234/234 files (1.2s)
-✓ Processed 234 files
-
-# List styles
-$ utf8fx list
-Available styles (11):
-
-Bold & Impactful:
-  mathbold          Mathematical Bold (𝐀𝐁𝐂)
-  sans-serif-bold   Sans-Serif Bold (𝗔𝗕𝗖)
-  fullwidth         Full-Width (ＡＢＣ)
-
-Boxed:
-  negative-squared  Negative Squared (🅰🅱🅲)
-  negative-circled  Negative Circled (🅐🅑🅒)
-  squared-latin     Squared Latin (🄰🄱🄲)
-
-... (more styles)
-```
-
----
-
-## Error Handling
-
-### Error Types
-
-```rust
-pub enum Error {
-    // Style errors
-    UnknownStyle(String),           // "Style 'fakestyle' not found"
-    StyleNotSupported(String),      // "Style doesn't support numbers"
-
-    // Template errors
-    UnclosedTag(String),            // "Unclosed tag: {{mathbold}}"
-    MismatchedTags(String, String), // "Expected {{/mathbold}}, found {{/italic}}"
-    InvalidStyleName(String),       // "Style name contains invalid chars"
-
-    // IO errors
-    FileNotFound(PathBuf),
-    PermissionDenied(PathBuf),
-    IoError(std::io::Error),
-
-    // Parse errors
-    InvalidJson(String),
-    InvalidUtf8(String),
-}
-```
-
-### Error Messages
-
-**Good error messages with context:**
-
-```
-Error: Unknown style 'mathbod'
-  Did you mean: mathbold?
-
-  Available styles:
-    - mathbold
-    - fullwidth
-    - negative-squared
-
-  Run `utf8fx list` to see all styles.
-```
-
-```
-Error: Unclosed tag at line 5
-  5 | # {{mathbold}}TITLE
-                 ^^^^^^^
-
-  Expected: {{/mathbold}}
-```
-
----
-
-## Documentation Plan
-
-### README.md
-
-- Quick start guide
-- Installation instructions
-- Basic usage examples
-- Link to full documentation
-
-### docs/
-
-- `installation.md` - Installation methods
-- `cli-reference.md` - Complete CLI documentation
-- `library-usage.md` - Rust API examples
-- `styles.md` - Style gallery with samples
-- `templates.md` - Template syntax guide
-- `integrations.md` - SSG integration guides
-- `wasm.md` - WASM/JavaScript usage
-- `contributing.md` - Contribution guidelines
-
-### API Documentation
-
-```rust
-/// Converts text to a specified Unicode style.
-///
-/// # Examples
-///
-/// ```
-/// use utf8fx::Converter;
-///
-/// let converter = Converter::new()?;
-/// let result = converter.convert("HELLO", "mathbold")?;
-/// assert_eq!(result, "𝐇𝐄𝐋𝐋𝐎");
-/// ```
-///
-/// # Errors
-///
-/// Returns `Error::UnknownStyle` if the style doesn't exist.
-pub fn convert(&self, text: &str, style: &str) -> Result<String, Error>
-```
-
----
-
-## Release Strategy
-
-### Version Numbering
-
-Following semantic versioning (SemVer):
-
-- `0.1.0` - Initial release (Phase 1: Library)
-- `0.2.0` - CLI tool added (Phase 2)
-- `0.3.0` - WASM bindings (Phase 3)
-- `1.0.0` - Stable API, production-ready
-
-### Distribution Channels
-
-**Rust:**
-- crates.io: `utf8fx`
-- docs.rs: Automatic documentation
-
-**Binary releases:**
-- GitHub Releases (Linux, macOS, Windows)
-- Homebrew tap: `brew install utf8fx/tap/utf8fx`
-- Cargo install: `cargo install utf8fx`
-
-**WASM/JavaScript:**
-- npm: `utf8fx`
-- unpkg CDN: `https://unpkg.com/utf8fx`
-
-**Python (future):**
-- PyPI: `utf8fx`
-
----
-
-## Open Questions
-
-### Technical Decisions
-
-1. **Template nesting:** Allow `{{mathbold}}{{italic}}text{{/italic}}{{/mathbold}}`?
-   - **Decision:** Error on nested tags (simpler, clearer)
-
-2. **Unknown characters:** What to do with chars not in mapping?
-   - **Decision:** Pass through unchanged (e.g., emoji, punctuation)
-
-3. **Code block detection:** Parse full markdown AST or simple regex?
-   - **Decision:** Start with regex (fast), upgrade if needed
-
-4. **Style aliasing:** Allow `mb` as alias for `mathbold`?
-   - **Decision:** Yes, add `aliases` field to style definitions
-
-5. **Custom styles:** Allow users to define their own mappings?
-   - **Decision:** Future feature (v2.0)
-
-### Naming Conventions
-
-- **Style IDs:** kebab-case (`negative-squared`)
-- **Rust types:** PascalCase (`NegativeSquared`)
-- **CLI flags:** kebab-case (`--in-place`)
-- **JSON keys:** snake_case (`unicode_block`)
-
----
-
-## Dependencies
-
-### Core Dependencies
-
-```toml
-[dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "1.0"
-lazy_static = "1.4"
-
-[dev-dependencies]
-criterion = "0.5"
-tempfile = "3.8"
-```
-
-**Note:** No regex dependency - uses character-by-character state machine parser for better performance.
-
-### CLI Dependencies
-
-```toml
-[dependencies]
-clap = { version = "4.4", features = ["derive", "cargo"] }
-colored = "2.1"
-# Note: indicatif and glob planned for future batch processing
-```
-
-### WASM Dependencies
-
-```toml
-[dependencies]
-wasm-bindgen = "0.2"
-serde-wasm-bindgen = "0.6"
+// Process multiple files concurrently
+// Shared renderer instances (Arc<Renderer>)
+// Rayon for parallel template parsing
 ```
 
 ---
 
 ## Success Metrics
 
-### Phase 1 (Library)
-- [ ] All 11 styles implemented
-- [ ] 100% test coverage for conversions
-- [ ] Comprehensive documentation
-- [ ] Published to crates.io
+### v1.0.0 (Current)
 
-### Phase 2 (CLI)
-- [ ] All CLI commands functional
-- [ ] Binary releases for 3 platforms
-- [ ] 50+ GitHub stars
-- [ ] 5+ crates.io downloads/day
+- ✓ 152 tests passing
+- ✓ 6 UI components shipped
+- ✓ 4,000+ lines of documentation
+- ⏳ GitHub release published
+- ⏳ crates.io publish
+- ⏳ Initial community feedback
 
-### Phase 3 (WASM)
-- [ ] WASM package published to npm
-- [ ] Live web demo deployed
-- [ ] 100+ npm downloads/week
+### Future Version Targets
 
-### Phase 4 (Ecosystem)
-- [ ] 3+ integration guides published
-- [ ] Featured on at least one Rust blog/newsletter
-- [ ] Used in at least 5 real-world projects
+- 20+ total components (6 built-in + community)
+- 200+ tests
+- 5+ production users
+- 50+ GitHub stars
+- 10+ community PRs
 
----
+### v1.0.0 Targets
 
-## Timeline
-
-| Phase | Duration | Deliverables |
-|-------|----------|--------------|
-| Phase 1 | Week 1-2 | Core library + tests |
-| Phase 2 | Week 2-3 | CLI tool + releases |
-| Phase 3 | Week 3-4 | WASM + web demo |
-| Phase 4 | Week 4+ | Integrations + ecosystem |
-
-**Total estimated time:** 4-6 weeks to v1.0.0
+- 100+ components (marketplace)
+- 500+ tests
+- 100+ production users
+- 500+ GitHub stars
+- VS Code extension: 1,000+ installs
+- Featured in "Awesome Markdown" lists
 
 ---
 
-## Current Status (v1.0.0)
+## Open Questions
 
-**Completed:**
-- ✅ Core library (19 styles, converter, parser)
-- ✅ CLI tool (convert, list, process commands)
-- ✅ Template system (styles, frames, badges)
-- ✅ Custom separators and spacing
-- ✅ 27 decorative frames
-- ✅ Badge component (6 types)
-- ✅ Comprehensive documentation (API guide, architecture, examples)
-- ✅ 113 tests passing
+### Template Syntax
 
-**Ready For:**
-- 📦 Publishing to crates.io
-- 🌐 WASM bindings (Phase 3)
-- 🔗 Ecosystem integration (Phase 4)
+**Q: Should we support shorthand for common patterns?**
+```markdown
+# Option A: Current (explicit)
+{{ui:header}}TITLE{{/ui}}
 
-## Next Steps
+# Option B: Shorthand (proposed)
+{{h1}}TITLE{{/h1}}
+```
+**Decision:** Keep explicit for now. Shorthand can be aliases in components.json.
 
-### Immediate (v1.0.0 Release)
-1. **Publish to crates.io** - Make library available
-2. **Tag release** - `git tag v1.0.0`
-3. **Update CHANGELOG** - Finalize release notes
+**Q: Parameterized components?**
+```markdown
+{{ui:header:color=cobalt:style=bold}}TITLE{{/ui}}
+```
+**Decision:** v0.2+. Need to design param override system.
 
-### Short-Term (v1.1.0 - Phase 3)
-1. **WASM Bindings** - Browser/web usage
-   - Setup wasm-pack build
-   - JavaScript API bindings
-   - npm package publication
-   - Web playground demo
-2. **VS Code Extension** - Editor integration
+### Design Tokens
 
-### Medium-Term (v1.2.0 - Phase 4)
-1. **Python Bindings** - PyO3 integration
-2. **GitHub Action** - CI/CD automation
-3. **SSG Integration Guides** - Hugo, Jekyll, MkDocs, Zola
+**Q: Support theming (light/dark)?**
+```json
+{
+  "themes": {
+    "light": { "ui.bg": "F5F5F5" },
+    "dark": { "ui.bg": "292A2D" }
+  }
+}
+```
+**Decision:** v0.3+. Requires theme switching API.
+
+**Q: Gradient support?**
+```markdown
+{{ui:swatch:gradient(accent,cobalt)/}}
+```
+**Decision:** Maybe v0.4+. Complex to implement in shields.io.
+
+### Performance
+
+**Q: Cache rendered output?**
+- Pro: Faster regeneration
+- Con: Invalidation complexity
+- **Decision:** v0.3+ (watch mode needs this)
+
+**Q: Lazy-load JSON data?**
+- Pro: Faster startup
+- Con: Complexity, embedded data already cheap
+- **Decision:** No. Embedded JSON is <25KB, fine to load eagerly.
 
 ---
 
-**v1.0.0 is production-ready!** 🚀
+## Community & Contribution
+
+### How to Contribute (v1.0.0)
+
+**Component ideas:**
+- Open issue with use case
+- Show example desired syntax
+- Explain expansion to primitives
+
+**Bug reports:**
+- Minimal reproduction
+- Expected vs actual output
+- utf8fx version
+
+**Documentation:**
+- Typo fixes always welcome
+- New examples encouraged
+- Tutorial improvements
+
+### Future Contribution Paths (v0.2+)
+
+**Component Marketplace:**
+- Submit components via PR
+- Include demo and description
+- Follow component schema
+
+**Translations:**
+- Translate error messages
+- Localize documentation
+- Multi-language examples
+
+---
+
+## References
+
+- **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Components Design:** [COMPONENTS.md](COMPONENTS.md)
+- **API Guide:** [API-GUIDE.md](API-GUIDE.md)
+- **Examples:** [../examples/README.md](../examples/README.md)
+
+---
+
+**Document Status:** Reflects v1.0.0 reality + roadmap through v1.0.0 and beyond

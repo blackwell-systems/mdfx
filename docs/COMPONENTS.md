@@ -1,0 +1,710 @@
+# Components Design Document
+
+**Status:** v0.1.0 Shipped
+**Last Updated:** 2025-12-12
+
+---
+
+## Overview
+
+utf8fx uses a **component-first architecture** where users write semantic `{{ui:*}}` elements that expand into lower-level primitives at parse time. This document explains the three-layer system, expansion model, and how to extend it.
+
+## Architecture Layers
+
+### 1. UI Components (User-Facing)
+
+**What users write:**
+```markdown
+{{ui:header}}TITLE{{/ui}}
+{{ui:divider/}}
+{{ui:tech:rust/}}
+```
+
+**Purpose:** High-level semantic elements optimized for common use cases.
+
+**Characteristics:**
+- Concise syntax
+- Self-documenting names
+- Design token integration
+- Generic `{{/ui}}` closer
+
+### 2. Primitives (Implementation)
+
+**What components expand to:**
+```markdown
+{{shields:block:color=accent:style=flat-square/}}
+{{frame:gradient}}...{{/frame}}
+{{badge:circle}}1{{/badge}}
+```
+
+**Purpose:** Rendering engines for specific output types (shields.io URLs, Unicode frames, badge characters).
+
+**Characteristics:**
+- Verbose parameter syntax
+- Explicit closers (`{{/frame}}`, `{{/badge}}`)
+- Direct control over rendering
+- Available as escape hatch
+
+### 3. Styles (Character Transformation)
+
+**What both can use:**
+```markdown
+{{mathbold}}TEXT{{/mathbold}}
+{{script:separator=dot}}ELEGANT{{/script}}
+```
+
+**Purpose:** Unicode character transformations (𝐀𝐁𝐂, 𝒜ℬ𝒞, ᴀʙᴄ).
+
+**Characteristics:**
+- Character-level mapping
+- Separator and spacing modifiers
+- Composable with other layers
+
+## Expansion Model
+
+### How It Works
+
+When the parser encounters `{{ui:header}}TITLE{{/ui}}`:
+
+1. **Parse** UI template → extract component name (`header`), content (`TITLE`)
+2. **Expand** using `components.json`:
+   ```json
+   "header": {
+     "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}"
+   }
+   ```
+3. **Substitute** `$content` → `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`
+4. **Recursively process** the expanded template (frame → style → render)
+
+### Parser Priority
+
+**Order matters** for expansion to work:
+
+1. **UI** (expand to primitives) → `{{ui:*}}`
+2. **Frame** (add prefix/suffix) → `{{frame:*}}`
+3. **Badge** (enclose characters) → `{{badge:*}}`
+4. **Shields** (generate image URLs) → `{{shields:*}}`
+5. **Style** (transform characters) → `{{mathbold}}`
+
+This ensures UI components can use any primitive, and primitives can use styles.
+
+### Example Trace
+
+Input:
+```markdown
+{{ui:header}}PROJECT{{/ui}}
+```
+
+Expansion steps:
+```
+1. Parse: ui:header with content="PROJECT"
+2. Expand: {{frame:gradient}}{{mathbold:separator=dot}}PROJECT{{/mathbold}}{{/frame}}
+3. Parse frame: frame_style="gradient", content="{{mathbold:separator=dot}}PROJECT{{/mathbold}}"
+4. Parse style: style="mathbold", separator="dot", content="PROJECT"
+5. Transform: PROJECT → 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓
+6. Apply frame: ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓 ░▒▓
+7. Output
+```
+
+## Component Structure
+
+### components.json Schema
+
+```json
+{
+  "version": "1.0.0",
+  "components": {
+    "component_name": {
+      "type": "expand",
+      "self_closing": true|false,
+      "description": "Human-readable description",
+      "args": ["arg1", "arg2"],
+      "template": "{{primitive:param=$1}}$content{{/primitive}}"
+    }
+  }
+}
+```
+
+### Fields
+
+**type** (`"expand"`)
+- Currently only `"expand"` is implemented
+- Future: `"native"` for Rust-implemented logic (e.g., progress bars)
+
+**self_closing** (`boolean`)
+- `true` → `{{ui:component/}}` (no closing tag)
+- `false` → `{{ui:component}}content{{/ui}}` (requires `$content` in template)
+
+**description** (`string`)
+- Human-readable explanation
+- Used in `utf8fx components list` output
+
+**args** (`string[]`, optional)
+- Positional argument names (documentation only)
+- Actual args parsed from `:arg1:arg2` syntax
+
+**template** (`string`)
+- Expansion target using primitive templates
+- Variables:
+  - `$1`, `$2`, ... → positional args
+  - `$content` → inner content (non-self-closing only)
+
+### Shipped Components
+
+#### divider
+```json
+{
+  "type": "expand",
+  "self_closing": true,
+  "template": "{{shields:bar:colors=ui.bg,ui.surface,accent,ui.panel:style=flat-square/}}"
+}
+```
+
+**Usage:** `{{ui:divider/}}`
+
+**Output:** 4 inline colored blocks forming a visual separator
+
+#### swatch
+```json
+{
+  "type": "expand",
+  "self_closing": true,
+  "args": ["color"],
+  "template": "{{shields:block:color=$1:style=flat-square/}}"
+}
+```
+
+**Usage:** `{{ui:swatch:accent/}}`
+
+**Output:** Single colored block (color resolved from palette or passed as hex)
+
+#### tech
+```json
+{
+  "type": "expand",
+  "self_closing": true,
+  "args": ["logo"],
+  "template": "{{shields:icon:logo=$1:bg=ui.bg:logoColor=white:style=flat-square/}}"
+}
+```
+
+**Usage:** `{{ui:tech:rust/}}`
+
+**Output:** shields.io badge with Simple Icons logo
+
+#### status
+```json
+{
+  "type": "expand",
+  "self_closing": true,
+  "args": ["level"],
+  "template": "{{shields:block:color=$1:style=flat-square/}}"
+}
+```
+
+**Usage:** `{{ui:status:success/}}`
+
+**Output:** Colored block (success → green, warning → yellow, error → red)
+
+#### header
+```json
+{
+  "type": "expand",
+  "self_closing": false,
+  "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}"
+}
+```
+
+**Usage:** `{{ui:header}}TITLE{{/ui}}`
+
+**Output:** `▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓`
+
+#### callout
+```json
+{
+  "type": "expand",
+  "self_closing": false,
+  "args": ["level"],
+  "template": "{{frame:solid-left}}{{shields:block:color=$1:style=flat-square/}} $content{{/frame}}"
+}
+```
+
+**Usage:** `{{ui:callout:warning}}Message{{/ui}}`
+
+**Output:** `█▌ 🟡 Message`
+
+## Design Tokens
+
+### palette.json Schema
+
+```json
+{
+  "version": "1.0.0",
+  "colors": {
+    "token_name": "HEXCODE"
+  }
+}
+```
+
+### Color Resolution
+
+**In components:**
+```markdown
+{{ui:swatch:accent/}}
+```
+
+**Expansion flow:**
+1. Component expands to: `{{shields:block:color=accent:style=flat-square/}}`
+2. Parser resolves `accent` from palette: `accent` → `F41C80`
+3. Shields renderer receives resolved hex: `F41C80`
+
+**Fallback:** If token not found in palette, pass through as-is (allows direct hex).
+
+### Shipped Tokens
+
+| Token | Hex | Purpose |
+|-------|-----|---------|
+| `accent` | F41C80 | Primary brand color |
+| `slate` | 6B7280 | Neutral gray |
+| `ui.bg` | 292A2D | Dark background layer |
+| `ui.surface` | 292C34 | Elevated surface |
+| `ui.panel` | 282F3C | Panel background |
+| `ui.raised` | 263143 | Raised element |
+| `success` | 22C55E | Success/positive state |
+| `warning` | EAB308 | Warning/caution state |
+| `error` | EF4444 | Error/danger state |
+| `info` | 3B82F6 | Info/neutral state |
+| `white` | FFFFFF | Pure white |
+| `black` | 000000 | Pure black |
+| `ink` | 111111 | Near-black text |
+| `cobalt` | 2B6CB0 | Blue accent |
+| `plum` | 6B46C1 | Purple accent |
+
+### Dot Notation
+
+Tokens support `.` for namespacing:
+```json
+{
+  "ui.bg": "292A2D",
+  "ui.surface": "292C34",
+  "ui.panel": "282F3C"
+}
+```
+
+This groups related colors without requiring nested objects.
+
+## Template Syntax
+
+### Self-Closing Tags
+
+**Format:** `{{ui:component:arg1:arg2/}}`
+
+**Parser behavior:**
+- Detects `/}}` ending
+- No closing tag required
+- `content` parameter is `None`
+
+**Example:**
+```markdown
+{{ui:divider/}}
+{{ui:tech:rust/}}
+{{ui:swatch:accent/}}
+```
+
+### Block Tags
+
+**Format:** `{{ui:component:arg1:arg2}}content{{/ui}}`
+
+**Parser behavior:**
+- Requires generic `{{/ui}}` closer
+- Stack-based matching (closes most recent `ui:*` block)
+- `content` parameter is inner text
+
+**Example:**
+```markdown
+{{ui:header}}TITLE{{/ui}}
+{{ui:callout:warning}}Message{{/ui}}
+```
+
+### Generic Closers
+
+**Only for UI components:** `{{/ui}}` closes any `ui:*` block.
+
+**Other templates use specific closers:**
+- `{{mathbold}}...{{/mathbold}}`
+- `{{frame:gradient}}...{{/frame}}`
+- `{{badge:circle}}...{{/badge}}`
+
+**Rationale:** UI is the high-level authoring layer, so ergonomics matter. Primitives are explicit escape hatches.
+
+### Argument Parsing
+
+**Segments separated by `:`**
+
+**Without `=`** → Positional arg
+```markdown
+{{ui:tech:rust/}}           → args = ["rust"]
+{{ui:callout:warning}}      → args = ["warning"]
+{{ui:multi:a:b:c/}}         → args = ["a", "b", "c"]
+```
+
+**With `=`** → Key-value param
+```markdown
+{{shields:block:color=accent:style=flat-square/}}
+→ params = {color: "accent", style: "flat-square"}
+```
+
+**Commas allowed in args:**
+```markdown
+{{shields:bar:colors=success,warning,error:style=flat-square/}}
+→ params = {colors: "success,warning,error", style: "flat-square"}
+→ Split on `,` in renderer: ["success", "warning", "error"]
+```
+
+## Extending Components
+
+### Adding a New Component
+
+1. **Edit `data/components.json`**
+```json
+{
+  "mycomponent": {
+    "type": "expand",
+    "self_closing": true,
+    "description": "My custom component",
+    "args": ["color"],
+    "template": "{{shields:block:color=$1:style=for-the-badge/}}"
+  }
+}
+```
+
+2. **Use in templates**
+```markdown
+{{ui:mycomponent:cobalt/}}
+```
+
+3. **No code changes required** - expansion happens at runtime
+
+### Creating Project-Specific Components
+
+Users can create `components.json` in their project root:
+```json
+{
+  "version": "1.0.0",
+  "components": {
+    "brand-header": {
+      "type": "expand",
+      "self_closing": false,
+      "template": "{{frame:solid-both}}{{bold-script}}$content{{/bold-script}}{{/frame}}"
+    }
+  }
+}
+```
+
+Then:
+```markdown
+{{ui:brand-header}}MY PROJECT{{/ui}}
+```
+
+**Note:** Currently utf8fx only reads embedded `data/components.json`. User-provided component loading is planned for v0.2.
+
+### Design Guidelines
+
+**When to create a component:**
+- Pattern used in 3+ places
+- Complex primitive composition
+- Semantic meaning (not just styling)
+
+**When NOT to create a component:**
+- One-off custom effect (use primitives directly)
+- Requires runtime logic (wait for native components in v0.2+)
+
+**Naming conventions:**
+- Lowercase, hyphen-separated: `tech-stack`, `status-badge`
+- Verb or noun, not adjective: `divider` (✓), `colorful` (✗)
+- Self-explanatory: `header` (✓), `h1` (✗)
+
+## Implementation Details
+
+### ComponentsRenderer Structure
+
+```rust
+pub struct ComponentsRenderer {
+    palette: HashMap<String, String>,
+    components: HashMap<String, ComponentDef>,
+}
+
+pub struct ComponentDef {
+    pub component_type: String,  // "expand" or "native"
+    pub self_closing: bool,
+    pub description: String,
+    pub args: Vec<String>,
+    pub template: String,
+}
+
+impl ComponentsRenderer {
+    pub fn new() -> Result<Self>;
+    pub fn expand(&self, component: &str, args: &[String], content: Option<&str>) -> Result<String>;
+    pub fn has(&self, name: &str) -> bool;
+    pub fn list(&self) -> Vec<(&String, &ComponentDef)>;
+}
+```
+
+### Expansion Algorithm
+
+```rust
+fn expand(&self, component: &str, args: &[String], content: Option<&str>) -> Result<String> {
+    // 1. Get component definition
+    let comp = self.components.get(component)?;
+
+    // 2. Start with template
+    let mut expanded = comp.template.clone();
+
+    // 3. Substitute args: $1, $2, ...
+    for (i, arg) in args.iter().enumerate() {
+        let placeholder = format!("${}", i + 1);
+        let resolved_arg = self.resolve_color(arg);  // Try palette lookup
+        expanded = expanded.replace(&placeholder, &resolved_arg);
+    }
+
+    // 4. Substitute content: $content
+    if let Some(content_str) = content {
+        expanded = expanded.replace("$content", content_str);
+    }
+
+    // 5. Resolve any remaining palette refs in template
+    expanded = self.resolve_palette_refs(&expanded);
+
+    Ok(expanded)
+}
+```
+
+### Parser Integration
+
+```rust
+// In process_templates():
+if let Some(ui_data) = self.parse_ui_at(&chars, i)? {
+    // Expand component
+    let expanded = self.components_renderer.expand(
+        &ui_data.component_name,
+        &ui_data.args,
+        ui_data.content.as_deref(),
+    )?;
+
+    // Recursively process expanded template
+    let processed = self.process_templates(&expanded)?;
+    result.push_str(&processed);
+
+    i = ui_data.end_pos;
+    continue;
+}
+```
+
+**Key insight:** Expansion happens **before** rendering primitives, allowing components to use any lower-level feature.
+
+## Grammar Decisions
+
+### Why Self-Closing Tags?
+
+**Problem:** Contentless components were verbose
+```markdown
+{{ui:divider}}{{/ui}}      ← 6 extra characters
+{{ui:tech:rust}}{{/ui}}    ← Unnecessary closer
+```
+
+**Solution:** Self-closing syntax from XML/React
+```markdown
+{{ui:divider/}}
+{{ui:tech:rust/}}
+```
+
+**Implementation:** Parser checks if tag ends with `/}}` before `}}`
+
+### Why Generic {{/ui}} Closer?
+
+**Alternatives considered:**
+
+**Option A: Specific closers** (like primitives)
+```markdown
+{{ui:header}}TITLE{{/ui:header}}
+```
+- Pro: Explicit, no ambiguity
+- Con: Verbose, breaks ergonomics goal
+
+**Option B: Generic closer** (shipped)
+```markdown
+{{ui:header}}TITLE{{/ui}}
+```
+- Pro: Concise, reads well
+- Con: Stack-based parsing, potential mismatch bugs
+
+**Decision:** Generic closer for UI only. Primitives keep specific closers.
+
+**Rationale:** UI is the high-frequency authoring layer where ergonomics matter. Primitives are escape hatches where explicitness is acceptable.
+
+### Why No Pipe Syntax?
+
+**Requested:** `{{mathbold|frame:gradient}}TEXT{{/mathbold}}`
+
+**Rejected:** Adds new grammar with edge cases:
+- Which order? Left-to-right or right-to-left?
+- How to pass params to middle stages?
+- Ambiguity with multi-param components
+
+**Alternative:** Explicit nesting (already works)
+```markdown
+{{frame:gradient}}{{mathbold}}TEXT{{/mathbold}}{{/frame}}
+```
+
+**Benefit:** Reuses existing recursion, no new syntax.
+
+### Why Components Expand Instead of Render?
+
+**Alternative:** Components could call rendering methods directly in Rust.
+
+**Expansion approach:**
+- Components are **data**, not code
+- Users can define custom components in JSON
+- No recompilation needed
+- Composable with any primitive
+
+**Native components (future):**
+For logic-heavy components (e.g., progress bars calculating percentages), add:
+```json
+{
+  "progress": {
+    "type": "native",
+    "handler": "progress_bar"
+  }
+}
+```
+
+Rust implements `progress_bar()` function. Keeps most components simple (expand) while allowing complex ones (native).
+
+## Future Enhancements
+
+### User-Provided Components
+
+**Planned v0.2:**
+- Read `./components.json` from working directory
+- Merge with embedded components
+- User components override built-in
+
+**Use case:** Per-project branding
+```json
+{
+  "my-header": {
+    "template": "{{frame:line-bold}}{{bold-script}}$content{{/bold-script}}{{/frame}}"
+  }
+}
+```
+
+### Native Components
+
+**Planned v0.2+:**
+
+**Progress bars:**
+```markdown
+{{ui:progress:75/}}                  → ███▒▒ 75%
+{{ui:progress:3,5/}}                 → ███▒▒ (3/5)
+```
+
+**Tables:**
+```markdown
+{{ui:table}}
+| Name | Value |
+| A    | 1     |
+{{/ui}}
+```
+
+Requires Rust logic for layout, wrapping, alignment.
+
+### Component Marketplace
+
+**Planned v0.3+:**
+- Share components via GitHub gists or packages
+- `utf8fx install component awesome-header`
+- Gallery UI showcasing community components
+
+## Testing Strategy
+
+**Component expansion tests:**
+```rust
+#[test]
+fn test_expand_divider() {
+    let renderer = ComponentsRenderer::new().unwrap();
+    let result = renderer.expand("divider", &[], None).unwrap();
+
+    assert!(result.contains("{{shields:bar"));
+    assert!(result.contains("292a2d"));  // ui.bg resolved
+}
+```
+
+**Parser integration tests:**
+```rust
+#[test]
+fn test_ui_divider() {
+    let parser = TemplateParser::new().unwrap();
+    let input = "{{ui:divider/}}";
+    let result = parser.process(input).unwrap();
+
+    assert!(result.contains("![]("));  // Shields rendered to Markdown
+    assert!(result.contains("img.shields.io"));
+}
+```
+
+**End-to-end tests:**
+```bash
+echo "{{ui:header}}TEST{{/ui}}" | utf8fx process -
+# Verify: ▓▒░ 𝐓·𝐄·𝐒·𝐓 ░▒▓
+```
+
+## Troubleshooting
+
+### Component Not Found
+
+**Error:** `Unknown component 'mycomp'`
+
+**Causes:**
+- Typo in component name
+- Component not defined in `components.json`
+- Using wrong namespace (e.g., `{{frame:mycomp}}` instead of `{{ui:mycomp}}`)
+
+**Fix:** Check `utf8fx components list` for available components.
+
+### Template Expansion Infinite Loop
+
+**Symptom:** Hang or stack overflow
+
+**Cause:** Component template references itself:
+```json
+{
+  "bad": {
+    "template": "{{ui:bad/}}"  ← Recursion!
+  }
+}
+```
+
+**Fix:** Component templates must expand to primitives or styles, not other UI components.
+
+### Color Not Resolving
+
+**Symptom:** Literal string "accent" appears in output instead of `F41C80`
+
+**Cause:** Color referenced in wrong layer:
+- `palette.json` is for components renderer
+- `shields.json` is for shields renderer
+- If color in both, shields.json takes precedence
+
+**Fix:** Add color to correct palette file.
+
+## References
+
+- **Implementation:** `src/components.rs` (ComponentsRenderer)
+- **Data:** `data/components.json`, `data/palette.json`
+- **Parser:** `src/parser.rs` (parse_ui_at, expansion logic)
+- **Tests:** `src/components.rs` (tests module), `src/parser.rs` (UI tests)
+
+---
+
+**Document Status:** Reflects v0.1.0 shipped implementation

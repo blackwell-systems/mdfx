@@ -39,18 +39,26 @@
 //! - Comprehensive error handling
 
 pub mod badges;
+pub mod components;
 pub mod converter;
 pub mod error;
 pub mod frames;
 pub mod parser;
+pub mod primitive;
+pub mod renderer;
+pub mod shields;
 pub mod styles;
 
 // Re-export main types for convenience
 pub use badges::{BadgeRenderer, BadgeType};
+pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer};
 pub use converter::Converter;
 pub use error::{Error, Result};
 pub use frames::{FrameRenderer, FrameStyle};
 pub use parser::TemplateParser;
+pub use primitive::Primitive;
+pub use renderer::{RenderedAsset, Renderer};
+pub use shields::{ShieldStyle, ShieldsRenderer};
 pub use styles::{Style, StyleCategory, StyleSupport, StylesData};
 
 #[cfg(test)]
