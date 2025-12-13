@@ -149,8 +149,8 @@ utf8fx/
 
 ## 𝐃𝐨𝐜𝐮𝐦𝐞𝐧𝐭𝐚𝐭𝐢𝐨𝐧
 
-- [Planning Document](PLANNING.md) - Technical design and roadmap
-- [Unicode Design Elements](unicode-design-elements.md) - Character reference
+- [Planning Document](docs/PLANNING.md) - Technical design and roadmap
+- [Unicode Design Elements](docs/unicode-design-elements.md) - Character reference
 - [API Documentation](https://docs.rs/utf8fx) - Full API docs (coming soon)
 
 ## 𝐓𝐞𝐬𝐭𝐢𝐧𝐠

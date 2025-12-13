@@ -11,6 +11,12 @@ categories = ["text-processing", "command-line-utilities"]
 readme = "README.md"
 homepage = "https://github.com/blackwell-systems/utf8fx"
 documentation = "https://docs.rs/utf8fx"
+exclude = [
+    "docs/",
+    "README.template.md",
+    ".github/",
+    ".gitignore",
+]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
