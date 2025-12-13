@@ -46,6 +46,7 @@ pub mod frames;
 pub mod manifest;
 pub mod parser;
 pub mod primitive;
+pub mod registry;
 pub mod renderer;
 pub mod separators;
 pub mod shields;
@@ -61,8 +62,10 @@ pub use manifest::{AssetEntry, AssetManifest, PrimitiveInfo, VerificationResult}
 pub use parser::{ProcessedMarkdown, TemplateParser};
 pub use primitive::Primitive;
 pub use renderer::{RenderedAsset, Renderer};
+pub use registry::{EvalContext, Registry, ResolvedRenderable};
 pub use separators::{Separator, SeparatorsData};
-pub use shields::{ShieldStyle, ShieldsRenderer};
+pub use shields::ShieldsRenderer;
+pub use shields::ShieldStyle as ShieldsShieldStyle;
 pub use styles::{Style, StyleCategory, StyleSupport, StylesData};
 
 #[cfg(test)]
