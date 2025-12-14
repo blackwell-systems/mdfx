@@ -772,12 +772,9 @@ echo "{{ui:header}}TEST{{/ui}}" | mdfx process -
 
 **Symptom:** Literal string "accent" appears in output instead of `F41C80`
 
-**Cause:** Color referenced in wrong layer:
-- `palette.json` is for components renderer
-- `shields.json` is for shields renderer
-- If color in both, shields.json takes precedence
+**Cause:** Color token not defined in palette.
 
-**Fix:** Add color to correct palette file.
+**Fix:** Add the color to `registry.json` under `palette`, or inject via `--palette custom.json` at runtime.
 
 ## References
 
