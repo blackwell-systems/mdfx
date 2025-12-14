@@ -1,1241 +1,1241 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-14T01:11:41.244020501+00:00",
+  "created_at": "2025-12-14T01:22:03.235917730+00:00",
   "backend": "svg",
   "assets_dir": "examples/assets",
   "total_assets": 112,
   "assets": [
     {
-      "path": "examples/assets/swatch_4ba97baf57ddc621.svg",
-      "sha256": "c68a4da12549c08e92bc815871affa66a935bda77512cf9292ad57922eb0f3a1",
+      "path": "examples/assets/swatch_86d546b450b4d3bb.svg",
+      "sha256": "dba77b721fdc08a8f3948e77e8c880ee45c911afd633a32f3f1307a61a1d8662",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "flat"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_aeee5da272d5ead6.svg",
-      "sha256": "1a5b96f573eb22003a478a9863cdfd27dc67ca533e2faeab964d48b493fe5e25",
+      "path": "examples/assets/swatch_4781ca16547f88f7.svg",
+      "sha256": "4e913196726a7f91e8485667febaf7dc11e5fe567fcbd58044fbfe8328c3a75f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_31308ee68b5e82f0.svg",
-      "sha256": "89526c23ceb7f8a18b1f836df04c5f36e9f9b48c9b7106bff5ec96109fb6d0c7",
+      "path": "examples/assets/swatch_1dbefa1667b658bf.svg",
+      "sha256": "fb8200a2cf9cc5f41859011942295992d44fdd6d2d817e66efd1838523af35e3",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "for-the-badge"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_f2fcdb5888684889.svg",
-      "sha256": "75f00e1e2e5a1649929e9a8f2eaba2fdd6d8f4e7dbba361ce22666d7fff835f4",
+      "path": "examples/assets/swatch_1c588a3e3a66ac64.svg",
+      "sha256": "c34690239cf0123a1aa9ecba692a808bcf9b109e470f5f1620660317a5864cb3",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "plastic"
       },
-      "size_bytes": 427
+      "size_bytes": 457
     },
     {
-      "path": "examples/assets/swatch_4341806eeb9d53c0.svg",
-      "sha256": "a5782b4f28a01c8efb52c6536aad174bdb5231e1dc3c5a60354b781f1355967d",
+      "path": "examples/assets/swatch_d7268d007546a4ae.svg",
+      "sha256": "2d2b53921ae5b1d920d7b87615164432e561a968625fbbaa8598ab0b634265de",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "social"
       },
-      "size_bytes": 144
+      "size_bytes": 158
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_f0d6efbe55d8f6c4.svg",
+      "sha256": "3f3738e58a25a67c1e8b5c7c4b52fa155403515e757b5743634d1e0c9f460501",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_a6aa4b6ba13a99ca.svg",
-      "sha256": "4c74bf8a8c81541465b824e65d094f351644cc836abfccda6aee9a011a7ccd4c",
+      "path": "examples/assets/swatch_62e3ee9a3223bc3e.svg",
+      "sha256": "1908ff0a52c9ae1c761abb54b79e5350a2b4f2a36cfd2e563b7863b171705150",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EF4444",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_77b1decc793bcbc.svg",
+      "sha256": "381b745854e46e1aa8d499a65c7df51ca5033446c69d6f3a5707cef605d8b861",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_d9a67cb23a9b1efe.svg",
+      "sha256": "4e35b6c81b45d24162f3383551fe82e0162fe828a32ea3e7167ecbf5a210447f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_3a92545343f99714.svg",
+      "sha256": "dd9523e53ccc72ffdd0fee8e958226bcbdca3a8c803520edc91ff1fba8113c5b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_11c99f146cc5d727.svg",
+      "sha256": "536f624cd8c5a7bd6e648a72eede541e54f01dc6c73a327bcd091883077ec72b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_636b959d6a5ca1d0.svg",
+      "sha256": "e6a4d708e7bbf1c54d13b60ca355cef9b3a9061ffae34dd3d73611c93845c526",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_c65585cc9f19dac8.svg",
-      "sha256": "e58b75bdba614f60db5904bca5f60fb365a03f40ab26e76ecd45f9cdb0c07701",
+      "path": "examples/assets/swatch_6f734af4bd270051.svg",
+      "sha256": "6f9355c55981c77df4589d134ec9cb2447286b0f448b25a20eb41b13ce9e27f4",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_a6aa4b6ba13a99ca.svg",
-      "sha256": "4c74bf8a8c81541465b824e65d094f351644cc836abfccda6aee9a011a7ccd4c",
+      "path": "examples/assets/swatch_78bf832065d583b7.svg",
+      "sha256": "c03abe991e0d29897d80c8edc245de308308a13880b71a0e1c06f0fdee25d17f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EF4444",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_17fc265240516dd5.svg",
-      "sha256": "6f9233b1c5a85f2c71e6e075308a2c2cb8dccd9639a01f01b8b7c9817ff89bbd",
+      "path": "examples/assets/swatch_8b0298690218341b.svg",
+      "sha256": "4e2c8f3ccf010c9995214fc1f87657a7f65b803c2c029565d5aee0b3ea5dee98",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "6B7280",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_a6aa4b6ba13a99ca.svg",
-      "sha256": "4c74bf8a8c81541465b824e65d094f351644cc836abfccda6aee9a011a7ccd4c",
+      "path": "examples/assets/swatch_5016f1c91550d78f.svg",
+      "sha256": "d817c76a5ae9d02594e1773815d670760705c125305f28f86b89a16da4e5c951",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EF4444",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_c65585cc9f19dac8.svg",
-      "sha256": "e58b75bdba614f60db5904bca5f60fb365a03f40ab26e76ecd45f9cdb0c07701",
+      "path": "examples/assets/swatch_a5f32e140905801b.svg",
+      "sha256": "9243c005ba9a7c72fcb8f8e56106fe61405c4f753d2360d16e3fbd21c717e264",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 154
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_64f4138166d01231.svg",
+      "sha256": "9fa7fad5d79f6c208453406205dc1eaefa97f1409fa1e013f91a2803f3ad64e6",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 154
     },
     {
-      "path": "examples/assets/swatch_b83cfbef97c67303.svg",
-      "sha256": "04cb712d4f9433bcb2a07e38db4a29d0ebd1733cab250e47f9dd11c688c2f751",
+      "path": "examples/assets/swatch_df5928670719ae34.svg",
+      "sha256": "63cba97adc6ced7293f762ffcb3f4ff90982b7120981982f0ca4711bfaa0abb6",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "for-the-badge"
       },
-      "size_bytes": 143
+      "size_bytes": 291
     },
     {
-      "path": "examples/assets/swatch_4b060b54dea0ea7.svg",
-      "sha256": "a39bc56ae07ad425e496ff2f9cfaeedc98b37e631863a6fe9633d96d40a592ea",
+      "path": "examples/assets/swatch_4f2e62913321d3ef.svg",
+      "sha256": "1391fa75c515bee445fc2e3d7212b31debb7511a78eecfddc88547c8023d05aa",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "for-the-badge"
       },
-      "size_bytes": 143
+      "size_bytes": 293
     },
     {
-      "path": "examples/assets/swatch_78b63bd0732f5734.svg",
-      "sha256": "1db832cd2b16efd09c4aee621003111947b10cc61107d49464fce6744ad27fc2",
+      "path": "examples/assets/swatch_92a18467da8893e4.svg",
+      "sha256": "2abbca0a51234ca707dc5cb4272dcc95d1c3face8a8a5cab0e2fe7ceaf4d3b3e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "for-the-badge"
       },
-      "size_bytes": 143
+      "size_bytes": 291
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_b1f6cb6f346c385e.svg",
+      "sha256": "83072e24f11edcdbcb46218ba3b0164ec94827081330989db33df7e857fd1bc3",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 324
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_702cb9500c660a91.svg",
+      "sha256": "4754a95d665198764c5c72a5558414303571f3c2dc865727cebfaf0cc4ad9511",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 324
     },
     {
-      "path": "examples/assets/swatch_9c9bc22da5fee076.svg",
-      "sha256": "49921a53b9a61703ea030d50bbc2ef294c8fab381d905fd49efad382a4d52291",
+      "path": "examples/assets/swatch_2800e872b0500967.svg",
+      "sha256": "ae83888dcceb61f070600718d3a806e6ddf825fb1e8575754d338143a1b16eb5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "8B5CF6",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 323
     },
     {
-      "path": "examples/assets/swatch_aeee5da272d5ead6.svg",
-      "sha256": "1a5b96f573eb22003a478a9863cdfd27dc67ca533e2faeab964d48b493fe5e25",
+      "path": "examples/assets/swatch_33d674c9e3160f29.svg",
+      "sha256": "660dcd3db3fde3ab86307796d7ccbf868a596e668b8747e64c4fb93870d51c90",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_c7507b28d75da4c7.svg",
+      "sha256": "e78f2cf9516ee6a3a0f14010ca1329ba39b2f426ca90d9c8344a10340c2f07ab",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_ef9cf5f6daf65fa7.svg",
+      "sha256": "be2cc3c736b30665fe0dd7ed368283d3aeb0de61c58358ca27a23bede6fd2117",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_dc7d44f81025119a.svg",
+      "sha256": "e6a333f6cf341617b5a6e4b61da29c3656d68efdafe6bd174e086ee0cb5b5afb",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 213
     },
     {
-      "path": "examples/assets/swatch_22d57d04ec1eac7f.svg",
-      "sha256": "0f5e94788b3d2ec1edab88f938aaafa064a81015aa8faf619092230a5b70c482",
+      "path": "examples/assets/swatch_21efe0b240fe0964.svg",
+      "sha256": "69083220f96393a437d926f59fb3f0c3c05e2194312a2d9363c2e5b0993b076a",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "1E293B",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 332
     },
     {
-      "path": "examples/assets/swatch_22d57d04ec1eac7f.svg",
-      "sha256": "0f5e94788b3d2ec1edab88f938aaafa064a81015aa8faf619092230a5b70c482",
+      "path": "examples/assets/swatch_18a5fc1d651d7f08.svg",
+      "sha256": "f7f19e30ddf026fa5608d759f2ccde19d14c59eab387b5515d75c86787ee5873",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "1E293B",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 329
     },
     {
-      "path": "examples/assets/swatch_22d57d04ec1eac7f.svg",
-      "sha256": "0f5e94788b3d2ec1edab88f938aaafa064a81015aa8faf619092230a5b70c482",
+      "path": "examples/assets/swatch_3c51f6b775601c95.svg",
+      "sha256": "c77ef647f7004b381b4eb21ea05666fa1e161cd9dd53adf7e72897111fc480cb",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "1E293B",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 330
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_bbeb17662d9ed56e.svg",
+      "sha256": "ebb214b292dda19db91f2c5c2a1db612f8254564e109437f0157c7aceb92cf8d",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 328
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_a380c569de8b554c.svg",
+      "sha256": "d1cb63855f6a5b5e4e3ad02b5f7d536e67910833408b81ceacde65ea5e890c71",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 330
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_61a1280399e9fa92.svg",
+      "sha256": "bc17c5e0f69c3eec42e5f70febf6beec3a651c105190e3cf435b598574960364",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 327
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_adf84e29153a2bfb.svg",
+      "sha256": "e221f618b43bb1dfa0cbc03c1f4ea4512c0e3bf382eb84ec488c26e95ec833c6",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 160
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_e5d891d8bf2bdd91.svg",
+      "sha256": "f34b69cc401fa5ffb9b5e41e64a94bf919b2a0a39083d3d6759d40d5a83f6284",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 154
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_e5d891d8bf2bdd91.svg",
+      "sha256": "f34b69cc401fa5ffb9b5e41e64a94bf919b2a0a39083d3d6759d40d5a83f6284",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 154
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_5c7a5da5c35299d1.svg",
+      "sha256": "2781db78f0a841a2b149c6ac368735113092e1033ddaf49f630c0af2bf10cad1",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_a6aa4b6ba13a99ca.svg",
-      "sha256": "4c74bf8a8c81541465b824e65d094f351644cc836abfccda6aee9a011a7ccd4c",
+      "path": "examples/assets/swatch_62d006c2ef2f0f03.svg",
+      "sha256": "c5cf08d5a761e3b65da05cec0da3326ec50d9b4e93d1b943b093e0f569ad2dcb",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EF4444",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_c65585cc9f19dac8.svg",
-      "sha256": "e58b75bdba614f60db5904bca5f60fb365a03f40ab26e76ecd45f9cdb0c07701",
+      "path": "examples/assets/swatch_7f6434c32a0b78e2.svg",
+      "sha256": "a32d07a14ad65c0ea3ad8ca36f5a9502cb03f92e2d3655fb34c476b0a6f45304",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_5dc56b43ffce0c21.svg",
+      "sha256": "04694a2dd94156b3c5e5b7aa1f37f7731d80513220702b77c28f5a0025b80084",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 293
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_10031dd5b115c153.svg",
+      "sha256": "64f5eb6a037ae2cc5735f89bd16cc15ee7837563ae7228b9ba03a55680112217",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_7e798b9c3c54571f.svg",
+      "sha256": "b3d216de5f1d6e365fd62fa7bf89712feb19776ec077ab2aef85bec978904084",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 293
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_8f140d6d7325d395.svg",
+      "sha256": "4697af189ccb08c8da0262935e0dee5ed106d1d42526d452397115487ee0dfda",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_9c9bc22da5fee076.svg",
-      "sha256": "49921a53b9a61703ea030d50bbc2ef294c8fab381d905fd49efad382a4d52291",
+      "path": "examples/assets/swatch_7afa54f1bf0882c9.svg",
+      "sha256": "79246de0792857b69a010fe7736b9dca3a61eee7ce1ed03cff0e1674152bb050",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "8B5CF6",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 293
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_e33256aa684d0cae.svg",
+      "sha256": "16533cf2511440db0b91f48ac70cfa0de2bf13cb22da8be7df5f72b7a05d3756",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_8a981522d10a2463.svg",
+      "sha256": "e437c847cc3b0ac9aaf3d0f9c0196fed671f4d09793b3cf051467e6f90a576b7",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 330
     },
     {
-      "path": "examples/assets/swatch_9c9bc22da5fee076.svg",
-      "sha256": "49921a53b9a61703ea030d50bbc2ef294c8fab381d905fd49efad382a4d52291",
+      "path": "examples/assets/swatch_372081dde5ba9da1.svg",
+      "sha256": "8951f10af0b6f809d8cca1356245c54be88acc494c2ef50441120f9b5982ca85",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "8B5CF6",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 332
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_47d8241ce7d056e.svg",
+      "sha256": "7d587fb5c3689a41cb9843c284b35711c2120dfc0b41bc6550dcecfc3d75e70e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 325
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_e3763d215d630b2a.svg",
+      "sha256": "f59e31c056f2f11659e9b707608068ea02a1d0d32c44a86815321339b338de4f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 325
     },
     {
-      "path": "examples/assets/swatch_c65585cc9f19dac8.svg",
-      "sha256": "e58b75bdba614f60db5904bca5f60fb365a03f40ab26e76ecd45f9cdb0c07701",
+      "path": "examples/assets/swatch_209d92f59c47ee13.svg",
+      "sha256": "e5e08cdd8845ebfce5279d709c8ea77544b8850f7dddaf6f0d7c2564f7d9ae50",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 335
     },
     {
-      "path": "examples/assets/swatch_dd0a83f780617007.svg",
-      "sha256": "7e2cac79889d0bdc49398efc0a48bb97c256b2a49a4b3b34763a40fb0f141c23",
+      "path": "examples/assets/swatch_8d71be9cc95cc741.svg",
+      "sha256": "d31139ee75a8cf9a02356d5ee7ee68997a0b83d10ada2bf7df45e8ba6f11eb5f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "0F172A",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 328
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_12bd12da7f5afe19.svg",
+      "sha256": "82696f105580518e5c5f54283781886c7ac80a0da7efce944891a0f2ad696ada",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 328
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_b2a8ca8806c8eec0.svg",
+      "sha256": "a418f549a1008da3fca9e313637b28bf9d9436941b36c46af0b8a0907ec2616b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 329
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_af79b445581d089c.svg",
+      "sha256": "ded74a8d388889829761bb30033baf7544c905e63b22720144bfc331ffdbaa1a",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 294
     },
     {
-      "path": "examples/assets/swatch_c65585cc9f19dac8.svg",
-      "sha256": "e58b75bdba614f60db5904bca5f60fb365a03f40ab26e76ecd45f9cdb0c07701",
+      "path": "examples/assets/swatch_34b0d84cb31fe898.svg",
+      "sha256": "7cdbacc513a529871d97f2919616a4d659b421deb4be6ee28a9345da22edcbab",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 294
     },
     {
-      "path": "examples/assets/swatch_a6aa4b6ba13a99ca.svg",
-      "sha256": "4c74bf8a8c81541465b824e65d094f351644cc836abfccda6aee9a011a7ccd4c",
+      "path": "examples/assets/swatch_8e431cf39a83cdba.svg",
+      "sha256": "34cf6c2332a2af066aa91a4977a6d6ab89d45c1415b369a6f27b75cf5c7f3106",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EF4444",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 292
     },
     {
-      "path": "examples/assets/swatch_17fc265240516dd5.svg",
-      "sha256": "6f9233b1c5a85f2c71e6e075308a2c2cb8dccd9639a01f01b8b7c9817ff89bbd",
+      "path": "examples/assets/swatch_4ac4008d735a8e7d.svg",
+      "sha256": "77d5122906c823a92d1698d86103819e985b8005ddc8d80f352144d0aacb5e4f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "6B7280",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 294
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_12b204d5674de7d8.svg",
+      "sha256": "a57d6c51e5574a7b03abfa678cdcc004ecac8850eb5fccb10e58441a857e134b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 291
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_77923fe6d159eedc.svg",
+      "sha256": "56d4ea24dc1e21489e329575a5b5f8efa5e0044e7bafe26439396b4b320d7e75",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 309
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_186bfd4bdefb311.svg",
+      "sha256": "01d4732fef42fa7ea913851485b40bc58a9bc8c907432e233cc807ae5cbe0acf",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 309
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_61ab135e6bb627eb.svg",
+      "sha256": "4447e3d4c44d4b7c9af2586265dac95887e8ea6c0ef286a94284b6f790c6926d",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 309
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_1fe8505575777594.svg",
+      "sha256": "4a444260180b260ba89e05f62759c28e8be869cb3e21b1ec10c075f9a2cea5e4",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 309
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_b0060219d2c8619f.svg",
-      "sha256": "f9701d9a41a4504fc9e41edd07e408ff2af5bd0f5b01e6829f7cc89272c0921a",
+      "path": "examples/assets/swatch_cc5320eca3d83568.svg",
+      "sha256": "04a6d386fabcf575db20107ce42848749eda3b3ade69c540913ad23c7bf469b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_5d3a5ef7c754eec4.svg",
-      "sha256": "483bec835002bf87c2ed5a38e7e94c4f46139b4cc505095db10ff0a0e03be11a",
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_8e424df7fd0c530e.svg",
+      "sha256": "1c22140e07da03770531469a8f092dfe3b3fa8b0616d5a72274cf3b396d6fce3",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 294
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_e3348ae506a9d1a8.svg",
+      "sha256": "4d6e9ddff08809a3289e085eb7674a738da68b515639dbb0d05fc60b53ca23d3",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 294
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_9052b495db7b0cc.svg",
+      "sha256": "5c5283f797d402c59441f9f5ac459310bc7e3f55ca7316ae34ae1ff16bcecb8e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 313
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_3bc5584b811e206d.svg",
+      "sha256": "9bb4f7762e531f4f72c8bd9b374300fdeb6550eb1113a8d6b01478a2dc926b9f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 313
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_57d720eda5b29da9.svg",
+      "sha256": "4e8292d902836f20e99cf2bd70381032a2bc98233b0972579e66ba9b2a92e107",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_4023a4bb72c1e72d.svg",
+      "sha256": "a11ac1cfc1f867c2bca8c749eb335aee187e94fb8a6f859eea60e0d46cddefb8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_23044fea8d17086.svg",
+      "sha256": "784010521be81beec14cf445c7444da22336904b779b4bf046ec3d3180b72a84",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_19c4adf113f7c283.svg",
+      "sha256": "e6a4d708e7bbf1c54d13b60ca355cef9b3a9061ffae34dd3d73611c93845c526",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_155967924f52acc2.svg",
+      "sha256": "af849c7bebb8dfa5dd27fb8141880766ee74c915b30e42afbd871ffd18fa1c8b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_23044fea8d17086.svg",
+      "sha256": "784010521be81beec14cf445c7444da22336904b779b4bf046ec3d3180b72a84",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_4023a4bb72c1e72d.svg",
+      "sha256": "a11ac1cfc1f867c2bca8c749eb335aee187e94fb8a6f859eea60e0d46cddefb8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_57d720eda5b29da9.svg",
+      "sha256": "4e8292d902836f20e99cf2bd70381032a2bc98233b0972579e66ba9b2a92e107",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_23044fea8d17086.svg",
+      "sha256": "784010521be81beec14cf445c7444da22336904b779b4bf046ec3d3180b72a84",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_19c4adf113f7c283.svg",
+      "sha256": "e6a4d708e7bbf1c54d13b60ca355cef9b3a9061ffae34dd3d73611c93845c526",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_155967924f52acc2.svg",
+      "sha256": "af849c7bebb8dfa5dd27fb8141880766ee74c915b30e42afbd871ffd18fa1c8b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_4023a4bb72c1e72d.svg",
+      "sha256": "a11ac1cfc1f867c2bca8c749eb335aee187e94fb8a6f859eea60e0d46cddefb8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 176
     },
     {
-      "path": "examples/assets/swatch_51c0493298082c1d.svg",
-      "sha256": "2adf235df8a1315a8c6596409f09524bc073f6ee3c8e9be2b0f13ce65bc58c95",
+      "path": "examples/assets/swatch_9edc8994c433ad71.svg",
+      "sha256": "1ec560bd459587e9109a32cc5661fbe03f8168005dfdea6ca5c510b43a465d76",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "social"
       },
-      "size_bytes": 144
+      "size_bytes": 292
     },
     {
-      "path": "examples/assets/swatch_56125c86472046b2.svg",
-      "sha256": "4e147a4ccf1c6eb7e2d2431f706915443fa647e4c290476cdafbe5ab5b73e4b5",
+      "path": "examples/assets/swatch_b6a558477562a326.svg",
+      "sha256": "b871725ba464973f87bbdd208d769c42482924b4e44c546a56b8f2b43843aa8a",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "8B5CF6",
         "style": "social"
       },
-      "size_bytes": 144
+      "size_bytes": 296
     },
     {
-      "path": "examples/assets/swatch_c071ad0ec4ebb90d.svg",
-      "sha256": "4d5795f2d557751f2df1db667ae7fc11810f31f5bd3668653c032473f3a7fae8",
+      "path": "examples/assets/swatch_2ce083190bd137a0.svg",
+      "sha256": "d72923edfa7bb65d2cb35a992af432e84a2d602f795b529b5576e6ea29f47963",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "social"
       },
-      "size_bytes": 144
+      "size_bytes": 291
     },
     {
-      "path": "examples/assets/swatch_15bf7f4b6c884007.svg",
-      "sha256": "33b2fea7b959a14a8c8bb9178e477f1e1e99100b762c2d38e8b74570075ee949",
+      "path": "examples/assets/swatch_5ed604468771f966.svg",
+      "sha256": "cc971f091cbd29558e06b87f42c6bac52e79d4d533ed6ecc3629692946c99133",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "social"
       },
-      "size_bytes": 144
+      "size_bytes": 296
     },
     {
-      "path": "examples/assets/swatch_4341806eeb9d53c0.svg",
-      "sha256": "a5782b4f28a01c8efb52c6536aad174bdb5231e1dc3c5a60354b781f1355967d",
+      "path": "examples/assets/swatch_4346e857b7d5d8b3.svg",
+      "sha256": "646480d5a4b5ea5247e154102d2ba89998f95b7b1f874e6b0323e6392ca99a60",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "social"
       },
-      "size_bytes": 144
+      "size_bytes": 294
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_30cdd0aabd0dc83d.svg",
+      "sha256": "64cfb998e8e96f8c2e5e70e850a21e07489cf97d354dd65afbba1ec8236e7fb7",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 154
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_74c0926da8ef37ed.svg",
+      "sha256": "d63076f695fdbdc0332bdcba30e80eeac66d0fb676c44da9e48bcc27aaa56509",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 154
     },
     {
-      "path": "examples/assets/swatch_69cc461e3d017b4b.svg",
-      "sha256": "580cdf3faa406c112c44dc7d63bebb554987f5f4c2bb4397bac96e48a4a6de2a",
+      "path": "examples/assets/swatch_bcc6d9b4f23cf6c.svg",
+      "sha256": "2d1dae16e1b3c2702f17e24653f86c7570c13b77c85be310b8350288745afb82",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 154
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_9f3f5ad14698094c.svg",
+      "sha256": "0c9f5989dccc406b73caa247c3803e15db0867347dedd8a60844c6504807f959",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 173
     },
     {
-      "path": "examples/assets/swatch_1941e6ba0f29d457.svg",
-      "sha256": "cc870ad367268fbf045a1444f78bc520d7abac95a6e9aff8c8112f38e059c1c0",
+      "path": "examples/assets/swatch_b9ffd412a641824f.svg",
+      "sha256": "1fec8682bb4a5b4cbd381ec9e9334aefd6dc2e82d7f69a849daa7eb09c0ee09a",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "E5E7EB",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 173
     },
     {
-      "path": "examples/assets/swatch_db76ae80326db7ad.svg",
-      "sha256": "c1e3ceca63c71be71e0fb62a48b5faee827d6534769d9cd11d2a8974c4086b35",
+      "path": "examples/assets/swatch_edcce2be8f3ee6c6.svg",
+      "sha256": "c92887c2acce9c685e02bc35bc1208409e8dd723374bf702fbc03402befeb5b5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "plastic"
       },
-      "size_bytes": 427
+      "size_bytes": 596
     },
     {
-      "path": "examples/assets/swatch_4341806eeb9d53c0.svg",
-      "sha256": "a5782b4f28a01c8efb52c6536aad174bdb5231e1dc3c5a60354b781f1355967d",
+      "path": "examples/assets/swatch_18a0e3a09f1b1f53.svg",
+      "sha256": "02a150a3fd868cf9bb8468f2df2012753c31c65061ce8dc00afdb0f4ed902f4b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "social"
       },
-      "size_bytes": 144
+      "size_bytes": 326
     },
     {
-      "path": "examples/assets/swatch_4b060b54dea0ea7.svg",
-      "sha256": "a39bc56ae07ad425e496ff2f9cfaeedc98b37e631863a6fe9633d96d40a592ea",
+      "path": "examples/assets/swatch_6e6fe3460ea5d29b.svg",
+      "sha256": "1226a902b68ce873c5c6cfaf54c7cb1e5d3ca7b4ebbe359490b19aba1280f751",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "for-the-badge"
       },
-      "size_bytes": 143
+      "size_bytes": 314
     },
     {
-      "path": "examples/assets/swatch_b97bb4d981600121.svg",
-      "sha256": "6daac9b71d1686aafdfa781dcc4db30e19102c0109e399a286db5794648ba9d0",
+      "path": "examples/assets/swatch_e39074c6db4957b3.svg",
+      "sha256": "679c0a3cdafd47adbe84374decdcecc2dc2cd1873f62476bfbea150aa5f288aa",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "4A9EFF",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     },
     {
-      "path": "examples/assets/swatch_aeee5da272d5ead6.svg",
-      "sha256": "1a5b96f573eb22003a478a9863cdfd27dc67ca533e2faeab964d48b493fe5e25",
+      "path": "examples/assets/swatch_74b3efa78d3cf39e.svg",
+      "sha256": "4e913196726a7f91e8485667febaf7dc11e5fe567fcbd58044fbfe8328c3a75f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "flat-square"
       },
-      "size_bytes": 143
+      "size_bytes": 157
     }
   ]
 }

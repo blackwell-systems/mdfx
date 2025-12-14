@@ -435,12 +435,8 @@ fn process_file(
 
     // Create the appropriate backend
     let mut parser = match backend_type {
-        BackendType::Shields => {
-            TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
-        }
-        BackendType::Svg => {
-            TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?
-        }
+        BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
+        BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
         BackendType::PlainText => {
             // Fall back to shields for now (PlainText backend not implemented)
             TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
