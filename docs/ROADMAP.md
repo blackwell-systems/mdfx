@@ -1,7 +1,7 @@
 # mdfx Roadmap
 
 **Version:** 1.0.0
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-14
 
 This document outlines planned features and architectural improvements for mdfx.
 
@@ -13,11 +13,13 @@ This document outlines planned features and architectural improvements for mdfx.
 - [x] 19 Unicode text styles with aliases
 - [x] 28 decorative frames
 - [x] 6 badge types
-- [x] UI components (divider, swatch, tech, status, header, callout)
+- [x] UI components (divider, swatch, tech, status, header, callout, GitHub blocks)
 - [x] Multi-backend rendering (ShieldsBackend, SvgBackend)
 - [x] Data-driven separator system (12 named + direct Unicode)
 - [x] Cargo workspace structure (library + CLI separation)
-- [x] 256 comprehensive tests
+- [x] 261 comprehensive tests
+- [x] Enhanced swatch primitives (opacity, size, border, label)
+- [x] Custom palette support (`--palette` CLI flag)
 
 ### Separator System Enhancements
 - [x] Validation: trim whitespace, reject template delimiters
@@ -52,11 +54,23 @@ This document outlines planned features and architectural improvements for mdfx.
 
 ---
 
-## 🔧 Next Steps (v2.0.0 Preparation)
+## ✅ Completed (December 2025 - v1.0.0 Enhancements)
 
-### CLI Integration (Required for v2.0)
+### CLI Integration
 - [x] Add `--target` flag to CLI (github, local, npm, auto)
 - [x] Wire target auto-detection from output path
+- [x] Add `--palette` flag for custom color palettes
+
+### Data Consolidation
+- [x] Consolidated all JSON data files into registry.json
+- [x] Removed redundant data files (badges.json, frames.json, styles.json, etc.)
+- [x] Updated all modules to use unified registry.json as single source of truth
+
+---
+
+## 🔧 Next Steps (v2.0.0 Preparation)
+
+### Remaining CLI Features
 - [ ] Add multi-target build command (`mdfx build --all-targets`)
 - [ ] Add `--strict-contexts` flag for context validation
 
@@ -64,11 +78,6 @@ This document outlines planned features and architectural improvements for mdfx.
 - [ ] Refactor backends to be target-aware
 - [ ] Target-specific post-processing in pipeline
 - [ ] Fallback strategies for plain text targets
-
-### Data Consolidation ✓
-- [x] Consolidated all JSON data files into registry.json
-- [x] Removed redundant data files (badges.json, frames.json, styles.json, etc.)
-- [x] Updated all modules to use unified registry.json as single source of truth
 
 ---
 

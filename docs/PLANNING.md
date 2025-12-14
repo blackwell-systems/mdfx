@@ -1,14 +1,14 @@
 # mdfx - Project Planning Document
 
 **Current Version:** 1.0.0
-**Status:** Production Release - Multi-Backend Architecture Shipped
-**Last Updated:** 2025-12-13
+**Status:** Production Release - Markdown Compiler with Multi-Backend Architecture
+**Last Updated:** 2025-12-14
 
 ---
 
 ## Project Overview
 
-**mdfx** is a Unicode text styling tool for markdown that uses a component-first architecture. Users write semantic `{{ui:*}}` elements that compile down to shields.io badges, decorative frames, and Unicode character transformations.
+**mdfx** is a **markdown compiler** that transforms template syntax into styled output. Users write semantic `{{ui:*}}` elements that compile down to shields.io badges, decorative frames, and Unicode character transformations through a unified registry and target-aware rendering.
 
 ### Core Value Proposition
 
@@ -58,10 +58,12 @@
 - Generic closers (`{{/ui}}`)
 
 **Infrastructure:**
-- 152 tests passing
+- 261 tests passing
 - CLI with process, convert, list commands
 - Rust library API (ComponentsRenderer, ShieldsRenderer, Converter, FrameRenderer, BadgeRenderer)
-- Embedded JSON data (~22KB)
+- Unified `registry.json` data (~25KB)
+- Target system (`--target github/local/npm`)
+- Custom palette support (`--palette`)
 - Code block preservation
 - Stdin/stdout support
 
@@ -421,22 +423,24 @@ mdfx generate "Create a component for quarterly earnings with green/red indicato
 
 ### Current Architecture (v1.0.0)
 
-**5 Core Components:**
+**Core Components:**
 1. ComponentsRenderer - Expand UI to primitives
 2. ShieldsRenderer - Generate shields.io URLs
 3. FrameRenderer - Add prefix/suffix decorations
 4. BadgeRenderer - Enclosed alphanumerics
 5. Converter - Character transformations
+6. Registry - Unified data loading and resolution
+7. Target System - Platform-aware compilation
 
-**Data Files (embedded):**
-- components.json (6 components)
-- palette.json (15 colors)
-- shields.json (4 styles + palette)
-- frames.json (27 frames)
-- badges.json (6 types)
-- styles.json (19 styles)
-
-**Total:** ~22KB embedded JSON
+**Unified Registry (embedded):**
+- Single `registry.json` file (~25KB)
+- Palette: 15+ colors
+- Styles: 19 Unicode styles
+- Frames: 27+ decorations
+- Badges: 6 types
+- Components: 9 UI components
+- Separators: 12 named characters
+- Shield styles: 5 badge styles
 
 ### Planned Improvements
 
@@ -468,9 +472,13 @@ mdfx generate "Create a component for quarterly earnings with green/red indicato
 
 ### v1.0.0 (Current)
 
-- ✓ 152 tests passing
-- ✓ 6 UI components shipped
-- ✓ 4,000+ lines of documentation
+- ✓ 261 tests passing
+- ✓ 9 UI components shipped
+- ✓ Unified registry system
+- ✓ Target system (github, local, npm)
+- ✓ Enhanced swatch primitives
+- ✓ Custom palette support
+- ✓ 5,000+ lines of documentation
 - ⏳ GitHub release published
 - ⏳ crates.io publish
 - ⏳ Initial community feedback
@@ -589,4 +597,4 @@ mdfx generate "Create a component for quarterly earnings with green/red indicato
 
 ---
 
-**Document Status:** Reflects v1.0.0 reality + roadmap through v1.0.0 and beyond
+**Document Status:** Reflects v1.0.0 reality with unified registry, target system, enhanced swatches, and custom palette support

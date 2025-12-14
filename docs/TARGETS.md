@@ -689,7 +689,7 @@ fn detect_target_from_package_manager(cwd: &Path) -> Option<&'static str> {
 
 **Migration**: None required (GitHub is default)
 
-### Phase 3: v1.2 - Add More Targets ✅ COMPLETE (ahead of schedule)
+### Phase 3: v1.2 - Add More Targets ✅ COMPLETE
 
 **Status**: Implemented December 2025
 
@@ -698,9 +698,7 @@ fn detect_target_from_package_manager(cwd: &Path) -> Option<&'static str> {
 - ✅ Implemented `detect_target_from_path()` utility
 - ✅ Added `--target` flag to CLI (github, local, npm, auto)
 - ✅ Wired target auto-detection into CLI
-
-**Remaining**:
-- ⏳ Add multi-target build command
+- ✅ Added `--palette` flag for custom palettes
 
 **Migration**: None required (GitHub still default)
 

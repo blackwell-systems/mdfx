@@ -520,9 +520,11 @@ diff -r dist1/ dist2/  # Should be identical
 - ✅ Multi-backend rendering (shields.io, SVG)
 - ✅ Badge style control
 - ✅ Asset manifest system
-- ✅ 237 passing tests
+- ✅ Enhanced swatch primitives (opacity, size, border, label)
+- ✅ Custom palette support (`--palette` CLI flag)
+- ✅ 261 passing tests
 
-**Position as**: "Markdown styling tool with component system"
+**Position as**: "Markdown compiler with design system"
 
 ### Phase 1: v1.1.0 - Unified Registry ✅ COMPLETE (ahead of schedule)
 
@@ -547,18 +549,21 @@ diff -r dist1/ dist2/  # Should be identical
 
 **Migration**: Existing templates work; context validation enforced for separators
 
-### Phase 3: v2.0.0 - Full Compiler Model ⏳ PARTIALLY COMPLETE
+### Phase 3: v2.0.0 - Full Compiler Model ✅ MOSTLY COMPLETE
 
 **Completed**:
 - ✅ Consolidated all data files into unified registry
 - ✅ Implemented Target trait abstraction
 - ✅ Shipped targets: GitHubTarget, LocalDocsTarget, NpmTarget
 - ✅ BackendType enum with derived Default
+- ✅ `--target` flag wired into CLI
+- ✅ Target auto-detection from output path
+- ✅ Enhanced swatch primitives
+- ✅ Custom palette support
 
 **Remaining**:
-- ⏳ Wire `--target` flag into CLI
-- ⏳ Multi-target compilation command
-- ⏳ Target-aware backend selection
+- ⏳ Multi-target compilation command (`mdfx build --all-targets`)
+- ⏳ Target-aware post-processing
 
 **Data Consolidation** ✅:
 - All old JSON files (badges.json, frames.json, styles.json, etc.) removed

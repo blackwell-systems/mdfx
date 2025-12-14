@@ -1,13 +1,15 @@
 # Components Design Document
 
-**Status:** v0.1.0 Shipped
-**Last Updated:** 2025-12-12
+**Status:** v1.0.0 Shipped
+**Last Updated:** 2025-12-14
 
 ---
 
 ## Overview
 
 mdfx uses a **component-first architecture** where users write semantic `{{ui:*}}` elements that expand into lower-level primitives at parse time. This document explains the three-layer system, expansion model, and how to extend it.
+
+> **Note:** All component and palette data is now stored in the unified `registry.json` file. References to separate `components.json` and `palette.json` files are legacy.
 
 ## Architecture Layers
 
@@ -108,18 +110,23 @@ Expansion steps:
 
 ## Component Structure
 
-### components.json Schema
+### Registry Schema (Unified)
+
+Components are defined in `registry.json` under `renderables.components`:
 
 ```json
 {
   "version": "1.0.0",
-  "components": {
-    "component_name": {
-      "type": "expand",
-      "self_closing": true|false,
-      "description": "Human-readable description",
-      "args": ["arg1", "arg2"],
-      "template": "{{primitive:param=$1}}$content{{/primitive}}"
+  "renderables": {
+    "components": {
+      "component_name": {
+        "type": "expand",
+        "self_closing": true|false,
+        "description": "Human-readable description",
+        "args": ["arg1", "arg2"],
+        "template": "{{primitive:param=$1}}$content{{/primitive}}",
+        "contexts": ["inline", "block"]
+      }
     }
   }
 }
@@ -235,16 +242,21 @@ Expansion steps:
 
 ## Design Tokens
 
-### palette.json Schema
+### Palette in Registry
+
+Colors are defined in `registry.json` under `palette`:
 
 ```json
 {
-  "version": "1.0.0",
-  "colors": {
-    "token_name": "HEXCODE"
+  "palette": {
+    "accent": "F41C80",
+    "success": "22C55E",
+    "ui.bg": "292A2D"
   }
 }
 ```
+
+Custom palettes can be loaded via the `--palette` CLI flag (see API-GUIDE.md).
 
 ### Color Resolution
 
@@ -365,7 +377,7 @@ This groups related colors without requiring nested objects.
 
 ### Adding a New Component
 
-1. **Edit `data/components.json`**
+1. **Edit `data/registry.json`** under `renderables.components`:
 ```json
 {
   "mycomponent": {
@@ -373,7 +385,8 @@ This groups related colors without requiring nested objects.
     "self_closing": true,
     "description": "My custom component",
     "args": ["color"],
-    "template": "{{shields:block:color=$1:style=for-the-badge/}}"
+    "template": "{{shields:block:color=$1:style=for-the-badge/}}",
+    "contexts": ["inline", "block"]
   }
 }
 ```
@@ -383,7 +396,7 @@ This groups related colors without requiring nested objects.
 {{ui:mycomponent:cobalt/}}
 ```
 
-3. **No code changes required** - expansion happens at runtime
+3. **Recompile** - components are embedded at compile time
 
 ### Creating Project-Specific Components
 
@@ -581,32 +594,61 @@ For logic-heavy components (e.g., progress bars calculating percentages), add:
 
 Rust implements `progress_bar()` function. Keeps most components simple (expand) while allowing complex ones (native).
 
+## Recent Enhancements (v1.0.0)
+
+### Enhanced Swatch Primitives
+
+Swatches now support advanced SVG-only options:
+
+```markdown
+{{ui:swatch:FF6B35:opacity=0.5/}}
+{{ui:swatch:accent:width=40:height=30/}}
+{{ui:swatch:cobalt:border=FFFFFF:border_width=2/}}
+{{ui:swatch:F41C80:label=v1/}}
+```
+
+Options: `opacity`, `width`, `height`, `border`, `border_width`, `label`
+
+### Custom Palette Support
+
+Load custom color definitions at runtime:
+
+```bash
+mdfx process --palette brand-colors.json README.template.md
+```
+
+Palette file format:
+```json
+{
+  "brand-primary": "FF6B35",
+  "brand-secondary": "2B6CB0"
+}
+```
+
+### Target System
+
+Compile for different platforms:
+
+```bash
+mdfx process --target github README.md    # shields.io backend
+mdfx process --target local docs/guide.md  # SVG backend
+```
+
 ## Future Enhancements
 
 ### User-Provided Components
 
-**Planned v0.2:**
-- Read `./components.json` from working directory
-- Merge with embedded components
-- User components override built-in
-
-**Use case:** Per-project branding
-```json
-{
-  "my-header": {
-    "template": "{{frame:line-bold}}{{bold-script}}$content{{/bold-script}}{{/frame}}"
-  }
-}
-```
+**Planned:**
+- Read `./mdfx.json` config from working directory
+- Project-specific component overrides
 
 ### Native Components
 
-**Planned v0.2+:**
+**Planned:**
 
 **Progress bars:**
 ```markdown
 {{ui:progress:75/}}                  → ███▒▒ 75%
-{{ui:progress:3,5/}}                 → ███▒▒ (3/5)
 ```
 
 **Tables:**
@@ -616,15 +658,6 @@ Rust implements `progress_bar()` function. Keeps most components simple (expand)
 | A    | 1     |
 {{/ui}}
 ```
-
-Requires Rust logic for layout, wrapping, alignment.
-
-### Component Marketplace
-
-**Planned v0.3+:**
-- Share components via GitHub gists or packages
-- `mdfx install component awesome-header`
-- Gallery UI showcasing community components
 
 ## Testing Strategy
 
@@ -700,11 +733,11 @@ echo "{{ui:header}}TEST{{/ui}}" | mdfx process -
 
 ## References
 
-- **Implementation:** `src/components.rs` (ComponentsRenderer)
-- **Data:** `data/components.json`, `data/palette.json`
-- **Parser:** `src/parser.rs` (parse_ui_at, expansion logic)
-- **Tests:** `src/components.rs` (tests module), `src/parser.rs` (UI tests)
+- **Implementation:** `crates/mdfx/src/components.rs` (ComponentsRenderer)
+- **Data:** `crates/mdfx/data/registry.json` (unified)
+- **Parser:** `crates/mdfx/src/parser.rs` (parse_ui_at, expansion logic)
+- **Tests:** `crates/mdfx/src/components.rs` (tests module), `crates/mdfx/src/parser.rs` (UI tests)
 
 ---
 
-**Document Status:** Reflects v0.1.0 shipped implementation
+**Document Status:** Reflects v1.0.0 shipped implementation with unified registry, enhanced swatches, custom palette support, and target system

@@ -2,12 +2,12 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-237_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Tests](https://img.shields.io/badge/tests-261_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 [![Crates.io](https://img.shields.io/crates/v/mdfx.svg)](https://crates.io/crates/mdfx)
 
 Welcome to the mdfx documentation site! This is your navigation hub for all documentation.
 
-**Transform markdown with Unicode text effects and UI components through template syntax.**
+**mdfx is a markdown compiler that transforms template syntax into styled output with multi-backend rendering.**
 
 ## 📚 Getting Started
 
@@ -123,10 +123,10 @@ let output = parser.process("{{mathbold}}TITLE{{/mathbold}}")?;
 
 mdfx uses a Cargo workspace with two crates:
 
-- **`crates/mdfx`** - Core library (4 dependencies: serde, serde_json, thiserror, lazy_static)
-- **`crates/mdfx-cli`** - CLI tool (depends on mdfx + clap, colored)
+- **`crates/mdfx`** - Core compiler library (8 dependencies: serde, serde_json, thiserror, unicode-segmentation, sha2, chrono)
+- **`crates/mdfx-cli`** - CLI tool (depends on mdfx + clap, colored, serde_json)
 
-This separation ensures library users don't need CLI dependencies. The binary is still named `mdfx` for a seamless user experience.
+Data is stored in a unified `registry.json` file embedded at compile time. This separation ensures library users don't need CLI dependencies. The binary is still named `mdfx` for a seamless user experience.
 
 ## Core Features
 
@@ -237,6 +237,32 @@ mdfx process input.md --backend svg --assets-dir assets/mdfx
 ```
 
 The SVG backend generates deterministic filenames (hash-based) for reproducible builds and git-friendly assets.
+
+### Target System
+
+Compile for different platforms:
+
+```bash
+mdfx process --target github README.md    # shields.io backend (default)
+mdfx process --target local docs/guide.md  # SVG backend, offline-first
+mdfx process --target npm package-readme.md
+```
+
+### Custom Palettes
+
+Define project-specific colors:
+
+```bash
+mdfx process --palette brand-colors.json README.template.md
+```
+
+Palette file format:
+```json
+{
+  "brand-primary": "FF6B35",
+  "brand-secondary": "2B6CB0"
+}
+```
 
 ## Why mdfx?
 
