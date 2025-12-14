@@ -100,6 +100,7 @@ mod tests {
             border_color: None,
             border_width: None,
             label: Some("v1.0".to_string()),
+            label_color: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#FF6B35 v1.0]");

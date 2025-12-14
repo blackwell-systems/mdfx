@@ -69,6 +69,7 @@ struct SwatchOptions<'a> {
     border_color: Option<&'a str>,
     border_width: Option<u32>,
     label: Option<&'a str>,
+    label_color: Option<&'a str>,
 }
 
 impl SvgBackend {
@@ -93,6 +94,7 @@ impl SvgBackend {
                 border_color,
                 border_width,
                 label,
+                label_color,
             } => {
                 "swatch".hash(&mut hasher);
                 color.hash(&mut hasher);
@@ -106,6 +108,7 @@ impl SvgBackend {
                 border_color.hash(&mut hasher);
                 border_width.hash(&mut hasher);
                 label.hash(&mut hasher);
+                label_color.hash(&mut hasher);
             }
             Primitive::Divider { colors, style } => {
                 "divider".hash(&mut hasher);
@@ -176,9 +179,17 @@ impl SvgBackend {
             let font_size = if height > 24 { 14 } else { 10 };
             let y_pos = height / 2 + font_size / 3 + border_offset;
             let x_pos = width / 2 + border_offset;
+            let fill_color = opts.label_color.unwrap_or("white");
+            // If it's a hex color without #, add it
+            let fill = if fill_color.chars().all(|c| c.is_ascii_hexdigit()) && fill_color.len() == 6
+            {
+                format!("#{}", fill_color)
+            } else {
+                fill_color.to_string()
+            };
             format!(
-                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}</text>",
-                x_pos, y_pos, font_size, text
+                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}</text>",
+                x_pos, y_pos, fill, font_size, text
             )
         } else {
             String::new()
@@ -298,6 +309,7 @@ impl Renderer for SvgBackend {
                 border_color,
                 border_width,
                 label,
+                label_color,
             } => Self::render_swatch_svg(SwatchOptions {
                 color,
                 style,
@@ -307,6 +319,7 @@ impl Renderer for SvgBackend {
                 border_color: border_color.as_deref(),
                 border_width: *border_width,
                 label: label.as_deref(),
+                label_color: label_color.as_deref(),
             }),
 
             Primitive::Divider { colors, style } => Self::render_divider_svg(colors, style),
@@ -322,6 +335,7 @@ impl Renderer for SvgBackend {
                     border_color: None,
                     border_width: None,
                     label: None,
+                    label_color: None,
                 })
             }
 
