@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-14T01:22:03.235917730+00:00",
+  "created_at": "2025-12-14T01:53:36.391202731+00:00",
   "backend": "svg",
   "assets_dir": "examples/assets",
-  "total_assets": 112,
+  "total_assets": 456,
   "assets": [
     {
       "path": "examples/assets/swatch_86d546b450b4d3bb.svg",
@@ -1214,6 +1214,3790 @@
         "style": "for-the-badge"
       },
       "size_bytes": 314
+    },
+    {
+      "path": "examples/assets/swatch_9dc68591fa6ac07b.svg",
+      "sha256": "5123ff17ce5a74f26be556b12f5eb74b03289b5ebdab45d9a287ecc7c2c16a3d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a39c42eb04998c12.svg",
+      "sha256": "584d17ce19ebec3b855f2d97e85626082deaca184ed3f04d5fdd376ce9093118",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF7F00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_4cb1aedc3b6a5064.svg",
+      "sha256": "5235cc0695ff63433a2789a14d4688783b7a51c7890b2c0598e61ea9512cb88b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_cc2cf67b8bffd086.svg",
+      "sha256": "4f91533be740d1f6ddb629c5205f1e6304447e508c6292b81f9ce08d1b16179c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_fa094fa87de3ae7b.svg",
+      "sha256": "75e3efb58b8a2bde2f453a998513ed56b3272cdf69fe8b8557f9852ef3755e63",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "0000FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d54f649d83d36cb9.svg",
+      "sha256": "64c691652c4258378aa722554c7bf2d84ad6b1573045c9542973d2c6cb2e3faf",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4B0082",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1dacac6ccd4c4cc3.svg",
+      "sha256": "d1a3a2bd1bbb9be130cedad49b1f709deca287c8e5844cc0b60007aad5f5c001",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "9400D3",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_4ba8a504feefa3a0.svg",
+      "sha256": "27d2306ea0bde100dc2650e36dfb9c178d85cfd7720d5c699008eef355a8c709",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1c8c61fb5ec9e9e7.svg",
+      "sha256": "21ad4026b702805b3c1964b5c1b373a32f9ac0954f98610dab4aa2b54f890d2e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CED1",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6811f546af8a79ef.svg",
+      "sha256": "32e8892471b54e8a0e50763691b0bdc90a28f1e2b9a33d58b285041507c7e3ba",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1c8c61fb5ec9e9e7.svg",
+      "sha256": "21ad4026b702805b3c1964b5c1b373a32f9ac0954f98610dab4aa2b54f890d2e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CED1",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_4ba8a504feefa3a0.svg",
+      "sha256": "27d2306ea0bde100dc2650e36dfb9c178d85cfd7720d5c699008eef355a8c709",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1c8c61fb5ec9e9e7.svg",
+      "sha256": "21ad4026b702805b3c1964b5c1b373a32f9ac0954f98610dab4aa2b54f890d2e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CED1",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6811f546af8a79ef.svg",
+      "sha256": "32e8892471b54e8a0e50763691b0bdc90a28f1e2b9a33d58b285041507c7e3ba",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_4ba8a504feefa3a0.svg",
+      "sha256": "27d2306ea0bde100dc2650e36dfb9c178d85cfd7720d5c699008eef355a8c709",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6811f546af8a79ef.svg",
+      "sha256": "32e8892471b54e8a0e50763691b0bdc90a28f1e2b9a33d58b285041507c7e3ba",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1c8c61fb5ec9e9e7.svg",
+      "sha256": "21ad4026b702805b3c1964b5c1b373a32f9ac0954f98610dab4aa2b54f890d2e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CED1",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6811f546af8a79ef.svg",
+      "sha256": "32e8892471b54e8a0e50763691b0bdc90a28f1e2b9a33d58b285041507c7e3ba",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_4ba8a504feefa3a0.svg",
+      "sha256": "27d2306ea0bde100dc2650e36dfb9c178d85cfd7720d5c699008eef355a8c709",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1c8c61fb5ec9e9e7.svg",
+      "sha256": "21ad4026b702805b3c1964b5c1b373a32f9ac0954f98610dab4aa2b54f890d2e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CED1",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_4ba8a504feefa3a0.svg",
+      "sha256": "27d2306ea0bde100dc2650e36dfb9c178d85cfd7720d5c699008eef355a8c709",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6811f546af8a79ef.svg",
+      "sha256": "32e8892471b54e8a0e50763691b0bdc90a28f1e2b9a33d58b285041507c7e3ba",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a206ccae2f16b2e9.svg",
+      "sha256": "b3717caa7ebf39e3a2adab5f51cf27318b98155bc170b99821674687a0659bd7",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 330
+    },
+    {
+      "path": "examples/assets/swatch_5afc95e20625000b.svg",
+      "sha256": "a6c075a485baede46de829a014905c8e25efc678904ff95d7017df0af019113c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 329
+    },
+    {
+      "path": "examples/assets/swatch_92df9a28e17e6883.svg",
+      "sha256": "3250738d27cfdfa90684a857ac4e2de7ec599999727cc02225d0c56d1e19e5f7",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B00FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 182
+    },
+    {
+      "path": "examples/assets/swatch_232f55fe0397eb3d.svg",
+      "sha256": "5838383a06a4ae1b8ebcb83f01ec05c61fb05744da064d18201e368727af9ffa",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_1794949f0db4e6b4.svg",
+      "sha256": "572a0619a83eda83cd72a99c073c202f0a656042a9291382102029292cb0ec52",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_ebd5139911fa73c3.svg",
+      "sha256": "73d5fd21099900ef2b640ccc3ba14364eaf3ab43f8a634ba48918d2b3b01553e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_2014501060358b06.svg",
+      "sha256": "5d28114814c559303286ad9f5d48b2d988dfeccbc7b12565ed80bc561cc0fd7e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8BC34A",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_2014501060358b06.svg",
+      "sha256": "5d28114814c559303286ad9f5d48b2d988dfeccbc7b12565ed80bc561cc0fd7e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8BC34A",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_2014501060358b06.svg",
+      "sha256": "5d28114814c559303286ad9f5d48b2d988dfeccbc7b12565ed80bc561cc0fd7e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8BC34A",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_6ccc0decb4f02938.svg",
+      "sha256": "ad57a27ae1c4096268a426d6ae948bd39a612b364343073d8ac3625e9c04fdf9",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8D6E63",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b5c53bfb0359403a.svg",
+      "sha256": "b8efb18e568c9a0be8d35bf88a3c4809a788a89f9e50d730759603572122a9ed",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00BCD4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b5c53bfb0359403a.svg",
+      "sha256": "b8efb18e568c9a0be8d35bf88a3c4809a788a89f9e50d730759603572122a9ed",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00BCD4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_e273bfe00e3fd6cb.svg",
+      "sha256": "f499040a053125b50f1b89e647afaa6d1779906db5d4bc7c0ff149d77f1cb24c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00E5FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "examples/assets/swatch_b5c53bfb0359403a.svg",
+      "sha256": "b8efb18e568c9a0be8d35bf88a3c4809a788a89f9e50d730759603572122a9ed",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00BCD4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b5c53bfb0359403a.svg",
+      "sha256": "b8efb18e568c9a0be8d35bf88a3c4809a788a89f9e50d730759603572122a9ed",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00BCD4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_e273bfe00e3fd6cb.svg",
+      "sha256": "f499040a053125b50f1b89e647afaa6d1779906db5d4bc7c0ff149d77f1cb24c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00E5FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "examples/assets/swatch_b5c53bfb0359403a.svg",
+      "sha256": "b8efb18e568c9a0be8d35bf88a3c4809a788a89f9e50d730759603572122a9ed",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00BCD4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b5c53bfb0359403a.svg",
+      "sha256": "b8efb18e568c9a0be8d35bf88a3c4809a788a89f9e50d730759603572122a9ed",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00BCD4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f820c8bae7c2164.svg",
+      "sha256": "d105f421727d9d0bb5e90c52ad80f0efd4cdc945cbaa3e5c0c565fa592a9b11f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a291f6710cb9c6ea.svg",
+      "sha256": "22c96930dd2c78fb6e0735fdc96cb519dca0acbddca2ddbffec2e719012bcdf4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 287
+    },
+    {
+      "path": "examples/assets/swatch_c93a796027924e83.svg",
+      "sha256": "e576d7ee996701c91374d66c8b16274dd9e3ef2fef0667bb5241fcfd70e32f6c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1aa71f908447176a.svg",
+      "sha256": "f1cd115e3ad34fd3c40a7c3b5378b53d5c10b55bf184360f5c3811856fe21181",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 287
+    },
+    {
+      "path": "examples/assets/swatch_c93a796027924e83.svg",
+      "sha256": "e576d7ee996701c91374d66c8b16274dd9e3ef2fef0667bb5241fcfd70e32f6c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_c93a796027924e83.svg",
+      "sha256": "e576d7ee996701c91374d66c8b16274dd9e3ef2fef0667bb5241fcfd70e32f6c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a291f6710cb9c6ea.svg",
+      "sha256": "22c96930dd2c78fb6e0735fdc96cb519dca0acbddca2ddbffec2e719012bcdf4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 287
+    },
+    {
+      "path": "examples/assets/swatch_c93a796027924e83.svg",
+      "sha256": "e576d7ee996701c91374d66c8b16274dd9e3ef2fef0667bb5241fcfd70e32f6c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_5889dae505eeea51.svg",
+      "sha256": "b730f7ea0008c148bf4d6b627821a73b5ce0d2340bf2712de873ede6bfd67db5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3b9c69559e01255.svg",
+      "sha256": "1e1e39ddea36e7d3c1d0c3256d5a907677313b8ed725edcb7041fdbba5dc42cd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00AA00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_ce17b0421cdf40af.svg",
+      "sha256": "4836b4e00a72dbe9772649be12149aad76115bc29756d38b01aa269c3447b71f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B4513",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_ed63965a4a5e0052.svg",
+      "sha256": "2323e9e7e7b45b1aef8a6c96014563a313f320adba186a0bca5ae8cdadea80d0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_ce17b0421cdf40af.svg",
+      "sha256": "4836b4e00a72dbe9772649be12149aad76115bc29756d38b01aa269c3447b71f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B4513",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_ce17b0421cdf40af.svg",
+      "sha256": "4836b4e00a72dbe9772649be12149aad76115bc29756d38b01aa269c3447b71f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B4513",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b952ceaeb5596f83.svg",
+      "sha256": "c7c40ad9f563c9a0ac590c3530201b366c50c75d43dc933bd00e60b4d3323e1b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFA500",
+        "style": "flat-square"
+      },
+      "size_bytes": 288
+    },
+    {
+      "path": "examples/assets/swatch_ce17b0421cdf40af.svg",
+      "sha256": "4836b4e00a72dbe9772649be12149aad76115bc29756d38b01aa269c3447b71f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B4513",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_f3e69dbfc7973662.svg",
+      "sha256": "8a30f3a579875d9afca2fb01c4bb18bc881d73ae196bbcb11b6d9767f669186b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "C4A569",
+        "style": "flat-square"
+      },
+      "size_bytes": 290
+    },
+    {
+      "path": "examples/assets/swatch_67574ea97507e042.svg",
+      "sha256": "f43313e83be99b4fa03d652a4b89d9c2d5ca831b93183357fcb840d09aebcbb9",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "A0522D",
+        "style": "flat-square"
+      },
+      "size_bytes": 290
+    },
+    {
+      "path": "examples/assets/swatch_a8ae05df98d91b6a.svg",
+      "sha256": "b9d1357e1f608c44e3e6a7a33343ccad7169446d51ced0c1ee4afb1c97c42d1f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "7C7C7C",
+        "style": "flat-square"
+      },
+      "size_bytes": 291
+    },
+    {
+      "path": "examples/assets/swatch_cbf2715608a8a8b9.svg",
+      "sha256": "941d47332eac5398d6e68bdf83f401cc794114a768eb1917975936b158d28bb0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A4A4A",
+        "style": "flat-square"
+      },
+      "size_bytes": 293
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_992eafbb0f3116f1.svg",
+      "sha256": "09b106347f3295996ec81bd9081a56fc5068cd68ce9b2672b7ff6a0fe9b62e5e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a4fb5024462a09b3.svg",
+      "sha256": "bbc0d2647924402e63c634605b60d0029849782023e935201cc1a1caa4ba9df4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_7c0422c5e6957cf7.svg",
+      "sha256": "38f40dc327e6aa44d11b6108db64bf8f2f10b535113740696321c416529236c2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFE4B5",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_7c0422c5e6957cf7.svg",
+      "sha256": "38f40dc327e6aa44d11b6108db64bf8f2f10b535113740696321c416529236c2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFE4B5",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b3bf95a5e69c5381.svg",
+      "sha256": "bf54227591749a7c8f4e9a1406d81ed72310adf55b580ee295aa7f020c446128",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_33585ef90cf3fb07.svg",
+      "sha256": "1f6a7d81645770ed66d8dd1a3e9a529780a3e63ef5958092ec7f39aea2b762cc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF69B4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_33585ef90cf3fb07.svg",
+      "sha256": "1f6a7d81645770ed66d8dd1a3e9a529780a3e63ef5958092ec7f39aea2b762cc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF69B4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_33585ef90cf3fb07.svg",
+      "sha256": "1f6a7d81645770ed66d8dd1a3e9a529780a3e63ef5958092ec7f39aea2b762cc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF69B4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_33585ef90cf3fb07.svg",
+      "sha256": "1f6a7d81645770ed66d8dd1a3e9a529780a3e63ef5958092ec7f39aea2b762cc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF69B4",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1ef7607eedd31222.svg",
+      "sha256": "9c29b53b91ed7fa6cc789c448ee7a5c8f61d76219e78569294a747abb1bbeb90",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_d94ea1a716abfa82.svg",
+      "sha256": "471ec42589138a22bc833d74d30c75c3ae52ec5b3e923e6eb3a0b3ee9a38198b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_9976875475e6e8b7.svg",
+      "sha256": "e7a3ba64af92eb34eb1da16151e71e400e4a3367220377da8ccb0b3735ca11ad",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_9976875475e6e8b7.svg",
+      "sha256": "e7a3ba64af92eb34eb1da16151e71e400e4a3367220377da8ccb0b3735ca11ad",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_9976875475e6e8b7.svg",
+      "sha256": "e7a3ba64af92eb34eb1da16151e71e400e4a3367220377da8ccb0b3735ca11ad",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_9976875475e6e8b7.svg",
+      "sha256": "e7a3ba64af92eb34eb1da16151e71e400e4a3367220377da8ccb0b3735ca11ad",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_9976875475e6e8b7.svg",
+      "sha256": "e7a3ba64af92eb34eb1da16151e71e400e4a3367220377da8ccb0b3735ca11ad",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_6282ccc368848790.svg",
+      "sha256": "c8db0f83c7b8ffde31f0587c57cbf7ac1f6390e582943d11f46fb2203e831f8f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_1bfab0da38c7e617.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_3798a98dc096e010.svg",
+      "sha256": "9fd83238b3a000744dcc0e1c58aec4590ce79af58f8bed52576b8ac2615fbdca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_be0e95724b2c0691.svg",
+      "sha256": "ae51e0f565bb024f2705c41ced5d1752dbed94d7607e1b29d728675571ea29f0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_44171a9f7657b3ce.svg",
+      "sha256": "b1d1e9f3aeba400708642b0082f8a90a23ebb7dc14bdc68b8b833c21503e8f89",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_be0e95724b2c0691.svg",
+      "sha256": "ae51e0f565bb024f2705c41ced5d1752dbed94d7607e1b29d728675571ea29f0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_be0e95724b2c0691.svg",
+      "sha256": "ae51e0f565bb024f2705c41ced5d1752dbed94d7607e1b29d728675571ea29f0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_44171a9f7657b3ce.svg",
+      "sha256": "b1d1e9f3aeba400708642b0082f8a90a23ebb7dc14bdc68b8b833c21503e8f89",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_be0e95724b2c0691.svg",
+      "sha256": "ae51e0f565bb024f2705c41ced5d1752dbed94d7607e1b29d728675571ea29f0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_65199c6d6ff3689d.svg",
+      "sha256": "392f40fbbe980db044879b63dbb1843c2ce145f461a7c6ca82b0459c1e711a2c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "examples/assets/swatch_a96d03fedcd45311.svg",
+      "sha256": "f6356720f57473b34166310606e896df546c2062ebf944afe3aa95e36e4e87d7",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_d6d9947868a71b81.svg",
+      "sha256": "98db4f0a192dff9b802b428be524666d78a3b8693ea2c25592337ef32d1caaf4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_149b4d2ebdd492c5.svg",
+      "sha256": "6ea1a630cf9ea94ff18e1b0928f887479461acb4973e31bec5b7f32771c2c5cf",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_3d286fc665e4c13a.svg",
+      "sha256": "7c45818f9e879a49a7a6460934affcb31fbd1aa778262bc0838ec85280c84882",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_190c3e7433282666.svg",
+      "sha256": "a1d5e03aa99c1f7c2166849fe2bf6e7d5674326b6e8b5ee8367d9973ad05c7cf",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 286
+    },
+    {
+      "path": "examples/assets/swatch_3a7a493d64ac3014.svg",
+      "sha256": "825f8964989c737984a0fe8e9a7334567156a98c82d7e1462c8be2a111274ae1",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 310
+    },
+    {
+      "path": "examples/assets/swatch_4c417bf832ba1eb5.svg",
+      "sha256": "81db0a761b8b5f477a4f54b8ba23b4da92a7d95eb28d0615f37def8b964c8d83",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 286
+    },
+    {
+      "path": "examples/assets/swatch_eec22771a9f08dfa.svg",
+      "sha256": "387dd4e4def0a37387d25cafb07fabb9cfbad0ba076c8a40603c69484fe3e322",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/swatch_4201b2945b24413d.svg",
+      "sha256": "9ac848164ef5c0cd7200c4065bc865b887c5eea8eb94945e9c12e1355f7e5abc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 288
+    },
+    {
+      "path": "examples/assets/swatch_8ecc79273e4225b9.svg",
+      "sha256": "83578c18abb28d97453ca9761bd35e46dc7e1d14b284cdba5f01f15e93c4e6fb",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 288
+    },
+    {
+      "path": "examples/assets/swatch_78b2e4b41cbc1feb.svg",
+      "sha256": "75b2cb3c78921aadb198907b85e5ad60b34afd0e4825150175067ac66b5b2239",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "4A9EFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 289
+    },
+    {
+      "path": "examples/assets/swatch_1ad700f9562cf750.svg",
+      "sha256": "219bef8d913b90e80d0cfee71418062201081329924c543e27390ea9c3e87db8",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 295
+    },
+    {
+      "path": "examples/assets/swatch_eddb8919e3ba0ad2.svg",
+      "sha256": "e7a31500e7eebdb9c8e1c848ff1cd27173fa14149b5fda37b7f94be98f0f7f29",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 295
+    },
+    {
+      "path": "examples/assets/swatch_273df100322be28a.svg",
+      "sha256": "303cf6f91d4c1c076e10906ae8911157fed45f8b57cf67b349c81b76511def74",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "0000FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 292
+    },
+    {
+      "path": "examples/assets/swatch_d8180ef39805c9a4.svg",
+      "sha256": "a8943f31065ce8c0eb8bb3ecc9a79f9b781700337827638636f21aa4ad483a14",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_d0372a0de3aa1abc.svg",
+      "sha256": "85aabe4f4533a0f6d4ef513d658d2ed99a57e70dc3bcd3e98ddbb80c2eee509b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_571a09071f2b4848.svg",
+      "sha256": "6504f114cb3fed45b703cde524123d400ca4cadff90b6f84f7f636bc15205a69",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_7eca0d130065ed86.svg",
+      "sha256": "d614776f03b8f580fa5161622cc8c8e92da4fe052fe660959acb7b4dc7b4a716",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_7bd0b97650a8d82d.svg",
+      "sha256": "e2eb88eae3f79dedb2ce6f7a8656ca04ddfa83e45bca4eb9e120683366a7c900",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_263ea4c98fe5f7a9.svg",
+      "sha256": "468d66bf496521312d054ee0e4e4c218fd3a074b6961d10eee1dec96e1881e94",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_13a0d14f1b661778.svg",
+      "sha256": "87d9aa5e14395fc25917c0686ed63f424b0ff492d2b33b7a8e14dafd85d2e36d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "001a1a",
+        "style": "flat-square"
+      },
+      "size_bytes": 209
+    },
+    {
+      "path": "examples/assets/swatch_67e25c25332964f4.svg",
+      "sha256": "089a4f6bc186fd69c9f36fa6484fcc01a65a3ca0f1fccc4fcf16d353f2a7918d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "001a1a",
+        "style": "flat-square"
+      },
+      "size_bytes": 209
+    },
+    {
+      "path": "examples/assets/swatch_8926cb2b98422633.svg",
+      "sha256": "4d75af68c860c7fc3707bd3131c1396cb187fcfc48592acace53693dfc0ebc59",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "001a1a",
+        "style": "flat-square"
+      },
+      "size_bytes": 209
+    },
+    {
+      "path": "examples/assets/swatch_e1b37b2640c00ea7.svg",
+      "sha256": "3b5ed4f994098a7c0979ef12c1c07217b8853da96b3b43131b74cb229d3ea508",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "001a1a",
+        "style": "flat-square"
+      },
+      "size_bytes": 209
+    },
+    {
+      "path": "examples/assets/swatch_f61796d3c2c15a55.svg",
+      "sha256": "ff04fb7265ea7e23a70b47bc0245f2eb582680ffba1e6e1b782444fb0117d72c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "001a1a",
+        "style": "flat-square"
+      },
+      "size_bytes": 209
+    },
+    {
+      "path": "examples/assets/swatch_f5c5de277b3cf946.svg",
+      "sha256": "58af3e791ae4e1dc57bfa63c69cb1aecabd1f9622ede67ebaecff06c8fecb7b6",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "001a1a",
+        "style": "flat-square"
+      },
+      "size_bytes": 209
+    },
+    {
+      "path": "examples/assets/swatch_b42fac32332b946c.svg",
+      "sha256": "941bb44d4a1c97fd8a09289febcc6778680353e24ab04294b6d311fac21ca998",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_10b0bb881d2e1def.svg",
+      "sha256": "fa38b577de3591d42382140ad7613cfed7ad92a768239663b7ef4a5a7e5cdfd1",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_7d5a84c68a71d309.svg",
+      "sha256": "e190a4f4632d6f4fee95488eb1321938ff5618b50bb231ce7b17462ed3579b7f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_12673908254de66e.svg",
+      "sha256": "d7c49635d98b92c40f9ec4792344921fb40dc4ba6f65dab1e09a1a120e7465da",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_45a98cea68d4e71b.svg",
+      "sha256": "2a74128e60bf15c931cc25c1cae472123ebda0ee55393afc0883f070a4e3e33e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_44a31f3ec7e56cb9.svg",
+      "sha256": "5d0ac341bc1f753484d5e0dc8cef3322c478d401c6f70cd22dc0dee6da6e49e1",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_9a8b1b6e9bdecab2.svg",
+      "sha256": "d6801532c2fe0b7f9f9f2fcd89eab1a4193de6a3885b17d045b16966b07fff48",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1500",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_3d5002e712dd7b57.svg",
+      "sha256": "2ad16ab31579aa3e4b41f1bde2542628990981e2dfb85ae0374672c772519034",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1500",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_16efde05068cdb7.svg",
+      "sha256": "c9c6f325db78c862db7b199b77985747c3d680cb74849c215801a1672478b33c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1500",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_ea91880afe93ea08.svg",
+      "sha256": "2394310ef494574a423e56d87db8931372f4dbf968c44caaec22713e967a86da",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1500",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_a1c6b47500945f85.svg",
+      "sha256": "11bc9f4c60d7c59ce41d8a59eae598275c4b06a195a898d4db64a90385a5f905",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1500",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_a3b943f01a79c9d8.svg",
+      "sha256": "41352b44ce86733e7e9334357cf69b71101acce3c6b916c1d50abf4e2709f25b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1500",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_b0525b38767f459c.svg",
+      "sha256": "e78cabd7b953a4f98284b68bcc3650993b1a815fcae050600493fd7da8979e2b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_59b067614b1cfbde.svg",
+      "sha256": "009478eb8287a9a3fbe4cf479d9aff1ca83010046b66d066368ff22cc392a47b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_238f7d12a111bbda.svg",
+      "sha256": "d2be6336f823c09dbe3d2977f4cbfd6f94dce5f49303774984288b8a2982b3a0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_59462632ee00c778.svg",
+      "sha256": "07ee5eea4b65ad7964219cc9b5f8340c9cfd57d18ed022571e89bb3da724c5e8",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_75f46d7cbadd509d.svg",
+      "sha256": "03d8889f3b7842d8ea84add9666df33953bdc78002260971d6c3ed1529662bfa",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_7712fc59bfdb7245.svg",
+      "sha256": "55591b7ba41ae68db1b395890d44911ff3b8ed935d6c4f910cd354baf91eb6a2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_6dbfdf74b1e5ad43.svg",
+      "sha256": "5aacdc137f9e9833d19887629ffff4685e631b7492205a905d1dec8905906f89",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_87f13b928a00f239.svg",
+      "sha256": "acb3ae1b2cf131da4fb037c04bbf7f3f28b933e58aca69aaa1b339b845a7800e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_423240a04d776df3.svg",
+      "sha256": "c2f798364bcc358a6d74906c8287fbab944377b630e71613fbeed0f227bd7c6b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_dae699410045c46f.svg",
+      "sha256": "b6bd501fe5759ddd9a77ab34772ebceaca5c20082223b609b6eca3f122d57970",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_b6dab873a6928bdf.svg",
+      "sha256": "d8e9a15cd84a8fd5e795dfa51e3d8629f26b63eb5a950076b7503a1459fbdecf",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_543356783928349e.svg",
+      "sha256": "5255a5d07398e41a9ef91b3ea5deebddce98d665009e584b189a495e3153baa0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00001a",
+        "style": "flat-square"
+      },
+      "size_bytes": 190
+    },
+    {
+      "path": "examples/assets/swatch_fb95197bd0a9a677.svg",
+      "sha256": "ea1d87fba4936cd1355ff77b984ccdc4bf5594a2dc9affcb23a1176af3741131",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF00FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 371
+    },
+    {
+      "path": "examples/assets/swatch_240f730b9808b55b.svg",
+      "sha256": "9deef389c5addec8ba6a0482aa644370373abf2521e8c59abe2337a22546cfad",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF1493",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_cab571bc41f772c0.svg",
+      "sha256": "59a0267bb008a56a5cf3f2a8877d5f5f8b9fdad41d5e6f8cfaea8476d12b75a8",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CED1",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_5f524f6cb6f9354b.svg",
+      "sha256": "918ae48bf0fa542ec4765ed012411ed531a57a078a9125c6251211880f155d84",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFD700",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_8ea790e3787d4d9b.svg",
+      "sha256": "2aa4597701d5a413c84a26a2225a1cfdf6f408510b1a5f789558398bbdd5e2f4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "9370DB",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_186678f4d4bab19f.svg",
+      "sha256": "712f49317d833e1fc5b4eb96c8b1a3ca6226a80fe5cf4a0ca8035ccd2549ee49",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_549010f9c7169e5a.svg",
+      "sha256": "386ec4bbec4242c5beea7dceec6eb6e603ff9582be8bd30cadb06c5a038393ee",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_549010f9c7169e5a.svg",
+      "sha256": "386ec4bbec4242c5beea7dceec6eb6e603ff9582be8bd30cadb06c5a038393ee",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_186678f4d4bab19f.svg",
+      "sha256": "712f49317d833e1fc5b4eb96c8b1a3ca6226a80fe5cf4a0ca8035ccd2549ee49",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_549010f9c7169e5a.svg",
+      "sha256": "386ec4bbec4242c5beea7dceec6eb6e603ff9582be8bd30cadb06c5a038393ee",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_186678f4d4bab19f.svg",
+      "sha256": "712f49317d833e1fc5b4eb96c8b1a3ca6226a80fe5cf4a0ca8035ccd2549ee49",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_549010f9c7169e5a.svg",
+      "sha256": "386ec4bbec4242c5beea7dceec6eb6e603ff9582be8bd30cadb06c5a038393ee",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_186678f4d4bab19f.svg",
+      "sha256": "712f49317d833e1fc5b4eb96c8b1a3ca6226a80fe5cf4a0ca8035ccd2549ee49",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 154
+    },
+    {
+      "path": "examples/assets/swatch_fe310c46e6d42b03.svg",
+      "sha256": "ad52fe474df0383f3b17eb8ce3153926c9de859cb5074773ffa67e35645ea76c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0099",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_327919d67b78f704.svg",
+      "sha256": "1fa09588ec037149a981c70b68a8079fdc7cecb72e55289112131875d54b4581",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "CC00FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_2bcb77123ce67e6e.svg",
+      "sha256": "9f55808912e6232f607f913842965dbb9e4f741f61b1c19e522e1c42a96486fc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6600FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_995e6e9e9f8834c2.svg",
+      "sha256": "2bbc528dc504d2f236cd21d1e1cc051223757759fe895ed4f645fa0fd1c33d6f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "0066FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_5f5ac2c9e4b2c73f.svg",
+      "sha256": "82255b3ab9dcc4d4cf9e153335b7b88655feff6ee70e59bf75b79226bcb160f4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CCFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_8a6a188c70b39832.svg",
+      "sha256": "7ffa63676414210f011b6f459d52775bc35655384a9655fcf05cbc6acd59e73e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FFCC",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_3752ed17775d38c.svg",
+      "sha256": "500f50d8e96ca84a5d60f9118e24ee7616d84342b0152191762ec03395ee76c2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "66FF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_327919d67b78f704.svg",
+      "sha256": "1fa09588ec037149a981c70b68a8079fdc7cecb72e55289112131875d54b4581",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "CC00FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_2bcb77123ce67e6e.svg",
+      "sha256": "9f55808912e6232f607f913842965dbb9e4f741f61b1c19e522e1c42a96486fc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6600FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_995e6e9e9f8834c2.svg",
+      "sha256": "2bbc528dc504d2f236cd21d1e1cc051223757759fe895ed4f645fa0fd1c33d6f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "0066FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_412789bd535062e4.svg",
+      "sha256": "d68a278349bcc1df87f399acbbf1eb99a3d2ea936a8e27ffe9ae0d86e9cc335a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CCFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_bb625d86243d4a28.svg",
+      "sha256": "432e8f55d807d913cf41f75fe53ff71f5560ce3442ffa579f267989d0a50dfb4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FFCC",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_1fc5cea15de2b5ed.svg",
+      "sha256": "27d9f24093f9639ec8260ec414f1beecb7efd2098a0130b67176aed2b629ddad",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "66FF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_35caa74792340ab4.svg",
+      "sha256": "2accab4c62ada1242dc785b5313196cda1daddd527f1cc1c5effc3b37cffb2b3",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "CCFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_2bcb77123ce67e6e.svg",
+      "sha256": "9f55808912e6232f607f913842965dbb9e4f741f61b1c19e522e1c42a96486fc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6600FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_995e6e9e9f8834c2.svg",
+      "sha256": "2bbc528dc504d2f236cd21d1e1cc051223757759fe895ed4f645fa0fd1c33d6f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "0066FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_412789bd535062e4.svg",
+      "sha256": "d68a278349bcc1df87f399acbbf1eb99a3d2ea936a8e27ffe9ae0d86e9cc335a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00CCFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_de8e7d4289ea0e8d.svg",
+      "sha256": "3086171eaf75ec087b672d74f88d8bef8dc403dcf821251a8d23f88fde40f194",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FFCC",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_e4b7b0dacaba5c84.svg",
+      "sha256": "a39d3be008bb76d796779debdddeb7a2222d66d7fa46c05cc5e583d01837ba05",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "66FF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_f1f84e42c8bf4520.svg",
+      "sha256": "3f533e828662e3e40c83d875f90f980a469a10810bf04c19354e027922675525",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "CCFF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_d1816a6bb2323ecd.svg",
+      "sha256": "2c0ea0416f804b1403b54f9ad5afca1527ecda197d94189889f5b87e202253b4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF9900",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_bdbb05ac283baa82.svg",
+      "sha256": "85aa6a299dbdecd43686d58fdb0dd1be471c92bd1a7af18a4262018624746d3c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "87CEEB",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_fe6ba028966636a.svg",
+      "sha256": "e041c52816907782196c16ee4429e4aad0f1717aa37d6731873fcf71aac46af0",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFB347",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_30d0540d5ded1c80.svg",
+      "sha256": "935f343305dffd0bba1da883927fd77a0004ad1c0d360ea0ba82f1e53e020b4f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF6B6B",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_dd900b0ab27220c4.svg",
+      "sha256": "76356606b7726399216157f5802a4eb77723c81f7a3a5feae78f504fa4fc6308",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF4757",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_a9b0760daccf4d04.svg",
+      "sha256": "a138de56d3cad2b5a3dde4ac3402cf95f346301e1f9f2e413a8db058a5b06503",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1A1A2E",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "examples/assets/swatch_702b775780741630.svg",
+      "sha256": "b7982311b52477c7c3e1936686eafe736f9f4bf981ae8b95b1180a9e7abdd020",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_a216f7865a7cf459.svg",
+      "sha256": "618ae0ffa7683295862e3c04ab00aee34e9326e6a98250dacdb86d0b65754464",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_702b775780741630.svg",
+      "sha256": "b7982311b52477c7c3e1936686eafe736f9f4bf981ae8b95b1180a9e7abdd020",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b6d59230cde5f798.svg",
+      "sha256": "2c24de30f4c45b16a4e418dfde071515c312cc11ce015a0193b27af33cc4d2a2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_702b775780741630.svg",
+      "sha256": "b7982311b52477c7c3e1936686eafe736f9f4bf981ae8b95b1180a9e7abdd020",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_b6d59230cde5f798.svg",
+      "sha256": "2c24de30f4c45b16a4e418dfde071515c312cc11ce015a0193b27af33cc4d2a2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_702b775780741630.svg",
+      "sha256": "b7982311b52477c7c3e1936686eafe736f9f4bf981ae8b95b1180a9e7abdd020",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_398c8762c4c8eaa9.svg",
+      "sha256": "263b3b3caf2bf668af50639d3bf75c574b78510b5e97824524c2fce62e9b37f5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "examples/assets/swatch_702b775780741630.svg",
+      "sha256": "b7982311b52477c7c3e1936686eafe736f9f4bf981ae8b95b1180a9e7abdd020",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "examples/assets/swatch_4c357a03a260c4f7.svg",
+      "sha256": "93b05f4becf6b4bc8e8edb3a6faf727407e685bab6b912aca1621787be5e53c8",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
     },
     {
       "path": "examples/assets/swatch_e39074c6db4957b3.svg",
