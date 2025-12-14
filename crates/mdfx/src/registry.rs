@@ -11,7 +11,7 @@
 //! - Unified resolution pipeline for all renderables
 //! - Single source of truth for palette colors
 
-use crate::error::{Error, Result};
+use crate::error::Result;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -61,29 +61,6 @@ impl EvalContext {
     }
 }
 
-/// A glyph is a single Unicode character or short sequence
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Glyph {
-    pub value: String,
-    #[serde(default)]
-    pub unicode: Option<String>,
-    #[serde(default)]
-    pub description: Option<String>,
-    pub contexts: Vec<EvalContext>,
-}
-
-/// A snippet is a template string that expands to markdown
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Snippet {
-    pub template: String,
-    #[serde(default)]
-    pub description: Option<String>,
-    pub contexts: Vec<EvalContext>,
-    #[serde(default)]
-    pub inline_only: bool,
-    #[serde(default)]
-    pub no_newlines: bool,
-}
 
 /// Optional parameter definition for components
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -182,8 +159,7 @@ pub struct ShieldStyle {
 /// All renderables in the registry
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Renderables {
-    pub glyphs: HashMap<String, Glyph>,
-    pub snippets: HashMap<String, Snippet>,
+    pub separators: HashMap<String, String>,
     pub components: HashMap<String, Component>,
     pub frames: HashMap<String, Frame>,
     pub styles: HashMap<String, Style>,
@@ -193,8 +169,7 @@ pub struct Renderables {
 /// Registry metadata
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RegistryMetadata {
-    pub total_glyphs: usize,
-    pub total_snippets: usize,
+    pub total_separators: usize,
     pub total_components: usize,
     pub total_frames: usize,
     pub total_styles: usize,
@@ -301,63 +276,17 @@ impl Registry {
     }
 
     // =========================================================================
-    // Glyph Operations
+    // Separator Operations
     // =========================================================================
 
-    /// Get a glyph by name
-    pub fn glyph(&self, name: &str) -> Option<&Glyph> {
-        self.data.renderables.glyphs.get(name)
+    /// Get a separator by name
+    pub fn separator(&self, name: &str) -> Option<&str> {
+        self.data.renderables.separators.get(name).map(|s| s.as_str())
     }
 
-    /// Get a glyph value, checking context compatibility
-    pub fn resolve_glyph(&self, name: &str, context: EvalContext) -> Result<&str> {
-        let glyph = self
-            .glyph(name)
-            .ok_or_else(|| Error::ParseError(format!("Unknown glyph: {}", name)))?;
-
-        if !glyph.contexts.contains(&context) {
-            return Err(Error::ParseError(format!(
-                "Glyph '{}' cannot be used in {:?} context. Allowed contexts: {:?}",
-                name, context, glyph.contexts
-            )));
-        }
-
-        Ok(&glyph.value)
-    }
-
-    /// Get all glyphs
-    pub fn glyphs(&self) -> &HashMap<String, Glyph> {
-        &self.data.renderables.glyphs
-    }
-
-    // =========================================================================
-    // Snippet Operations
-    // =========================================================================
-
-    /// Get a snippet by name
-    pub fn snippet(&self, name: &str) -> Option<&Snippet> {
-        self.data.renderables.snippets.get(name)
-    }
-
-    /// Get a snippet template, checking context compatibility
-    pub fn resolve_snippet(&self, name: &str, context: EvalContext) -> Result<&str> {
-        let snippet = self
-            .snippet(name)
-            .ok_or_else(|| Error::ParseError(format!("Unknown snippet: {}", name)))?;
-
-        if !snippet.contexts.contains(&context) {
-            return Err(Error::ParseError(format!(
-                "Snippet '{}' cannot be used in {:?} context. Allowed contexts: {:?}",
-                name, context, snippet.contexts
-            )));
-        }
-
-        Ok(&snippet.template)
-    }
-
-    /// Get all snippets
-    pub fn snippets(&self) -> &HashMap<String, Snippet> {
-        &self.data.renderables.snippets
+    /// Get all separators
+    pub fn separators(&self) -> &HashMap<String, String> {
+        &self.data.renderables.separators
     }
 
     // =========================================================================
@@ -477,29 +406,11 @@ impl Registry {
     // =========================================================================
 
     /// Resolve a renderable name using the unified resolution order:
-    /// glyphs → snippets → components → literal
+    /// components → literal
     ///
     /// Returns the type of renderable found and its data.
     pub fn resolve(&self, name: &str, context: EvalContext) -> ResolvedRenderable {
-        // 1. Check glyphs
-        if let Some(glyph) = self.glyph(name) {
-            if glyph.contexts.contains(&context)
-                || glyph.contexts.iter().any(|c| c.can_promote_to(context))
-            {
-                return ResolvedRenderable::Glyph(glyph.clone());
-            }
-        }
-
-        // 2. Check snippets
-        if let Some(snippet) = self.snippet(name) {
-            if snippet.contexts.contains(&context)
-                || snippet.contexts.iter().any(|c| c.can_promote_to(context))
-            {
-                return ResolvedRenderable::Snippet(snippet.clone());
-            }
-        }
-
-        // 3. Check components
+        // 1. Check components
         if let Some(component) = self.component(name) {
             if component.contexts.contains(&context)
                 || component.contexts.iter().any(|c| c.can_promote_to(context))
@@ -508,7 +419,7 @@ impl Registry {
             }
         }
 
-        // 4. Treat as literal grapheme cluster
+        // 2. Treat as literal grapheme cluster
         ResolvedRenderable::Literal(name.to_string())
     }
 
@@ -521,8 +432,6 @@ impl Registry {
 /// Result of unified resolution
 #[derive(Debug, Clone)]
 pub enum ResolvedRenderable {
-    Glyph(Glyph),
-    Snippet(Snippet),
     Component(Component),
     Literal(String),
 }
@@ -546,20 +455,17 @@ mod tests {
     }
 
     #[test]
-    fn test_glyph_resolution() {
+    fn test_separator_lookup() {
         let registry = Registry::new().unwrap();
 
-        // Valid inline glyph
-        let result = registry.resolve_glyph("dot", EvalContext::Inline);
-        assert!(result.is_ok());
+        // Valid separator
+        let result = registry.separator("dot");
+        assert!(result.is_some());
         assert_eq!(result.unwrap(), "·");
 
-        // Newline is block-only
-        let result = registry.resolve_glyph("newline", EvalContext::Inline);
-        assert!(result.is_err());
-
-        let result = registry.resolve_glyph("newline", EvalContext::Block);
-        assert!(result.is_ok());
+        // Unknown separator
+        let result = registry.separator("nonexistent");
+        assert!(result.is_none());
     }
 
     #[test]
@@ -610,20 +516,6 @@ mod tests {
     #[test]
     fn test_unified_resolution() {
         let registry = Registry::new().unwrap();
-
-        // Glyph resolution
-        match registry.resolve("dot", EvalContext::Inline) {
-            ResolvedRenderable::Glyph(g) => assert_eq!(g.value, "·"),
-            _ => panic!("Expected glyph"),
-        }
-
-        // Snippet resolution
-        match registry.resolve("sep.accent", EvalContext::Inline) {
-            ResolvedRenderable::Snippet(s) => {
-                assert!(s.template.contains("swatch"))
-            }
-            _ => panic!("Expected snippet"),
-        }
 
         // Component resolution
         match registry.resolve("divider", EvalContext::Block) {
@@ -683,7 +575,7 @@ mod tests {
         let registry = Registry::new().unwrap();
         let meta = registry.metadata();
 
-        assert!(meta.total_glyphs > 0);
+        assert!(meta.total_separators > 0);
         assert!(meta.total_styles > 0);
         assert!(meta.total_frames > 0);
     }

@@ -3,7 +3,7 @@ use crate::components::{ComponentOutput, ComponentsRenderer, PostProcess};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
-use crate::registry::{EvalContext, Registry};
+use crate::registry::Registry;
 use crate::renderer::shields::ShieldsBackend;
 use crate::renderer::{RenderedAsset, Renderer};
 use crate::shields::ShieldsRenderer;
@@ -572,20 +572,12 @@ impl TemplateParser {
                     i += 1;
                 }
 
-                // Resolve separator using unified Registry (inline context)
-                // First, try to resolve as a known glyph
-                if let Some(glyph) = self.registry.glyph(&sep_input) {
-                    // Check context compatibility
-                    if glyph.contexts.contains(&EvalContext::Inline) {
-                        separator = Some(glyph.value.clone());
-                    } else {
-                        return Err(Error::ParseError(format!(
-                            "Glyph '{}' cannot be used in inline context (separators must be inline-compatible)",
-                            sep_input
-                        )));
-                    }
+                // Resolve separator using unified Registry
+                // First, try to resolve as a known separator
+                if let Some(sep_value) = self.registry.separator(&sep_input) {
+                    separator = Some(sep_value.to_string());
                 } else {
-                    // Not a known glyph - check if it's a single grapheme literal
+                    // Not a known separator - check if it's a single grapheme literal
                     use unicode_segmentation::UnicodeSegmentation;
                     let graphemes: Vec<&str> = sep_input.graphemes(true).collect();
 
@@ -596,10 +588,9 @@ impl TemplateParser {
                         // Multi-grapheme unknown name - error with suggestions
                         let available: Vec<&str> = self
                             .registry
-                            .glyphs()
-                            .iter()
-                            .filter(|(_, g)| g.contexts.contains(&EvalContext::Inline))
-                            .map(|(name, _)| name.as_str())
+                            .separators()
+                            .keys()
+                            .map(|name| name.as_str())
                             .take(8)
                             .collect();
 
