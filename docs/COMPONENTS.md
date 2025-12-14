@@ -9,8 +9,6 @@
 
 mdfx uses a **component-first architecture** where users write semantic `{{ui:*}}` elements that expand into lower-level primitives at parse time. This document explains the three-layer system, expansion model, and how to extend it.
 
-> **Note:** All component and palette data is now stored in the unified `registry.json` file. References to separate `components.json` and `palette.json` files are legacy.
-
 ## Architecture Layers
 
 ### 1. UI Components (User-Facing)
@@ -69,7 +67,7 @@ mdfx uses a **component-first architecture** where users write semantic `{{ui:*}
 When the parser encounters `{{ui:header}}TITLE{{/ui}}`:
 
 1. **Parse** UI template → extract component name (`header`), content (`TITLE`)
-2. **Expand** using `components.json`:
+2. **Expand** using `registry.json`:
    ```json
    "header": {
      "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}"
@@ -447,26 +445,7 @@ This groups related colors without requiring nested objects.
 
 ### Creating Project-Specific Components
 
-Users can create `components.json` in their project root:
-```json
-{
-  "version": "1.0.0",
-  "components": {
-    "brand-header": {
-      "type": "expand",
-      "self_closing": false,
-      "template": "{{frame:solid-both}}{{bold-script}}$content{{/bold-script}}{{/frame}}"
-    }
-  }
-}
-```
-
-Then:
-```markdown
-{{ui:brand-header}}MY PROJECT{{/ui}}
-```
-
-**Note:** Currently mdfx only reads embedded `data/components.json`. User-provided component loading is planned for v0.2.
+Custom components are defined in `registry.json` under the `components` key. To add project-specific components, fork the registry or contribute upstream.
 
 ### Design Guidelines
 
@@ -748,7 +727,7 @@ echo "{{ui:header}}TEST{{/ui}}" | mdfx process -
 
 **Causes:**
 - Typo in component name
-- Component not defined in `components.json`
+- Component not defined in `registry.json`
 - Using wrong namespace (e.g., `{{frame:mycomp}}` instead of `{{ui:mycomp}}`)
 
 **Fix:** Check `mdfx components list` for available components.
