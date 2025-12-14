@@ -428,9 +428,13 @@ ERROR[2005]: Invalid frame chrome
 
 ### What's Planned
 
-- Add `contexts` field to renderables in `registry.json`
+- **Convention-based context inference** - derive contexts from renderable structure:
+  - Glyphs → all contexts (single characters are always safe)
+  - Templates with `\n` → block-only
+  - Self-closing without newlines → all contexts
+  - Block tags (content wrappers) → block-only
+- **Override field** for exceptions (only ~5 renderables need explicit annotation)
 - Full validation at all expansion sites (frames, components)
-- CLI flags for strict/lenient context checking
 
 ---
 
