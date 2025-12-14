@@ -2,9 +2,9 @@
 
 **What mdfx is: A Markdown compiler with target-aware rendering**
 
-Version: 2.0 (Design)  
-Status: **Foundational Architecture**  
-Last Updated: 2025-12-13
+Version: 1.0.0
+Status: **Shipped**
+Last Updated: 2025-12-14
 
 ---
 
@@ -19,7 +19,7 @@ More precisely, mdfx is:
 1. **A DSL / macro system for Markdown** - `{{ui:...}}` and `{{frame:...}}` are language constructs, not helpers
 2. **A renderer-agnostic intermediate representation** - The `Primitive` enum is an IR, backends are code generators
 3. **A deterministic asset pipeline** - Hash-based filenames, reproducible builds, `process_with_assets()` is a compiler
-4. **A data-driven component registry** - `components.json` is a standard library for the language
+4. **A data-driven component registry** - `registry.json` is a standard library for the language
 
 **Think of it as: "The Tailwind of Markdown" — a portable, reproducible, target-aware Markdown UI system.**
 
@@ -129,11 +129,9 @@ pub trait Target {
 
 ## The Unified Renderables Registry
 
-**Problem**: We currently have fragmented systems (separators.json, components.json, frames.json, palette.json) that can't reference each other cleanly.
+All renderables are stored in a single `registry.json` file with consistent resolution rules.
 
-**Solution**: One unified registry where everything that produces markdown output follows the same resolution rules.
-
-### Proposed Schema v2.0
+### Registry Schema
 
 ```json
 {
@@ -321,46 +319,32 @@ pub trait Target {
 }
 ```
 
-### Shipped Targets (v1.x - v2.x)
+### Shipped Targets
 
 ```rust
-pub struct GitHubTarget;
-impl Target for GitHubTarget {
-    fn name(&self) -> &str { "github" }
-    fn supports_html(&self) -> bool { false }  // GitHub strips most HTML
-    fn supports_svg_embed(&self) -> bool { true }
-    fn preferred_backend(&self) -> BackendType { BackendType::Shields }
-}
-
-pub struct LocalDocsTarget;
-impl Target for LocalDocsTarget {
-    fn name(&self) -> &str { "local" }
-    fn supports_html(&self) -> bool { true }
-    fn supports_svg_embed(&self) -> bool { true }
-    fn preferred_backend(&self) -> BackendType { BackendType::Svg }
-}
-
-// Future targets:
-// - GitLabTarget (supports more HTML)
-// - PyPITarget (plain text fallback)
-// - NpmTarget (similar to GitHub)
+pub struct GitHubTarget;   // shields.io backend
+pub struct GitLabTarget;   // shields.io + HTML support
+pub struct NpmTarget;      // shields.io (like GitHub)
+pub struct PyPITarget;     // PlainText backend (ASCII-safe)
+pub struct LocalDocsTarget; // SVG backend
 ```
 
 ### CLI Integration
 
 ```bash
-# v1.x: Implicit GitHub target
-mdfx process input.md -o output.md
-
-# v2.x: Explicit target selection
+# Explicit target selection
 mdfx process input.md --target github -o output.md
 mdfx process input.md --target gitlab -o output.md
 mdfx process input.md --target pypi -o output.md
 
-# v2.x: Auto-detect from output context
+# Auto-detect from output context
 mdfx process input.md -o README.md           # Auto: github
 mdfx process input.md -o docs/index.md       # Auto: local
 mdfx process input.md -o PKG-INFO            # Auto: pypi
+
+# Multi-target build
+mdfx build input.md --all-targets
+mdfx build input.md --targets github,pypi,npm
 ```
 
 ---
@@ -505,70 +489,7 @@ diff -r dist1/ dist2/  # Should be identical
 
 > "Given the same inputs and config, it produces the same output markdown and the same asset filenames, and the output is correct for multiple targets."
 
-**v1.0 status**: ✅ for GitHub + shields/svg backends  
-**v2.0 goal**: ✅ for GitHub/GitLab/PyPI/npm + all backends
-
----
-
-## Implementation Phases
-
-### Phase 0: v1.0.0 (December 2025) ✅ COMPLETE
-
-**Shipped**:
-- ✅ Template parser with 19 Unicode styles
-- ✅ Component system (9 components)
-- ✅ Multi-backend rendering (shields.io, SVG)
-- ✅ Badge style control
-- ✅ Asset manifest system
-- ✅ Enhanced swatch primitives (opacity, size, border, label)
-- ✅ Custom palette support (`--palette` CLI flag)
-- ✅ 261 passing tests
-
-**Position as**: "Markdown compiler with design system"
-
-### Phase 1: v1.1.0 - Unified Registry ✅ COMPLETE (ahead of schedule)
-
-**Implemented** (December 2025):
-- ✅ Created unified `registry.json` consolidating ALL 7 data files (1139 lines)
-- ✅ Implemented `Registry` module with complete typed API
-- ✅ Extended separator resolution to use glyphs from registry
-- ✅ Added snippets (10) for template expansion
-- ✅ Parser refactored to use Registry for validation
-- ✅ Maintained backward compatibility with v1.0 templates
-
-**Migration**: None required, purely additive
-
-### Phase 2: v1.2.0 - Context System ✅ COMPLETE (ahead of schedule)
-
-**Implemented** (December 2025):
-- ✅ Added `contexts` field to all renderables in registry.json
-- ✅ Implemented `EvalContext` enum (Inline, Block, FrameChrome)
-- ✅ Implemented context promotion rules
-- ✅ Validate context compatibility for separators
-- ✅ Error messages with available glyph suggestions
-
-**Migration**: Existing templates work; context validation enforced for separators
-
-### Phase 3: v2.0.0 - Full Compiler Model ✅ MOSTLY COMPLETE
-
-**Completed**:
-- ✅ Consolidated all data files into unified registry
-- ✅ Implemented Target trait abstraction
-- ✅ Shipped targets: GitHubTarget, LocalDocsTarget, NpmTarget
-- ✅ BackendType enum with derived Default
-- ✅ `--target` flag wired into CLI
-- ✅ Target auto-detection from output path
-- ✅ Enhanced swatch primitives
-- ✅ Custom palette support
-
-**Remaining**:
-- ⏳ Multi-target compilation command (`mdfx build --all-targets`)
-- ⏳ Target-aware post-processing
-
-**Data Consolidation** ✅:
-- All old JSON files (badges.json, frames.json, styles.json, etc.) removed
-- All modules now use registry.json as the single source of truth
-- No migration tool needed (clean architecture redesign)
+**v1.0 status**: ✅ GitHub/GitLab/PyPI/npm + shields/svg/plaintext backends
 
 ---
 
@@ -651,7 +572,7 @@ trait Renderer {
 
 Bad: Add new component by writing Rust code
 
-Good: Add new component by editing `components.json`
+Good: Add new component by editing `registry.json`
 
 Exception: "Native" components with complex logic (like `divider` with themed colors)
 
@@ -826,17 +747,3 @@ By embracing this identity early, we can:
 - Build a sustainable, extensible system
 
 **The north star**: Semantic primitives + deterministic compilation + graceful degradation = A design system that travels well across targets.
-
-**Ship v1.0, then refactor toward this design.**
-
----
-
-**Next Steps**:
-1. Review this design doc with stakeholders
-2. Create detailed specs for Phase 1 (Unified Registry)
-3. Write migration guide (v1 → v2)
-4. Update README to position as compiler/design system
-
----
-
-*This is the first public face of mdfx. This is what we're building.*
