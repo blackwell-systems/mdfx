@@ -818,7 +818,7 @@ mod tests {
             ComponentOutput::Template(template) => {
                 assert!(template.contains("INSTALLATION"));
                 assert!(template.contains("{{frame:gradient}}"));
-                assert!(template.contains("{{mathbold:separator=·}}"));
+                assert!(template.contains("{{mathbold:separator=dot}}"));
             }
             _ => panic!("Expected ComponentOutput::Template"),
         }
