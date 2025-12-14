@@ -387,7 +387,7 @@ impl Renderer for SvgBackend {
             relative_path,
             bytes: svg.into_bytes(),
             markdown_ref,
-            primitive: primitive.clone(),
+            primitive: Box::new(primitive.clone()),
         })
     }
 }

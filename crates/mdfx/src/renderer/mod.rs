@@ -24,7 +24,7 @@ pub enum RenderedAsset {
         /// Markdown reference to embed (e.g., "![](assets/mdfx/divider_a3f8e2.svg)")
         markdown_ref: String,
         /// The primitive that generated this asset (for manifest tracking)
-        primitive: Primitive,
+        primitive: Box<Primitive>,
     },
 }
 
@@ -87,7 +87,7 @@ mod tests {
             relative_path: "assets/badge.svg".to_string(),
             bytes: b"<svg></svg>".to_vec(),
             markdown_ref: "![](assets/badge.svg)".to_string(),
-            primitive,
+            primitive: Box::new(primitive),
         };
         assert_eq!(asset.to_markdown(), "![](assets/badge.svg)");
         assert!(asset.is_file_based());

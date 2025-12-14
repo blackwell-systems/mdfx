@@ -567,7 +567,7 @@ fn process_file(
                             ..
                         } = asset
                         {
-                            let asset_type = match primitive {
+                            let asset_type = match primitive.as_ref() {
                                 mdfx::Primitive::Swatch { .. } => "swatch",
                                 mdfx::Primitive::Divider { .. } => "divider",
                                 mdfx::Primitive::Tech { .. } => "tech",
@@ -576,7 +576,7 @@ fn process_file(
                             m.add_asset(
                                 relative_path.clone(),
                                 bytes,
-                                primitive,
+                                primitive.as_ref(),
                                 asset_type.to_string(),
                             );
                         }
