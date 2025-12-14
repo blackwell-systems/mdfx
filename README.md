@@ -2,7 +2,6 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-237_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 
 **Add visual design to markdown without leaving markdown.**
 
@@ -12,8 +11,13 @@ Write `{{frame:gradient}}HEADER{{/frame}}` → get `▓▒░ HEADER ░▒▓`
 
 mdfx is a compiler: template syntax in, styled markdown out.
 
-## 𝐐𝐮𝐢𝐜𝐤 𝐒𝐭𝐚𝐫𝐭
+## Quick Start
 
+```bash
+cargo install mdfx-cli
+```
+
+Create `README.template.md`:
 ```markdown
 # {{ui:header}}PROJECT NAME{{/ui}}
 
@@ -26,7 +30,12 @@ mdfx is a compiler: template syntax in, styled markdown out.
 {{ui:status:success/}} All systems operational
 ```
 
-Renders as:
+Process it:
+```bash
+mdfx process README.template.md -o README.md
+```
+
+Output:
 
 # ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓· ·𝐍·𝐀·𝐌·𝐄 ░▒▓
 
@@ -38,700 +47,133 @@ Renders as:
 ## Status
 ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) All systems operational
 
-## 𝐔𝐈 𝐂𝐨𝐦𝐩𝐨𝐧𝐞𝐧𝐭𝐬
+---
 
-mdfx provides high-level semantic components for common use cases. These compile down to shields.io badges,
-frames, and character transformations.
+## Features
 
-### Visual Elements
+### UI Components
+High-level semantic components that compile to shields.io badges or local SVGs.
 
-**Dividers** - Section separators
+| Component | Example | Output |
+|-----------|---------|--------|
+| `{{ui:header}}TEXT{{/ui}}` | Section header | `▓▒░ 𝐓·𝐄·𝐗·𝐓 ░▒▓` |
+| `{{ui:divider/}}` | Color bar separator | ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) |
+| `{{ui:tech:rust/}}` | Tech badge | ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF) |
+| `{{ui:status:success/}}` | Status indicator | ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) |
+| `{{ui:swatch:F41C80/}}` | Color block | ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) |
+
+See [Components Guide](docs/guides/COMPONENTS-GUIDE.md) for full reference.
+
+### Text Styles
+Transform text into 19 Unicode character styles.
+
+| Style | Example |
+|-------|---------|
+| `{{mathbold}}TEXT{{/mathbold}}` | 𝐓𝐄𝐗𝐓 |
+| `{{fraktur}}TEXT{{/fraktur}}` | 𝔗𝔈𝔛𝔗 |
+| `{{script}}TEXT{{/script}}` | 𝒯𝐸𝒳𝒯 |
+| `{{double-struck}}TEXT{{/double-struck}}` | 𝕋𝔼𝕏𝕋 |
+| `{{circled-latin}}text{{/circled-latin}}` | ⓣⓔⓧⓣ |
+
+With modifiers:
 ```markdown
-{{ui:divider/}}
+{{mathbold:separator=dot}}TITLE{{/mathbold}}  → 𝐓·𝐈·𝐓·𝐋·𝐄
+{{mathbold:spacing=1}}HELLO{{/mathbold}}      → 𝐇 𝐄 𝐋 𝐋 𝐎
 ```
 
-**Color Swatches** - Decorative color blocks with 5 visual styles
+See [Text Styles Guide](docs/guides/TEXT-STYLES-GUIDE.md) for all 19 styles.
+
+### Frames
+Decorative Unicode borders around text.
+
 ```markdown
-{{ui:swatch:accent/}}                      ← Flat-square (default)
-{{ui:swatch:success:style=flat/}}          ← Rounded corners
-{{ui:swatch:F41C80:style=for-the-badge/}}  ← Tall block
-{{ui:swatch:EAB308:style=plastic/}}        ← Shiny gradient
-{{ui:swatch:22C55E:style=social/}}         ← Very rounded
+{{frame:gradient}}TITLE{{/frame}}     → ▓▒░ TITLE ░▒▓
+{{frame:line-double}}TEXT{{/frame}}   → ═ TEXT ═
+{{frame:arrows}}NEXT{{/frame}}        → » NEXT «
 ```
 
-**Badge Styles** ("Minecraft bricks"):
-```markdown
-{{ui:swatch:F41C80:style=flat/}} {{ui:swatch:F41C80:style=flat-square/}} {{ui:swatch:F41C80:style=for-the-badge/}} {{ui:swatch:F41C80:style=plastic/}} {{ui:swatch:F41C80:style=social/}}
-```
-![](https://img.shields.io/badge/-%20-F41C80?style=flat) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=for-the-badge) ![](https://img.shields.io/badge/-%20-F41C80?style=plastic) ![](https://img.shields.io/badge/-%20-F41C80?style=social)
+See [Frames Guide](docs/guides/FRAMES-GUIDE.md) for all 29 frame styles.
 
-**Compose multiple swatches:**
-```markdown
-{{ui:swatch:F41C80/}} {{ui:swatch:EAB308/}} {{ui:swatch:22C55E/}} {{ui:swatch:4A9EFF/}} {{ui:swatch:8B5CF6/}}
-```
-![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) ![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)
+## Installation
 
-**Status Indicators** - Colored badges
-```markdown
-{{ui:status:success/}}  → 🟢 Green block
-{{ui:status:warning/}}  → 🟡 Yellow block
-{{ui:status:error/}}    → 🔴 Red block
-```
-
-### Tech Stack Badges
-
-**Technology Logos** - Simple Icons integration
-```markdown
-{{ui:tech:rust/}}
-{{ui:tech:python/}}
-{{ui:tech:postgresql/}}
-{{ui:tech:docker/}}
-{{ui:tech:kubernetes/}}
-```
-
-Uses [Simple Icons](https://simpleicons.org/) logo library (2000+ logos available).
-
-### Content Blocks
-
-**Section Headers** - Gradient frames with bold text
-```markdown
-{{ui:header}}INSTALLATION{{/ui}}
-{{ui:header}}API REFERENCE{{/ui}}
-```
-
-**Callouts** - Framed messages with indicators
-```markdown
-{{ui:callout:info}}Remember to run tests{{/ui}}
-{{ui:callout:warning}}Breaking change in v2.0{{/ui}}
-{{ui:callout:error}}Deprecated{{/ui}}
-```
-
-### GitHub Blocks
-
-**Section Headers** - Headers with automatic dividers
-```markdown
-{{ui:section:Installation/}}
-{{ui:section:Features/}}
-```
-
-**GitHub Callouts** - Blockquote-style callouts optimized for GitHub
-```markdown
-{{ui:callout-github:warning}}
-Breaking changes in v2.0!
-{{/ui}}
-```
-
-**Status Items** - Inline status badges for project metadata
-```markdown
-{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:237/}}
-```
-
-These components work within GitHub's Markdown constraints (no custom HTML/CSS), using blockquotes and shields.io badges. See [examples/github-blocks.md](examples/github-blocks.md) for a complete gallery.
-
-### Design Tokens
-
-Components use named colors from `palette.json`:
-
-| Token | Hex | Use |
-|-------|-----|-----|
-| `accent` | F41C80 | Primary brand color |
-| `success` | 22C55E | Success states |
-| `warning` | EAB308 | Warning states |
-| `error` | EF4444 | Error states |
-| `slate` | 6B7280 | Neutral gray |
-| `ui.bg` | 292A2D | Dark background |
-| `ui.surface` | 292C34 | Elevated surface |
-| `ui.panel` | 282F3C | Panel background |
-
-You can reference these in any component:
-```markdown
-{{ui:swatch:accent/}}
-{{ui:status:success/}}
-```
-
-## 𝐓𝐞𝐱𝐭 𝐒𝐭𝐲𝐥𝐞𝐬
-
-Transform text into 19 different Unicode character styles.
-
-### Bold & Emphasis
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `mathbold` | 𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓 | Professional headers |
-| `fullwidth` | ＢＬＡＣＫＤＯＴ | Substantial emphasis |
-| `sans-serif-bold` | 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧 | Modern, strong |
-| `sans-serif-bold-italic` | 𝘽𝙇𝘼𝘾𝙆𝘿𝙊𝙏 | Maximum emphasis |
-
-### Boxed Styles
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `negative-squared` | 🅱🅻🅰🅲🅺🅳🅾🆃 | Maximum contrast |
-| `negative-circled` | 🅑🅛🅐🅒🅚🅓🅞🅣 | Bold, rounded |
-| `squared-latin` | 🄱🄻🄰🄲🄺🄳🄾🅃 | Elegant boxes |
-| `circled-latin` | Ⓑⓛⓐⓒⓚⓓⓞⓣ | Playful circles |
-
-### Elegant & Script
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `script` | 𝐵𝐿𝒜𝒞𝒦𝒟𝒪𝒯 | Elegant cursive |
-| `bold-script` | 𝓑𝓛𝓐𝓒𝓚𝓓𝓞𝓣 | Heavy cursive |
-| `fraktur` | 𝔅𝔏𝔄ℭ𝔎𝔇𝔒𝔗 | Gothic/blackletter |
-| `bold-fraktur` | 𝕭𝕷𝕬𝕮𝕶𝕯𝕺𝕿 | Heavy Gothic |
-| `italic` | 𝐵𝐿𝐴𝐶𝐾𝐷𝑂𝑇 | Flowing emphasis |
-| `bold-italic` | 𝑩𝑳𝑨𝑪𝑲𝑫𝑶𝑻 | Strong + flow |
-| `small-caps` | ʙʟᴀᴄᴋᴅᴏᴛ | Subtle elegance |
-
-### Technical
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `monospace` | 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝 | Code-like |
-| `double-struck` | 𝔹𝕃𝔸ℂ𝕂𝔻𝕆𝕋 | Outline style |
-| `sans-serif` | 𝖡𝖫𝖠𝖢𝖪𝖣𝖮𝖳 | Clean, modern |
-| `sans-serif-italic` | 𝘉𝘓𝘈𝘊𝘒𝘋𝘖𝘛 | Modern slant |
-
-### Style Modifiers
-
-**Separators** - Add characters between letters
-```markdown
-{{mathbold:separator=dot}}TITLE{{/mathbold}}     → 𝐓·𝐈·𝐓·𝐋·𝐄
-{{mathbold:separator=bullet}}CODE{{/mathbold}}   → 𝐂•𝐎•𝐃•𝐄
-{{mathbold:separator=arrow}}FLOW{{/mathbold}}    → 𝐅→𝐎→𝐖
-{{mathbold:separator=⚡}}POWER{{/mathbold}}       → 𝐏⚡𝐎⚡𝐖⚡𝐄⚡𝐑
-```
-
-**12 named separators:** `dot`, `bullet`, `dash`, `bolddash`, `arrow`, `star`, `diamond`, `square`, `circle`, `pipe`, `slash`, `tilde`
-
-**Or use any Unicode character:** Any single character works directly. Run `mdfx separators` for details.
-
-**Spacing** - Add spaces between characters
-```markdown
-{{mathbold:spacing=1}}HELLO{{/mathbold}}  → 𝐇 𝐄 𝐋 𝐋 𝐎
-{{mathbold:spacing=2}}WIDE{{/mathbold}}   → 𝐖  𝐈  𝐃  𝐄
-```
-
-## 𝐈𝐧𝐬𝐭𝐚𝐥𝐥𝐚𝐭𝐢𝐨𝐧
-
-mdfx is distributed as two packages: a library crate (`mdfx`) and a CLI tool (`mdfx-cli`).
-
-### CLI Tool
-
-Install the command-line tool to process markdown files:
-
+### CLI
 ```bash
 cargo install mdfx-cli
 ```
 
-This installs the `mdfx` binary for terminal use.
-
 ### Library
-
-Add mdfx as a dependency in your Rust project:
-
 ```toml
 [dependencies]
 mdfx = "1.0"
 ```
 
-Then use it programmatically:
-
 ```rust
 use mdfx::{Converter, TemplateParser};
 
+// Direct conversion
 let converter = Converter::new()?;
-let result = converter.convert("HELLO", "mathbold")?;
-// result: "𝐇𝐄𝐋𝐋𝐎"
+let bold = converter.convert("HELLO", "mathbold")?;  // 𝐇𝐄𝐋𝐋𝐎
+
+// Template processing
+let parser = TemplateParser::new()?;
+let output = parser.process("{{mathbold}}TITLE{{/mathbold}}")?;  // 𝐓𝐈𝐓𝐋𝐄
 ```
 
 ### From Source
-
 ```bash
 git clone https://github.com/blackwell-systems/mdfx
 cd mdfx
 cargo build --release --workspace
-./target/release/mdfx --version
 ```
 
-## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞
+## CLI Usage
 
-mdfx uses a Cargo workspace with separate library and CLI crates:
-
-```
-mdfx/
-├── Cargo.toml                    # Workspace root
-├── crates/
-│   ├── mdfx/                     # Library crate
-│   │   ├── Cargo.toml           # Package: mdfx
-│   │   ├── data/                # JSON data files
-│   │   └── src/                 # Core library
-│   └── mdfx-cli/                # CLI crate
-│       ├── Cargo.toml           # Package: mdfx-cli
-│       └── src/main.rs          # Binary: mdfx
-```
-
-**Benefits:**
-- Library users don't need CLI dependencies (clap, colored)
-- Clean separation of concerns
-- Binary still named `mdfx` for user experience
-
-## 𝐔𝐬𝐚𝐠𝐞
-
-### Library API
-
-Use mdfx programmatically in your Rust projects:
-
-```rust
-use mdfx::{Converter, TemplateParser};
-
-// Convert text to Unicode styles
-let converter = Converter::new()?;
-let bold = converter.convert("HELLO", "mathbold")?;
-// "𝐇𝐄𝐋𝐋𝐎"
-
-// Process markdown templates
-let parser = TemplateParser::new()?;
-let result = parser.process("{{mathbold}}TITLE{{/mathbold}}")?;
-// "𝐓𝐈𝐓𝐋𝐄"
-```
-
-See [API Guide](docs/API-GUIDE.md) for comprehensive library documentation.
-
-### CLI - Process Markdown Files
 ```bash
-# Process a template file
+# Process template files
+mdfx process input.md -o output.md
 mdfx process README.template.md > README.md
 
-# Process and save
-mdfx process input.md --output output.md
-
-# Process from stdin
-echo "{{ui:header}}HELLO{{/ui}}" | mdfx process -
-```
-
-### CLI - Direct Conversion
-```bash
-# Convert text directly
-mdfx convert --style mathbold "HELLO WORLD"
-# Output: 𝐇𝐄𝐋𝐋𝐎 𝐖𝐎𝐑𝐋𝐃
-
-# With separator
+# Direct text conversion
+mdfx convert --style mathbold "HELLO"
 mdfx convert --style mathbold --separator dot "TITLE"
-# Output: 𝐓·𝐈·𝐓·𝐋·𝐄
 
-# With spacing
-mdfx convert --style script --spacing 2 "Elegant"
-# Output: 𝐸  𝓁  𝑒  𝑔  𝒶  𝓃  𝓉
+# List available styles
+mdfx list
+mdfx frames list
+mdfx badges list
 ```
 
-### CLI - List Styles
+## Rendering Backends
+
+By default, mdfx generates shields.io URLs. For offline docs or reproducible builds, use the SVG backend:
+
 ```bash
-mdfx list                    # List all styles
-mdfx list --category bold    # Filter by category
-mdfx frames list             # List frame styles
-mdfx badges list             # List badge types
-```
-
-### Rust Library
-```rust
-use mdfx::TemplateParser;
-
-fn main() {
-    let parser = TemplateParser::new().unwrap();
-
-    // Process templates
-    let input = "# {{ui:header}}PROJECT{{/ui}}";
-    let output = parser.process(input).unwrap();
-
-    println!("{}", output);
-}
-```
-
-### Direct Conversion API
-```rust
-use mdfx::Converter;
-
-fn main() {
-    let converter = Converter::new().unwrap();
-
-    // Convert with style
-    let result = converter.convert("HELLO", "mathbold").unwrap();
-    println!("{}", result);  // 𝐇𝐄𝐋𝐋𝐎
-
-    // Convert with separator
-    let result = converter.convert_with_separator(
-        "TITLE", "mathbold", "·", 1
-    ).unwrap();
-    println!("{}", result);  // 𝐓·𝐈·𝐓·𝐋·𝐄
-}
-```
-
-## 𝐑𝐞𝐧𝐝𝐞𝐫𝐢𝐧𝐠 𝐁𝐚𝐜𝐤𝐞𝐧𝐝𝐬
-
-mdfx supports two rendering backends for UI components (dividers, swatches, tech badges, status indicators):
-
-### Shields.io Backend (Default)
-
-Generates online badge URLs that render when viewed on GitHub or in browsers.
-
-**CLI Usage:**
-```bash
+# Shields.io (default) - URLs render on GitHub
 mdfx process input.md -o output.md
-# or explicitly:
-mdfx process input.md -o output.md --backend shields
+
+# SVG backend - generates local files
+mdfx process input.md -o output.md --backend svg --assets-dir assets/
 ```
 
-**Library Usage:**
-```rust
-use mdfx::TemplateParser;
+See [Architecture](docs/ARCHITECTURE.md) for backend details.
+
+## Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [Swatches](docs/guides/SWATCH-GUIDE.md) | Color blocks, pixel art |
+| [Components](docs/guides/COMPONENTS-GUIDE.md) | divider, tech, status, row |
+| [Frames](docs/guides/FRAMES-GUIDE.md) | 29 decorative Unicode borders |
+| [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 19 Unicode typography styles |
+| [Badges](docs/guides/BADGES-GUIDE.md) | Numbered/lettered markers |
+| [Glyphs](docs/guides/GLYPHS-GUIDE.md) | Single Unicode characters |
+| [Template Syntax](docs/TEMPLATE-SYNTAX.md) | Full syntax reference |
+| [API Guide](docs/API-GUIDE.md) | Library usage |
+
+## Links
 
-let parser = TemplateParser::new()?;  // Uses shields.io by default
-let output = parser.process(input)?;
-```
-
-**Markdown Output:**
-```markdown
-![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)
-```
-This URL renders as: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)
-
-**When to use:**
-- GitHub READMEs (renders automatically)
-- Online documentation
-- No local file management needed
-- Always up-to-date badges
-
-### SVG Backend
-
-Generates local SVG files with deterministic hash-based filenames. Perfect for offline docs, version control, and reproducible builds.
-
-**CLI Usage:**
-```bash
-mdfx process input.md -o output.md --backend svg --assets-dir assets/mdfx
-```
-
-**Library Usage:**
-```rust
-use mdfx::{TemplateParser, renderer::SvgBackend};
-
-let backend = Box::new(SvgBackend::new("assets/mdfx")?);
-let parser = TemplateParser::with_backend(backend)?;
-
-let (output, assets) = parser.process_with_assets(input)?;
-
-// Write output markdown
-std::fs::write("output.md", output)?;
-
-// Write SVG asset files
-for asset in assets {
-    std::fs::write(&asset.relative_path, asset.bytes)?;
-}
-```
-
-**Markdown Output:**
-```markdown
-![](assets/mdfx/swatch_8490176a786b203c.svg)
-```
-This markdown reference will render as an embedded SVG when viewed.
-
-**Generated Files:**
-```
-assets/mdfx/
-├── swatch_8490176a786b203c.svg
-├── divider_3f7a2b1c4d5e6f89.svg
-├── tech_rust_1a2b3c4d5e6f7a8b.svg
-└── manifest.json
-```
-
-**Benefits:**
-- **Offline-first**: No internet required to view docs
-- **Version control**: SVG files tracked in git
-- **Reproducible**: Same input = same filenames (deterministic hashing)
-- **Fast**: No network latency
-- **Privacy**: No external requests
-- **Portable**: Works in any markdown viewer
-
-### Asset Manifest
-
-When using `--backend svg`, mdfx generates a `manifest.json` file tracking all assets:
-
-```json
-{
-  "version": "1.0.0",
-  "created_at": "2025-12-13T18:30:00Z",
-  "backend": "svg",
-  "assets_dir": "assets/mdfx",
-  "total_assets": 7,
-  "assets": [
-    {
-      "path": "assets/mdfx/swatch_8490176a786b203c.svg",
-      "sha256": "2c932535cd177cd4a8e4f9b6d1a3c7e5...",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "f41c80",
-        "style": "flat-square"
-      },
-      "size_bytes": 143
-    }
-  ]
-}
-```
-
-**Use cases:**
-- Verify asset integrity (SHA-256 checksums)
-- Track what assets are used
-- Clean up unused assets
-- Audit badge parameters
-
-### Backend Comparison
-
-| Feature | Shields.io (Default) | SVG Backend |
-|---------|---------------------|-------------|
-| **Requires internet** | Yes | No |
-| **File generation** | No files | Generates .svg files |
-| **GitHub rendering** | Automatic | Requires committed files |
-| **Version control** | URLs only | SVG files in git |
-| **Reproducible builds** | No (shields.io changes) | Yes (deterministic hashing) |
-| **Offline docs** | No | Yes |
-| **Initial setup** | None | Need assets directory |
-| **Best for** | GitHub READMEs, online docs | Offline docs, reproducible builds |
-
-**Recommendation:**
-- **GitHub projects**: Use shields.io (default)
-- **Local documentation**: Use SVG backend
-- **CI/CD reproducibility**: Use SVG backend
-
-See [Architecture Guide](docs/ARCHITECTURE.md#multi-backend-rendering-architecture) for technical implementation details.
-
----
-
-## 𝐀𝐝𝐯𝐚𝐧𝐜𝐞𝐝 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬
-
-### Composition
-
-Nest templates for complex effects:
-```markdown
-{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
-```
-Output: `▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓`
-
-### Inline Frames
-
-Add decorative prefix/suffix around text:
-```markdown
-{{frame:gradient}}TITLE{{/frame}}       → ▓▒░ TITLE ░▒▓
-{{frame:solid-left}}WARNING{{/frame}}   → █▌ WARNING
-{{frame:line-double}}HEADER{{/frame}}   → ═ HEADER ═
-```
-
-27 frame styles available. See `mdfx frames list`.
-
-### Alphanumeric Badges
-
-Enclose numbers and letters:
-```markdown
-{{badge:circle}}1{{/badge}}         → ①
-{{badge:circle}}A{{/badge}}         → Ⓐ
-{{badge:negative-circle}}2{{/badge}} → ❷
-{{badge:paren}}a{{/badge}}          → ⒜
-```
-
-6 badge types available. See `mdfx badges list`.
-
-### Low-Level Primitives (Escape Hatch)
-
-For advanced users, direct shield rendering is available:
-```markdown
-{{shields:block:color=F41C80:style=flat-square/}}
-{{shields:bar:colors=success,warning,error:style=flat-square/}}
-```
-
-UI components are recommended for most use cases.
-
-## 𝐄𝐱𝐚𝐦𝐩𝐥𝐞𝐬
-
-### Project README Header
-```markdown
-# {{ui:header}}BLACKWELL SYSTEMS{{/ui}}
-
-{{ui:divider/}}
-
-## Built With
-{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:postgresql/}}
-```
-
-### Status Dashboard
-```markdown
-## System Status
-
-{{ui:status:success/}} API Server: Operational
-{{ui:status:success/}} Database: Healthy
-{{ui:status:warning/}} Cache: Degraded
-```
-
-### Documentation Sections
-```markdown
-{{ui:header}}INSTALLATION{{/ui}}
-
-Follow these steps...
-
-{{ui:divider/}}
-
-{{ui:header}}CONFIGURATION{{/ui}}
-
-Configure your environment...
-```
-
-### Release Notes
-```markdown
-# Release v2.0.0
-
-{{ui:callout:warning}}Breaking changes in this release{{/ui}}
-
-## New Features
-- Feature A
-- Feature B
-
-{{ui:callout:info}}See migration guide for upgrade path{{/ui}}
-```
-
-### Color Block Design Patterns
-
-Color swatches can be composed to create visual design elements:
-
-**Brand Color Palette:**
-```markdown
-{{ui:swatch:F41C80/}} {{ui:swatch:EAB308/}} {{ui:swatch:22C55E/}} {{ui:swatch:4A9EFF/}} {{ui:swatch:8B5CF6/}} {{ui:swatch:EC4899/}}
-```
-![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) ![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square) ![](https://img.shields.io/badge/-%20-EC4899?style=flat-square)
-
-**Monochrome Gradient:**
-```markdown
-{{ui:swatch:1A1A1A/}} {{ui:swatch:333333/}} {{ui:swatch:4D4D4D/}} {{ui:swatch:666666/}} {{ui:swatch:808080/}} {{ui:swatch:999999/}} {{ui:swatch:B3B3B3/}} {{ui:swatch:CCCCCC/}}
-```
-![](https://img.shields.io/badge/-%20-1A1A1A?style=flat-square) ![](https://img.shields.io/badge/-%20-333333?style=flat-square) ![](https://img.shields.io/badge/-%20-4D4D4D?style=flat-square) ![](https://img.shields.io/badge/-%20-666666?style=flat-square) ![](https://img.shields.io/badge/-%20-808080?style=flat-square) ![](https://img.shields.io/badge/-%20-999999?style=flat-square) ![](https://img.shields.io/badge/-%20-B3B3B3?style=flat-square) ![](https://img.shields.io/badge/-%20-CCCCCC?style=flat-square)
-
-**Status Bar:**
-```markdown
-API: {{ui:swatch:22C55E/}} Database: {{ui:swatch:22C55E/}} Cache: {{ui:swatch:EAB308/}} CDN: {{ui:swatch:22C55E/}}
-```
-API: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Database: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Cache: ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) CDN: ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)
-
-**Color Legend:**
-```markdown
-{{ui:swatch:22C55E/}} Complete | {{ui:swatch:EAB308/}} In Progress | {{ui:swatch:EF4444/}} Blocked | {{ui:swatch:6B7280/}} Not Started
-```
-![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Complete | ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) In Progress | ![](https://img.shields.io/badge/-%20-EF4444?style=flat-square) Blocked | ![](https://img.shields.io/badge/-%20-6B7280?style=flat-square) Not Started
-
-**Wide Color Bar** (no spaces between blocks):
-```markdown
-{{ui:swatch:F41C80/}}{{ui:swatch:F41C80/}}{{ui:swatch:EAB308/}}{{ui:swatch:EAB308/}}{{ui:swatch:22C55E/}}{{ui:swatch:22C55E/}}{{ui:swatch:4A9EFF/}}{{ui:swatch:4A9EFF/}}{{ui:swatch:8B5CF6/}}{{ui:swatch:8B5CF6/}}
-```
-![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-EAB308?style=flat-square)![](https://img.shields.io/badge/-%20-EAB308?style=flat-square)![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)![](https://img.shields.io/badge/-%20-22C55E?style=flat-square)![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square)![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square)![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)
-
-**Section Headers with Color Accents:**
-```markdown
-## {{ui:swatch:F41C80/}} Features
-## {{ui:swatch:4A9EFF/}} Architecture  
-## {{ui:swatch:22C55E/}} Getting Started
-```
-## ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) Features
-## ![](https://img.shields.io/badge/-%20-4A9EFF?style=flat-square) Architecture  
-## ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Getting Started
-
-## 𝐇𝐨𝐰 𝐈𝐭 𝐖𝐨𝐫𝐤𝐬
-
-mdfx uses a three-layer architecture:
-
-1. **UI Components** (`{{ui:*}}`) - High-level semantic elements you author
-2. **Primitives** (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`) - Rendering engines
-3. **Styles** (`{{mathbold}}`) - Character transformations
-
-When you write `{{ui:header}}TITLE{{/ui}}`, mdfx:
-1. Expands the component to `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`
-2. Applies the frame decoration
-3. Transforms characters with mathbold
-4. Adds dot separators
-
-This expansion model keeps your markdown concise while allowing full customization when needed.
-
-## 𝐂𝐨𝐧𝐟𝐢𝐠𝐮𝐫𝐚𝐭𝐢𝐨𝐧
-
-### Custom Palette
-
-Create `palette.json` in your project:
-```json
-{
-  "version": "1.0.0",
-  "colors": {
-    "brand": "FF6B35",
-    "accent": "F41C80",
-    "success": "22C55E"
-  }
-}
-```
-
-Then use in components:
-```markdown
-{{ui:swatch:brand/}}
-{{ui:status:accent/}}
-```
-
-### Custom Components
-
-Create `components.json`:
-```json
-{
-  "version": "1.0.0",
-  "components": {
-    "myheader": {
-      "type": "expand",
-      "self_closing": false,
-      "template": "{{frame:solid-left}}{{mathbold}}$content{{/mathbold}}{{/frame}}"
-    }
-  }
-}
-```
-
-Use as:
-```markdown
-{{ui:myheader}}CUSTOM{{/ui}}
-```
-
-## 𝐓𝐞𝐦𝐩𝐥𝐚𝐭𝐞 𝐒𝐲𝐧𝐭𝐚𝐱
-
-mdfx uses double-brace template syntax with two tag types:
-
-**Self-closing** (no content):
-```markdown
-{{ui:divider/}}
-{{ui:tech:rust/}}
-```
-
-**Block tags** (with content):
-```markdown
-{{ui:header}}TITLE{{/ui}}
-{{mathbold}}TEXT{{/mathbold}}
-```
-
-**Parameters** (colon-separated):
-```markdown
-{{mathbold:separator=dot}}STYLED{{/mathbold}}
-{{ui:callout:warning}}Message{{/ui}}
-```
-
-For complete syntax reference including all tag types, parameters, nesting rules, and edge cases, see **[Template Syntax Reference](docs/TEMPLATE-SYNTAX.md)**.
-
-## 𝐂𝐨𝐧𝐭𝐫𝐢𝐛𝐮𝐭𝐢𝐧𝐠
-
-Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## 𝐋𝐢𝐜𝐞𝐧𝐬𝐞
-
-MIT License - see [LICENSE](LICENSE) for details.
-
-## 𝐋𝐢𝐧𝐤𝐬
-
-- [Documentation](docs/)
 - [Examples](examples/)
-- [API Guide](docs/API-GUIDE.md)
-- [Template Syntax](docs/TEMPLATE-SYNTAX.md)
 - [Architecture](docs/ARCHITECTURE.md)
+- [Contributing](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+- [License](LICENSE) (MIT)
