@@ -1,6 +1,6 @@
 # mdfx Architecture
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 **Last Updated:** 2025-12-14
 
 ## Overview
@@ -198,7 +198,7 @@ graph TB
 
 ## Unified Registry
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 **Module:** `src/registry.rs`
 **Data:** `data/registry.json`
 
@@ -210,7 +210,7 @@ The unified registry consolidates all compiler data into a single JSON file, rep
 
 ```json
 {
-  "version": "1.1.0",
+  "version": "1.0.0",
   "palette": { "accent": "F41C80", "cobalt": "2B6CB0", ... },
   "styles": { "mathbold": { ... }, "fullwidth": { ... }, ... },
   "separators": { "dot": { "char": "·" }, ... },
@@ -283,7 +283,7 @@ impl Registry {
 
 ## Target System
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 **Module:** `src/targets.rs`
 
 ### Overview
@@ -680,7 +680,7 @@ A: Determinism + caching. Same primitive parameters → same hash → same filen
 
 ## Enhanced Swatch Primitives
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 **Module:** `src/primitive.rs`, `src/renderer/svg.rs`
 
 ### Overview
@@ -1746,7 +1746,7 @@ let registry: Registry = serde_json::from_str(data)?;
 
 ## Custom Palette Support
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 **Module:** `src/components.rs`, `src/parser.rs`
 
 ### Overview
@@ -2059,4 +2059,4 @@ mdfx process --palette brand.json README.template.md
 
 ---
 
-**Document Status:** Reflects v1.1.0 implementation with markdown compiler architecture, unified registry, target system, enhanced swatch primitives, and custom palette support
+**Document Status:** Reflects v1.0.0 implementation with markdown compiler architecture, unified registry, target system, enhanced swatch primitives, and custom palette support

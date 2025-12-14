@@ -1,6 +1,6 @@
 # mdfx API Guide
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 **Last Updated:** 2025-12-14
 
 Complete API reference for the mdfx **markdown compiler** library.
@@ -108,7 +108,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ## Target System
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 
 The Target system allows the compiler to adapt output for different deployment platforms.
 
@@ -168,7 +168,7 @@ for target in available_targets() {
 
 ## Custom Palette Support
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 
 Custom palettes allow projects to define their own named colors.
 
@@ -2228,7 +2228,7 @@ let result = parser.process(template)?;
 
 ## Enhanced Swatch Options
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 
 Swatch primitives support advanced SVG-only styling options.
 
@@ -2290,7 +2290,7 @@ Enhanced options gracefully degrade on shields.io backend.
 
 ## Registry API
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 
 The unified registry provides access to all compiler data.
 
@@ -2815,4 +2815,4 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 
 **Last Updated:** 2025-12-14
 
-**Version:** 1.1.0 - Added Target System, Custom Palette Support, Enhanced Swatch Options, Registry API
+**Version:** 1.0.0 - Added Target System, Custom Palette Support, Enhanced Swatch Options, Registry API
