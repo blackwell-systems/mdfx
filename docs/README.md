@@ -50,11 +50,6 @@ Comprehensive guides for every mdfx feature:
 - [API Guide](API-GUIDE.md) - Complete library API reference with examples
 - [State Machine Guide](STATE-MACHINE-GUIDE.md) - Parser state machine details
 
-## 🎨 Design Resources
-
-- [Unicode Design Elements](unicode-design-elements.md) - Complete Unicode character reference
-- [Roadmap](ROADMAP.md) - Planned features and development direction
-
 ---
 
 **Looking for something specific?**

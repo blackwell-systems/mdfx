@@ -34,6 +34,5 @@
   - [Roadmap](/ROADMAP.md)
 
 - **Resources**
-  - [Unicode Elements](/unicode-design-elements.md)
   - [GitHub Repository](https://github.com/blackwell-systems/mdfx)
   - [Changelog](https://github.com/blackwell-systems/mdfx/blob/main/CHANGELOG.md)

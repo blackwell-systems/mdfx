@@ -299,4 +299,3 @@ The styled characters you see in mdfx output aren't font tricks - they're real, 
 **Related Documentation:**
 - [mdfx Architecture](/ARCHITECTURE.md) - How mdfx implements character mapping
 - [API Guide](/API-GUIDE.md) - Programmatic usage
-- [Unicode Design Elements](/unicode-design-elements.md) - Visual reference
