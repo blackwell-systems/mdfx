@@ -63,6 +63,7 @@ pub use manifest::{AssetEntry, AssetManifest, PrimitiveInfo, VerificationResult}
 pub use parser::{ProcessedMarkdown, TemplateParser};
 pub use primitive::Primitive;
 pub use registry::{EvalContext, Registry, ResolvedRenderable};
+pub use renderer::plaintext::PlainTextBackend;
 pub use renderer::{RenderedAsset, Renderer};
 pub use separators::{Separator, SeparatorsData};
 pub use shields::ShieldStyle as ShieldsShieldStyle;

@@ -17,7 +17,7 @@ This document outlines planned features and architectural improvements for mdfx.
 - [x] Multi-backend rendering (ShieldsBackend, SvgBackend)
 - [x] Data-driven separator system (12 named + direct Unicode)
 - [x] Cargo workspace structure (library + CLI separation)
-- [x] 261 comprehensive tests
+- [x] 275 comprehensive tests
 - [x] Enhanced swatch primitives (opacity, size, border, label)
 - [x] Custom palette support (`--palette` CLI flag)
 
@@ -74,16 +74,31 @@ This document outlines planned features and architectural improvements for mdfx.
 
 ---
 
+## ✅ Completed (December 2025 - Multi-Target Build)
+
+### PlainTextBackend
+- [x] Implemented `PlainTextBackend` for PyPI/ASCII-only targets
+- [x] Renders primitives as ASCII text: swatches `[#RRGGBB]`, tech `[name]`, status `[OK]`/`[WARN]`/`[ERR]`
+- [x] Handles both semantic names and resolved hex colors for status indicators
+- [x] 9 tests for PlainTextBackend
+
+### Target Pipeline Integration
+- [x] Wire `target.preferred_backend()` into CLI process pipeline
+- [x] Call `target.post_process()` on final output
+- [x] Full backend selection: Shields, SVG, or PlainText based on target
+
+### Multi-Target Build Command
+- [x] Add `mdfx build` command for compiling to multiple targets at once
+- [x] Supports `--all-targets` flag to build for all available targets
+- [x] Supports `--targets github,pypi,npm` for selective builds
+- [x] Per-target assets directory for SVG backend
+
+---
+
 ## 🔧 Next Steps (v2.0.0 Preparation)
 
 ### Remaining CLI Features
-- [ ] Add multi-target build command (`mdfx build --all-targets`)
 - [ ] Add `--strict-contexts` flag for context validation
-
-### Backend/Target Integration
-- [ ] Refactor backends to be target-aware
-- [ ] Target-specific post-processing in pipeline
-- [ ] Fallback strategies for plain text targets
 
 ---
 

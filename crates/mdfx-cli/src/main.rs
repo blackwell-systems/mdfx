@@ -2,6 +2,7 @@ use clap::{CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
 use colored::Colorize;
 use mdfx::manifest::AssetManifest;
+use mdfx::renderer::plaintext::PlainTextBackend;
 use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
 use mdfx::{
@@ -189,6 +190,36 @@ enum Commands {
         #[arg(long)]
         dry_run: bool,
     },
+
+    /// Build markdown to multiple targets at once
+    ///
+    /// Compiles the same source file to multiple platform-specific outputs.
+    /// Each target gets its own output file with appropriate rendering.
+    ///
+    /// Examples:
+    ///   mdfx build README.template.md --output-dir dist/
+    ///   mdfx build README.template.md --targets github,pypi,npm
+    ///   mdfx build README.template.md --all-targets
+    Build {
+        /// Input markdown file
+        input: PathBuf,
+
+        /// Output directory for generated files
+        #[arg(short, long, default_value = "dist")]
+        output_dir: String,
+
+        /// Comma-separated list of targets (github,local,npm,gitlab,pypi)
+        #[arg(short, long)]
+        targets: Option<String>,
+
+        /// Build for all available targets
+        #[arg(long)]
+        all_targets: bool,
+
+        /// Custom palette JSON file for color definitions
+        #[arg(long)]
+        palette: Option<PathBuf>,
+    },
 }
 
 fn main() {
@@ -255,6 +286,22 @@ fn run(cli: Cli) -> Result<(), Error> {
             dry_run,
         } => {
             clean_assets(&assets_dir, dry_run)?;
+        }
+
+        Commands::Build {
+            input,
+            output_dir,
+            targets,
+            all_targets,
+            palette,
+        } => {
+            build_multi_target(
+                &input,
+                &output_dir,
+                targets.as_deref(),
+                all_targets,
+                palette.as_deref(),
+            )?;
         }
     }
 
@@ -438,8 +485,7 @@ fn process_file(
         BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
         BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
         BackendType::PlainText => {
-            // Fall back to shields for now (PlainText backend not implemented)
-            TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
+            TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?
         }
     };
 
@@ -549,7 +595,8 @@ fn process_file(
         }
     }
 
-    let processed = processed_result.markdown;
+    // Apply target-specific post-processing
+    let processed = target.post_process(&processed_result.markdown)?;
 
     // Write output
     if in_place {
@@ -773,6 +820,136 @@ fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
             size_kb
         );
     }
+
+    Ok(())
+}
+
+fn build_multi_target(
+    input: &std::path::Path,
+    output_dir: &str,
+    targets: Option<&str>,
+    all_targets: bool,
+    palette_path: Option<&std::path::Path>,
+) -> Result<(), Error> {
+    // Determine which targets to build
+    let target_names: Vec<&str> = if all_targets {
+        available_targets()
+    } else if let Some(t) = targets {
+        t.split(',').map(|s| s.trim()).collect()
+    } else {
+        // Default to common targets
+        vec!["github", "pypi", "npm"]
+    };
+
+    // Validate targets
+    for name in &target_names {
+        if get_target(name).is_none() {
+            return Err(Error::ParseError(format!(
+                "Unknown target '{}'. Available: {}",
+                name,
+                available_targets().join(", ")
+            )));
+        }
+    }
+
+    // Read input file
+    let content = fs::read_to_string(input).map_err(Error::IoError)?;
+
+    // Load custom palette if provided
+    let custom_palette: Option<std::collections::HashMap<String, String>> =
+        if let Some(palette_file) = palette_path {
+            let palette_content = fs::read_to_string(palette_file).map_err(Error::IoError)?;
+            let palette: std::collections::HashMap<String, String> =
+                serde_json::from_str(&palette_content).map_err(|e| {
+                    Error::ParseError(format!(
+                        "Failed to parse palette file '{}': {}",
+                        palette_file.display(),
+                        e
+                    ))
+                })?;
+            eprintln!(
+                "{} Loaded {} custom color(s) from {}",
+                "Info:".cyan(),
+                palette.len(),
+                palette_file.display()
+            );
+            Some(palette)
+        } else {
+            None
+        };
+
+    // Create output directory
+    fs::create_dir_all(output_dir).map_err(Error::IoError)?;
+
+    // Get the input filename stem
+    let stem = input
+        .file_stem()
+        .and_then(|s| s.to_str())
+        .unwrap_or("output");
+
+    println!("{}", "Building for multiple targets...".bold());
+    println!();
+
+    let mut success_count = 0;
+
+    for target_name in &target_names {
+        let target = get_target(target_name).unwrap();
+
+        print!("  {} {} ", "Building:".cyan(), target_name);
+
+        // Create backend based on target's preference
+        let backend_type = target.preferred_backend();
+        let assets_dir = format!("{}/assets/{}", output_dir, target_name);
+
+        let mut parser = match backend_type {
+            BackendType::Shields => {
+                TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
+            }
+            BackendType::Svg => {
+                fs::create_dir_all(&assets_dir).map_err(Error::IoError)?;
+                TemplateParser::with_backend(Box::new(SvgBackend::new(&assets_dir)))?
+            }
+            BackendType::PlainText => {
+                TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?
+            }
+        };
+
+        // Apply custom palette
+        if let Some(ref palette) = custom_palette {
+            parser.extend_palette(palette.clone());
+        }
+
+        // Process content
+        let processed_result = parser.process_with_assets(&content)?;
+
+        // Write any file-based assets
+        if !processed_result.assets.is_empty() {
+            for asset in &processed_result.assets {
+                if let Some(path) = asset.file_path() {
+                    if let Some(bytes) = asset.file_bytes() {
+                        fs::write(path, bytes).map_err(Error::IoError)?;
+                    }
+                }
+            }
+        }
+
+        // Apply target-specific post-processing
+        let processed = target.post_process(&processed_result.markdown)?;
+
+        // Write output file
+        let output_path = format!("{}/{}_{}.md", output_dir, stem, target_name);
+        fs::write(&output_path, &processed).map_err(Error::IoError)?;
+
+        println!("{} {}", "→".green(), output_path);
+        success_count += 1;
+    }
+
+    println!();
+    println!(
+        "{} Built {} target(s) successfully!",
+        "✓".green().bold(),
+        success_count
+    );
 
     Ok(())
 }
