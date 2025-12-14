@@ -32,7 +32,7 @@ Welcome to the mdfx documentation site! This is your navigation hub for all docu
 
 ### Core Design
 
-- **[Design Document](DESIGN.md)** - **⭐ Start here**: What mdfx is (compiler + design system)
+- **[Architecture](ARCHITECTURE.md)** - **⭐ Start here**: What mdfx is (compiler + design system)
 - **[Specification](SPEC.md)** - Stability contracts, versioning policy, API guarantees
 - **[Evaluation Contexts](CONTEXTS.md)** - The key to safe composition (inline vs block)
 - **[Target Abstraction](TARGETS.md)** - Multi-surface rendering (GitHub, GitLab, PyPI, npm)

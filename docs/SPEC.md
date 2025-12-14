@@ -817,4 +817,4 @@ By clearly defining what's stable and what can change, users can confidently bui
 
 ---
 
-**Next**: See [DESIGN.md](DESIGN.md) for the architectural vision that this spec supports.
+**Next**: See [ARCHITECTURE.md](ARCHITECTURE.md) for implementation details.

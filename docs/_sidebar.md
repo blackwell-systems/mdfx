@@ -21,7 +21,6 @@
   - [State Machine](/STATE-MACHINE-GUIDE.md)
 
 - **Specifications**
-  - [Design Philosophy](/DESIGN.md)
   - [API Specification](/SPEC.md)
   - [Evaluation Contexts](/CONTEXTS.md)
   - [Target System](/TARGETS.md)

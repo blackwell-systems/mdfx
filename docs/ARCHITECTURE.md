@@ -7,6 +7,8 @@
 
 mdfx is a **markdown compiler** that transforms template syntax into rich visual output. Unlike simple text processors, mdfx implements a complete compilation pipeline: parsing templates into an AST, semantic analysis through a unified registry, and code generation to multiple rendering backends.
 
+**Think of it as: "The Tailwind of Markdown"** — a portable, reproducible, target-aware Markdown UI system where `registry.json` is the standard library for the language.
+
 ## Table of Contents
 
 - [Workspace Structure](#workspace-structure)
@@ -1891,6 +1893,38 @@ while let Some(c) = chars.next() {
 - JSON parsed once at renderer creation
 - Stored in HashMap for O(1) lookup
 - Reused across all conversions
+
+---
+
+## Escape Hatch Policy
+
+Users need progressively more control. mdfx provides three tiers:
+
+### Tier 1: UI Components (Recommended)
+
+Portable across all backends, validated, safe:
+```markdown
+{{ui:divider/}}
+{{ui:tech:rust/}}
+{{ui:swatch:accent/}}
+```
+
+### Tier 2: Primitives (Per-Backend Control)
+
+Backend-specific but still validated:
+```markdown
+{{shields:block:color=F41C80:style=flat/}}
+{{shields:bar:colors=success,warning,error:style=flat-square/}}
+```
+
+### Tier 3: Raw (Use At Your Own Risk)
+
+Target-locked, zero validation:
+```markdown
+{{shields:raw}}https://img.shields.io/custom/badge/foo-bar-blue{{/shields}}
+```
+
+**Recommendation:** Use Tier 1 for most cases. Tier 2 for fine-grained control. Avoid Tier 3.
 
 ---
 

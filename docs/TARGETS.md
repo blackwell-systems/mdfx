@@ -802,4 +802,4 @@ cargo test --test golden -- --target github
 
 ---
 
-**Next**: See [DESIGN.md](DESIGN.md) for the overall architectural vision.
+**Next**: See [ARCHITECTURE.md](ARCHITECTURE.md) for implementation details.
