@@ -72,24 +72,35 @@ dist/readme_npm.md
 
 ### Changed
 
-- **Test count** - Increased from 266 to 275 tests (9 new PlainTextBackend tests)
+- **Test count** - Increased from 266 to 276 tests
 - **PyPITarget** - Now uses PlainTextBackend instead of falling back to Shields
 
-#### Enhanced Swatch Primitives (SVG-only)
+#### Enhanced Swatch Primitives
 
-- **Opacity control** - `{{ui:swatch:accent:opacity=0.5/}}` for transparent swatches
-- **Custom dimensions** - `{{ui:swatch:accent:width=40:height=30/}}` for non-standard sizes
-- **Border support** - `{{ui:swatch:accent:border=white:border_width=2/}}` for outlined swatches
-- **Labels** - `{{ui:swatch:accent:label=v1/}}` for text overlay on swatches
+- **Opacity control** - `{{ui:swatch:accent:opacity=0.5/}}` for transparent swatches (SVG-only)
+- **Custom dimensions** - `{{ui:swatch:accent:width=40:height=30/}}` for non-standard sizes (SVG-only)
+- **Border support** - `{{ui:swatch:accent:border=white:border_width=2/}}` for outlined swatches (SVG-only)
+- **Labels** - `{{ui:swatch:accent:label=v1/}}` for text overlay on swatches (SVG-only)
+- **Label color** - `{{ui:swatch:white:label=X:label_color=000000/}}` for custom text color (SVG-only)
+- **Icon support** - `{{ui:swatch:F41C80:icon=rust/}}` for Simple Icons logos (All backends)
+- **Icon color** - `{{ui:swatch:accent:icon=docker:icon_color=white/}}` for custom icon color (All backends)
 
 **Usage:**
 ```markdown
 {{ui:swatch:F41C80:opacity=0.7/}}
 {{ui:swatch:accent:width=50:height=25:border=FFFFFF/}}
 {{ui:swatch:cobalt:label=API/}}
+{{ui:swatch:FFFFFF:label=X:label_color=000000/}}
+{{ui:swatch:22C55E:icon=rust/}}
+{{ui:swatch:accent:icon=docker:icon_color=white/}}
 ```
 
-Note: These features are SVG-only. Shields.io backend ignores these options.
+**Backend support:**
+| Option | Shields.io | SVG | PlainText |
+|--------|------------|-----|-----------|
+| opacity, width, height, border | ❌ | ✅ | ❌ |
+| label, label_color | ❌ | ✅ | ✅ |
+| icon, icon_color | ✅ (real logos) | ⚠️ (text fallback) | ✅ |
 
 #### Custom Palette Support
 
