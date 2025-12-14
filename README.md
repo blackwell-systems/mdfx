@@ -4,13 +4,13 @@
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Tests](https://img.shields.io/badge/tests-237_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 
-𝗠𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗰𝗼𝗺𝗽𝗶𝗹𝗲𝗿 𝘄𝗶𝘁𝗵 𝘁𝗮𝗿𝗴𝗲𝘁-𝗮𝘄𝗮𝗿𝗲 𝗿𝗲𝗻𝗱𝗲𝗿𝗶𝗻𝗴
+**Add visual design to markdown without leaving markdown.**
 
-A design system + compiler for markdown. Write once with semantic templates, compile to target-optimized output (GitHub, GitLab, PyPI). Deterministic builds, reproducible assets, version-controlled styling.
+Write `{{mathbold}}TITLE{{/mathbold}}` → get `𝐓𝐈𝐓𝐋𝐄`
+Write `{{ui:tech:rust/}}` → get a shields.io badge or local SVG
+Write `{{frame:gradient}}HEADER{{/frame}}` → get `▓▒░ HEADER ░▒▓`
 
-**What mdfx is**: A DSL for markdown with semantic primitives (dividers, swatches, badges, styled text) that compile to target-specific markdown + optional assets. Think "Tailwind for markdown" — portable, reproducible, target-aware.
-
-**What mdfx is not**: Yet another badge generator or markdown renderer. This is a build step.
+mdfx is a compiler: template syntax in, styled markdown out.
 
 ## 𝐐𝐮𝐢𝐜𝐤 𝐒𝐭𝐚𝐫𝐭
 
@@ -37,29 +37,6 @@ Renders as:
 
 ## Status
 ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) All systems operational
-
-## 𝐌𝐨𝐭𝐢𝐯𝐚𝐭𝐢𝐨𝐧
-
-Unicode offers diverse styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful Ⓒⓘⓡⓒⓛⓔⓢ—but they're
-cumbersome to use. Finding glyphs requires hunting through Unicode tables and manually spacing them.
-
-**mdfx** makes Unicode styling simple and repeatable. Use intuitive templates like `{{ui:header}}TITLE{{/ui}}`
-or CLI commands like `mdfx convert --style script "Elegant"`.
-
-Transform Unicode styling from a frustrating manual process into something as easy as markdown formatting.
-
-## 𝐖𝐡𝐲 𝐦𝐝𝐟𝐱?
-
-**Why not just copy/paste Unicode characters?**
-
-- **Repeatability**: Reuse `{{ui:header}}TITLE{{/ui}}` across dozens of files
-- **Consistency**: Change style once, regenerate all docs - instant rebrand
-- **Maintainability**: Source files remain readable ASCII, styled output is generated
-- **Search & Replace**: Find/replace works on template names, not opaque glyphs
-- **Version Control**: Diffs show intent, not character code changes
-- **Composability**: Combine components in ways copy/paste can't match
-
-Think of it like CSS for text: separate content from presentation, gain power through abstraction.
 
 ## 𝐔𝐈 𝐂𝐨𝐦𝐩𝐨𝐧𝐞𝐧𝐭𝐬
 
@@ -129,7 +106,7 @@ Uses [Simple Icons](https://simpleicons.org/) logo library (2000+ logos availabl
 {{ui:callout:error}}Deprecated{{/ui}}
 ```
 
-### GitHub Blocks 🆕
+### GitHub Blocks
 
 **Section Headers** - Headers with automatic dividers
 ```markdown
@@ -753,18 +730,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 𝐋𝐢𝐧𝐤𝐬
 
-### Core Design (Start Here)
-
-- **[Design Document](docs/DESIGN.md)** - What mdfx is: compiler + design system
-- **[Specification](docs/SPEC.md)** - Stability contracts and versioning policy
-- **[Evaluation Contexts](docs/CONTEXTS.md)** - Safe composition (inline vs block)
-- **[Target Abstraction](docs/TARGETS.md)** - Multi-surface rendering strategy
-
-### Implementation
-
 - [Documentation](docs/)
 - [Examples](examples/)
-- [Architecture](docs/ARCHITECTURE.md)
 - [API Guide](docs/API-GUIDE.md)
 - [Template Syntax](docs/TEMPLATE-SYNTAX.md)
-- [Components](docs/COMPONENTS.md)
+- [Architecture](docs/ARCHITECTURE.md)
