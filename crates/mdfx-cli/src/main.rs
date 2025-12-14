@@ -4,7 +4,10 @@ use colored::Colorize;
 use mdfx::manifest::AssetManifest;
 use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
-use mdfx::{Converter, Error, SeparatorsData, StyleCategory, TemplateParser};
+use mdfx::{
+    available_targets, detect_target_from_path, get_target, BackendType, Converter, Error,
+    SeparatorsData, StyleCategory, Target, TemplateParser,
+};
 use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
@@ -93,9 +96,15 @@ enum Commands {
     /// Examples:
     ///   mdfx process input.md -o output.md
     ///   mdfx process -i README.md
-    ///   mdfx process --backend shields input.md
+    ///   mdfx process --target github input.md
+    ///   mdfx process --target local --assets-dir docs/assets input.md
     ///   echo "{{mathbold}}Title{{/mathbold}}" | mdfx process
-    ///   cat doc.md | mdfx process > styled.md
+    ///
+    /// Targets:
+    ///   github - GitHub README (shields.io badges, default)
+    ///   local  - Local docs (SVG files, offline-first)
+    ///   npm    - npm package README (like GitHub)
+    ///   auto   - Auto-detect from output path
     ///
     /// Template syntax:
     ///   {{mathbold}}Bold Text{{/mathbold}}
@@ -114,11 +123,15 @@ enum Commands {
         #[arg(short = 'i', long)]
         in_place: bool,
 
-        /// Rendering backend for UI components (shields = shields.io URLs, svg = local SVG files)
-        #[arg(short, long, default_value = "shields")]
-        backend: String,
+        /// Target platform (github, local, npm, auto)
+        #[arg(short, long, default_value = "github")]
+        target: String,
 
-        /// Output directory for SVG assets (only used with --backend svg)
+        /// Rendering backend override (shields, svg). If not set, uses target's preferred backend.
+        #[arg(short, long)]
+        backend: Option<String>,
+
+        /// Output directory for SVG assets (only used with svg backend)
         #[arg(long, default_value = "assets/mdfx")]
         assets_dir: String,
     },
@@ -205,10 +218,11 @@ fn run(cli: Cli) -> Result<(), Error> {
             input,
             output,
             in_place,
+            target,
             backend,
             assets_dir,
         } => {
-            process_file(input, output, in_place, &backend, &assets_dir)?;
+            process_file(input, output, in_place, &target, backend.as_deref(), &assets_dir)?;
         }
 
         Commands::Completions { shell } => {
@@ -354,24 +368,65 @@ fn process_file(
     input: Option<PathBuf>,
     output: Option<PathBuf>,
     in_place: bool,
-    backend: &str,
+    target_name: &str,
+    backend_override: Option<&str>,
     assets_dir: &str,
 ) -> Result<(), Error> {
+    // Resolve target (with auto-detection support)
+    let target: Box<dyn Target> = if target_name == "auto" {
+        // Auto-detect from output path
+        let detected = output
+            .as_ref()
+            .and_then(|p| detect_target_from_path(p))
+            .or_else(|| input.as_ref().and_then(|p| detect_target_from_path(p)));
+
+        if let Some(name) = detected {
+            eprintln!("{} Auto-detected target: {}", "Info:".cyan(), name.green());
+            get_target(name).unwrap()
+        } else {
+            eprintln!(
+                "{} Could not auto-detect target, using github",
+                "Info:".cyan()
+            );
+            get_target("github").unwrap()
+        }
+    } else {
+        get_target(target_name).ok_or_else(|| {
+            Error::ParseError(format!(
+                "Unknown target '{}'. Available: {}",
+                target_name,
+                available_targets().join(", ")
+            ))
+        })?
+    };
+
+    // Determine backend: explicit override > target's preferred backend
+    let backend_type = if let Some(backend) = backend_override {
+        match backend {
+            "shields" => BackendType::Shields,
+            "svg" => BackendType::Svg,
+            _ => {
+                return Err(Error::ParseError(format!(
+                    "Unknown backend '{}'. Available: shields, svg",
+                    backend
+                )));
+            }
+        }
+    } else {
+        target.preferred_backend()
+    };
+
     // Create the appropriate backend
-    let parser = match backend {
-        "shields" => {
-            // Default: shields.io URLs (no files)
+    let parser = match backend_type {
+        BackendType::Shields => {
             TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
         }
-        "svg" => {
-            // SVG backend: generates local files
+        BackendType::Svg => {
             TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?
         }
-        _ => {
-            return Err(Error::ParseError(format!(
-                "Unknown backend '{}'. Available: shields, svg",
-                backend
-            )));
+        BackendType::PlainText => {
+            // Fall back to shields for now (PlainText backend not implemented)
+            TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
         }
     };
 
@@ -413,8 +468,8 @@ fn process_file(
         );
 
         // Build manifest for SVG backend
-        let mut manifest = if backend == "svg" {
-            Some(AssetManifest::new(backend, assets_dir))
+        let mut manifest = if matches!(backend_type, BackendType::Svg) {
+            Some(AssetManifest::new("svg", assets_dir))
         } else {
             None
         };

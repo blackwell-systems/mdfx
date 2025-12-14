@@ -68,7 +68,10 @@ pub use separators::{Separator, SeparatorsData};
 pub use shields::ShieldStyle as ShieldsShieldStyle;
 pub use shields::ShieldsRenderer;
 pub use styles::{Style, StyleCategory, StyleSupport, StylesData};
-pub use targets::{BackendType, GitHubTarget, LocalDocsTarget, NpmTarget, Target};
+pub use targets::{
+    available_targets, default_target, detect_target_from_path, get_target, BackendType,
+    GitHubTarget, LocalDocsTarget, NpmTarget, Target,
+};
 
 #[cfg(test)]
 mod tests {
