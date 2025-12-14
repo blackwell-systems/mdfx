@@ -334,6 +334,21 @@
         "contexts": ["inline", "block"],
         "args": ["label", "level", "text"],
         "template": "{{ui:status:$2/}} **$1**: $3"
+      },
+      "row": {
+        "type": "native",
+        "self_closing": false,
+        "description": "Horizontal row of badges with alignment control. Wraps in HTML for GitHub compatibility.",
+        "contexts": ["block"],
+        "args": [],
+        "optional_params": {
+          "align": {
+            "type": "enum",
+            "values": ["left", "center", "right"],
+            "default": "center",
+            "description": "Horizontal alignment of the row"
+          }
+        }
       }
     },
 

@@ -1,5 +1,5 @@
 use crate::badges::BadgeRenderer;
-use crate::components::{ComponentOutput, ComponentsRenderer};
+use crate::components::{ComponentOutput, ComponentsRenderer, PostProcess};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
@@ -303,6 +303,25 @@ impl TemplateParser {
                                 self.process_templates_with_assets(&template)?;
                             result.push_str(&processed);
                             assets.extend(nested_assets);
+                        }
+                        ComponentOutput::TemplateDelayed {
+                            template,
+                            post_process,
+                        } => {
+                            // First recursively process the template
+                            let (processed, nested_assets) =
+                                self.process_templates_with_assets(&template)?;
+                            assets.extend(nested_assets);
+
+                            // Then apply delayed post-processing
+                            let final_output = match post_process {
+                                PostProcess::Row { align } => {
+                                    ComponentsRenderer::apply_row(&processed, &align)
+                                }
+                                // Other post-processors run before recursion, not here
+                                _ => processed,
+                            };
+                            result.push_str(&final_output);
                         }
                     }
 

@@ -24,6 +24,10 @@ pub enum PostProcess {
     None,
     /// Prefix every line with "> " for Markdown blockquotes
     Blockquote,
+    /// Row layout with HTML wrapper (applied AFTER recursive parsing)
+    /// Converts markdown images to HTML img tags and wraps in <p align="...">
+    #[serde(skip)]
+    Row { align: String },
 }
 
 /// A component definition from registry.json
@@ -60,6 +64,12 @@ pub enum ComponentOutput {
     Primitive(Primitive),
     /// Template string for recursive parsing (for components using frames/styles)
     Template(String),
+    /// Template with post-processing applied AFTER recursive parsing
+    /// Used for components like `row` that need to transform rendered output
+    TemplateDelayed {
+        template: String,
+        post_process: PostProcess,
+    },
 }
 
 impl ComponentsRenderer {
@@ -184,12 +194,12 @@ impl ComponentsRenderer {
         (positional, params)
     }
 
-    /// Expand a native component to a Primitive
+    /// Expand a native component to a Primitive (or TemplateDelayed for row)
     fn expand_native(
         &self,
         component: &str,
         args: &[String],
-        _content: Option<&str>,
+        content: Option<&str>,
     ) -> Result<ComponentOutput> {
         let (args, style) = Self::split_style_arg(args);
 
@@ -286,6 +296,29 @@ impl ComponentsRenderer {
                 }))
             }
 
+            "row" => {
+                // Extract align parameter (default: center)
+                let (_, params) = Self::extract_params(&args);
+                let align = params
+                    .get("align")
+                    .cloned()
+                    .unwrap_or_else(|| "center".to_string());
+
+                // Validate align value
+                let align = match align.as_str() {
+                    "left" | "center" | "right" => align,
+                    _ => "center".to_string(),
+                };
+
+                // Content to be recursively parsed, then post-processed
+                let template = content.unwrap_or("").to_string();
+
+                Ok(ComponentOutput::TemplateDelayed {
+                    template,
+                    post_process: PostProcess::Row { align },
+                })
+            }
+
             _ => Err(Error::ParseError(format!(
                 "Native component '{}' has no implementation",
                 component
@@ -326,9 +359,12 @@ impl ComponentsRenderer {
         expanded = self.resolve_palette_refs(&expanded);
 
         // Apply post-processing based on component definition
+        // Note: Row is handled as delayed post-processing in the parser,
+        // so it shouldn't appear here. Include for exhaustiveness.
         let processed = match &comp.post_process {
             PostProcess::None => expanded,
             PostProcess::Blockquote => self.apply_blockquote(&expanded),
+            PostProcess::Row { .. } => expanded, // Delayed; handled in parser
         };
 
         Ok(processed)
@@ -352,6 +388,66 @@ impl ComponentsRenderer {
             })
             .collect::<Vec<_>>()
             .join("\n")
+    }
+
+    /// Apply row formatting (wrap in HTML with alignment)
+    ///
+    /// This is called AFTER recursive parsing to transform rendered content:
+    /// 1. Collapses whitespace/newlines to single spaces
+    /// 2. Converts markdown images `![alt](url)` to HTML `<img alt="alt" src="url">`
+    /// 3. Wraps with `<p align="...">...</p>`
+    ///
+    /// This is necessary because GitHub Flavored Markdown doesn't parse
+    /// markdown syntax inside HTML blocks.
+    pub fn apply_row(content: &str, align: &str) -> String {
+        // Step 1: Collapse whitespace/newlines to single spaces
+        let collapsed: String = content
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ");
+
+        // Step 2: Convert markdown images to HTML img tags
+        // Pattern: ![alt](url) or ![](url)
+        let mut result = String::new();
+        let mut remaining = collapsed.as_str();
+
+        while let Some(start) = remaining.find("![") {
+            // Add text before the image
+            result.push_str(&remaining[..start]);
+
+            let after_bang = &remaining[start + 2..];
+
+            // Find closing ] for alt text
+            if let Some(alt_end) = after_bang.find(']') {
+                let alt = &after_bang[..alt_end];
+                let after_alt = &after_bang[alt_end + 1..];
+
+                // Expect ( after ]
+                if after_alt.starts_with('(') {
+                    let after_paren = &after_alt[1..];
+                    // Find closing )
+                    if let Some(url_end) = after_paren.find(')') {
+                        let url = &after_paren[..url_end];
+                        // Convert to HTML img tag
+                        result.push_str(&format!(r#"<img alt="{}" src="{}">"#, alt, url));
+                        remaining = &after_paren[url_end + 1..];
+                        continue;
+                    }
+                }
+            }
+
+            // Malformed image syntax, keep as-is
+            result.push_str("![");
+            remaining = after_bang;
+        }
+
+        // Add any remaining text
+        result.push_str(remaining);
+
+        // Step 3: Wrap with alignment
+        format!(r#"<p align="{}">
+{}
+</p>"#, align, result.trim())
     }
 
     /// Resolve a color from palette or pass through
