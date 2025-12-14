@@ -3,7 +3,7 @@
 **The Key to Safe Composition**
 
 Version: 1.0.0
-Status: **Partial Implementation**
+Status: **Implemented**
 Last Updated: 2025-12-14
 
 ---
@@ -424,17 +424,34 @@ ERROR[2005]: Invalid frame chrome
 
 - **EvalContext enum** in `registry.rs` with three variants: `Inline`, `Block`, `FrameChrome`
 - **Context promotion logic** via `EvalContext::can_promote_to()`
-- **Basic separator validation** in style processing
+- **All renderables annotated** with `contexts` field in `registry.json`
+- **Separator validation** in parser.rs:
+  - Validates glyph supports `Inline` context when used as separator
+  - Rejects block-only renderables with clear error message
+  - Suggests available inline-compatible glyphs
 
-### What's Planned
+### Context Annotations (Convention-Based)
 
-- **Convention-based context inference** - derive contexts from renderable structure:
-  - Glyphs → all contexts (single characters are always safe)
-  - Templates with `\n` → block-only
-  - Self-closing without newlines → all contexts
-  - Block tags (content wrappers) → block-only
-- **Override field** for exceptions (only ~5 renderables need explicit annotation)
-- Full validation at all expansion sites (frames, components)
+Contexts follow these conventions (already applied in registry.json):
+
+| Renderable Type | Context Rule | Examples |
+|-----------------|--------------|----------|
+| Glyph (single char, no newline) | `["inline", "block", "frame_chrome"]` | `dot`, `arrow`, `bullet` |
+| Glyph with newline | `["block"]` | `newline` |
+| Native component (compact, image) | `["inline", "block"]` | `swatch`, `tech`, `status` |
+| Native component (row of images) | `["block"]` | `divider` |
+| Expand component (produces `##` or newlines) | `["block"]` | `section`, `header`, `callout` |
+| Expand component (inline output) | `["inline", "block"]` | `statusitem` |
+
+### Validation Chokepoints
+
+| Site | Validated | Notes |
+|------|-----------|-------|
+| `separator=` parameter | ✅ | Rejects block-only glyphs with error |
+| Frame prefix/suffix | N/A | Static strings in registry, no dynamic refs |
+| Component expansion | ❌ | Not validated (components always at block level) |
+
+The separator validation catches the main footgun (block divider between characters).
 
 ---
 
@@ -659,7 +676,10 @@ With contexts:
 - **Block**: Section-level, multiline
 - **FrameChrome**: Inline decorations
 
-**Current status**: EvalContext enum and promotion logic implemented. Full context annotation and validation is planned.
+**Implementation status**:
+- All renderables annotated with contexts in registry.json
+- Separator validation active (catches the main footgun)
+- Convention-based rules documented for future renderables
 
 ---
 
