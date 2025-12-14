@@ -708,30 +708,54 @@ impl TemplateParser {
 
         let content_start = i;
 
-        // Find closing tag {{/frame}}
+        // Find closing tag {{/frame}} - track nesting depth
+        let open_prefix = "{{frame:";
         let close_tag = "{{/frame}}";
+        let open_chars: Vec<char> = open_prefix.chars().collect();
         let close_chars: Vec<char> = close_tag.chars().collect();
+        let mut depth = 1; // We've already seen one opening tag
 
         while i < chars.len() {
-            // Check if we've found the closing tag
+            // Check for nested opening tag {{frame:
+            if i + open_chars.len() <= chars.len() {
+                let mut is_open = true;
+                for (j, &open_ch) in open_chars.iter().enumerate() {
+                    if chars[i + j] != open_ch {
+                        is_open = false;
+                        break;
+                    }
+                }
+                if is_open {
+                    depth += 1;
+                    i += open_chars.len();
+                    continue;
+                }
+            }
+
+            // Check for closing tag {{/frame}}
             if i + close_chars.len() <= chars.len() {
-                let mut matches = true;
+                let mut is_close = true;
                 for (j, &close_ch) in close_chars.iter().enumerate() {
                     if chars[i + j] != close_ch {
-                        matches = false;
+                        is_close = false;
                         break;
                     }
                 }
 
-                if matches {
-                    // Found closing tag
-                    let content: String = chars[content_start..i].iter().collect();
-                    let end_pos = i + close_chars.len();
-                    return Ok(Some(FrameData {
-                        end_pos,
-                        frame_style,
-                        content,
-                    }));
+                if is_close {
+                    depth -= 1;
+                    if depth == 0 {
+                        // Found matching closing tag
+                        let content: String = chars[content_start..i].iter().collect();
+                        let end_pos = i + close_chars.len();
+                        return Ok(Some(FrameData {
+                            end_pos,
+                            frame_style,
+                            content,
+                        }));
+                    }
+                    i += close_chars.len();
+                    continue;
                 }
             }
 
