@@ -79,6 +79,14 @@ impl ComponentsRenderer {
         })
     }
 
+    /// Extend the palette with custom color definitions
+    /// Custom colors override built-in palette colors with the same name
+    pub fn extend_palette(&mut self, custom_palette: HashMap<String, String>) {
+        for (name, color) in custom_palette {
+            self.palette.insert(name, color);
+        }
+    }
+
     /// Expand a component into either a Primitive or Template
     ///
     /// # Arguments
@@ -160,6 +168,22 @@ impl ComponentsRenderer {
         )
     }
 
+    /// Extract key=value parameters from args, returning (positional_args, params_map)
+    fn extract_params(args: &[String]) -> (Vec<String>, HashMap<String, String>) {
+        let mut params = HashMap::new();
+        let mut positional = Vec::new();
+
+        for arg in args {
+            if let Some((key, value)) = arg.split_once('=') {
+                params.insert(key.to_string(), value.to_string());
+            } else {
+                positional.push(arg.clone());
+            }
+        }
+
+        (positional, params)
+    }
+
     /// Expand a native component to a Primitive
     fn expand_native(
         &self,
@@ -184,15 +208,45 @@ impl ComponentsRenderer {
             }
 
             "swatch" => {
-                if args.is_empty() {
+                // Extract all key=value params from args
+                let (positional, params) = Self::extract_params(&args);
+
+                if positional.is_empty() {
                     return Err(Error::ParseError(
                         "swatch component requires a color argument".to_string(),
                     ));
                 }
-                let color = self.resolve_color(&args[0]);
+
+                let color = self.resolve_color(&positional[0]);
+
+                // Parse optional SVG-only parameters
+                let opacity = params
+                    .get("opacity")
+                    .and_then(|v| v.parse::<f32>().ok())
+                    .map(|o| o.clamp(0.0, 1.0));
+                let width = params.get("width").and_then(|v| v.parse::<u32>().ok());
+                let height = params.get("height").and_then(|v| v.parse::<u32>().ok());
+                let border_color = params.get("border").map(|v| self.resolve_color(v));
+                let border_width = params
+                    .get("border_width")
+                    .and_then(|v| v.parse::<u32>().ok());
+                let label = params.get("label").cloned();
+
+                // Style can come from params or use default
+                let style = params
+                    .get("style")
+                    .cloned()
+                    .unwrap_or_else(|| style.clone());
+
                 Ok(ComponentOutput::Primitive(Primitive::Swatch {
                     color,
                     style,
+                    opacity,
+                    width,
+                    height,
+                    border_color,
+                    border_width,
+                    label,
                 }))
             }
 
@@ -444,6 +498,166 @@ mod tests {
         match result {
             ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
                 assert_eq!(color, "abc123");
+            }
+            _ => panic!("Expected Primitive::Swatch"),
+        }
+    }
+
+    #[test]
+    fn test_expand_swatch_with_opacity() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let result = renderer
+            .expand(
+                "swatch",
+                &["accent".to_string(), "opacity=0.5".to_string()],
+                None,
+            )
+            .unwrap();
+
+        match result {
+            ComponentOutput::Primitive(Primitive::Swatch { color, opacity, .. }) => {
+                assert_eq!(color, "F41C80");
+                assert_eq!(opacity, Some(0.5));
+            }
+            _ => panic!("Expected Primitive::Swatch"),
+        }
+    }
+
+    #[test]
+    fn test_expand_swatch_with_dimensions() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let result = renderer
+            .expand(
+                "swatch",
+                &[
+                    "cobalt".to_string(),
+                    "width=40".to_string(),
+                    "height=30".to_string(),
+                ],
+                None,
+            )
+            .unwrap();
+
+        match result {
+            ComponentOutput::Primitive(Primitive::Swatch {
+                color,
+                width,
+                height,
+                ..
+            }) => {
+                assert_eq!(color, "2B6CB0"); // cobalt resolved
+                assert_eq!(width, Some(40));
+                assert_eq!(height, Some(30));
+            }
+            _ => panic!("Expected Primitive::Swatch"),
+        }
+    }
+
+    #[test]
+    fn test_expand_swatch_with_border() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let result = renderer
+            .expand(
+                "swatch",
+                &[
+                    "accent".to_string(),
+                    "border=white".to_string(),
+                    "border_width=2".to_string(),
+                ],
+                None,
+            )
+            .unwrap();
+
+        match result {
+            ComponentOutput::Primitive(Primitive::Swatch {
+                border_color,
+                border_width,
+                ..
+            }) => {
+                assert_eq!(border_color, Some("FFFFFF".to_string()));
+                assert_eq!(border_width, Some(2));
+            }
+            _ => panic!("Expected Primitive::Swatch"),
+        }
+    }
+
+    #[test]
+    fn test_expand_swatch_with_label() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let result = renderer
+            .expand(
+                "swatch",
+                &["accent".to_string(), "label=v1".to_string()],
+                None,
+            )
+            .unwrap();
+
+        match result {
+            ComponentOutput::Primitive(Primitive::Swatch { label, .. }) => {
+                assert_eq!(label, Some("v1".to_string()));
+            }
+            _ => panic!("Expected Primitive::Swatch"),
+        }
+    }
+
+    #[test]
+    fn test_expand_swatch_opacity_clamped() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        // Test opacity > 1.0 gets clamped
+        let result = renderer
+            .expand(
+                "swatch",
+                &["accent".to_string(), "opacity=1.5".to_string()],
+                None,
+            )
+            .unwrap();
+
+        match result {
+            ComponentOutput::Primitive(Primitive::Swatch { opacity, .. }) => {
+                assert_eq!(opacity, Some(1.0)); // clamped to 1.0
+            }
+            _ => panic!("Expected Primitive::Swatch"),
+        }
+    }
+
+    #[test]
+    fn test_extend_palette() {
+        let mut renderer = ComponentsRenderer::new().unwrap();
+
+        // Add custom color
+        let mut custom = HashMap::new();
+        custom.insert("brand".to_string(), "FF5500".to_string());
+        renderer.extend_palette(custom);
+
+        // Use custom color in swatch
+        let result = renderer
+            .expand("swatch", &["brand".to_string()], None)
+            .unwrap();
+
+        match result {
+            ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
+                assert_eq!(color, "FF5500");
+            }
+            _ => panic!("Expected Primitive::Swatch"),
+        }
+    }
+
+    #[test]
+    fn test_extend_palette_override() {
+        let mut renderer = ComponentsRenderer::new().unwrap();
+
+        // Override built-in accent color
+        let mut custom = HashMap::new();
+        custom.insert("accent".to_string(), "00FF00".to_string());
+        renderer.extend_palette(custom);
+
+        let result = renderer
+            .expand("swatch", &["accent".to_string()], None)
+            .unwrap();
+
+        match result {
+            ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
+                assert_eq!(color, "00FF00"); // overridden, not F41C80
             }
             _ => panic!("Expected Primitive::Swatch"),
         }

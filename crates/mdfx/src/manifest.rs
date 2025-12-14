@@ -47,7 +47,7 @@ pub enum PrimitiveInfo {
 impl From<&Primitive> for PrimitiveInfo {
     fn from(p: &Primitive) -> Self {
         match p {
-            Primitive::Swatch { color, style } => PrimitiveInfo::Swatch {
+            Primitive::Swatch { color, style, .. } => PrimitiveInfo::Swatch {
                 color: color.clone(),
                 style: style.clone(),
             },
@@ -231,10 +231,7 @@ mod tests {
     fn test_add_asset() {
         let mut manifest = AssetManifest::new("svg", "assets/mdfx");
 
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
 
         let svg_bytes = b"<svg>test</svg>";
         manifest.add_asset(

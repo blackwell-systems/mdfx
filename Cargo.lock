@@ -519,6 +519,7 @@ dependencies = [
  "clap_complete",
  "colored",
  "mdfx",
+ "serde_json",
 ]
 
 [[package]]

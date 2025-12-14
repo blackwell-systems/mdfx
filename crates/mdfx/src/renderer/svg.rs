@@ -59,6 +59,18 @@ impl SvgMetrics {
     }
 }
 
+/// Options for swatch rendering
+struct SwatchOptions<'a> {
+    color: &'a str,
+    style: &'a str,
+    opacity: Option<f32>,
+    width: Option<u32>,
+    height: Option<u32>,
+    border_color: Option<&'a str>,
+    border_width: Option<u32>,
+    label: Option<&'a str>,
+}
+
 impl SvgBackend {
     /// Create a new SVG backend with specified output directory
     pub fn new(out_dir: impl Into<String>) -> Self {
@@ -72,10 +84,28 @@ impl SvgBackend {
         let mut hasher = DefaultHasher::new();
         // Hash the primitive's discriminant and data
         match primitive {
-            Primitive::Swatch { color, style } => {
+            Primitive::Swatch {
+                color,
+                style,
+                opacity,
+                width,
+                height,
+                border_color,
+                border_width,
+                label,
+            } => {
                 "swatch".hash(&mut hasher);
                 color.hash(&mut hasher);
                 style.hash(&mut hasher);
+                // Hash optional fields for unique filenames
+                if let Some(o) = opacity {
+                    o.to_bits().hash(&mut hasher);
+                }
+                width.hash(&mut hasher);
+                height.hash(&mut hasher);
+                border_color.hash(&mut hasher);
+                border_width.hash(&mut hasher);
+                label.hash(&mut hasher);
             }
             Primitive::Divider { colors, style } => {
                 "divider".hash(&mut hasher);
@@ -114,33 +144,89 @@ impl SvgBackend {
         format!("{}_{:x}.svg", type_name, hash)
     }
 
-    /// Render a swatch (single colored rectangle)
-    fn render_swatch_svg(color: &str, style: &str) -> String {
-        let metrics = SvgMetrics::from_style(style);
-        let svg = if metrics.plastic {
-            // Plastic style: add vertical gradient for shine effect
+    /// Render a swatch (single colored rectangle with optional enhancements)
+    fn render_swatch_svg(opts: SwatchOptions) -> String {
+        let metrics = SvgMetrics::from_style(opts.style);
+
+        // Use custom dimensions or defaults
+        let width = opts.width.unwrap_or(20);
+        let height = opts.height.unwrap_or(metrics.height);
+
+        // Build opacity attribute
+        let opacity_attr = match opts.opacity {
+            Some(o) if o < 1.0 => format!(" fill-opacity=\"{}\"", o),
+            _ => String::new(),
+        };
+
+        // Build border attributes
+        let (border_attrs, border_offset) = match (opts.border_color, opts.border_width) {
+            (Some(bc), Some(bw)) if bw > 0 => {
+                (format!(" stroke=\"#{}\" stroke-width=\"{}\"", bc, bw), bw)
+            }
+            (Some(bc), None) => (format!(" stroke=\"#{}\" stroke-width=\"1\"", bc), 1),
+            _ => (String::new(), 0),
+        };
+
+        // Adjust viewBox for border
+        let vb_width = width + border_offset * 2;
+        let vb_height = height + border_offset * 2;
+
+        // Build label element
+        let label_elem = if let Some(text) = opts.label {
+            let font_size = if height > 24 { 14 } else { 10 };
+            let y_pos = height / 2 + font_size / 3 + border_offset;
+            let x_pos = width / 2 + border_offset;
             format!(
-                "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"{}\" viewBox=\"0 0 20 {}\">\n\
-  <defs>\n\
+                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}</text>",
+                x_pos, y_pos, font_size, text
+            )
+        } else {
+            String::new()
+        };
+
+        // Build defs for plastic effect
+        let defs = if metrics.plastic {
+            "  <defs>\n\
     <linearGradient id=\"shine\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n\
       <stop offset=\"0%\" style=\"stop-color:#ffffff;stop-opacity:0.2\" />\n\
       <stop offset=\"100%\" style=\"stop-color:#000000;stop-opacity:0.1\" />\n\
     </linearGradient>\n\
-  </defs>\n\
-  <rect width=\"20\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
-  <rect width=\"20\" height=\"{}\" fill=\"url(#shine)\" rx=\"{}\"/>\n\
-</svg>",
-                metrics.height, metrics.height, metrics.height, color, metrics.rx, metrics.height, metrics.rx
+  </defs>\n"
+                .to_string()
+        } else {
+            String::new()
+        };
+
+        // Build shine overlay for plastic
+        let shine_overlay = if metrics.plastic {
+            format!(
+                "\n  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"url(#shine)\" rx=\"{}\"/>",
+                border_offset, border_offset, width, height, metrics.rx
             )
         } else {
-            format!(
-                "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"{}\" viewBox=\"0 0 20 {}\">\n\
-  <rect width=\"20\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
-</svg>",
-                metrics.height, metrics.height, metrics.height, color, metrics.rx
-            )
+            String::new()
         };
-        svg
+
+        format!(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+{}  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}{}/>{}{}
+</svg>",
+            vb_width,
+            vb_height,
+            vb_width,
+            vb_height,
+            defs,
+            border_offset,
+            border_offset,
+            width,
+            height,
+            opts.color,
+            metrics.rx,
+            opacity_attr,
+            border_attrs,
+            shine_overlay,
+            label_elem
+        )
     }
 
     /// Render a divider (multiple colored rectangles inline)
@@ -203,11 +289,41 @@ impl Renderer for SvgBackend {
         let relative_path = format!("{}/{}", self.out_dir, filename);
 
         let svg = match primitive {
-            Primitive::Swatch { color, style } => Self::render_swatch_svg(color, style),
+            Primitive::Swatch {
+                color,
+                style,
+                opacity,
+                width,
+                height,
+                border_color,
+                border_width,
+                label,
+            } => Self::render_swatch_svg(SwatchOptions {
+                color,
+                style,
+                opacity: *opacity,
+                width: *width,
+                height: *height,
+                border_color: border_color.as_deref(),
+                border_width: *border_width,
+                label: label.as_deref(),
+            }),
 
             Primitive::Divider { colors, style } => Self::render_divider_svg(colors, style),
 
-            Primitive::Status { level, style } => Self::render_swatch_svg(level, style),
+            Primitive::Status { level, style } => {
+                // Status uses simplified swatch (no extra options)
+                Self::render_swatch_svg(SwatchOptions {
+                    color: level,
+                    style,
+                    opacity: None,
+                    width: None,
+                    height: None,
+                    border_color: None,
+                    border_width: None,
+                    label: None,
+                })
+            }
 
             Primitive::Tech {
                 name,
@@ -241,10 +357,7 @@ mod tests {
     #[test]
     fn test_render_swatch_primitive() {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
 
         let result = backend.render(&primitive).unwrap();
 
@@ -306,14 +419,8 @@ mod tests {
     #[test]
     fn test_deterministic_filenames() {
         let backend = SvgBackend::new("assets");
-        let primitive1 = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
-        let primitive2 = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive1 = Primitive::simple_swatch("F41C80", "flat-square");
+        let primitive2 = Primitive::simple_swatch("F41C80", "flat-square");
 
         let result1 = backend.render(&primitive1).unwrap();
         let result2 = backend.render(&primitive2).unwrap();
@@ -325,14 +432,8 @@ mod tests {
     #[test]
     fn test_different_primitives_different_filenames() {
         let backend = SvgBackend::new("assets");
-        let primitive1 = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
-        let primitive2 = Primitive::Swatch {
-            color: "00FF00".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive1 = Primitive::simple_swatch("F41C80", "flat-square");
+        let primitive2 = Primitive::simple_swatch("00FF00", "flat-square");
 
         let result1 = backend.render(&primitive1).unwrap();
         let result2 = backend.render(&primitive2).unwrap();
@@ -344,10 +445,7 @@ mod tests {
     #[test]
     fn test_svg_flat_style_rounded_corners() {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "flat");
 
         let result = backend.render(&primitive).unwrap();
         let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
@@ -361,10 +459,7 @@ mod tests {
     #[test]
     fn test_svg_flat_square_style_sharp_corners() {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
 
         let result = backend.render(&primitive).unwrap();
         let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
@@ -376,10 +471,7 @@ mod tests {
     #[test]
     fn test_svg_for_the_badge_tall_height() {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "for-the-badge".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "for-the-badge");
 
         let result = backend.render(&primitive).unwrap();
         let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
@@ -392,10 +484,7 @@ mod tests {
     #[test]
     fn test_svg_plastic_style_has_gradient() {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "plastic".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "plastic");
 
         let result = backend.render(&primitive).unwrap();
         let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
@@ -410,10 +499,7 @@ mod tests {
     #[test]
     fn test_svg_social_style_very_rounded() {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "social".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "social");
 
         let result = backend.render(&primitive).unwrap();
         let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
@@ -442,14 +528,8 @@ mod tests {
 
     #[test]
     fn test_svg_style_affects_filename_hash() {
-        let swatch_flat = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat".to_string(),
-        };
-        let swatch_square = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let swatch_flat = Primitive::simple_swatch("F41C80", "flat");
+        let swatch_square = Primitive::simple_swatch("F41C80", "flat-square");
 
         let filename_flat = SvgBackend::filename_for(&swatch_flat);
         let filename_square = SvgBackend::filename_for(&swatch_square);

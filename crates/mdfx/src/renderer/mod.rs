@@ -81,10 +81,7 @@ mod tests {
 
     #[test]
     fn test_rendered_asset_file() {
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
         let asset = RenderedAsset::File {
             relative_path: "assets/badge.svg".to_string(),
             bytes: b"<svg></svg>".to_vec(),

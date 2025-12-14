@@ -9,6 +9,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Enhanced Swatch Primitives (SVG-only)
+
+- **Opacity control** - `{{ui:swatch:accent:opacity=0.5/}}` for transparent swatches
+- **Custom dimensions** - `{{ui:swatch:accent:width=40:height=30/}}` for non-standard sizes
+- **Border support** - `{{ui:swatch:accent:border=white:border_width=2/}}` for outlined swatches
+- **Labels** - `{{ui:swatch:accent:label=v1/}}` for text overlay on swatches
+
+**Usage:**
+```markdown
+{{ui:swatch:F41C80:opacity=0.7/}}
+{{ui:swatch:accent:width=50:height=25:border=FFFFFF/}}
+{{ui:swatch:cobalt:label=API/}}
+```
+
+Note: These features are SVG-only. Shields.io backend ignores these options.
+
+#### Custom Palette Support
+
+- **`--palette` CLI flag** - Load custom color definitions from JSON file
+- **Override or extend** - Custom colors override built-in palette or add new names
+- **Reusable branding** - Define brand colors once, use throughout documents
+
+**Usage:**
+```bash
+# Create palette file (palette.json):
+{
+  "brand": "FF5500",
+  "primary": "2B6CB0",
+  "secondary": "48BB78"
+}
+
+# Use with mdfx:
+mdfx process --palette palette.json input.md
+```
+
+Then in your markdown:
+```markdown
+{{ui:swatch:brand/}}
+{{ui:swatch:primary/}}
+```
+
 #### CLI Target Flag
 
 - **`--target` flag** for multi-platform rendering:

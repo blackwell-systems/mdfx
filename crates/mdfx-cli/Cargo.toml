@@ -15,6 +15,7 @@ mdfx = { path = "../mdfx" }
 clap = { version = "4.4", features = ["derive", "cargo"] }
 clap_complete = "4.4"
 colored = "2.1"
+serde_json = "1.0"
 
 [[bin]]
 name = "mdfx"

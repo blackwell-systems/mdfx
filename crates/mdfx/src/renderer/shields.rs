@@ -24,7 +24,7 @@ impl ShieldsBackend {
 impl Renderer for ShieldsBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
         let markdown = match primitive {
-            Primitive::Swatch { color, style } => self.shields.render_block(color, style)?,
+            Primitive::Swatch { color, style, .. } => self.shields.render_block(color, style)?,
 
             Primitive::Divider { colors, style } => self.shields.render_bar(colors, style)?,
 
@@ -60,10 +60,7 @@ mod tests {
     #[test]
     fn test_render_swatch_primitive() {
         let backend = ShieldsBackend::new().unwrap();
-        let primitive = Primitive::Swatch {
-            color: "2B6CB0".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("2B6CB0", "flat-square");
 
         let result = backend.render(&primitive).unwrap();
         let markdown = result.to_markdown();
@@ -132,10 +129,7 @@ mod tests {
     #[test]
     fn test_render_with_palette_colors() {
         let backend = ShieldsBackend::new().unwrap();
-        let primitive = Primitive::Swatch {
-            color: "cobalt".to_string(),
-            style: "flat-square".to_string(),
-        };
+        let primitive = Primitive::simple_swatch("cobalt", "flat-square");
 
         let result = backend.render(&primitive).unwrap();
         let markdown = result.to_markdown();

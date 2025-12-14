@@ -96,6 +96,18 @@ impl TemplateParser {
         })
     }
 
+    /// Extend the color palette with custom definitions
+    ///
+    /// Custom colors override built-in palette colors with the same name.
+    /// Colors can then be used in components: `{{ui:swatch:mycolor/}}`
+    ///
+    /// # Arguments
+    ///
+    /// * `custom_palette` - Map of color names to hex values (without #)
+    pub fn extend_palette(&mut self, custom_palette: std::collections::HashMap<String, String>) {
+        self.components_renderer.extend_palette(custom_palette);
+    }
+
     /// Process markdown text, converting all style templates
     ///
     /// Returns only the markdown string. File-based assets are not collected.

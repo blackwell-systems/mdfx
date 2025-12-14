@@ -14,8 +14,23 @@
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Primitive {
-    /// Single colored swatch block
-    Swatch { color: String, style: String },
+    /// Single colored swatch block with optional enhancements
+    Swatch {
+        color: String,
+        style: String,
+        /// Opacity (0.0 = transparent, 1.0 = opaque). SVG-only.
+        opacity: Option<f32>,
+        /// Custom width in pixels (default: 20)
+        width: Option<u32>,
+        /// Custom height in pixels (default: style-dependent, usually 20)
+        height: Option<u32>,
+        /// Border color (hex or palette name). SVG-only.
+        border_color: Option<String>,
+        /// Border width in pixels (default: 0 = no border). SVG-only.
+        border_width: Option<u32>,
+        /// Text label inside swatch. SVG-only.
+        label: Option<String>,
+    },
 
     /// Multi-color divider bar for section separation
     Divider { colors: Vec<String>, style: String },
@@ -37,6 +52,20 @@ impl Primitive {
     pub fn default_style() -> &'static str {
         "flat-square"
     }
+
+    /// Create a simple swatch with just color and style (all other options None)
+    pub fn simple_swatch(color: impl Into<String>, style: impl Into<String>) -> Self {
+        Primitive::Swatch {
+            color: color.into(),
+            style: style.into(),
+            opacity: None,
+            width: None,
+            height: None,
+            border_color: None,
+            border_width: None,
+            label: None,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -48,14 +77,53 @@ mod tests {
         let swatch = Primitive::Swatch {
             color: "ff6b35".to_string(),
             style: "flat-square".to_string(),
+            opacity: None,
+            width: None,
+            height: None,
+            border_color: None,
+            border_width: None,
+            label: None,
         };
         assert_eq!(
             swatch,
             Primitive::Swatch {
                 color: "ff6b35".to_string(),
                 style: "flat-square".to_string(),
+                opacity: None,
+                width: None,
+                height: None,
+                border_color: None,
+                border_width: None,
+                label: None,
             }
         );
+    }
+
+    #[test]
+    fn test_primitive_swatch_with_options() {
+        let swatch = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "flat".to_string(),
+            opacity: Some(0.5),
+            width: Some(40),
+            height: Some(30),
+            border_color: Some("FFFFFF".to_string()),
+            border_width: Some(2),
+            label: Some("v1".to_string()),
+        };
+        if let Primitive::Swatch {
+            opacity,
+            width,
+            label,
+            ..
+        } = swatch
+        {
+            assert_eq!(opacity, Some(0.5));
+            assert_eq!(width, Some(40));
+            assert_eq!(label, Some("v1".to_string()));
+        } else {
+            panic!("Expected Swatch primitive");
+        }
     }
 
     #[test]

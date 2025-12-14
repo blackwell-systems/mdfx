@@ -134,6 +134,11 @@ enum Commands {
         /// Output directory for SVG assets (only used with svg backend)
         #[arg(long, default_value = "assets/mdfx")]
         assets_dir: String,
+
+        /// Custom palette JSON file for color definitions
+        /// Format: {"colorName": "HEXVALUE", ...}
+        #[arg(long)]
+        palette: Option<PathBuf>,
     },
 
     /// Generate shell completions
@@ -221,8 +226,17 @@ fn run(cli: Cli) -> Result<(), Error> {
             target,
             backend,
             assets_dir,
+            palette,
         } => {
-            process_file(input, output, in_place, &target, backend.as_deref(), &assets_dir)?;
+            process_file(
+                input,
+                output,
+                in_place,
+                &target,
+                backend.as_deref(),
+                &assets_dir,
+                palette.as_deref(),
+            )?;
         }
 
         Commands::Completions { shell } => {
@@ -371,6 +385,7 @@ fn process_file(
     target_name: &str,
     backend_override: Option<&str>,
     assets_dir: &str,
+    palette_path: Option<&std::path::Path>,
 ) -> Result<(), Error> {
     // Resolve target (with auto-detection support)
     let target: Box<dyn Target> = if target_name == "auto" {
@@ -417,7 +432,7 @@ fn process_file(
     };
 
     // Create the appropriate backend
-    let parser = match backend_type {
+    let mut parser = match backend_type {
         BackendType::Shields => {
             TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
         }
@@ -429,6 +444,26 @@ fn process_file(
             TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
         }
     };
+
+    // Load custom palette if provided
+    if let Some(palette_file) = palette_path {
+        let palette_content = fs::read_to_string(palette_file).map_err(Error::IoError)?;
+        let custom_palette: std::collections::HashMap<String, String> =
+            serde_json::from_str(&palette_content).map_err(|e| {
+                Error::ParseError(format!(
+                    "Failed to parse palette file '{}': {}",
+                    palette_file.display(),
+                    e
+                ))
+            })?;
+        eprintln!(
+            "{} Loaded {} custom color(s) from {}",
+            "Info:".cyan(),
+            custom_palette.len(),
+            palette_file.display()
+        );
+        parser.extend_palette(custom_palette);
+    }
 
     // Read input
     let content = if let Some(ref path) = input {
