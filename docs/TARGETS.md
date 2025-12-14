@@ -2,9 +2,9 @@
 
 **Multi-Surface Rendering Strategy**
 
-Version: 2.0 (Design)  
-Status: **Specification**  
-Last Updated: 2025-12-13
+Version: 1.0.0
+Status: **Shipped**
+Last Updated: 2025-12-14
 
 ---
 
@@ -662,57 +662,6 @@ fn detect_target_from_package_manager(cwd: &Path) -> Option<&'static str> {
     }
 }
 ```
-
----
-
-## Implementation Phases
-
-### Phase 1: v1.0 - GitHub Only ✅ COMPLETE
-
-**Status**: Shipped December 2025
-
-- ✅ Single target: GitHub (implicit)
-- ✅ Shields.io + SVG backends
-- No target abstraction yet
-
-### Phase 2: v1.1 - Add Target Trait ✅ COMPLETE (ahead of schedule)
-
-**Status**: Implemented December 2025
-
-- ✅ Added `Target` trait to codebase (`targets.rs`)
-- ✅ Implemented `GitHubTarget` (wraps current behavior)
-- ✅ Added `BackendType` enum with derived Default
-- ✅ 8 tests for Target trait
-
-**Remaining**:
-- ⏳ Refactor backends to be fully target-aware
-
-**Migration**: None required (GitHub is default)
-
-### Phase 3: v1.2 - Add More Targets ✅ COMPLETE
-
-**Status**: Implemented December 2025
-
-- ✅ Implemented `LocalDocsTarget` (SVG files, offline-first)
-- ✅ Implemented `NpmTarget` (similar to GitHub)
-- ✅ Implemented `detect_target_from_path()` utility
-- ✅ Added `--target` flag to CLI (github, local, npm, auto)
-- ✅ Wired target auto-detection into CLI
-- ✅ Added `--palette` flag for custom palettes
-
-**Migration**: None required (GitHub still default)
-
-### Phase 4: v2.0 - Full Multi-Target ✅ COMPLETE
-
-**Status**: Implemented December 2025
-
-- ✅ Implement `GitLabTarget` (more HTML support, Mermaid diagrams)
-- ✅ Implement `PyPITarget` (plain text fallbacks, ASCII-safe)
-- ⏳ Target-specific post-processing
-- ⏳ Fallback strategies
-- ⏳ Target-specific escapes
-
-**Migration**: Users can explicitly set target in config
 
 ---
 

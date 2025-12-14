@@ -2,9 +2,9 @@
 
 **The Key to Safe Composition**
 
-Version: 2.0 (Design)  
-Status: **Specification**  
-Last Updated: 2025-12-13
+Version: 1.0.0
+Status: **Partial Implementation**
+Last Updated: 2025-12-14
 
 ---
 
@@ -418,71 +418,19 @@ ERROR[2005]: Invalid frame chrome
 
 ---
 
-## Implementation Strategy
+## Current Implementation
 
-### Phase 1: Add Context Annotations ✅ COMPLETE (ahead of schedule)
+### What's Implemented
 
-**Status**: Implemented December 2025
+- **EvalContext enum** in `registry.rs` with three variants: `Inline`, `Block`, `FrameChrome`
+- **Context promotion logic** via `EvalContext::can_promote_to()`
+- **Basic separator validation** in style processing
 
-- ✅ Added `contexts` field to all renderables in `registry.json`
-- ✅ All glyphs, snippets, components, frames, styles, badges annotated
-- ✅ EvalContext enum implemented (Inline, Block, FrameChrome)
+### What's Planned
 
-**Example**:
-```json
-{
-  "glyphs": {
-    "dot": {
-      "value": "·",
-      "contexts": ["inline", "block", "frame_chrome"]
-    }
-  },
-  "components": {
-    "divider": {
-      "type": "native",
-      "contexts": ["block"]
-    }
-  }
-}
-```
-
-### Phase 2: Validate Contexts ✅ COMPLETE (ahead of schedule)
-
-**Status**: Implemented December 2025
-
-- ✅ Implemented `EvalContext::can_promote_to()` for context promotion
-- ✅ Validation logic implemented in `Registry::resolve()`
-- ✅ Separator resolution validates inline context
-- ✅ Error messages with available glyph suggestions
-
-**Current behavior** (separators):
-```bash
-$ mdfx process input.md
-# Unknown multi-grapheme separator → ERROR with suggestions
-# Known glyph in wrong context → ERROR with context explanation
-```
-
-**Remaining**:
-- ⏳ Add `--strict-contexts` flag to CLI
-- ⏳ Extend validation to all expansion sites (frames, components)
-- ⏳ Add warnings mode (currently hard errors)
-
-### Phase 3: Enforce by Default (v2.0.0) ⏳ NOT STARTED
-
-**Status**: Planned Q3 2026
-
-- ⏳ Context validation enabled by default for all sites
-- ⏳ `--allow-context-mismatches` flag to disable (escape hatch)
-- ⏳ Hard errors on mismatch
-
-**Migration**:
-```bash
-# v1.x behavior in v2.x
-$ mdfx process input.md --allow-context-mismatches
-
-# v2.x default (strict)
-$ mdfx process input.md
-```
+- Add `contexts` field to renderables in `registry.json`
+- Full validation at all expansion sites (frames, components)
+- CLI flags for strict/lenient context checking
 
 ---
 
@@ -707,10 +655,7 @@ With contexts:
 - **Block**: Section-level, multiline
 - **FrameChrome**: Inline decorations
 
-**Implementation phases**:
-- v1.1: Add context annotations (warnings)
-- v1.2: Validate contexts (opt-in)
-- v2.0: Enforce contexts (default)
+**Current status**: EvalContext enum and promotion logic implemented. Full context annotation and validation is planned.
 
 ---
 
