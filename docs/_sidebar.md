@@ -6,28 +6,34 @@
   - [What is Unicode?](/UNICODE-EXPLAINED.md)
   - [Examples](https://github.com/blackwell-systems/mdfx/tree/main/examples)
 
-- **User Guide**
-  - [19 Unicode Styles](/#19-unicode-styles)
-  - [Template System](/#template-system)
-  - [UI Components](/COMPONENTS.md)
-  - [Frame System](/FRAMES-DESIGN.md)
-  - [Multi-Backend Rendering](/#multi-backend-rendering)
-  - [CLI Commands](/#cli-commands)
+- **User Guides**
+  - [All Guides](/guides/)
+  - [Swatches](/guides/SWATCH-GUIDE.md)
+  - [Components](/guides/COMPONENTS-GUIDE.md)
+  - [Frames](/guides/FRAMES-GUIDE.md)
+  - [Text Styles](/guides/TEXT-STYLES-GUIDE.md)
+  - [Badges](/guides/BADGES-GUIDE.md)
+  - [Glyphs](/guides/GLYPHS-GUIDE.md)
+  - [Snippets](/guides/SNIPPETS-GUIDE.md)
 
-- **Technical Docs**
+- **Reference**
   - [Template Syntax](/TEMPLATE-SYNTAX.md)
-  - [Architecture](/ARCHITECTURE.md)
+  - [CLI Commands](/#cli-commands)
   - [API Guide](/API-GUIDE.md)
+
+- **Architecture**
+  - [System Design](/ARCHITECTURE.md)
+  - [Component Design](/COMPONENTS.md)
+  - [Frame Design](/FRAMES-DESIGN.md)
+  - [Evaluation Contexts](/CONTEXTS.md)
   - [State Machine](/STATE-MACHINE-GUIDE.md)
 
 - **Specifications**
   - [API Specification](/SPEC.md)
-  - [Evaluation Contexts](/CONTEXTS.md)
   - [Target System](/TARGETS.md)
   - [Roadmap](/ROADMAP.md)
 
 - **Resources**
   - [Unicode Elements](/unicode-design-elements.md)
   - [GitHub Repository](https://github.com/blackwell-systems/mdfx)
-  - [Issue Tracker](https://github.com/blackwell-systems/mdfx/issues)
   - [Changelog](https://github.com/blackwell-systems/mdfx/blob/main/CHANGELOG.md)

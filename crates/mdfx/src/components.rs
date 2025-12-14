@@ -401,10 +401,7 @@ impl ComponentsRenderer {
     /// markdown syntax inside HTML blocks.
     pub fn apply_row(content: &str, align: &str) -> String {
         // Step 1: Collapse whitespace/newlines to single spaces
-        let collapsed: String = content
-            .split_whitespace()
-            .collect::<Vec<_>>()
-            .join(" ");
+        let collapsed: String = content.split_whitespace().collect::<Vec<_>>().join(" ");
 
         // Step 2: Convert markdown images to HTML img tags
         // Pattern: ![alt](url) or ![](url)
@@ -445,9 +442,13 @@ impl ComponentsRenderer {
         result.push_str(remaining);
 
         // Step 3: Wrap with alignment
-        format!(r#"<p align="{}">
+        format!(
+            r#"<p align="{}">
 {}
-</p>"#, align, result.trim())
+</p>"#,
+            align,
+            result.trim()
+        )
     }
 
     /// Resolve a color from palette or pass through

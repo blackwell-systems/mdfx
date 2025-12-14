@@ -16,17 +16,23 @@ Welcome to the mdfx documentation site! This is your navigation hub for all docu
 - [What is Unicode?](UNICODE-EXPLAINED.md) - Understanding Unicode vs fonts
 - [Examples](https://github.com/blackwell-systems/mdfx/tree/main/examples) - Visual showcase and sample files
 
-## 📖 User Documentation
+## 📖 User Guides
 
-### Core Features
-- [19 Unicode Styles](#19-unicode-styles) - Text transformation styles (mathbold, script, fraktur, etc.)
-- [Template System](#template-system) - Embedding effects in markdown
-- [UI Components](COMPONENTS.md) - Dividers, badges, tech stacks, status indicators
-- [Frame System](FRAMES-DESIGN.md) - Visual frames and borders
+Comprehensive guides for every mdfx feature:
 
-### Rendering
-- [Multi-Backend System](#multi-backend-rendering) - Shields.io vs local SVG
+| Guide | Description |
+|-------|-------------|
+| [Swatches](guides/SWATCH-GUIDE.md) | Color blocks with 10 parameters, 5 styles, pixel art |
+| [Components](guides/COMPONENTS-GUIDE.md) | UI elements: divider, tech, status, row, header, callout |
+| [Frames](guides/FRAMES-GUIDE.md) | 29 decorative Unicode borders and wrappers |
+| [Text Styles](guides/TEXT-STYLES-GUIDE.md) | 19 Unicode typography transformations |
+| [Badges](guides/BADGES-GUIDE.md) | 6 numeral/letter badge styles for lists |
+| [Glyphs](guides/GLYPHS-GUIDE.md) | 21 single Unicode characters |
+| [Snippets](guides/SNIPPETS-GUIDE.md) | 10 reusable template fragments |
+
+### Quick Reference
 - [CLI Commands](#cli-commands) - Complete command reference
+- [Multi-Backend System](#multi-backend-rendering) - Shields.io vs local SVG
 
 ## 🔧 Technical Documentation
 
@@ -54,7 +60,7 @@ Welcome to the mdfx documentation site! This is your navigation hub for all docu
 **Looking for something specific?**
 - Installation → [Quick Start](#quick-start)
 - Using in Rust code → [API Guide](API-GUIDE.md#getting-started)
-- Component reference → [UI Components](COMPONENTS.md)
+- Component reference → [User Guides](guides/)
 - Understanding the architecture → [Architecture](ARCHITECTURE.md#workspace-structure)
 - CLI reference → [CLI Commands](#cli-commands)
 
