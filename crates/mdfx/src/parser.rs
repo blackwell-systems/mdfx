@@ -567,16 +567,15 @@ impl TemplateParser {
                     // Parse potential style name
                     let mut j = i + 2;
                     let mut name = String::new();
-                    while j < chars.len()
-                        && (chars[j].is_alphanumeric() || chars[j] == '-')
-                    {
+                    while j < chars.len() && (chars[j].is_alphanumeric() || chars[j] == '-') {
                         name.push(chars[j]);
                         j += 1;
                     }
                     // Check if it's a block style (not self-closing, has closing tag)
                     // Skip known prefixes
                     if !name.is_empty()
-                        && !["frame", "fr", "ui", "shields", "glyph", "kbd"].contains(&name.as_str())
+                        && !["frame", "fr", "ui", "shields", "glyph", "kbd"]
+                            .contains(&name.as_str())
                         && j < chars.len()
                     {
                         // Check for closing }} after optional params
@@ -584,10 +583,7 @@ impl TemplateParser {
                         // Skip parameters like :spacing=N
                         while k < chars.len() && chars[k] == ':' {
                             k += 1;
-                            while k < chars.len()
-                                && chars[k] != ':'
-                                && chars[k] != '}'
-                            {
+                            while k < chars.len() && chars[k] != ':' && chars[k] != '}' {
                                 k += 1;
                             }
                         }
@@ -625,10 +621,9 @@ impl TemplateParser {
                         }
                     } else {
                         // Specific style closer
-                        if let Some(pos) = open_tags
-                            .iter()
-                            .rposition(|(t, c)| *t == "style" && c == &format!("{{{{/{}}}}}", closer_name))
-                        {
+                        if let Some(pos) = open_tags.iter().rposition(|(t, c)| {
+                            *t == "style" && c == &format!("{{{{/{}}}}}", closer_name)
+                        }) {
                             open_tags.remove(pos);
                         }
                     }
@@ -2065,7 +2060,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{mathbold}}{{italic}}TEXT{{//}}";
         let expanded = parser.expand_close_all(input);
         // Should expand to close both styles in reverse order
-        assert_eq!(expanded, "{{mathbold}}{{italic}}TEXT{{/italic}}{{/mathbold}}");
+        assert_eq!(
+            expanded,
+            "{{mathbold}}{{italic}}TEXT{{/italic}}{{/mathbold}}"
+        );
     }
 
     #[test]
@@ -2074,7 +2072,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:gradient}}{{mathbold}}TEXT{{//}}";
         let expanded = parser.expand_close_all(input);
         // Should expand to close style first, then frame
-        assert_eq!(expanded, "{{fr:gradient}}{{mathbold}}TEXT{{/mathbold}}{{/}}");
+        assert_eq!(
+            expanded,
+            "{{fr:gradient}}{{mathbold}}TEXT{{/mathbold}}{{/}}"
+        );
     }
 
     #[test]

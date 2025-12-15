@@ -716,36 +716,36 @@
 
     "frames": {
       "gradient": {
-        "prefix": "▓▒░ ",
-        "suffix": " ░▒▓",
+        "pattern": "▓▒░",
+        "mode": "mirror",
         "description": "Gradient blocks from bold to light",
         "contexts": ["inline", "block"],
         "aliases": ["grad", "gradient-full"]
       },
       "gradient-light": {
-        "prefix": "▒░ ",
-        "suffix": " ░▒",
+        "pattern": "▒░",
+        "mode": "mirror",
         "description": "Light gradient blocks",
         "contexts": ["inline", "block"],
         "aliases": ["gradlight"]
       },
       "gradient-reverse": {
-        "prefix": "░▒▓ ",
-        "suffix": " ▓▒░",
+        "pattern": "░▒▓",
+        "mode": "mirror",
         "description": "Reversed gradient blocks",
         "contexts": ["inline", "block"],
         "aliases": ["gradrev"]
       },
       "solid-left": {
-        "prefix": "█▌",
-        "suffix": "",
+        "pattern": "█▌",
+        "mode": "prefix-only",
         "description": "Solid block on the left",
         "contexts": ["inline", "block"],
         "aliases": ["solidleft", "left"]
       },
       "solid-right": {
-        "prefix": "",
-        "suffix": "▐█",
+        "pattern": "▐█",
+        "mode": "suffix-only",
         "description": "Solid block on the right",
         "contexts": ["inline", "block"],
         "aliases": ["solidright", "right"]
@@ -758,43 +758,43 @@
         "aliases": ["solid", "solidboth"]
       },
       "line-light": {
-        "prefix": "─── ",
-        "suffix": " ───",
+        "pattern": "───",
+        "mode": "repeat",
         "description": "Light horizontal lines",
         "contexts": ["inline", "block"],
         "aliases": ["line", "light"]
       },
       "line-bold": {
-        "prefix": "━━━ ",
-        "suffix": " ━━━",
+        "pattern": "━━━",
+        "mode": "repeat",
         "description": "Bold horizontal lines",
         "contexts": ["inline", "block"],
         "aliases": ["bold-line", "dashed"]
       },
       "line-double": {
-        "prefix": "═══ ",
-        "suffix": " ═══",
+        "pattern": "═══",
+        "mode": "repeat",
         "description": "Double horizontal lines",
         "contexts": ["inline", "block"],
         "aliases": ["double", "double-line"]
       },
       "line-dashed": {
-        "prefix": "╌╌╌ ",
-        "suffix": " ╌╌╌",
+        "pattern": "╌╌╌",
+        "mode": "repeat",
         "description": "Dashed horizontal lines",
         "contexts": ["inline", "block"],
         "aliases": ["dash", "dashes"]
       },
       "block-top": {
-        "prefix": "▀▀▀ ",
-        "suffix": " ▀▀▀",
+        "pattern": "▀▀▀",
+        "mode": "repeat",
         "description": "Block elements above text",
         "contexts": ["inline", "block"],
         "aliases": ["top"]
       },
       "block-bottom": {
-        "prefix": "▄▄▄ ",
-        "suffix": " ▄▄▄",
+        "pattern": "▄▄▄",
+        "mode": "repeat",
         "description": "Block elements below text",
         "contexts": ["inline", "block"],
         "aliases": ["bottom"]
@@ -877,36 +877,36 @@
         "aliases": ["arcbottom", "rounded-bottom"]
       },
       "alert-warning": {
-        "prefix": "⚠️ ",
-        "suffix": "",
+        "pattern": "⚠️ ",
+        "mode": "prefix-only",
         "description": "Warning alert frame",
         "contexts": ["block"],
         "aliases": ["warn", "caution"]
       },
       "alert-info": {
-        "prefix": "ℹ️ ",
-        "suffix": "",
+        "pattern": "ℹ️ ",
+        "mode": "prefix-only",
         "description": "Info alert frame",
         "contexts": ["block"],
         "aliases": ["note", "tip"]
       },
       "alert-success": {
-        "prefix": "✅ ",
-        "suffix": "",
+        "pattern": "✅ ",
+        "mode": "prefix-only",
         "description": "Success alert frame",
         "contexts": ["block"],
         "aliases": ["done", "ok"]
       },
       "alert-error": {
-        "prefix": "❌ ",
-        "suffix": "",
+        "pattern": "❌ ",
+        "mode": "prefix-only",
         "description": "Error alert frame",
         "contexts": ["block"],
         "aliases": ["danger", "fail"]
       },
       "color-accent": {
-        "prefix": "{{ui:swatch:accent/}} ",
-        "suffix": "",
+        "pattern": "{{ui:swatch:accent/}} ",
+        "mode": "prefix-only",
         "description": "Accent color block prefix",
         "contexts": ["block"],
         "aliases": ["accent"]

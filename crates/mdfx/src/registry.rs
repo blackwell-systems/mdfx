@@ -90,8 +90,43 @@ pub struct Component {
     pub post_process: Option<String>,
 }
 
+/// Suffix generation mode for frames
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum SuffixMode {
+    /// Suffix is the pattern reversed (▓▒░ → ░▒▓)
+    Mirror,
+    /// Suffix is the same as pattern (▓▒░ → ▓▒░)
+    Repeat,
+    /// Prefix only, no suffix
+    PrefixOnly,
+    /// Suffix only, no prefix
+    SuffixOnly,
+}
+
+/// Raw frame definition from JSON (supports both formats)
+#[derive(Debug, Clone, Deserialize)]
+struct FrameRaw {
+    // New pattern+mode format
+    #[serde(default)]
+    pattern: Option<String>,
+    #[serde(default)]
+    mode: Option<SuffixMode>,
+    // Legacy explicit format
+    #[serde(default)]
+    prefix: Option<String>,
+    #[serde(default)]
+    suffix: Option<String>,
+    // Common fields
+    #[serde(default)]
+    description: Option<String>,
+    contexts: Vec<EvalContext>,
+    #[serde(default)]
+    aliases: Vec<String>,
+}
+
 /// A frame definition with prefix/suffix
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct Frame {
     pub prefix: String,
     pub suffix: String,
@@ -100,6 +135,42 @@ pub struct Frame {
     pub contexts: Vec<EvalContext>,
     #[serde(default)]
     pub aliases: Vec<String>,
+}
+
+impl<'de> Deserialize<'de> for Frame {
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let raw = FrameRaw::deserialize(deserializer)?;
+
+        let (prefix, suffix) = if let Some(pattern) = raw.pattern {
+            // New format: generate prefix/suffix from pattern + mode
+            let mode = raw.mode.unwrap_or(SuffixMode::Mirror);
+            let reversed: String = pattern.chars().rev().collect();
+
+            match mode {
+                SuffixMode::Mirror => (format!("{} ", pattern), format!(" {}", reversed)),
+                SuffixMode::Repeat => (format!("{} ", pattern), format!(" {}", pattern)),
+                SuffixMode::PrefixOnly => (pattern, String::new()),
+                SuffixMode::SuffixOnly => (String::new(), pattern),
+            }
+        } else {
+            // Legacy format: use explicit prefix/suffix
+            (
+                raw.prefix.unwrap_or_default(),
+                raw.suffix.unwrap_or_default(),
+            )
+        };
+
+        Ok(Frame {
+            prefix,
+            suffix,
+            description: raw.description,
+            contexts: raw.contexts,
+            aliases: raw.aliases,
+        })
+    }
 }
 
 /// Character support information for styles
