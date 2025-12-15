@@ -28,18 +28,18 @@ Heavy, attention-grabbing typography.
 | `sans-serif-bold` | ssb, sans-bold | A-Z, a-z, 0-9 | 𝗦𝗮𝗻𝘀 𝗕𝗼𝗹𝗱 |
 | `sans-serif-bold-italic` | ssbi, sans-bold-italic | A-Z, a-z | 𝙎𝙖𝙣𝙨 𝘽𝙤𝙡𝙙 𝙄𝙩𝙖𝙡𝙞𝙘 |
 
+**Syntax:**
 ```markdown
 {{mathbold}}ANNOUNCEMENT{{/mathbold}}
 {{fullwidth}}WIDE HEADER{{/fullwidth}}
 {{sans-serif-bold}}Modern Bold{{/sans-serif-bold}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 𝐀𝐍𝐍𝐎𝐔𝐍𝐂𝐄𝐌𝐄𝐍𝐓
-ＷＩＤＥ　ＨＥＡＤＥＲ
+ＷＩＤＥ ＨＥＡＤＥＲ
 𝗠𝗼𝗱𝗲𝗿𝗻 𝗕𝗼𝗹𝗱
-```
 
 ---
 
@@ -56,6 +56,7 @@ Letters wrapped in geometric shapes. **Uppercase only** (except parenthesized an
 | `parenthesized` | paren, parens | ⒜⒝⒞ (letters in parentheses) |
 | `inverted` | upsidedown, flip, flipped | ɐqɔ (upside-down text) |
 
+**Syntax:**
 ```markdown
 {{negative-squared}}VIP{{/negative-squared}}
 {{negative-circled}}NEW{{/negative-circled}}
@@ -65,15 +66,9 @@ Letters wrapped in geometric shapes. **Uppercase only** (except parenthesized an
 {{inverted}}Hello{{/inverted}}
 ```
 
-**Output:**
-```
-🆅🅸🅿
-🅝🅔🅦
-🄸🄽🄵🄾
-Ⓐⓑⓒ
-⒜⒝⒞
-oʃʃǝH
-```
+**Rendered:**
+
+🆅🅸🅿 🅝🅔🅦 🄸🄽🄵🄾 ⒶⒷⒸ ⒜⒝⒞ Hǝllo
 
 **Use case:** Status labels, badges, highlighted keywords, fun effects.
 
@@ -91,6 +86,7 @@ Flowing, decorative typography for artistic emphasis.
 | `script` | scr, cursive, calligraphic | A-Z, a-z | 𝒮𝒸𝓇𝒾𝓅𝓉 |
 | `bold-script` | bscr, bold-cursive | A-Z, a-z | 𝓑𝓸𝓵𝓭 𝓢𝓬𝓻𝓲𝓹𝓽 |
 
+**Syntax:**
 ```markdown
 {{small-caps}}elegant header{{/small-caps}}
 {{italic}}Emphasized text{{/italic}}
@@ -98,13 +94,12 @@ Flowing, decorative typography for artistic emphasis.
 {{bold-script}}Premium Edition{{/bold-script}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ᴇʟᴇɢᴀɴᴛ ʜᴇᴀᴅᴇʀ
 𝐸𝑚𝑝ℎ𝑎𝑠𝑖𝑧𝑒𝑑 𝑡𝑒𝑥𝑡
-𝒻𝒶𝓃𝒸𝓎 𝒮𝒾𝑔𝓃𝒶𝓉𝓊𝓇𝑒
+ℱ𝒶𝓃𝒸𝓎 𝒮𝒾ℊ𝓃𝒶𝓉𝓊𝓇ℯ
 𝓟𝓻𝓮𝓶𝓲𝓾𝓶 𝓔𝓭𝓲𝓽𝓲𝓸𝓷
-```
 
 ---
 
@@ -117,16 +112,16 @@ Medieval manuscript-style typography.
 | `fraktur` | fr, gothic, blackletter | A-Z, a-z | 𝔉𝔯𝔞𝔨𝔱𝔲𝔯 |
 | `bold-fraktur` | bfr, bold-gothic | A-Z, a-z | 𝕭𝖔𝖑𝖉 𝕱𝖗𝖆𝖐𝖙𝖚𝖗 |
 
+**Syntax:**
 ```markdown
 {{fraktur}}Dark Fantasy{{/fraktur}}
 {{bold-fraktur}}CHAPTER ONE{{/bold-fraktur}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 𝔇𝔞𝔯𝔨 𝔉𝔞𝔫𝔱𝔞𝔰𝔶
 𝕮𝕳𝕬𝕻𝕿𝕰𝕽 𝕺𝕹𝕰
-```
 
 **Use case:** Fantasy themes, historical documents, dramatic headers.
 
@@ -145,6 +140,7 @@ Clean, precise typography for technical content.
 | `subscript` | sub | a,e,h,i,k-p,r-u,x, 0-9 | H₂O |
 | `superscript` | sup, super | a-z, 0-9 | x² |
 
+**Syntax:**
 ```markdown
 {{monospace}}CODE_BLOCK{{/monospace}}
 {{double-struck}}MATH SET{{/double-struck}}
@@ -153,14 +149,13 @@ Clean, precise typography for technical content.
 {{superscript}}x2{{/superscript}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 𝙲𝙾𝙳𝙴_𝙱𝙻𝙾𝙲𝙺
 𝕄𝔸𝕋ℍ 𝕊𝔼𝕋
 𝖢𝗅𝖾𝖺𝗇 𝖣𝖾𝗌𝗂𝗀𝗇
-H₂O
-x²
-```
+H₂O (water)
+x² (squared)
 
 **Use case:** Technical documentation, mathematical notation, code references, chemistry formulas.
 
@@ -170,18 +165,18 @@ x²
 
 Add visual spacing between words with the `separator` parameter:
 
+**Syntax:**
 ```markdown
 {{mathbold:separator=dot}}HELLO WORLD{{/mathbold}}
 {{fullwidth:separator=star}}GET STARTED{{/fullwidth}}
 ```
 
-**Output:**
-```
-𝐇𝐄𝐋𝐋𝐎 · 𝐖𝐎𝐑𝐋𝐃
-ＧＥＴＳＴＡＲＴＥＤ ★
-```
+**Rendered:**
 
-Available separators: Any separator name (`dot`, `star`, `bullet`, `diamond`, `arrow`, etc.)
+𝐇·𝐄·𝐋·𝐋·𝐎· ·𝐖·𝐎·𝐑·𝐋·𝐃
+Ｇ★Ｅ★Ｔ★ ★Ｓ★Ｔ★Ａ★Ｒ★Ｔ★Ｅ★Ｄ
+
+Available separators: `dot`, `star`, `bullet`, `diamond`, `arrow`, and more.
 
 ---
 
@@ -224,53 +219,90 @@ Available separators: Any separator name (`dot`, `star`, `bullet`, `diamond`, `a
 
 Text styles pair beautifully with frames:
 
+**Syntax:**
 ```markdown
 {{frame:gradient}}{{mathbold}}ANNOUNCEMENT{{/mathbold}}{{/frame}}
 {{frame:star}}{{fraktur}}Featured{{/fraktur}}{{/frame}}
 {{frame:lenticular}}{{fullwidth}}TITLE{{/fullwidth}}{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ▓▒░ 𝐀𝐍𝐍𝐎𝐔𝐍𝐂𝐄𝐌𝐄𝐍𝐓 ░▒▓
 ★ 𝔉𝔢𝔞𝔱𝔲𝔯𝔢𝔡 ☆
 【ＴＩＴＬＥ】
-```
 
 ---
 
 ## Practical Examples
 
 ### README Header
+
+**Syntax:**
 ```markdown
 {{frame:gradient}}{{mathbold:separator=dot}}PROJECT NAME{{/mathbold}}{{/frame}}
 ```
 
+**Rendered:**
+
+▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓· ·𝐍·𝐀·𝐌·𝐄 ░▒▓
+
 ### Gothic Chapter Title
+
+**Syntax:**
 ```markdown
 {{frame:line-double}}{{bold-fraktur}}CHAPTER I{{/bold-fraktur}}{{/frame}}
 ```
 
+**Rendered:**
+
+═══ 𝕮𝕳𝕬𝕻𝕿𝕰𝕽 𝕴 ═══
+
 ### Tech Badge Row
+
+**Syntax:**
 ```markdown
 {{negative-squared}}API{{/negative-squared}} {{negative-circled}}V2{{/negative-circled}}
 ```
 
+**Rendered:**
+
+🅰🅿🅸 🅥2
+
 ### Elegant Signature
+
+**Syntax:**
 ```markdown
 {{frame:heavy-quote}}{{script}}Best regards{{/script}}{{/frame}}
 ```
 
+**Rendered:**
+
+❝ℬℯ𝓈𝓉 𝓇ℯℊ𝒶𝓇𝒹𝓈❞
+
 ### Mathematical Notation
+
+**Syntax:**
 ```markdown
 Let {{double-struck}}R{{/double-struck}} be the set of real numbers
 ```
 
+**Rendered:**
+
+Let ℝ be the set of real numbers
+
 ### Status Labels
+
+**Syntax:**
 ```markdown
 {{negative-squared}}NEW{{/negative-squared}} Feature release
 {{squared-latin}}BETA{{/squared-latin}} Testing phase
 ```
+
+**Rendered:**
+
+🅽🅴🆆 Feature release
+🄱🄴🅃🄰 Testing phase
 
 ---
 
@@ -322,3 +354,9 @@ Let {{double-struck}}R{{/double-struck}} be the set of real numbers
 4. **Check support** - Boxed styles only work with uppercase
 5. **Combine wisely** - One style + one frame usually looks best
 6. **Accessibility** - Screen readers may struggle with Unicode text
+
+---
+
+<p align="center">
+ʀᴇɴᴅᴇʀᴇᴅ ᴡɪᴛʜ ᴍᴅꜰx
+</p>

@@ -35,6 +35,12 @@ Generate `manifest.json` for CI caching and reproducible builds:
 
 Skip writing unchanged SVG files for faster rebuilds.
 
+### Template Aliases
+
+Short aliases for power users:
+
+- `fr` → `frame` (e.g., `{{fr:gradient}}X{{/fr}}`)
+
 ---
 
 ## v1.2.0 - Tooling

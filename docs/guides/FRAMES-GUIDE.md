@@ -34,12 +34,13 @@ Block element gradients for dramatic emphasis.
 {{frame:gradient-reverse}}Inverted style{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ▓▒░ DRAMATIC HEADER ░▒▓
+
 ▒░ Subtle emphasis ░▒
+
 ░▒▓ Inverted style ▓▒░
-```
 
 ---
 
@@ -59,12 +60,13 @@ Heavy block elements for strong visual weight.
 {{frame:solid-both}}Fully framed{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 █▌Callout text
+
 Right aligned▐█
+
 █▌Fully framed▐█
-```
 
 **Use case:** `solid-left` is excellent for callout boxes and blockquote-style content.
 
@@ -88,13 +90,15 @@ Horizontal rules for clean separators.
 {{frame:line-dashed}}Dashed style{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ─── Light divider ───
+
 ━━━ Bold divider ━━━
+
 ═══ Double line ═══
+
 ╌╌╌ Dashed style ╌╌╌
-```
 
 ---
 
@@ -112,11 +116,11 @@ Top/bottom block decorations.
 {{frame:block-bottom}}Lower block{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ▀▀▀ Upper block ▀▀▀
+
 ▄▄▄ Lower block ▄▄▄
-```
 
 ---
 
@@ -142,13 +146,15 @@ Decorative symbols for visual flair.
 {{frame:arrow}}Navigation{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ★ Featured content ☆
+
 ◆ Premium item ◇
+
 ☞ Important note ☜
+
 → Navigation →
-```
 
 ---
 
@@ -171,13 +177,15 @@ International quotation styles and brackets.
 {{frame:guillemet}}French quotation{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ❝A memorable quote❞
+
 【Japanese style】
+
 《Chinese brackets》
+
 « French quotation »
-```
 
 ---
 
@@ -197,12 +205,13 @@ Unique decorative elements.
 {{frame:arc-bottom}}Rounded bottom{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ⁂ Section break ⁂
+
 ╭ Rounded top ╮
+
 ╰ Rounded bottom ╯
-```
 
 **Combine arcs for a rounded box effect:**
 ```markdown
@@ -230,13 +239,15 @@ Status indicator prefixes for notifications.
 {{frame:alert-error}}Something went wrong{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ⚠️ Proceed with caution
+
 ℹ️ Helpful tip here
+
 ✅ Operation complete
+
 ❌ Something went wrong
-```
 
 ---
 
@@ -244,24 +255,25 @@ Status indicator prefixes for notifications.
 
 Frames can be nested for layered visual effects:
 
+**Syntax:**
 ```markdown
 {{frame:gradient}}{{frame:line-bold}}ANNOUNCEMENT{{/frame}}{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ▓▒░ ━━━ ANNOUNCEMENT ━━━ ░▒▓
-```
 
 **Triple nesting:**
+
+**Syntax:**
 ```markdown
 {{frame:solid-left}}{{frame:gradient}}{{frame:star}}VIP{{/frame}}{{/frame}}{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 █▌▓▒░ ★ VIP ☆ ░▒▓
-```
 
 ---
 
@@ -269,52 +281,90 @@ Frames can be nested for layered visual effects:
 
 Frames work beautifully with text styles:
 
+**Syntax:**
 ```markdown
 {{frame:gradient}}{{mathbold}}BOLD HEADER{{/mathbold}}{{/frame}}
 {{frame:star}}{{fraktur}}Gothic Text{{/fraktur}}{{/frame}}
 {{frame:lenticular}}{{fullwidth}}WIDE TEXT{{/fullwidth}}{{/frame}}
 ```
 
-**Output:**
-```
+**Rendered:**
+
 ▓▒░ 𝐁𝐎𝐋𝐃 𝐇𝐄𝐀𝐃𝐄𝐑 ░▒▓
+
 ★ 𝔊𝔬𝔱𝔥𝔦𝔠 𝔗𝔢𝔵𝔱 ☆
-【ＷＩＤＥ　ＴＥＸＴ】
-```
+
+【ＷＩＤＥ ＴＥＸＴ】
 
 ---
 
 ## Practical Examples
 
 ### Section Header
+
+**Syntax:**
 ```markdown
 {{frame:gradient}}{{mathbold:separator=dot}}GETTING STARTED{{/mathbold}}{{/frame}}
 ```
 
+**Rendered:**
+
+▓▒░ 𝐆·𝐄·𝐓·𝐓·𝐈·𝐍·𝐆· ·𝐒·𝐓·𝐀·𝐑·𝐓·𝐄·𝐃 ░▒▓
+
 ### Callout Box
+
+**Syntax:**
 ```markdown
 {{frame:solid-left}}{{ui:swatch:warning/}} **Warning:** This action cannot be undone.{{/frame}}
 ```
 
+**Rendered:**
+
+█▌![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) **Warning:** This action cannot be undone.
+
 ### Featured Quote
+
+**Syntax:**
 ```markdown
 {{frame:heavy-quote}}{{italic}}The best code is no code at all.{{/italic}}{{/frame}}
 ```
 
+**Rendered:**
+
+❝𝑇ℎ𝑒 𝑏𝑒𝑠𝑡 𝑐𝑜𝑑𝑒 𝑖𝑠 𝑛𝑜 𝑐𝑜𝑑𝑒 𝑎𝑡 𝑎𝑙𝑙.❞
+
 ### Navigation Breadcrumb
+
+**Syntax:**
 ```markdown
 {{frame:arrow}}Home → Products → Details{{/frame}}
 ```
 
+**Rendered:**
+
+→ Home → Products → Details →
+
 ### Japanese-Style Title
+
+**Syntax:**
 ```markdown
 {{frame:lenticular}}{{fullwidth}}CHAPTER ONE{{/fullwidth}}{{/frame}}
 ```
 
+**Rendered:**
+
+【ＣＨＡＰＴＥＲ ＯＮＥ】
+
 ### Status Banner
+
+**Syntax:**
 ```markdown
 {{frame:gradient}}{{frame:alert-success}}All systems operational{{/frame}}{{/frame}}
 ```
+
+**Rendered:**
+
+▓▒░ ✅ All systems operational ░▒▓
 
 ---
 
@@ -340,3 +390,9 @@ Frames work beautifully with text styles:
 3. **Test rendering** - Some Unicode may display differently across fonts/platforms
 4. **Use aliases** - Shorter aliases like `grad` and `bold-line` speed up typing
 5. **Combine wisely** - Frames + text styles + swatches create rich visual elements
+
+---
+
+<p align="center">
+ʀᴇɴᴅᴇʀᴇᴅ ᴡɪᴛʜ ᴍᴅꜰx
+</p>
