@@ -41,6 +41,7 @@
 pub mod components;
 pub mod converter;
 pub mod error;
+#[deprecated(since = "1.1.0", note = "Use Registry::apply_frame() instead")]
 pub mod frames;
 pub mod manifest;
 pub mod parser;
@@ -55,11 +56,10 @@ pub mod targets;
 pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
 pub use converter::Converter;
 pub use error::{Error, Result};
-pub use frames::{FrameRenderer, FrameStyle};
 pub use manifest::{AssetEntry, AssetManifest, PrimitiveInfo, VerificationResult};
 pub use parser::{ProcessedMarkdown, TemplateParser};
 pub use primitive::Primitive;
-pub use registry::{EvalContext, Registry, ResolvedRenderable};
+pub use registry::{EvalContext, Frame, Registry, ResolvedRenderable};
 pub use renderer::plaintext::PlainTextBackend;
 pub use renderer::{RenderedAsset, Renderer};
 pub use shields::ShieldStyle as ShieldsShieldStyle;

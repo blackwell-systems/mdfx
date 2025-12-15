@@ -11,7 +11,7 @@
 //! - Unified resolution pipeline for all renderables
 //! - Single source of truth for palette colors
 
-use crate::error::Result;
+use crate::error::{Error, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -303,6 +303,29 @@ impl Registry {
     /// Get all frames
     pub fn frames(&self) -> &HashMap<String, Frame> {
         &self.data.renderables.frames
+    }
+
+    /// Apply a frame around text
+    ///
+    /// # Arguments
+    ///
+    /// * `text` - The text to frame
+    /// * `frame_name` - The frame ID or alias (e.g., "gradient", "solid-left")
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use mdfx::Registry;
+    ///
+    /// let registry = Registry::new().unwrap();
+    /// let result = registry.apply_frame("Title", "gradient").unwrap();
+    /// assert_eq!(result, "▓▒░ Title ░▒▓");
+    /// ```
+    pub fn apply_frame(&self, text: &str, frame_name: &str) -> Result<String> {
+        let frame = self
+            .frame(frame_name)
+            .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
+        Ok(format!("{}{}{}", frame.prefix, text, frame.suffix))
     }
 
     // =========================================================================

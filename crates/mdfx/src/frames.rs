@@ -98,12 +98,14 @@ impl FrameRenderer {
     /// # Examples
     ///
     /// ```
-    /// use mdfx::FrameRenderer;
+    /// use mdfx::Registry;
     ///
-    /// let renderer = FrameRenderer::new().unwrap();
-    /// let result = renderer.apply_frame("Title", "gradient").unwrap();
+    /// // Prefer Registry::apply_frame() - this module is deprecated
+    /// let registry = Registry::new().unwrap();
+    /// let result = registry.apply_frame("Title", "gradient").unwrap();
     /// assert_eq!(result, "▓▒░ Title ░▒▓");
     /// ```
+    #[deprecated(since = "1.1.0", note = "Use Registry::apply_frame() instead")]
     pub fn apply_frame(&self, text: &str, frame_style: &str) -> Result<String> {
         let style = self.get_frame(frame_style)?;
         Ok(format!("{}{}{}", style.prefix, text, style.suffix))

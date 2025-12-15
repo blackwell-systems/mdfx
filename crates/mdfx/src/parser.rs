@@ -1,7 +1,6 @@
 use crate::components::{ComponentOutput, ComponentsRenderer, PostProcess};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
-use crate::frames::FrameRenderer;
 use crate::registry::Registry;
 use crate::renderer::shields::ShieldsBackend;
 use crate::renderer::{RenderedAsset, Renderer};
@@ -68,7 +67,6 @@ pub struct ProcessedMarkdown {
 /// Parser for processing markdown with style templates
 pub struct TemplateParser {
     converter: Converter,
-    frame_renderer: FrameRenderer,
     components_renderer: ComponentsRenderer,
     shields_renderer: ShieldsRenderer, // Keep for {{shields:*}} escape hatch
     backend: Box<dyn Renderer>,        // Pluggable rendering backend
@@ -84,13 +82,11 @@ impl TemplateParser {
     /// Create a template parser with a custom backend
     pub fn with_backend(backend: Box<dyn Renderer>) -> Result<Self> {
         let converter = Converter::new()?;
-        let frame_renderer = FrameRenderer::new()?;
         let components_renderer = ComponentsRenderer::new()?;
         let shields_renderer = ShieldsRenderer::new()?;
         let registry = Registry::new()?;
         Ok(Self {
             converter,
-            frame_renderer,
             components_renderer,
             shields_renderer,
             backend,
@@ -350,12 +346,8 @@ impl TemplateParser {
                         // Apply glyph as both prefix and suffix with spaces
                         format!("{} {} {}", glyph_char, processed_content, glyph_char)
                     } else {
-                        // Validate frame exists via unified Registry
-                        if self.registry.frame(&frame_data.frame_style).is_none() {
-                            return Err(Error::UnknownFrame(frame_data.frame_style));
-                        }
-                        // Apply frame to processed content
-                        self.frame_renderer
+                        // Apply frame to processed content (validates frame exists)
+                        self.registry
                             .apply_frame(&processed_content, &frame_data.frame_style)?
                     };
                     result.push_str(&framed);
