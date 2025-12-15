@@ -72,6 +72,8 @@ mdfx process --strict input.md
 - Rule primitive for lines
 - BadgeGroup for consistent badge spacing
 - Grapheme cluster support for emoji separators
+- **Template includes** - `{{include:_header.md/}}` to compose documents from partials
+- **Conditional blocks** - `{{#if target=github}}GitHub-only content{{/if}}`
 
 ---
 

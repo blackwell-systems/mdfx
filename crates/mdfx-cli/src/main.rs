@@ -9,10 +9,13 @@ use mdfx::{
     available_targets, detect_target_from_path, get_target, BackendType, Converter, Error,
     StyleCategory, Target, TemplateParser,
 };
+use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process;
+use std::sync::mpsc::channel;
+use std::time::Duration;
 
 #[cfg(feature = "lsp")]
 mod lsp;
@@ -209,6 +212,44 @@ enum Commands {
         palette: Option<PathBuf>,
     },
 
+    /// Watch file for changes and rebuild automatically
+    ///
+    /// Monitor the input file and automatically rebuild the output when changes
+    /// are detected. Useful during development for live preview.
+    ///
+    /// Examples:
+    ///   mdfx watch input.md -o output.md
+    ///   mdfx watch README.template.md -o README.md --target github
+    ///   mdfx watch docs/source.md -o docs/rendered.md --backend svg
+    Watch {
+        /// Input file to watch
+        input: PathBuf,
+
+        /// Output file
+        #[arg(short, long)]
+        output: PathBuf,
+
+        /// Target platform (github, local, npm, auto)
+        #[arg(short, long, default_value = "github")]
+        target: String,
+
+        /// Rendering backend override (shields, svg)
+        #[arg(short, long)]
+        backend: Option<String>,
+
+        /// Output directory for SVG assets (only used with svg backend)
+        #[arg(long, default_value = "assets/mdfx")]
+        assets_dir: String,
+
+        /// Custom palette JSON file for color definitions
+        #[arg(long)]
+        palette: Option<PathBuf>,
+
+        /// Debounce delay in milliseconds
+        #[arg(long, default_value = "100")]
+        debounce: u64,
+    },
+
     /// Start the Language Server Protocol (LSP) server
     ///
     /// Provides IDE integration with autocompletion for mdfx template syntax.
@@ -301,6 +342,26 @@ fn run(cli: Cli) -> Result<(), Error> {
                 targets.as_deref(),
                 all_targets,
                 palette.as_deref(),
+            )?;
+        }
+
+        Commands::Watch {
+            input,
+            output,
+            target,
+            backend,
+            assets_dir,
+            palette,
+            debounce,
+        } => {
+            watch_file(
+                input,
+                output,
+                &target,
+                backend.as_deref(),
+                &assets_dir,
+                palette.as_deref(),
+                debounce,
             )?;
         }
 
@@ -894,6 +955,103 @@ fn build_multi_target(
         "✓".green().bold(),
         success_count
     );
+
+    Ok(())
+}
+
+fn watch_file(
+    input: PathBuf,
+    output: PathBuf,
+    target_name: &str,
+    backend_override: Option<&str>,
+    assets_dir: &str,
+    palette_path: Option<&std::path::Path>,
+    debounce_ms: u64,
+) -> Result<(), Error> {
+    // Validate input file exists
+    if !input.exists() {
+        return Err(Error::IoError(io::Error::new(
+            io::ErrorKind::NotFound,
+            format!("Input file not found: {}", input.display()),
+        )));
+    }
+
+    println!("{}", "Watch mode".bold().cyan());
+    println!("  Input:  {}", input.display().to_string().green());
+    println!("  Output: {}", output.display().to_string().green());
+    println!("  Target: {}", target_name.yellow());
+    if let Some(backend) = backend_override {
+        println!("  Backend: {}", backend.yellow());
+    }
+    println!();
+    println!("{}", "Press Ctrl+C to stop watching".dimmed());
+    println!();
+
+    // Initial build
+    println!("{} Initial build...", "[watch]".cyan());
+    match process_file(
+        Some(input.clone()),
+        Some(output.clone()),
+        false,
+        target_name,
+        backend_override,
+        assets_dir,
+        palette_path,
+    ) {
+        Ok(()) => println!("{} Build complete", "[watch]".green()),
+        Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),
+    }
+
+    // Set up file watcher
+    let (tx, rx) = channel();
+
+    let config = Config::default().with_poll_interval(Duration::from_millis(debounce_ms));
+
+    let mut watcher: RecommendedWatcher =
+        Watcher::new(tx, config).map_err(|e| Error::ParseError(format!("Watch error: {}", e)))?;
+
+    // Watch the input file's parent directory
+    let watch_path = input.parent().unwrap_or(&input);
+    watcher
+        .watch(watch_path, RecursiveMode::NonRecursive)
+        .map_err(|e| Error::ParseError(format!("Watch error: {}", e)))?;
+
+    let input_filename = input.file_name();
+
+    // Event loop
+    loop {
+        match rx.recv() {
+            Ok(Ok(event)) => {
+                // Check if the event is for our input file
+                let is_our_file = event.paths.iter().any(|p| p.file_name() == input_filename);
+
+                if is_our_file && event.kind.is_modify() {
+                    println!();
+                    println!("{} File changed, rebuilding...", "[watch]".cyan());
+
+                    match process_file(
+                        Some(input.clone()),
+                        Some(output.clone()),
+                        false,
+                        target_name,
+                        backend_override,
+                        assets_dir,
+                        palette_path,
+                    ) {
+                        Ok(()) => println!("{} Build complete", "[watch]".green()),
+                        Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),
+                    }
+                }
+            }
+            Ok(Err(e)) => {
+                eprintln!("{} Watch error: {}", "[watch]".red(), e);
+            }
+            Err(e) => {
+                eprintln!("{} Channel error: {}", "[watch]".red(), e);
+                break;
+            }
+        }
+    }
 
     Ok(())
 }

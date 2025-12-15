@@ -9,6 +9,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Watch Mode (`mdfx watch`)
+
+- **Live rebuilding** - Monitor input file and automatically rebuild on changes
+- **Debounce support** - Configurable delay to avoid rapid rebuilds (default: 100ms)
+- **Full feature parity** - Supports all process options: `--target`, `--backend`, `--assets-dir`, `--palette`
+
+**Usage:**
+```bash
+mdfx watch input.md -o output.md
+mdfx watch README.template.md -o README.md --target github
+mdfx watch docs/source.md -o docs/rendered.md --backend svg --debounce 200
+```
+
+#### LSP Server (Language Server Protocol)
+
+- **Universal IDE support** - Autocompletion in any editor supporting LSP
+- **Optional feature** - Enable with `cargo install mdfx-cli --features lsp` to avoid dependency bloat
+- **Comprehensive completions**:
+  - 493 glyphs with hierarchical namespacing
+  - 19 text styles with aliases
+  - 32 frames
+  - 15 palette colors
+  - 5 shield styles
+  - 9 UI components
+- **Hover documentation** - View glyph info and style descriptions
+- **Context-aware** - Detects `{{glyph:`, `{{frame:`, `style=`, etc.
+
+**Usage:**
+```bash
+cargo install mdfx-cli --features lsp
+mdfx lsp  # Starts LSP server on stdio
+```
+
+#### VS Code Extension
+
+- **Full extension package** - Ready for VS Code Marketplace publishing
+- **LSP client integration** - Connects to mdfx language server
+- **TextMate syntax highlighting** - Injection grammar for markdown files
+  - Template delimiters (`{{` and `}}`)
+  - Tag names (glyph, frame, styles, components)
+  - Parameters and values
+  - Self-closing syntax (`/}}`)
+- **Configuration options** - Enable/disable, custom server path
+
+**Files:** `editors/vscode/`
+
+#### New Glyphs (104 additions, 493 total)
+
+- **currency.\*** (10): dollar, euro, pound, yen, bitcoin, cent, rupee, won, franc, lira
+- **greek.\*** (48): Full Greek alphabet (α-ω, Α-Ω) - `greek.alpha` through `greek.omega`
+- **frac.\*** (16): Common fractions - `frac.half`, `frac.third`, `frac.quarter`, etc.
+- **misc.\*** (30): Warning symbols, weather, zodiac, and utility characters
+
 #### PlainTextBackend
 
 - **New rendering backend** for PyPI and ASCII-only contexts
