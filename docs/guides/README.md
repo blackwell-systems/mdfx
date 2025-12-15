@@ -14,8 +14,8 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 
 | Guide | Description |
 |-------|-------------|
-| [Text Styles](TEXT-STYLES-GUIDE.md) | 19 Unicode typography styles (bold, script, gothic, etc.) |
-| [Badges](BADGES-GUIDE.md) | 6 numeral/letter badge styles for lists and markers |
+| [Text Styles](TEXT-STYLES-GUIDE.md) | 23 Unicode typography styles (bold, script, gothic, subscript, etc.) |
+| [Glyphs](GLYPHS-GUIDE.md) | 493 Unicode symbols organized by category |
 
 ---
 
@@ -36,12 +36,13 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 ```markdown
 {{mathbold}}BOLD TEXT{{/mathbold}}
 {{fraktur}}Gothic Text{{/fraktur}}
+{{subscript}}H2O{{/subscript}}
 ```
 
-**Badge:**
+**Keyboard Keys:**
 ```markdown
-{{badge:circle:1/}} First step
-{{badge:circle:2/}} Second step
+{{kbd:Ctrl+C/}}
+{{kbd:⌘+Shift+P/}}
 ```
 
 **Component:**

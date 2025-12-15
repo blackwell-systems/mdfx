@@ -45,7 +45,7 @@ Heavy, attention-grabbing typography.
 
 ### Boxed & Enclosed Styles
 
-Letters wrapped in geometric shapes. **Uppercase only.**
+Letters wrapped in geometric shapes. **Uppercase only** (except parenthesized and inverted).
 
 | Style | Aliases | Output |
 |-------|---------|--------|
@@ -53,12 +53,16 @@ Letters wrapped in geometric shapes. **Uppercase only.**
 | `negative-circled` | neg-circle, circled | 🅐🅑🅒 (white on black circles) |
 | `squared-latin` | sq-latin, boxed | 🄰🄱🄲 (letters in boxes) |
 | `circled-latin` | circled, circle | Ⓐⓑⓒ (letters in circles) |
+| `parenthesized` | paren, parens | ⒜⒝⒞ (letters in parentheses) |
+| `inverted` | upsidedown, flip, flipped | ɐqɔ (upside-down text) |
 
 ```markdown
 {{negative-squared}}VIP{{/negative-squared}}
 {{negative-circled}}NEW{{/negative-circled}}
 {{squared-latin}}INFO{{/squared-latin}}
 {{circled-latin}}ABC{{/circled-latin}}
+{{parenthesized}}abc{{/parenthesized}}
+{{inverted}}Hello{{/inverted}}
 ```
 
 **Output:**
@@ -67,9 +71,11 @@ Letters wrapped in geometric shapes. **Uppercase only.**
 🅝🅔🅦
 🄸🄽🄵🄾
 Ⓐⓑⓒ
+⒜⒝⒞
+oʃʃǝH
 ```
 
-**Use case:** Status labels, badges, highlighted keywords.
+**Use case:** Status labels, badges, highlighted keywords, fun effects.
 
 ---
 
@@ -136,11 +142,15 @@ Clean, precise typography for technical content.
 | `double-struck` | ds, outline, blackboard | A-Z, a-z, 0-9 | 𝔻𝕠𝕦𝕓𝕝𝕖 |
 | `sans-serif` | ss, sans | A-Z, a-z, 0-9 | 𝖲𝖺𝗇𝗌 𝖲𝖾𝗋𝗂𝖿 |
 | `sans-serif-italic` | ssi, sans-italic | A-Z, a-z | 𝘚𝘢𝘯𝘴 𝘐𝘵𝘢𝘭𝘪𝘤 |
+| `subscript` | sub | a,e,h,i,k-p,r-u,x, 0-9 | H₂O |
+| `superscript` | sup, super | a-z, 0-9 | x² |
 
 ```markdown
 {{monospace}}CODE_BLOCK{{/monospace}}
 {{double-struck}}MATH SET{{/double-struck}}
 {{sans-serif}}Clean Design{{/sans-serif}}
+{{subscript}}H2O{{/subscript}}
+{{superscript}}x2{{/superscript}}
 ```
 
 **Output:**
@@ -148,9 +158,11 @@ Clean, precise typography for technical content.
 𝙲𝙾𝙳𝙴_𝙱𝙻𝙾𝙲𝙺
 𝕄𝔸𝕋ℍ 𝕊𝔼𝕋
 𝖢𝗅𝖾𝖺𝗇 𝖣𝖾𝗌𝗂𝗀𝗇
+H₂O
+x²
 ```
 
-**Use case:** Technical documentation, mathematical notation, code references.
+**Use case:** Technical documentation, mathematical notation, code references, chemistry formulas.
 
 ---
 
@@ -196,8 +208,13 @@ Available separators: Any separator name (`dot`, `star`, `bullet`, `diamond`, `a
 | double-struck | ✓ | ✓ | ✓ | ✗ |
 | sans-serif | ✓ | ✓ | ✓ | ✗ |
 | sans-serif-italic | ✓ | ✓ | ✗ | ✗ |
+| subscript | ✗ | ✓* | ✓ | ✗ |
+| superscript | ✗ | ✓ | ✓ | ✗ |
+| parenthesized | ✗ | ✓ | ✓ | ✗ |
+| inverted | ✓ | ✓ | ✓ | ✗ |
 
 *small-caps converts uppercase to small caps as well
+*subscript only supports: a, e, h, i, k-p, r-u, x
 
 **Note:** Unsupported characters pass through unchanged.
 
@@ -262,10 +279,10 @@ Let {{double-struck}}R{{/double-struck}} be the set of real numbers
 | Category | Styles | Best For |
 |----------|--------|----------|
 | **Bold** | mathbold, fullwidth, sans-serif-bold | Headers, announcements |
-| **Boxed** | negative-squared, negative-circled, squared-latin | Labels, badges |
+| **Boxed** | negative-squared, negative-circled, squared-latin, parenthesized, inverted | Labels, badges, fun effects |
 | **Elegant** | small-caps, italic, script, bold-script | Signatures, quotes |
 | **Gothic** | fraktur, bold-fraktur | Fantasy, historical |
-| **Technical** | monospace, double-struck, sans-serif | Code, math |
+| **Technical** | monospace, double-struck, sans-serif, subscript, superscript | Code, math, chemistry |
 
 ---
 
@@ -290,6 +307,10 @@ Let {{double-struck}}R{{/double-struck}} be the set of real numbers
 | double-struck | U+1D538–U+1D56B |
 | sans-serif | U+1D5A0–U+1D5B9 |
 | sans-serif-italic | U+1D608–U+1D621 |
+| subscript | U+2080–U+209C |
+| superscript | U+2070–U+207F |
+| parenthesized | U+2474–U+249B |
+| inverted | Various (rotated glyphs) |
 
 ---
 

@@ -392,6 +392,46 @@ Breaking changes in v2.0. See migration guide.
 
 ---
 
+## Top-Level Templates
+
+These templates don't use the `ui:` prefix.
+
+### kbd
+
+Renders keyboard keys with native HTML `<kbd>` tags. GitHub renders these with special keyboard styling.
+
+**Syntax:**
+```markdown
+{{kbd:keys/}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `keys` | string | Key or key combination (use `+` for combos) |
+
+**Examples:**
+```markdown
+Press {{kbd:Enter/}} to continue
+Copy with {{kbd:Ctrl+C/}} or {{kbd:⌘+C/}}
+Open palette: {{kbd:Ctrl+Shift+P/}}
+```
+
+**Output:**
+```html
+Press <kbd>Enter</kbd> to continue
+Copy with <kbd>Ctrl</kbd>+<kbd>C</kbd> or <kbd>⌘</kbd>+<kbd>C</kbd>
+Open palette: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
+```
+
+**Notes:**
+- Splits on `+` and wraps each key in `<kbd>` tags
+- Works with Unicode symbols (⌘, ⌥, ⇧, etc.)
+- Preserved in code blocks (not processed)
+
+---
+
 ## Component Reference
 
 | Component | Type | Self-Closing | Context |
@@ -406,6 +446,7 @@ Breaking changes in v2.0. See migration guide.
 | `callout` | expand | no | block |
 | `callout-github` | expand | no | block |
 | `statusitem` | expand | yes | inline, block |
+| `kbd` | top-level | yes | inline |
 
 ---
 
