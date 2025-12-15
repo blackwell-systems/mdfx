@@ -335,16 +335,22 @@ impl TemplateParser {
                         self.process_templates_with_assets(&frame_data.content)?;
                     assets.extend(nested_assets);
 
-                    // Check for glyph frame shorthand: {{frame:glyph:NAME}}
+                    // Check for glyph frame shorthand: {{frame:glyph:NAME[*COUNT][/pad=VALUE]}}
                     let framed = if frame_data.frame_style.starts_with("glyph:") {
-                        // Extract glyph name after "glyph:"
-                        let glyph_name = &frame_data.frame_style[6..];
+                        // Parse glyph spec: NAME[*COUNT][/pad=VALUE]
+                        let spec = &frame_data.frame_style[6..];
+                        let (glyph_name, count, pad) = Self::parse_glyph_frame_spec(spec);
+
                         let glyph_char = self
                             .registry
-                            .glyph(glyph_name)
-                            .ok_or_else(|| Error::UnknownGlyph(glyph_name.to_string()))?;
-                        // Apply glyph as both prefix and suffix with spaces
-                        format!("{} {} {}", glyph_char, processed_content, glyph_char)
+                            .glyph(&glyph_name)
+                            .ok_or_else(|| Error::UnknownGlyph(glyph_name.clone()))?;
+
+                        // Build repeated glyph string
+                        let glyphs: String = glyph_char.repeat(count);
+
+                        // Apply glyphs as both prefix and suffix with padding
+                        format!("{}{}{}{}{}", glyphs, pad, processed_content, pad, glyphs)
                     } else {
                         // Apply frame to processed content (validates frame exists)
                         self.registry
@@ -663,6 +669,43 @@ impl TemplateParser {
         Err(Error::UnclosedTag(style))
     }
 
+    /// Parse glyph frame spec: NAME[*COUNT][/pad=VALUE]
+    /// Returns (glyph_name, count, padding_string)
+    fn parse_glyph_frame_spec(spec: &str) -> (String, usize, String) {
+        let mut remaining = spec.to_string();
+        let mut count: usize = 1;
+        let mut pad = " ".to_string(); // default: single space
+
+        // Check for /pad= modifier first
+        if let Some(slash_pos) = remaining.find('/') {
+            let modifier = remaining[slash_pos + 1..].to_string();
+            remaining = remaining[..slash_pos].to_string();
+
+            if let Some(pad_value) = modifier.strip_prefix("pad=") {
+                // Check if it's a number (meaning N spaces)
+                if let Ok(num_spaces) = pad_value.parse::<usize>() {
+                    pad = " ".repeat(num_spaces);
+                } else {
+                    // Use literal string
+                    pad = pad_value.to_string();
+                }
+            }
+        }
+
+        // Check for *COUNT multiplier
+        if let Some(star_pos) = remaining.find('*') {
+            let count_str = remaining[star_pos + 1..].to_string();
+            remaining = remaining[..star_pos].to_string();
+
+            if let Ok(n) = count_str.parse::<usize>() {
+                // Cap at 20 to prevent abuse
+                count = n.min(20).max(1);
+            }
+        }
+
+        (remaining, count, pad)
+    }
+
     /// Try to parse a frame template starting at position i
     /// Returns: Some(FrameData) or None if not a valid frame template
     fn parse_frame_at(&self, chars: &[char], start: usize) -> Result<Option<FrameData>> {
@@ -683,18 +726,19 @@ impl TemplateParser {
         }
         i += frame_chars.len();
 
-        // Parse frame style name (alphanumeric, hyphens, underscores, and colons for glyph:NAME)
+        // Parse frame style name - allow most characters except }}
+        // This enables glyph frames with Unicode padding like /pad=·
         let mut frame_style = String::new();
         while i < chars.len() {
             let ch = chars[i];
-            if ch.is_alphanumeric() || ch == '-' || ch == '_' || ch == ':' {
+            if ch == '}' {
+                break;
+            } else if ch == '{' {
+                // Prevent nested templates in frame style
+                return Ok(None);
+            } else {
                 frame_style.push(ch);
                 i += 1;
-            } else if ch == '}' {
-                break;
-            } else {
-                // Invalid character in frame style name
-                return Ok(None);
             }
         }
 
@@ -1535,6 +1579,64 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         } else {
             panic!("Expected UnknownGlyph error");
         }
+    }
+
+    #[test]
+    fn test_frame_glyph_multiplier() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:star*3}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★★★ Title ★★★");
+    }
+
+    #[test]
+    fn test_frame_glyph_multiplier_with_tight_padding() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:star*3/pad=0}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★★★Title★★★");
+    }
+
+    #[test]
+    fn test_frame_glyph_multiplier_with_spaces() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:star*2/pad=3}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★★   Title   ★★");
+    }
+
+    #[test]
+    fn test_frame_glyph_custom_padding() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:diamond*2/pad=-}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "◆◆-Title-◆◆");
+    }
+
+    #[test]
+    fn test_frame_glyph_unicode_padding() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:star*2/pad=·}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★★·Title·★★");
+    }
+
+    #[test]
+    fn test_frame_glyph_multi_char_padding() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:star/pad=--}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★--Title--★");
+    }
+
+    #[test]
+    fn test_frame_glyph_max_count() {
+        // Count should be capped at 20
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:bullet*100}}X{{/frame}}";
+        let result = parser.process(input).unwrap();
+        // 20 bullets on each side + space padding
+        assert_eq!(result, "•••••••••••••••••••• X ••••••••••••••••••••");
     }
 
     #[test]

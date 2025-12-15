@@ -52,6 +52,28 @@ mdfx process template.md --backend hybrid --assets-dir assets
 {{ui:swatch:1a1a1a:width=120:height=60:border_top=EF4444/3:border_right=F59E0B/3:border_bottom=22C55E/3:border_left=3B82F6/3/}}
 ```
 
+#### Glyph Frame Shorthand (`{{frame:glyph:NAME}}`)
+
+- **Dynamic frames** - Use any registered glyph as frame decoration
+- **Multiplier** - Repeat glyphs with `*N` syntax (e.g., `glyph:star*3` → `★★★`)
+- **Padding control** - Use `/pad=VALUE` to control spacing:
+  - Numeric = spaces (`/pad=3` → 3 spaces)
+  - String = literal (`/pad=·` → custom character)
+  - Zero = tight (`/pad=0` → no spacing)
+- **Max count** - Capped at 20 to prevent abuse
+
+**Usage:**
+```markdown
+{{frame:glyph:star}}Title{{/frame}}           <!-- ★ Title ★ -->
+{{frame:glyph:star*3}}Title{{/frame}}         <!-- ★★★ Title ★★★ -->
+{{frame:glyph:star*3/pad=0}}Title{{/frame}}   <!-- ★★★Title★★★ -->
+{{frame:glyph:diamond*2/pad=·}}Gem{{/frame}}  <!-- ◆◆·Gem·◆◆ -->
+```
+
+### Changed
+
+- **Frames consolidated** - Removed redundant `FrameRenderer` module, frames now handled entirely by `Registry`
+
 #### Keyboard Keys (`{{kbd:...}}`)
 
 - **Native HTML kbd tags** - GitHub renders `<kbd>` tags with keyboard styling

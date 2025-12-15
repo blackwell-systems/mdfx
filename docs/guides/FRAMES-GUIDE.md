@@ -368,6 +368,87 @@ Frames work beautifully with text styles:
 
 ---
 
+## Glyph Frame Shorthand
+
+Create custom frames using any glyph as the decorative element. This is more flexible than predefined frames.
+
+### Basic Syntax
+
+```markdown
+{{frame:glyph:NAME}}content{{/frame}}
+```
+
+**Example:**
+```markdown
+{{frame:glyph:star}}Featured{{/frame}}
+```
+
+**Rendered:** ★ Featured ★
+
+### Multiplier (*N)
+
+Repeat the glyph N times (max 20):
+
+```markdown
+{{frame:glyph:star*3}}Title{{/frame}}
+{{frame:glyph:diamond*5}}Premium{{/frame}}
+```
+
+**Rendered:**
+
+★★★ Title ★★★
+
+◆◆◆◆◆ Premium ◆◆◆◆◆
+
+### Padding Control (/pad=VALUE)
+
+Control spacing between glyphs and content:
+
+| Syntax | Effect |
+|--------|--------|
+| `/pad=0` | No padding (tight) |
+| `/pad=1` | Single space (default) |
+| `/pad=3` | Three spaces |
+| `/pad=-` | Custom character `-` |
+| `/pad=·` | Custom character `·` |
+| `/pad=--` | Multi-character `--` |
+
+**Examples:**
+
+```markdown
+{{frame:glyph:star*3/pad=0}}Tight{{/frame}}
+{{frame:glyph:star*3/pad=3}}Wide{{/frame}}
+{{frame:glyph:diamond*2/pad=·}}Dotted{{/frame}}
+{{frame:glyph:bullet*4/pad=--}}Dashed{{/frame}}
+```
+
+**Rendered:**
+
+★★★Tight★★★
+
+★★★   Wide   ★★★
+
+◆◆·Dotted·◆◆
+
+••••--Dashed--••••
+
+### Replacing Line Frames
+
+Glyph frames can replicate line frames dynamically:
+
+```markdown
+{{frame:glyph:line.h.light*3}}Title{{/frame}}
+{{frame:glyph:line.h.bold*3}}Title{{/frame}}
+```
+
+**Rendered:**
+
+─── Title ───
+
+━━━ Title ━━━
+
+---
+
 ## Quick Reference
 
 | Category | Frames |
