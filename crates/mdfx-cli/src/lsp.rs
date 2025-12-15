@@ -190,6 +190,41 @@ impl MdfxLanguageServer {
             .collect()
     }
 
+    /// Build completion items for shield styles (flat, flat-square, for-the-badge, etc.)
+    fn shield_style_completions(&self, prefix: &str) -> Vec<CompletionItem> {
+        self.registry
+            .shield_styles()
+            .iter()
+            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
+            .flat_map(|(name, style)| {
+                let mut items = vec![CompletionItem {
+                    label: name.clone(),
+                    kind: Some(CompletionItemKind::ENUM_MEMBER),
+                    detail: Some(style.name.clone()),
+                    documentation: style.description.clone().map(Documentation::String),
+                    insert_text: Some(name.clone()),
+                    insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                    ..Default::default()
+                }];
+                // Add aliases
+                for alias in &style.aliases {
+                    if prefix.is_empty() || alias.starts_with(prefix) {
+                        items.push(CompletionItem {
+                            label: alias.clone(),
+                            kind: Some(CompletionItemKind::ENUM_MEMBER),
+                            detail: Some(format!("{} (alias for {})", style.name, name)),
+                            documentation: style.description.clone().map(Documentation::String),
+                            insert_text: Some(alias.clone()),
+                            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                            ..Default::default()
+                        });
+                    }
+                }
+                items
+            })
+            .collect()
+    }
+
     /// Analyze the text around the cursor to determine completion context
     fn get_completion_context(&self, text: &str, position: Position) -> CompletionContext {
         let lines: Vec<&str> = text.lines().collect();
@@ -221,6 +256,19 @@ impl MdfxLanguageServer {
                 return CompletionContext::Frame(rest.to_string());
             }
 
+            // Check for style= parameter (shield styles like flat, flat-square, for-the-badge)
+            if after_open.contains("style=") {
+                if let Some(style_pos) = after_open.rfind("style=") {
+                    let style_prefix = &after_open[style_pos + 6..];
+                    // Don't include any trailing characters after the style value
+                    let style_prefix = style_prefix
+                        .split(|c| c == ':' || c == '/' || c == '}')
+                        .next()
+                        .unwrap_or(style_prefix);
+                    return CompletionContext::ShieldStyle(style_prefix.to_string());
+                }
+            }
+
             // Check for color parameter (e.g., swatch:cobalt or bg=cobalt)
             if after_open.contains(':') && (after_open.contains("bg=") || after_open.contains("fg="))
             {
@@ -234,7 +282,7 @@ impl MdfxLanguageServer {
             // Check for component with args (e.g., swatch:)
             if after_open.contains(':') {
                 let parts: Vec<&str> = after_open.splitn(2, ':').collect();
-                if parts.len() >= 1 {
+                if !parts.is_empty() {
                     let comp_name = parts[0];
                     if self.registry.component(comp_name).is_some() {
                         // Inside component args - could be palette for swatch
@@ -259,10 +307,11 @@ impl MdfxLanguageServer {
 /// Context for completions
 enum CompletionContext {
     None,
-    TopLevel(String),   // After {{ - show styles, frames, components, glyph:
-    Glyph(String),      // After {{glyph: - show glyph names
-    Frame(String),      // After {{frame: - show frame names
-    Palette(String),    // Inside color parameter - show palette colors
+    TopLevel(String),    // After {{ - show styles, frames, components, glyph:
+    Glyph(String),       // After {{glyph: - show glyph names
+    Frame(String),       // After {{frame: - show frame names
+    Palette(String),     // Inside color parameter - show palette colors
+    ShieldStyle(String), // After style= - show shield styles (flat, flat-square, etc.)
 }
 
 #[tower_lsp::async_trait]
@@ -363,6 +412,7 @@ impl LanguageServer for MdfxLanguageServer {
             CompletionContext::Glyph(prefix) => self.glyph_completions(&prefix),
             CompletionContext::Frame(prefix) => self.frame_completions(&prefix),
             CompletionContext::Palette(prefix) => self.palette_completions(&prefix),
+            CompletionContext::ShieldStyle(prefix) => self.shield_style_completions(&prefix),
         };
 
         if items.is_empty() {

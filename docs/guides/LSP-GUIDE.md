@@ -208,6 +208,24 @@ The LSP provides completions for:
 | `{{frame:` | All frame names |
 | `{{swatch:` | Palette colors |
 | `bg=` / `fg=` | Palette colors |
+| `style=` | Shield styles (flat, flat-square, for-the-badge, plastic, social) |
+
+### Shield/SVG Style Completion
+
+When using components that support badge styles, type `style=` to get completions:
+
+```markdown
+{{swatch:cobalt:style=|}}  <!-- cursor here triggers shield style completions -->
+{{divider:style=flat-square/}}
+{{tech:rust:style=for-the-badge/}}
+```
+
+Available styles:
+- `flat` - Rounded corners
+- `flat-square` - Square corners (default)
+- `for-the-badge` - Tall header bar style
+- `plastic` - Glossy plastic look
+- `social` - Social media style
 
 ### Hover Documentation
 
