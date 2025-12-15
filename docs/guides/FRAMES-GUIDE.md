@@ -359,6 +359,56 @@ Insert N spaces between frame pattern glyphs:
 
 ▓ · ▒ · ░ TEXT ░ · ▒ · ▓
 
+### Reverse (`/reverse`)
+
+Flip any frame by swapping prefix and suffix:
+
+```markdown
+{{fr:gradient/reverse}}Title{{/}}
+{{fr:star/reverse}}VIP{{/}}
+```
+
+**Rendered:**
+
+░▒▓ Title ▓▒░
+
+☆ VIP ★
+
+**Alias:** `/rev` also works
+
+### Count (`*N`)
+
+Repeat frame patterns N times (max 20):
+
+```markdown
+{{fr:star*3}}Title{{/}}
+{{fr:gradient*2}}X{{/}}
+{{fr:diamond*5}}Premium{{/}}
+```
+
+**Rendered:**
+
+★★★ Title ☆☆☆
+
+▓▒░▓▒░ X ░▒▓░▒▓
+
+◆◆◆◆◆ Premium ◇◇◇◇◇
+
+### Count with Modifiers
+
+Combine count with other modifiers:
+
+```markdown
+{{fr:star*3/separator=·}}Title{{/}}
+{{fr:star*2/reverse}}VIP{{/}}
+```
+
+**Rendered:**
+
+★·★·★ Title ☆·☆·☆
+
+☆☆ VIP ★★
+
 ---
 
 ## Combining with Text Styles

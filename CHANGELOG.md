@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Frame Reverse Modifier (`/reverse`)
+
+- **Flip any frame** - Swap prefix and suffix of any frame with `/reverse` modifier
+- **Alias support** - `/rev` also works
+- **Works with all frames** - Predefined frames, glyph frames, and frame combos
+
+**Usage:**
+```markdown
+{{fr:gradient/reverse}}Title{{/}}          → ░▒▓ Title ▓▒░
+{{fr:star/rev}}VIP{{/}}                    → ☆ VIP ★
+{{fr:diamond/reverse}}Premium{{/}}         → ◇ Premium ◆
+```
+
+#### Frame Count Multiplier (`*N`)
+
+- **Repeat predefined frames** - Use `*N` to repeat frame patterns N times
+- **Works with all predefined frames** - star, gradient, diamond, etc.
+- **Combines with other modifiers** - Works with separator, spacing, and reverse
+- **Max count 20** - Capped to prevent abuse
+
+**Usage:**
+```markdown
+{{fr:star*3}}Title{{/}}                    → ★★★ Title ☆☆☆
+{{fr:gradient*2}}X{{/}}                    → ▓▒░▓▒░ X ░▒▓░▒▓
+{{fr:diamond*5}}Premium{{/}}               → ◆◆◆◆◆ Premium ◇◇◇◇◇
+{{fr:star*3/separator=·}}Title{{/}}        → ★·★·★ Title ☆·☆·☆
+{{fr:star*2/reverse}}VIP{{/}}              → ☆☆ VIP ★★
+```
+
 #### Hybrid Backend (`--backend hybrid`)
 
 - **Auto-selection** - Automatically chooses between shields.io and SVG based on feature usage

@@ -1094,12 +1094,20 @@ Equivalent to:
 
 ### Frame Modifiers
 
-Add separator or spacing to frame patterns:
+Add separator, spacing, reverse, or count to frame patterns:
 
 ```markdown
 {{fr:gradient/separator=·}}Title{{/}}  <!-- ▓·▒·░ Title ░·▒·▓ -->
 {{fr:gradient/spacing=1}}Title{{/}}    <!-- ▓ ▒ ░ Title ░ ▒ ▓ -->
+{{fr:gradient/reverse}}Title{{/}}      <!-- ░▒▓ Title ▓▒░ -->
+{{fr:star*3}}Title{{/}}                <!-- ★★★ Title ☆☆☆ -->
 ```
+
+**Modifiers:**
+- `/separator=X` - Insert character between pattern glyphs
+- `/spacing=N` - Insert N spaces between pattern glyphs
+- `/reverse` or `/rev` - Swap prefix and suffix
+- `*N` - Repeat pattern N times (max 20)
 
 Named separators: `dot`, `dash`, `space`, `pipe`, `colon`
 

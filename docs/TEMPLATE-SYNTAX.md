@@ -456,6 +456,8 @@ Adds decorative prefix/suffix around content.
 {{fr:outer+inner}}CONTENT{{/}}             <!-- frame combo -->
 {{fr:frame/separator=X}}CONTENT{{/}}       <!-- with separator -->
 {{fr:frame/spacing=N}}CONTENT{{/}}         <!-- with spacing -->
+{{fr:frame/reverse}}CONTENT{{/}}           <!-- reverse (swap prefix/suffix) -->
+{{fr:frame*N}}CONTENT{{/}}                 <!-- repeat pattern N times -->
 ```
 
 ### Self-Closing Frames
@@ -580,6 +582,23 @@ Named separators: `dot`, `dash`, `space`, `pipe`, `colon`
 ```markdown
 {{fr:gradient/separator=·/spacing=1}}X{{/}} → ▓ · ▒ · ░ X ░ · ▒ · ▓
 ```
+
+**Reverse (`/reverse`):**
+```markdown
+{{fr:gradient/reverse}}Title{{/}}          → ░▒▓ Title ▓▒░
+{{fr:star/rev}}VIP{{/}}                    → ☆ VIP ★
+```
+
+Swaps prefix and suffix of any frame. Alias: `/rev`
+
+**Count (`*N`):**
+```markdown
+{{fr:star*3}}Title{{/}}                    → ★★★ Title ☆☆☆
+{{fr:gradient*2}}X{{/}}                    → ▓▒░▓▒░ X ░▒▓░▒▓
+{{fr:star*3/separator=·}}Title{{/}}        → ★·★·★ Title ☆·☆·☆
+```
+
+Repeats frame pattern N times (max 20). Works with predefined frames.
 
 **Glyph frames also support modifiers:**
 ```markdown
@@ -960,6 +979,8 @@ line = { character } newline ;
 | Positional | `:arg` | `{{ui:tech:rust/}}` |
 | Named | `:key=value` | `{{mathbold:separator=dot}}` |
 | Frame Modifier | `/key=value` | `{{fr:gradient/spacing=1}}` |
+| Frame Reverse | `/reverse` | `{{fr:gradient/reverse}}` |
+| Frame Count | `*N` | `{{fr:star*3}}` |
 | Frame Combo | `+` | `{{fr:gradient+star}}` |
 | Mixed | N/A | Not supported |
 

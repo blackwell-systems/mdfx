@@ -61,6 +61,8 @@ struct FrameModifiers {
     style: String,
     separator: Option<String>,
     spacing: Option<usize>,
+    reverse: bool,
+    count: Option<usize>,
 }
 
 /// Result of processing markdown with file-based assets
@@ -409,14 +411,37 @@ impl TemplateParser {
                         // Extract modifiers from frame style
                         let mods = Self::parse_frame_modifiers(&frame_data.frame_style);
 
-                        // Apply frame to processed content (validates frame exists)
-                        // If separator or spacing is specified, insert between each grapheme of prefix/suffix
-                        if mods.separator.is_some() || mods.spacing.is_some() {
-                            let frame = self
-                                .registry
-                                .frame(&mods.style)
-                                .ok_or_else(|| Error::UnknownFrame(mods.style.clone()))?;
+                        // Get the frame
+                        let frame = self
+                            .registry
+                            .frame(&mods.style)
+                            .ok_or_else(|| Error::UnknownFrame(mods.style.clone()))?;
 
+                        // Get base prefix/suffix, applying count if specified
+                        let (mut prefix, mut suffix) = if let Some(count) = mods.count {
+                            // Repeat the pattern N times
+                            let prefix_pattern: String = frame.prefix.trim().to_string();
+                            let suffix_pattern: String = frame.suffix.trim().to_string();
+                            let repeated_prefix = prefix_pattern.repeat(count);
+                            let repeated_suffix = suffix_pattern.repeat(count);
+                            // Preserve original spacing
+                            let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
+                            let suffix_space = if frame.suffix.starts_with(' ') { " " } else { "" };
+                            (
+                                format!("{}{}", repeated_prefix, prefix_space),
+                                format!("{}{}", suffix_space, repeated_suffix),
+                            )
+                        } else {
+                            (frame.prefix.clone(), frame.suffix.clone())
+                        };
+
+                        // Apply reverse modifier (swap prefix and suffix)
+                        if mods.reverse {
+                            std::mem::swap(&mut prefix, &mut suffix);
+                        }
+
+                        // Apply separator or spacing if specified
+                        if mods.separator.is_some() || mods.spacing.is_some() {
                             // Determine the join string: separator takes precedence over spacing
                             let join_str = if let Some(sep) = &mods.separator {
                                 self.registry
@@ -431,26 +456,20 @@ impl TemplateParser {
 
                             // Insert join string between graphemes in prefix/suffix
                             use unicode_segmentation::UnicodeSegmentation;
-                            let prefix_with_sep: String = frame
-                                .prefix
+                            let prefix_with_sep: String = prefix
                                 .trim()
                                 .graphemes(true)
                                 .collect::<Vec<_>>()
                                 .join(&join_str);
-                            let suffix_with_sep: String = frame
-                                .suffix
+                            let suffix_with_sep: String = suffix
                                 .trim()
                                 .graphemes(true)
                                 .collect::<Vec<_>>()
                                 .join(&join_str);
 
                             // Preserve spacing around content
-                            let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
-                            let suffix_space = if frame.suffix.starts_with(' ') {
-                                " "
-                            } else {
-                                ""
-                            };
+                            let prefix_space = if prefix.ends_with(' ') { " " } else { "" };
+                            let suffix_space = if suffix.starts_with(' ') { " " } else { "" };
 
                             format!(
                                 "{}{}{}{}{}",
@@ -460,7 +479,11 @@ impl TemplateParser {
                                 suffix_space,
                                 suffix_with_sep
                             )
+                        } else if mods.count.is_some() || mods.reverse {
+                            // Count or reverse was applied, use modified prefix/suffix
+                            format!("{}{}{}", prefix, processed_content, suffix)
                         } else {
+                            // No modifiers, use standard apply_frame
                             self.registry
                                 .apply_frame(&processed_content, &mods.style)?
                         }
@@ -1022,12 +1045,15 @@ impl TemplateParser {
         (remaining, count, pad, separator, spacing)
     }
 
-    /// Parse frame style and extract modifiers (separator, spacing)
-    /// Input: "gradient/separator=dot/spacing=1" → FrameModifiers { style: "gradient", separator: Some("dot"), spacing: Some(1) }
+    /// Parse frame style and extract modifiers (separator, spacing, reverse, count)
+    /// Input: "gradient/separator=dot/spacing=1" → FrameModifiers { style: "gradient", separator: Some("dot"), spacing: Some(1), ... }
+    /// Input: "star*3/reverse" → FrameModifiers { style: "star", count: Some(3), reverse: true, ... }
     fn parse_frame_modifiers(style: &str) -> FrameModifiers {
         let mut remaining = style.to_string();
         let mut separator: Option<String> = None;
         let mut spacing: Option<usize> = None;
+        let mut reverse = false;
+        let mut count: Option<usize> = None;
 
         // Check for /modifiers
         while let Some(slash_pos) = remaining.find('/') {
@@ -1050,6 +1076,8 @@ impl TemplateParser {
                 if let Ok(n) = spacing_value.parse::<usize>() {
                     spacing = Some(n);
                 }
+            } else if modifier == "reverse" || modifier == "rev" {
+                reverse = true;
             }
 
             // If there are more modifiers, append them back
@@ -1058,10 +1086,22 @@ impl TemplateParser {
             }
         }
 
+        // Check for *N count multiplier in the style name (e.g., "star*3")
+        if let Some(star_pos) = remaining.find('*') {
+            let style_part = remaining[..star_pos].to_string();
+            let count_part = &remaining[star_pos + 1..];
+            if let Ok(n) = count_part.parse::<usize>() {
+                remaining = style_part;
+                count = Some(n.min(20)); // Cap at 20 to prevent abuse
+            }
+        }
+
         FrameModifiers {
             style: remaining,
             separator,
             spacing,
+            reverse,
+            count,
         }
     }
 
@@ -2340,6 +2380,63 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:gradient/separator=·:Inline/}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "▓·▒·░ Inline ░·▒·▓");
+    }
+
+    #[test]
+    fn test_frame_reverse() {
+        let parser = TemplateParser::new().unwrap();
+        // Reverse gradient: swap prefix and suffix
+        let input = "{{fr:gradient/reverse}}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        // Normal: ▓▒░ Title ░▒▓, Reversed: ░▒▓ Title ▓▒░
+        assert_eq!(result, " ░▒▓Title▓▒░ ");
+    }
+
+    #[test]
+    fn test_frame_reverse_star() {
+        let parser = TemplateParser::new().unwrap();
+        // Reverse star: swap ★ and ☆
+        let input = "{{fr:star/reverse}}VIP{{/}}";
+        let result = parser.process(input).unwrap();
+        // Normal: ★ VIP ☆, Reversed: ☆ VIP ★ (with spacing swap)
+        assert_eq!(result, " ☆VIP★ ");
+    }
+
+    #[test]
+    fn test_frame_count() {
+        let parser = TemplateParser::new().unwrap();
+        // Repeat star 3 times
+        let input = "{{fr:star*3}}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★★★ Title ☆☆☆");
+    }
+
+    #[test]
+    fn test_frame_count_gradient() {
+        let parser = TemplateParser::new().unwrap();
+        // Repeat gradient 2 times
+        let input = "{{fr:gradient*2}}X{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░▓▒░ X ░▒▓░▒▓");
+    }
+
+    #[test]
+    fn test_frame_count_and_reverse() {
+        let parser = TemplateParser::new().unwrap();
+        // Repeat star 2 times then reverse
+        let input = "{{fr:star*2/reverse}}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        // Count first: ★★ Title ☆☆, then reverse: ☆☆ Title ★★ (with spacing)
+        assert_eq!(result, " ☆☆Title★★ ");
+    }
+
+    #[test]
+    fn test_frame_count_with_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:star*3/separator=·}}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        // ★★★ with separator between graphemes: ★·★·★
+        assert_eq!(result, "★·★·★ Title ☆·☆·☆");
     }
 
     #[test]
