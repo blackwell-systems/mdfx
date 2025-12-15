@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-15T10:57:20.906358277+00:00",
+  "created_at": "2025-12-15T11:04:13.319046322+00:00",
   "backend": "svg",
-  "assets_dir": "examples/assets",
+  "assets_dir": "assets",
   "total_assets": 4,
   "assets": [
     {
-      "path": "examples/assets/swatch_6f3192545bb1e310.svg",
+      "path": "assets/swatch_6f3192545bb1e310.svg",
       "sha256": "eaf623911c6a422fbdb7fd62f05b2a8d2f04d9a0b5af57e3fc6e6bf88136943e",
       "type": "swatch",
       "primitive": {
@@ -17,7 +17,7 @@
       "size_bytes": 265
     },
     {
-      "path": "examples/assets/swatch_7331a24d56c68510.svg",
+      "path": "assets/swatch_7331a24d56c68510.svg",
       "sha256": "d326740dc545f9f9f4fb93f0da9180b2d78521f31c89dff159c3f4c7f797b093",
       "type": "swatch",
       "primitive": {
@@ -28,7 +28,7 @@
       "size_bytes": 267
     },
     {
-      "path": "examples/assets/swatch_a5df03072d2472b8.svg",
+      "path": "assets/swatch_a5df03072d2472b8.svg",
       "sha256": "b5f53cc4947598126084284c1f17eaca67007724369d02f53ef4d2953461f8c8",
       "type": "swatch",
       "primitive": {
@@ -39,7 +39,7 @@
       "size_bytes": 365
     },
     {
-      "path": "examples/assets/swatch_207bce629435d0e7.svg",
+      "path": "assets/swatch_207bce629435d0e7.svg",
       "sha256": "9f6d94076d8669b25ad946003c523cd728432e6393c2276c7189262c65defb4a",
       "type": "swatch",
       "primitive": {
