@@ -32,6 +32,13 @@
   ],
   "main": "./extension.js",
   "contributes": {
+    "grammars": [
+      {
+        "scopeName": "source.mdfx.injection",
+        "path": "./syntaxes/mdfx.tmLanguage.json",
+        "injectTo": ["text.html.markdown"]
+      }
+    ],
     "configuration": {
       "title": "mdfx",
       "properties": {
