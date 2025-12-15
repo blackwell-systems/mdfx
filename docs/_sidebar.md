@@ -16,6 +16,7 @@
   - [Template Syntax](/TEMPLATE-SYNTAX.md)
   - [API Guide](/API-GUIDE.md)
   - [CLI Commands](/#cli-commands)
+  - [LSP Server](/guides/LSP-GUIDE.md)
 
 - **Internals**
   - [Architecture](/ARCHITECTURE.md)
