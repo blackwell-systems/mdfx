@@ -1,107 +1,100 @@
-# Tech Badges Showcase
-
-**shields.io style badges with icons for GitHub profiles and READMEs**
+# Creative Tech Badges
 
 ---
 
-## Tech Stack
+## Core Stack
 
-### Languages
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=typescript&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=go&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=python&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=javascript&logoColor=FFFFFF&label=&labelColor=292A2D)
-
-### Frontend
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=react&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=vue&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=svelte&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=nextjs&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=tailwindcss&logoColor=FFFFFF&label=&labelColor=292A2D)
-
-### Backend
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=nodejs&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=express&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=fastapi&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=graphql&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=postgresql&logoColor=FFFFFF&label=&labelColor=292A2D)
-
-### DevOps & Cloud
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=docker&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=kubernetes&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=aws&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=terraform&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=github-actions&logoColor=FFFFFF&label=&labelColor=292A2D)
-
-### Tools
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=git&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=vscode&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=neovim&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=figma&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=linux&logoColor=FFFFFF&label=&labelColor=292A2D)
+![](https://img.shields.io/badge/-Rust-000000?style=for-the-badge&logo=rust&logoColor=CE412B)
+![](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Go-00ADD8?style=for-the-badge&logo=go&logoColor=FFFFFF)
 
 ---
 
-## Status Badges
+## Frontend Arsenal
 
-### Build Status
-
-![](https://img.shields.io/badge/-build%20passing-22C55E?style=flat-square) ![](https://img.shields.io/badge/-build%20failing-EF4444?style=flat-square) ![](https://img.shields.io/badge/-build%20pending-F59E0B?style=flat-square)
-
-### Version & License
-
-![](https://img.shields.io/badge/-v1.0.0-3B82F6?style=flat-square) ![](https://img.shields.io/badge/-MIT%20license-8B5CF6?style=flat-square) ![](https://img.shields.io/badge/-stable-6B7280?style=flat-square)
-
-### Coverage
-
-![](https://img.shields.io/badge/-coverage%2095%-22C55E?style=flat-square) ![](https://img.shields.io/badge/-coverage%2075%-F59E0B?style=flat-square) ![](https://img.shields.io/badge/-coverage%2050%-EF4444?style=flat-square)
+![](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=000000)
+![](https://img.shields.io/badge/-Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Svelte-FF3E00?style=for-the-badge&logo=svelte&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=FFFFFF)
 
 ---
 
-## Custom Color Badges
+## Backend Power
 
-### Accent Colors
-
-![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-3B82F6?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20-F59E0B?style=flat-square) ![](https://img.shields.io/badge/-%20-8B5CF6?style=flat-square)
-
-### Dark UI
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square) ![](https://img.shields.io/badge/-%20-292C34?style=flat-square) ![](https://img.shields.io/badge/-%20-282F3C?style=flat-square) ![](https://img.shields.io/badge/-%20-263143?style=flat-square)
-
-### With Labels
-
-![](https://img.shields.io/badge/-primary-F41C80?style=flat-square) ![](https://img.shields.io/badge/-secondary-6B7280?style=flat-square) ![](https://img.shields.io/badge/-background-292A2D?style=flat-square)
+![](https://img.shields.io/badge/-Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Redis-DC382D?style=for-the-badge&logo=redis&logoColor=FFFFFF)
 
 ---
 
-## Social & Links
+## Cloud & DevOps
 
-![](https://img.shields.io/badge/-Twitter-1DA1F2?style=flat-square) ![](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square) ![](https://img.shields.io/badge/-YouTube-FF0000?style=flat-square) ![](https://img.shields.io/badge/-GitHub-181717?style=flat-square)
-
----
-
-## Project Badges Row
-
-![](https://img.shields.io/badge/-active-22C55E?style=flat-square) ![](https://img.shields.io/badge/-v2.1.0-3B82F6?style=flat-square) ![](https://img.shields.io/badge/-MIT-8B5CF6?style=flat-square) ![](https://img.shields.io/badge/-PRs%20welcome-F41C80?style=flat-square)
+![](https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=FFFFFF)
 
 ---
 
-## Database & Storage
+## Skill Bars
 
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=postgresql&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=mongodb&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=redis&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=sqlite&logoColor=FFFFFF&label=&labelColor=292A2D)
+**Rust** ![](assets/swatch_29abb8e382015c48.svg)![](assets/swatch_437bee162465729b.svg) 95%
 
----
+**TypeScript** ![](assets/swatch_64e02b3e4b00552e.svg)![](assets/swatch_472b1e84fb5781ea.svg) 90%
 
-## CI/CD & Testing
+**React** ![](assets/swatch_73b4b738ba158ef6.svg)![](assets/swatch_de0dd85c38d73b34.svg) 85%
 
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=github-actions&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=jest&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=cypress&logoColor=FFFFFF&label=&labelColor=292A2D)
-
----
-
-## Styled Badges
-
-### Flat Square
-
-![](https://img.shields.io/badge/-flat--square-F41C80?style=flat-square)
-
-### Flat
-
-![](https://img.shields.io/badge/-flat-F41C80?style=flat)
-
-### Plastic
-
-![](https://img.shields.io/badge/-plastic-F41C80?style=plastic)
-
-### For The Badge
-
-![](https://img.shields.io/badge/-FOR%20THE%20BADGE-F41C80?style=for-the-badge)
+**Go** ![](assets/swatch_73f4f3516124eef5.svg)![](assets/swatch_b147df2b41ace5f8.svg) 80%
 
 ---
 
-*All badges render via shields.io - no SVG files needed!*
+## Status Row
+
+![](https://img.shields.io/badge/-BUILD%20PASSING-22C55E?style=for-the-badge)
+![](https://img.shields.io/badge/-v2.1.0-3B82F6?style=for-the-badge)
+![](https://img.shields.io/badge/-PRs%20WELCOME-F41C80?style=for-the-badge)
+![](https://img.shields.io/badge/-MIT%20LICENSE-8B5CF6?style=for-the-badge)
+
+---
+
+## Social Links
+
+![](https://img.shields.io/badge/-TWITTER-1DA1F2?style=for-the-badge&logo=twitter&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-LINKEDIN-0A66C2?style=for-the-badge&logo=linkedin&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-GITHUB-181717?style=for-the-badge&logo=github&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-YOUTUBE-FF0000?style=for-the-badge&logo=youtube&logoColor=FFFFFF)
+
+---
+
+## Gradient Banners
+
+![](assets/swatch_5e1191bb6c0175ea.svg)
+
+![](assets/swatch_b4cd92d6e5a8be4a.svg)
+
+![](assets/swatch_9ae826c7863a278b.svg)
+
+---
+
+## Mini Tech Grid
+
+![](assets/swatch_f702b10886dcd5c1.svg)
+![](assets/swatch_904612d46460f8d0.svg)
+![](assets/swatch_dab0bba4cb57a531.svg)
+![](assets/swatch_6a557cade4802c7c.svg)
+![](assets/swatch_ede885baa2964531.svg)
+![](assets/swatch_e9c7045dc4c445fa.svg)
+
+---
+
+## Accent Divider
+
+![](assets/swatch_f3d933ce0266a58b.svg)![](assets/swatch_cce68996ee614f29.svg)![](assets/swatch_5e51d0cbfc4382ed.svg)
+
+---
+
+*Built with mdfx*

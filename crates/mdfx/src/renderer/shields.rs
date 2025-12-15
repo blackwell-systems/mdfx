@@ -33,22 +33,37 @@ impl Renderer for ShieldsBackend {
                 logo_size,
                 ..
             } => {
-                // If icon is specified, render as icon badge with custom background
-                if let Some(icon_name) = icon {
-                    let logo_color = icon_color.as_deref().unwrap_or("FFFFFF");
-                    self.shields.render_icon_with_size(
-                        icon_name,
-                        color,
-                        logo_color,
-                        style,
-                        logo_size.as_deref(),
-                    )?
-                } else if let Some(label_text) = label {
-                    // Render block with label text
-                    self.shields
-                        .render_labeled_block(color, label_text, style)?
-                } else {
-                    self.shields.render_block(color, style)?
+                // Handle different combinations of icon and label
+                match (icon, label) {
+                    // Both icon and label - render badge with icon and text
+                    (Some(icon_name), Some(label_text)) => {
+                        let logo_color = icon_color.as_deref().unwrap_or("FFFFFF");
+                        self.shields.render_icon_with_label(
+                            icon_name,
+                            label_text,
+                            color,
+                            logo_color,
+                            style,
+                        )?
+                    }
+                    // Icon only - render icon chip
+                    (Some(icon_name), None) => {
+                        let logo_color = icon_color.as_deref().unwrap_or("FFFFFF");
+                        self.shields.render_icon_with_size(
+                            icon_name,
+                            color,
+                            logo_color,
+                            style,
+                            logo_size.as_deref(),
+                        )?
+                    }
+                    // Label only - render labeled block
+                    (None, Some(label_text)) => {
+                        self.shields
+                            .render_labeled_block(color, label_text, style)?
+                    }
+                    // Neither - render plain color block
+                    (None, None) => self.shields.render_block(color, style)?,
                 }
             }
 

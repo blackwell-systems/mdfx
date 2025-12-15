@@ -231,6 +231,38 @@ impl ShieldsRenderer {
         Ok(format!("![]({})", url))
     }
 
+    /// Render an icon chip with a text label
+    ///
+    /// # Arguments
+    ///
+    /// * `logo` - Simple Icons slug (e.g., "rust", "python")
+    /// * `label` - Text to display on the badge
+    /// * `bg_color` - Background color (palette name or hex)
+    /// * `logo_color` - Logo color (palette name or hex)
+    /// * `style` - Shield style
+    pub fn render_icon_with_label(
+        &self,
+        logo: &str,
+        label: &str,
+        bg_color: &str,
+        logo_color: &str,
+        style: &str,
+    ) -> Result<String> {
+        let bg = self.resolve_color(bg_color)?;
+        let logo_col = self.resolve_color(logo_color)?;
+        let resolved_style = self.resolve_style(style)?;
+
+        // URL encode the label for spaces and special chars
+        let encoded_label = label.replace(' ', "%20");
+
+        let url = format!(
+            "https://img.shields.io/badge/-{}-{}?style={}&logo={}&logoColor={}",
+            encoded_label, bg, resolved_style, logo, logo_col
+        );
+
+        Ok(format!("![]({})", url))
+    }
+
     /// Resolve a color from palette name or pass through hex code
     ///
     /// # Arguments
