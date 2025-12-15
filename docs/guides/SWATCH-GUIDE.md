@@ -57,23 +57,59 @@ Where `COLOR` is either:
 
 Control swatch size for any purpose:
 
+**Syntax:**
 ```markdown
-{{ui:swatch:accent:width=8:height=8/}}      <!-- Tiny indicator -->
 {{ui:swatch:accent:width=20:height=20/}}    <!-- Standard badge -->
-{{ui:swatch:accent:width=200:height=10/}}   <!-- Wide bar -->
-{{ui:swatch:accent:width=10:height=100/}}   <!-- Tall column -->
-{{ui:swatch:accent:width=300:height=80/}}   <!-- Large panel -->
+{{ui:swatch:accent:width=40:height=20/}}    <!-- Wide badge -->
+{{ui:swatch:accent:width=100:height=20/}}   <!-- Bar -->
+{{ui:swatch:accent:width=200:height=20/}}   <!-- Wide bar -->
 ```
+
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_36d01a24e0f55a64.svg) ![](assets/svg-examples/swatch_9ea2717f5b5cc819.svg) ![](assets/svg-examples/swatch_e5bbf5782fc7e158.svg) ![](assets/svg-examples/swatch_5e298f656c446b8a.svg)
+
+**Shields (ignores dimensions):**
+
+![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)
+
+### Wide Bars
+
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_afe404fd521ec43.svg)
+
+![](assets/svg-examples/swatch_6bc02d5d66952aba.svg)
+
+### Tiny Indicators
+
+**Syntax:**
+```markdown
+{{ui:swatch:22C55E:width=8:height=8/}}
+{{ui:swatch:EAB308:width=8:height=8/}}
+{{ui:swatch:EF4444:width=8:height=8/}}
+```
+
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_c83c318841b4e5c.svg) ![](assets/svg-examples/swatch_3a36c4034887f848.svg) ![](assets/svg-examples/swatch_26cbb2410c090cab.svg)
 
 ### Pixel Art
 
 Create pixel art with small swatches:
 
+**Syntax:**
 ```markdown
 {{ui:swatch:FF0000:width=8:height=8/}}{{ui:swatch:00FF00:width=8:height=8/}}{{ui:swatch:0000FF:width=8:height=8/}}
 ```
 
-*See SVG examples in the repository for rendered output.*
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_ca4bfb542715012b.svg)![](assets/svg-examples/swatch_5d7f188fa7fe8b82.svg)![](assets/svg-examples/swatch_e50858fc3f7e3b84.svg)
+
+**Mini Palette:**
+
+![](assets/svg-examples/swatch_f0e70bd99ed82e61.svg)![](assets/svg-examples/swatch_1fe886d7cd6e37c7.svg)![](assets/svg-examples/swatch_ff6169e7c702f65f.svg)![](assets/svg-examples/swatch_500a319e888e8802.svg)
 
 ---
 
@@ -115,24 +151,43 @@ The `style` parameter changes corner radius and effects:
 
 Control transparency with `opacity` (0.0 to 1.0):
 
+**Syntax:**
 ```markdown
-{{ui:swatch:accent:opacity=1.0/}}   <!-- Fully opaque (default) -->
-{{ui:swatch:accent:opacity=0.75/}}  <!-- 75% visible -->
-{{ui:swatch:accent:opacity=0.5/}}   <!-- Half transparent -->
-{{ui:swatch:accent:opacity=0.25/}}  <!-- 25% visible -->
-{{ui:swatch:accent:opacity=0.1/}}   <!-- Nearly invisible -->
+{{ui:swatch:accent:width=50:height=30:opacity=1.0/}}   <!-- Fully opaque -->
+{{ui:swatch:accent:width=50:height=30:opacity=0.75/}}  <!-- 75% visible -->
+{{ui:swatch:accent:width=50:height=30:opacity=0.5/}}   <!-- Half transparent -->
+{{ui:swatch:accent:width=50:height=30:opacity=0.25/}}  <!-- 25% visible -->
 ```
+
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_2a3692caae3b7dc0.svg) ![](assets/svg-examples/swatch_7cdbfc555f0481b.svg) ![](assets/svg-examples/swatch_28f70963a1378ba5.svg) ![](assets/svg-examples/swatch_3545e8258efb8fd7.svg)
+
+**Shields (ignores opacity):**
+
+![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)
 
 ### Depth Illusion
 
-Create layered depth effects:
+Create layered depth effects with decreasing opacity:
 
+**Syntax:**
 ```markdown
-{{ui:swatch:F41C80:width=200:height=40:opacity=1.0/}}
-{{ui:swatch:F41C80:width=180:height=40:opacity=0.75/}}
-{{ui:swatch:F41C80:width=160:height=40:opacity=0.50/}}
-{{ui:swatch:F41C80:width=140:height=40:opacity=0.25/}}
+{{ui:swatch:3B82F6:width=200:height=30:opacity=1.0/}}
+{{ui:swatch:3B82F6:width=180:height=30:opacity=0.75/}}
+{{ui:swatch:3B82F6:width=160:height=30:opacity=0.50/}}
+{{ui:swatch:3B82F6:width=140:height=30:opacity=0.25/}}
 ```
+
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_dfff9f8f7824cf7d.svg)
+
+![](assets/svg-examples/swatch_55f3fbddd62dec13.svg)
+
+![](assets/svg-examples/swatch_61665e6085afafb0.svg)
+
+![](assets/svg-examples/swatch_e452e47d7636f152.svg)
 
 ### Invisible Spacers
 
@@ -150,21 +205,48 @@ Use `opacity=0` for invisible spacing:
 
 Add borders with `border` (color) and `border_width`:
 
+### Simple Borders
+
+**Syntax:**
 ```markdown
-{{ui:swatch:1a1a2e:border=F41C80/}}                                         <!-- Simple border -->
-{{ui:swatch:1a1a2e:border=F41C80:border_width=3/}}                          <!-- Thick border -->
-{{ui:swatch:1a1a2e:width=100:height=60:border=22C55E:border_width=5/}}      <!-- Very thick frame -->
+{{ui:swatch:1a1a2e:width=60:height=30:border=F41C80/}}
+{{ui:swatch:1a1a2e:width=60:height=30:border=22C55E/}}
+{{ui:swatch:1a1a2e:width=60:height=30:border=3B82F6/}}
 ```
 
-### Border Styles
+**SVG Rendered:**
 
+![](assets/svg-examples/swatch_ad75887dc00504a2.svg) ![](assets/svg-examples/swatch_63ff0da97f0a697e.svg) ![](assets/svg-examples/swatch_5855eab472031e09.svg)
+
+**Shields (no border support):**
+
+![](https://img.shields.io/badge/-%20-1A1A2E?style=flat-square) ![](https://img.shields.io/badge/-%20-1A1A2E?style=flat-square) ![](https://img.shields.io/badge/-%20-1A1A2E?style=flat-square)
+
+### Border Widths
+
+**Syntax:**
 ```markdown
-{{ui:swatch:1a1a2e:width=80:height=40:border=333333:border_width=1/}}  <!-- Subtle outline -->
-{{ui:swatch:1a1a2e:width=80:height=40:border=FFFFFF:border_width=3/}}  <!-- Bold frame -->
-{{ui:swatch:1a1a2e:width=80:height=40:border=F41C80:border_width=2/}}  <!-- Accent highlight -->
+{{ui:swatch:292A2D:width=80:height=40:border=FFFFFF:border_width=1/}}
+{{ui:swatch:292A2D:width=80:height=40:border=FFFFFF:border_width=2/}}
+{{ui:swatch:292A2D:width=80:height=40:border=FFFFFF:border_width=4/}}
 ```
 
-*See SVG examples in the repository for rendered output.*
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_fff6796cb20d2c07.svg) ![](assets/svg-examples/swatch_35004c7e54c3bf47.svg) ![](assets/svg-examples/swatch_f1f5afc327f4598f.svg)
+
+### Glassmorphism
+
+Combine opacity and borders for a frosted glass effect:
+
+**Syntax:**
+```markdown
+{{ui:swatch:FFFFFF:width=200:height=60:opacity=0.15:border=FFFFFF:border_width=1/}}
+```
+
+**SVG Rendered:**
+
+![](assets/svg-examples/swatch_8d3e9297f25688e7.svg)
 
 ---
 
@@ -274,23 +356,26 @@ Built-in palette colors:
 ![](https://img.shields.io/badge/-%20-EAB308?style=social) Cache: Degraded
 ![](https://img.shields.io/badge/-%20-EF4444?style=social) Queue: Critical
 
-### Progress Bar (SVG Only)
+### Progress Bar
 
 Custom width progress bars require the SVG backend:
 
+**Syntax (SVG):**
 ```markdown
-{{ui:swatch:22C55E:width=200:height=20:label=Progress 75%/}}{{ui:swatch:333333:width=67:height=20/}}
+{{ui:swatch:22C55E:width=150:height=20/}}{{ui:swatch:333333:width=50:height=20/}}
 ```
 
-For shields.io, use labels instead:
+**SVG Rendered:**
 
-**Syntax:**
+![](assets/svg-examples/swatch_7d8dee1884fa410.svg)![](assets/svg-examples/swatch_7cede18a96b13cb0.svg)
+
+**Shields alternative (use labels instead of dimensions):**
 
 ```markdown
 {{ui:swatch:22C55E:label=75%/}}{{ui:swatch:333333/}}
 ```
 
-**Rendered:**
+**Shields Rendered:**
 
 ![](https://img.shields.io/badge/-75%-22C55E?style=flat-square)![](https://img.shields.io/badge/-%20-333333?style=flat-square)
 
@@ -363,26 +448,28 @@ For shields.io, use labels instead:
 
 ---
 
-## SVG-Only Examples
+## SVG-Only Examples Gallery
 
-The following examples require `--backend svg` for full effect:
+The following examples require `--backend svg` for full effect.
 
-### Glassmorphism Effect
+### Large Panel
 
+**Syntax:**
 ```markdown
-{{ui:swatch:FFFFFF:width=200:height=60:opacity=0.15:border=FFFFFF:border_width=1/}}
-{{ui:swatch:FFFFFF:width=180:height=50:opacity=0.2:border=FFFFFF:border_width=1:label=Glass Card/}}
+{{ui:swatch:F41C80:width=250:height=80:label=HERO BANNER/}}
 ```
 
-### Pixel Art
+**SVG Rendered:**
 
-Custom dimensions enable pixel art:
+![](assets/svg-examples/swatch_79ca3e482e563e47.svg)
 
-```markdown
-{{ui:swatch:0a0a0a:width=8:height=8/}}{{ui:swatch:708090:width=8:height=8/}}...
-```
+### Summary
 
-*Pixel art requires `--backend svg` for precise dimensions.*
+SVG backend features not available in shields.io:
+- **Custom dimensions** - width and height in pixels
+- **Opacity** - transparency from 0.0 to 1.0
+- **Borders** - colored borders with custom width
+- **Pixel art** - precise small swatches for creating graphics
 
 ---
 
