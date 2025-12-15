@@ -158,6 +158,7 @@ mod tests {
         let primitive = Primitive::Divider {
             colors: vec!["F41C80".to_string(), "2B6CB0".to_string()],
             style: "flat-square".to_string(),
+            separator: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "--- #F41C80 #2B6CB0 ---");
@@ -169,6 +170,7 @@ mod tests {
         let primitive = Primitive::Divider {
             colors: vec![],
             style: "flat-square".to_string(),
+            separator: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "---");

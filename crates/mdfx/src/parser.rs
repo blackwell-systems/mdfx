@@ -338,26 +338,83 @@ impl TemplateParser {
                         self.process_templates_with_assets(&frame_data.content)?;
                     assets.extend(nested_assets);
 
-                    // Check for glyph frame shorthand: {{frame:glyph:NAME[*COUNT][/pad=VALUE]}}
+                    // Check for glyph frame shorthand: {{frame:glyph:NAME[*COUNT][/pad=VALUE][/separator=VALUE]}}
                     let framed = if frame_data.frame_style.starts_with("glyph:") {
-                        // Parse glyph spec: NAME[*COUNT][/pad=VALUE]
+                        // Parse glyph spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE]
                         let spec = &frame_data.frame_style[6..];
-                        let (glyph_name, count, pad) = Self::parse_glyph_frame_spec(spec);
+                        let (glyph_name, count, pad, separator) =
+                            Self::parse_glyph_frame_spec(spec);
 
                         let glyph_char = self
                             .registry
                             .glyph(&glyph_name)
                             .ok_or_else(|| Error::UnknownGlyph(glyph_name.clone()))?;
 
-                        // Build repeated glyph string
-                        let glyphs: String = glyph_char.repeat(count);
+                        // Build repeated glyph string, optionally with separator
+                        let glyphs: String = if let Some(sep) = separator {
+                            // Resolve separator from registry or use as literal
+                            let sep_char = self.registry.separator(&sep).unwrap_or(&sep);
+                            (0..count)
+                                .map(|_| glyph_char)
+                                .collect::<Vec<_>>()
+                                .join(sep_char)
+                        } else {
+                            glyph_char.repeat(count)
+                        };
 
                         // Apply glyphs as both prefix and suffix with padding
                         format!("{}{}{}{}{}", glyphs, pad, processed_content, pad, glyphs)
                     } else {
+                        // Extract separator from frame style if present
+                        let (frame_style, separator) =
+                            Self::parse_frame_style_separator(&frame_data.frame_style);
+
                         // Apply frame to processed content (validates frame exists)
-                        self.registry
-                            .apply_frame(&processed_content, &frame_data.frame_style)?
+                        // If separator is specified, insert it between each grapheme of prefix/suffix
+                        if let Some(sep) = separator {
+                            let frame = self
+                                .registry
+                                .frame(&frame_style)
+                                .ok_or_else(|| Error::UnknownFrame(frame_style.clone()))?;
+
+                            // Resolve separator from registry or use as literal
+                            let sep_char = self.registry.separator(&sep).unwrap_or(&sep);
+
+                            // Insert separator between graphemes in prefix/suffix
+                            use unicode_segmentation::UnicodeSegmentation;
+                            let prefix_with_sep: String = frame
+                                .prefix
+                                .trim()
+                                .graphemes(true)
+                                .collect::<Vec<_>>()
+                                .join(sep_char);
+                            let suffix_with_sep: String = frame
+                                .suffix
+                                .trim()
+                                .graphemes(true)
+                                .collect::<Vec<_>>()
+                                .join(sep_char);
+
+                            // Preserve spacing around content
+                            let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
+                            let suffix_space = if frame.suffix.starts_with(' ') {
+                                " "
+                            } else {
+                                ""
+                            };
+
+                            format!(
+                                "{}{}{}{}{}",
+                                prefix_with_sep,
+                                prefix_space,
+                                processed_content,
+                                suffix_space,
+                                suffix_with_sep
+                            )
+                        } else {
+                            self.registry
+                                .apply_frame(&processed_content, &frame_style)?
+                        }
                     };
                     result.push_str(&framed);
 
@@ -406,7 +463,18 @@ impl TemplateParser {
                             let style = shield_data.params.get("style").ok_or_else(|| {
                                 Error::MissingShieldParam("style".to_string(), "bar".to_string())
                             })?;
-                            self.shields_renderer.render_bar(&colors, style)?
+                            // Get optional separator (can be named like "dot" or literal like " ")
+                            let separator = shield_data.params.get("separator").map(|s| {
+                                self.registry
+                                    .separator(s)
+                                    .map(|r| r.to_string())
+                                    .unwrap_or_else(|| s.clone())
+                            });
+                            self.shields_renderer.render_bar_with_separator(
+                                &colors,
+                                style,
+                                separator.as_deref(),
+                            )?
                         }
                         "icon" => {
                             let logo = shield_data.params.get("logo").ok_or_else(|| {
@@ -845,17 +913,28 @@ impl TemplateParser {
         Err(Error::UnclosedTag(style))
     }
 
-    /// Parse glyph frame spec: NAME[*COUNT][/pad=VALUE]
-    /// Returns (glyph_name, count, padding_string)
-    fn parse_glyph_frame_spec(spec: &str) -> (String, usize, String) {
+    /// Parse glyph frame spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE]
+    /// Returns (glyph_name, count, padding_string, separator_option)
+    fn parse_glyph_frame_spec(spec: &str) -> (String, usize, String, Option<String>) {
         let mut remaining = spec.to_string();
         let mut count: usize = 1;
         let mut pad = " ".to_string(); // default: single space
+        let mut separator: Option<String> = None;
 
-        // Check for /pad= modifier first
-        if let Some(slash_pos) = remaining.find('/') {
-            let modifier = remaining[slash_pos + 1..].to_string();
+        // Check for /modifiers (can have multiple: /pad=X/separator=Y)
+        while let Some(slash_pos) = remaining.find('/') {
+            let after_slash = remaining[slash_pos + 1..].to_string();
             remaining = remaining[..slash_pos].to_string();
+
+            // Split on next / if present to handle chained modifiers
+            let (modifier, rest) = if let Some(next_slash) = after_slash.find('/') {
+                (
+                    after_slash[..next_slash].to_string(),
+                    Some(after_slash[next_slash..].to_string()),
+                )
+            } else {
+                (after_slash, None)
+            };
 
             if let Some(pad_value) = modifier.strip_prefix("pad=") {
                 // Check if it's a number (meaning N spaces)
@@ -865,6 +944,13 @@ impl TemplateParser {
                     // Use literal string
                     pad = pad_value.to_string();
                 }
+            } else if let Some(sep_value) = modifier.strip_prefix("separator=") {
+                separator = Some(sep_value.to_string());
+            }
+
+            // If there are more modifiers, append them back for next iteration
+            if let Some(rest) = rest {
+                remaining = format!("{}{}", remaining, rest);
             }
         }
 
@@ -879,7 +965,25 @@ impl TemplateParser {
             }
         }
 
-        (remaining, count, pad)
+        (remaining, count, pad, separator)
+    }
+
+    /// Parse frame style and extract separator modifier
+    /// Input: "gradient/separator=dot" → ("gradient", Some("dot"))
+    /// Input: "gradient" → ("gradient", None)
+    fn parse_frame_style_separator(style: &str) -> (String, Option<String>) {
+        if let Some(slash_pos) = style.find('/') {
+            let base_style = style[..slash_pos].to_string();
+            let modifier = &style[slash_pos + 1..];
+
+            if let Some(sep_value) = modifier.strip_prefix("separator=") {
+                return (base_style, Some(sep_value.to_string()));
+            }
+            // Unknown modifier, keep style as-is
+            (style.to_string(), None)
+        } else {
+            (style.to_string(), None)
+        }
     }
 
     /// Try to parse a frame template starting at position i
@@ -1979,6 +2083,48 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     }
 
     #[test]
+    fn test_frame_glyph_with_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:star*3/separator=dot}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★·★·★ Title ★·★·★");
+    }
+
+    #[test]
+    fn test_frame_glyph_with_separator_named() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:diamond*2/separator=dash}}Gem{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "◆─◆ Gem ◆─◆");
+    }
+
+    #[test]
+    fn test_frame_glyph_with_separator_literal() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:bullet*4/separator=-}}X{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "•-•-•-• X •-•-•-•");
+    }
+
+    #[test]
+    fn test_frame_glyph_separator_and_pad() {
+        let parser = TemplateParser::new().unwrap();
+        // Both separator and pad modifiers
+        let input = "{{frame:glyph:star*3/separator=·/pad=0}}Tight{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★·★·★Tight★·★·★");
+    }
+
+    #[test]
+    fn test_frame_glyph_separator_single_count() {
+        let parser = TemplateParser::new().unwrap();
+        // With count=1, separator has no effect (nothing to separate)
+        let input = "{{frame:glyph:star/separator=dot}}Single{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★ Single ★");
+    }
+
+    #[test]
     fn test_frame_glyph_max_count() {
         // Count should be capped at 20
         let parser = TemplateParser::new().unwrap();
@@ -2002,6 +2148,39 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:glyph:star*3}}Text{{/}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "★★★ Text ★★★");
+    }
+
+    #[test]
+    fn test_frame_pattern_with_separator() {
+        let parser = TemplateParser::new().unwrap();
+        // gradient pattern is ▓▒░, with separator should be ▓·▒·░
+        let input = "{{fr:gradient/separator=dot}}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓·▒·░ Title ░·▒·▓");
+    }
+
+    #[test]
+    fn test_frame_pattern_with_separator_named() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient/separator=dash}}TEXT{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓─▒─░ TEXT ░─▒─▓");
+    }
+
+    #[test]
+    fn test_frame_pattern_with_separator_literal() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:line-double/separator= }}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "═ ═ ═ Title ═ ═ ═");
+    }
+
+    #[test]
+    fn test_frame_self_closing_with_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient/separator=·:Inline/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓·▒·░ Inline ░·▒·▓");
     }
 
     #[test]
@@ -2380,6 +2559,26 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let result = parser.process(input).unwrap();
         // Should render 3 inline badges
         assert_eq!(result.matches("![](").count(), 3);
+    }
+
+    #[test]
+    fn test_shields_bar_with_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{shields:bar:colors=success,warning:style=flat-square:separator= /}}";
+        let result = parser.process(input).unwrap();
+        // Should render 2 badges with space between them
+        assert_eq!(result.matches("![](").count(), 2);
+        // Should have space separator between badges
+        assert!(result.contains(") ![](")); // space between closing ) and opening ![](
+    }
+
+    #[test]
+    fn test_shields_bar_with_named_separator() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{shields:bar:colors=accent,success:style=flat-square:separator=dot/}}";
+        let result = parser.process(input).unwrap();
+        // Should render 2 badges with · separator
+        assert!(result.contains(")·![](")); // dot separator
     }
 
     // ========================================

@@ -25,6 +25,34 @@ Frames add **decorative prefix/suffix** around text without changing the charact
 ▓▒░ TITLE ░▒▓
 ```
 
+### With Separator
+
+Add `/separator=X` to insert a character between pattern glyphs:
+
+```markdown
+{{fr:gradient/separator=dot}}TITLE{{/}}
+```
+
+**Output:**
+```
+▓·▒·░ TITLE ░·▒·▓
+```
+
+Separator can be a named glyph (like `dot`, `dash`) or a literal character (like `·`, `-`).
+
+### Glyph Frames with Separator
+
+Glyph frames also support separators:
+
+```markdown
+{{fr:glyph:star*3/separator=dot}}Title{{/}}
+```
+
+**Output:**
+```
+★·★·★ Title ★·★·★
+```
+
 ---
 
 ## Available Frame Styles (27)

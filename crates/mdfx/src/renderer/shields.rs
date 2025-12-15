@@ -62,7 +62,13 @@ impl Renderer for ShieldsBackend {
                 }
             }
 
-            Primitive::Divider { colors, style } => self.shields.render_bar(colors, style)?,
+            Primitive::Divider {
+                colors,
+                style,
+                separator,
+            } => self
+                .shields
+                .render_bar_with_separator(colors, style, separator.as_deref())?,
 
             Primitive::Tech {
                 name,
@@ -117,6 +123,7 @@ mod tests {
                 "334155".to_string(),
             ],
             style: "flat-square".to_string(),
+            separator: None,
         };
 
         let result = backend.render(&primitive).unwrap();

@@ -215,6 +215,7 @@ impl ComponentsRenderer {
                 Ok(ComponentOutput::Primitive(Primitive::Divider {
                     colors,
                     style,
+                    separator: None,
                 }))
             }
 

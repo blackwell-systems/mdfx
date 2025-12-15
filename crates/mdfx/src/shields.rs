@@ -168,6 +168,34 @@ impl ShieldsRenderer {
         Ok(blocks.join(""))
     }
 
+    /// Render a multi-color bar with optional separator between blocks
+    ///
+    /// # Arguments
+    ///
+    /// * `colors` - Slice of colors (palette names or hex codes)
+    /// * `style` - Shield style
+    /// * `separator` - Optional separator string between blocks (e.g., " " for space)
+    pub fn render_bar_with_separator(
+        &self,
+        colors: &[String],
+        style: &str,
+        separator: Option<&str>,
+    ) -> Result<String> {
+        let resolved_style = self.resolve_style(style)?;
+        let mut blocks = Vec::new();
+
+        for color in colors {
+            let resolved_color = self.resolve_color(color)?;
+            let url = format!(
+                "https://img.shields.io/badge/-%20-{}?style={}",
+                resolved_color, resolved_style
+            );
+            blocks.push(format!("![]({})", url));
+        }
+
+        Ok(blocks.join(separator.unwrap_or("")))
+    }
+
     /// Render an icon chip (logo-only badge)
     ///
     /// # Arguments

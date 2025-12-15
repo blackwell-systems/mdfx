@@ -51,7 +51,7 @@ impl From<&Primitive> for PrimitiveInfo {
                 color: color.clone(),
                 style: style.clone(),
             },
-            Primitive::Divider { colors, style } => PrimitiveInfo::Divider {
+            Primitive::Divider { colors, style, .. } => PrimitiveInfo::Divider {
                 colors: colors.clone(),
                 style: style.clone(),
             },

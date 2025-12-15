@@ -160,12 +160,17 @@ impl SvgBackend {
                 border_bottom.hash(&mut hasher);
                 border_left.hash(&mut hasher);
             }
-            Primitive::Divider { colors, style } => {
+            Primitive::Divider {
+                colors,
+                style,
+                separator,
+            } => {
                 "divider".hash(&mut hasher);
                 for color in colors {
                     color.hash(&mut hasher);
                 }
                 style.hash(&mut hasher);
+                separator.hash(&mut hasher);
             }
             Primitive::Status { level, style } => {
                 "status".hash(&mut hasher);
@@ -552,7 +557,7 @@ impl Renderer for SvgBackend {
                 border_left: border_left.as_deref(),
             }),
 
-            Primitive::Divider { colors, style } => Self::render_divider_svg(colors, style),
+            Primitive::Divider { colors, style, .. } => Self::render_divider_svg(colors, style),
 
             Primitive::Status { level, style } => {
                 // Status uses simplified swatch (no extra options)
@@ -644,6 +649,7 @@ mod tests {
                 "0000FF".to_string(),
             ],
             style: "flat-square".to_string(),
+            separator: None,
         };
 
         let result = backend.render(&primitive).unwrap();
@@ -772,6 +778,7 @@ mod tests {
         let primitive = Primitive::Divider {
             colors: vec!["FF0000".to_string(), "00FF00".to_string()],
             style: "for-the-badge".to_string(),
+            separator: None,
         };
 
         let result = backend.render(&primitive).unwrap();

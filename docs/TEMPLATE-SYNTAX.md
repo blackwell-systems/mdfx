@@ -583,6 +583,11 @@ Low-level shield rendering (escape hatch for advanced users).
 {{shields:bar:colors=success,warning,error:style=flat-square/}}
 ```
 - `colors=` - Comma-separated list
+- `separator=` - Optional separator between blocks (e.g., ` ` for space, `dot`, `·`)
+
+```markdown
+{{shields:bar:colors=accent,success:style=flat-square:separator= /}}
+```
 
 **icon** - Simple Icons logo
 ```markdown

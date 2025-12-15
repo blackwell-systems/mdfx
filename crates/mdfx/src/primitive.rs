@@ -60,7 +60,12 @@ pub enum Primitive {
     },
 
     /// Multi-color divider bar for section separation
-    Divider { colors: Vec<String>, style: String },
+    Divider {
+        colors: Vec<String>,
+        style: String,
+        /// Optional separator between color blocks (e.g., " " for space)
+        separator: Option<String>,
+    },
 
     /// Technology badge with logo (uses Simple Icons)
     Tech {
@@ -182,6 +187,7 @@ mod tests {
                 "0000ff".to_string(),
             ],
             style: "flat".to_string(),
+            separator: None,
         };
 
         if let Primitive::Divider { colors, .. } = divider {
