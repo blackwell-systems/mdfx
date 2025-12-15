@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Keyboard Keys (`{{kbd:...}}`)
+
+- **Native HTML kbd tags** - GitHub renders `<kbd>` tags with keyboard styling
+- **Compound key support** - `{{kbd:Ctrl+C/}}` expands to `<kbd>Ctrl</kbd>+<kbd>C</kbd>`
+- **Top-level template** - No `ui:` prefix needed for cleaner syntax
+- **Unicode support** - Works with Mac symbols: `{{kbd:⌘+C/}}`
+
+**Examples:**
+```markdown
+Press {{kbd:Enter/}} to continue
+Copy with {{kbd:Ctrl+C/}} or {{kbd:⌘+C/}}
+Open command palette: {{kbd:Ctrl+Shift+P/}}
+```
+
 #### Watch Mode (`mdfx watch`)
 
 - **Live rebuilding** - Monitor input file and automatically rebuild on changes

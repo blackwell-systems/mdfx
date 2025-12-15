@@ -49,6 +49,13 @@ struct GlyphData {
     glyph_name: String,
 }
 
+/// Kbd (keyboard key) template data
+#[derive(Debug, Clone)]
+struct KbdData {
+    end_pos: usize,
+    keys: String,
+}
+
 /// Result of processing markdown with file-based assets
 #[derive(Debug, Clone)]
 pub struct ProcessedMarkdown {
@@ -432,6 +439,17 @@ impl TemplateParser {
 
                     // Skip past the glyph template
                     i = glyph_data.end_pos;
+                    continue;
+                }
+
+                // Try to parse a kbd template
+                if let Some(kbd_data) = self.parse_kbd_at(&chars, i)? {
+                    // Expand keys to <kbd> HTML tags
+                    let expanded = self.expand_kbd(&kbd_data.keys);
+                    result.push_str(&expanded);
+
+                    // Skip past the kbd template
+                    i = kbd_data.end_pos;
                     continue;
                 }
 
@@ -1012,6 +1030,67 @@ impl TemplateParser {
 
         // Not a valid glyph template
         Ok(None)
+    }
+
+    /// Try to parse a kbd template starting at position i
+    /// Returns: Some(KbdData) or None if not a valid kbd template
+    ///
+    /// Supports self-closing only: {{kbd:Ctrl+C/}}
+    /// Expands to: <kbd>Ctrl</kbd>+<kbd>C</kbd>
+    fn parse_kbd_at(&self, chars: &[char], start: usize) -> Result<Option<KbdData>> {
+        let mut i = start;
+
+        // Must start with {{kbd:
+        if i + 7 >= chars.len() {
+            return Ok(None);
+        }
+
+        // Check for "{{kbd:"
+        let kbd_start = "{{kbd:";
+        let kbd_chars: Vec<char> = kbd_start.chars().collect();
+        for (idx, &expected) in kbd_chars.iter().enumerate() {
+            if chars[i + idx] != expected {
+                return Ok(None);
+            }
+        }
+        i += kbd_chars.len();
+
+        // Parse key sequence (everything until /}})
+        let mut keys = String::new();
+        while i < chars.len() {
+            let ch = chars[i];
+            if ch == '/' {
+                break;
+            }
+            keys.push(ch);
+            i += 1;
+        }
+
+        // Keys must be non-empty
+        if keys.is_empty() {
+            return Ok(None);
+        }
+
+        // Must be self-closing (ends with /}})
+        if i + 2 < chars.len() && chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
+            let end_pos = i + 3;
+            return Ok(Some(KbdData { end_pos, keys }));
+        }
+
+        // Not a valid kbd template
+        Ok(None)
+    }
+
+    /// Expand kbd keys to HTML
+    /// Splits on + and wraps each part in <kbd> tags
+    fn expand_kbd(&self, keys: &str) -> String {
+        // Split on + but preserve it as separator
+        let parts: Vec<&str> = keys.split('+').collect();
+        parts
+            .iter()
+            .map(|part| format!("<kbd>{}</kbd>", part.trim()))
+            .collect::<Vec<_>>()
+            .join("+")
     }
 
     /// Validate template syntax without processing
@@ -2046,5 +2125,96 @@ mod badge_style_tests {
         assert!(output.contains("style=plastic"));
         // Should resolve accent color
         assert!(output.contains("F41C80"));
+    }
+}
+
+#[cfg(test)]
+mod kbd_tests {
+    use super::*;
+
+    #[test]
+    fn test_kbd_single_key() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "Press {{kbd:Enter/}} to continue";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "Press <kbd>Enter</kbd> to continue");
+    }
+
+    #[test]
+    fn test_kbd_compound_keys() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "Copy with {{kbd:Ctrl+C/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "Copy with <kbd>Ctrl</kbd>+<kbd>C</kbd>");
+    }
+
+    #[test]
+    fn test_kbd_three_keys() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{kbd:Ctrl+Shift+P/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>");
+    }
+
+    #[test]
+    fn test_kbd_multiple_in_line() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "Use {{kbd:Ctrl+C/}} to copy and {{kbd:Ctrl+V/}} to paste";
+        let result = parser.process(input).unwrap();
+        assert_eq!(
+            result,
+            "Use <kbd>Ctrl</kbd>+<kbd>C</kbd> to copy and <kbd>Ctrl</kbd>+<kbd>V</kbd> to paste"
+        );
+    }
+
+    #[test]
+    fn test_kbd_special_keys() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{kbd:Esc/}} {{kbd:Tab/}} {{kbd:Space/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "<kbd>Esc</kbd> <kbd>Tab</kbd> <kbd>Space</kbd>");
+    }
+
+    #[test]
+    fn test_kbd_arrow_keys() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "Navigate with {{kbd:↑/}} {{kbd:↓/}} {{kbd:←/}} {{kbd:→/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(
+            result,
+            "Navigate with <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd>"
+        );
+    }
+
+    #[test]
+    fn test_kbd_preserved_in_code_block() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "```\n{{kbd:Ctrl+C/}}\n```";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "```\n{{kbd:Ctrl+C/}}\n```");
+    }
+
+    #[test]
+    fn test_kbd_preserved_in_inline_code() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "Use `{{kbd:Ctrl+C/}}` in docs";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "Use `{{kbd:Ctrl+C/}}` in docs");
+    }
+
+    #[test]
+    fn test_kbd_with_other_templates() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold}}KEY{{/mathbold}}: {{kbd:F1/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "𝐊𝐄𝐘: <kbd>F1</kbd>");
+    }
+
+    #[test]
+    fn test_kbd_mac_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{kbd:⌘+C/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "<kbd>⌘</kbd>+<kbd>C</kbd>");
     }
 }
