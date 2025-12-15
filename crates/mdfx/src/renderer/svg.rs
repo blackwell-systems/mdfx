@@ -502,14 +502,10 @@ impl Renderer for SvgBackend {
             } => Self::render_tech_svg(name, bg_color, logo_color, style),
         };
 
-        // Handle inline mode (data URI) vs file mode
+        // Handle inline mode (raw SVG) vs file mode
         if self.inline {
-            // Encode SVG as base64 data URI
-            use base64::{Engine as _, engine::general_purpose::STANDARD};
-            let encoded = STANDARD.encode(svg.as_bytes());
-            let data_uri = format!("data:image/svg+xml;base64,{}", encoded);
-            let markdown = format!("![]({})", data_uri);
-            Ok(RenderedAsset::InlineMarkdown(markdown))
+            // Output raw SVG directly (works in most markdown renderers that support HTML)
+            Ok(RenderedAsset::InlineMarkdown(svg))
         } else {
             let markdown_ref = format!("![]({})", relative_path);
             Ok(RenderedAsset::File {
