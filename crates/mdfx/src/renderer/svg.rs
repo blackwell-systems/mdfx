@@ -278,10 +278,10 @@ impl SvgBackend {
         };
 
         // Parse shadow if provided
-        let shadow_config = opts.shadow.and_then(|s| Self::parse_shadow(s));
+        let shadow_config = opts.shadow.and_then(Self::parse_shadow);
 
         // Parse gradient if provided
-        let gradient_config = opts.gradient.and_then(|g| Self::parse_gradient(g));
+        let gradient_config = opts.gradient.and_then(Self::parse_gradient);
 
         // Calculate extra space needed for shadow
         let shadow_padding = if shadow_config.is_some() { 20 } else { 0 };

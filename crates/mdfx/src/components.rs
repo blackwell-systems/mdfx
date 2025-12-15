@@ -59,6 +59,7 @@ struct RenderablesExtract {
 
 /// Output from expanding a component
 #[derive(Debug, Clone, PartialEq)]
+#[allow(clippy::large_enum_variant)]
 pub enum ComponentOutput {
     /// Direct primitive rendering (for image-based components)
     Primitive(Primitive),

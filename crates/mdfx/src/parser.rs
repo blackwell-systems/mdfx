@@ -875,7 +875,7 @@ impl TemplateParser {
 
             if let Ok(n) = count_str.parse::<usize>() {
                 // Cap at 20 to prevent abuse
-                count = n.min(20).max(1);
+                count = n.clamp(1, 20);
             }
         }
 

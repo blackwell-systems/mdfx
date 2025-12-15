@@ -449,6 +449,7 @@ fn list_styles(
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 fn process_file(
     input: Option<PathBuf>,
     output: Option<PathBuf>,
@@ -987,6 +988,7 @@ fn build_multi_target(
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 fn watch_file(
     input: PathBuf,
     output: PathBuf,

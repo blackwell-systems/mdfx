@@ -13,6 +13,7 @@
 /// Unicode rendering and don't use this abstraction.
 
 #[derive(Debug, Clone, PartialEq)]
+#[allow(clippy::large_enum_variant)]
 pub enum Primitive {
     /// Single colored swatch block with optional enhancements
     Swatch {
