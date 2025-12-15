@@ -37,11 +37,13 @@ Block element gradients for dramatic emphasis.
 | `gradient` | grad, gradient-full | `▓▒░ text ░▒▓` |
 | `gradient-light` | gradlight | `▒░ text ░▒` |
 | `gradient-reverse` | gradrev | `░▒▓ text ▓▒░` |
+| `gradient-wave` | wave | `▓▒░ text ▒░▓` |
 
 ```markdown
 {{frame:gradient}}DRAMATIC HEADER{{/frame}}
 {{frame:gradient-light}}Subtle emphasis{{/frame}}
 {{frame:gradient-reverse}}Inverted style{{/frame}}
+{{frame:gradient-wave}}Wave effect{{/frame}}
 ```
 
 **Rendered:**
@@ -51,6 +53,8 @@ Block element gradients for dramatic emphasis.
 ▒░ Subtle emphasis ░▒
 
 ░▒▓ Inverted style ▓▒░
+
+▓▒░ Wave effect ▒░▓
 
 ---
 
@@ -278,6 +282,85 @@ Frames can be nested for layered visual effects:
 
 ---
 
+## Frame Combos
+
+Combine multiple frames with the `+` syntax for nested effects without verbose nesting:
+
+**Syntax:**
+```markdown
+{{fr:outer+inner}}content{{/}}
+{{fr:gradient+star}}TITLE{{/}}
+```
+
+**Rendered:**
+
+▓▒░ ★ TITLE ☆ ░▒▓
+
+This is equivalent to nesting:
+```markdown
+{{fr:gradient}}{{fr:star}}TITLE{{/}}{{/}}
+```
+
+**Triple combo:**
+
+```markdown
+{{fr:gradient+star+diamond}}VIP{{/}}
+```
+
+**Rendered:**
+
+▓▒░ ★ ◆ VIP ◇ ☆ ░▒▓
+
+Combo order: outer frames wrap inner frames. Prefix builds left-to-right, suffix builds right-to-left.
+
+---
+
+## Frame Modifiers
+
+Frames support modifiers for separators and spacing.
+
+### Separator (`/separator=X`)
+
+Insert a character between frame pattern glyphs:
+
+```markdown
+{{fr:gradient/separator=·}}Title{{/}}
+{{frame:gradient/separator=dot}}Header{{/frame}}
+```
+
+**Rendered:**
+
+▓·▒·░ Title ░·▒·▓
+
+Named separators: `dot` (·), `dash` (-), `space` ( ), `pipe` (|), `colon` (:)
+
+### Spacing (`/spacing=N`)
+
+Insert N spaces between frame pattern glyphs:
+
+```markdown
+{{fr:gradient/spacing=1}}Title{{/}}
+{{fr:gradient/spacing=2}}Wide{{/}}
+```
+
+**Rendered:**
+
+▓ ▒ ░ Title ░ ▒ ▓
+
+▓  ▒  ░ Wide ░  ▒  ▓
+
+### Combined Modifiers
+
+```markdown
+{{fr:gradient/separator=·/spacing=1}}TEXT{{/}}
+```
+
+**Rendered:**
+
+▓ · ▒ · ░ TEXT ░ · ▒ · ▓
+
+---
+
 ## Combining with Text Styles
 
 Frames work beautifully with text styles:
@@ -433,6 +516,21 @@ Control spacing between glyphs and content:
 
 ••••--Dashed--••••
 
+### Separator and Spacing
+
+Glyph frames also support separator and spacing modifiers:
+
+```markdown
+{{frame:glyph:star*3/separator=·}}Title{{/frame}}
+{{frame:glyph:diamond*4/spacing=1}}Gem{{/frame}}
+```
+
+**Rendered:**
+
+★·★·★ Title ★·★·★
+
+◆ ◆ ◆ ◆ Gem ◆ ◆ ◆ ◆
+
 ### Replacing Line Frames
 
 Glyph frames can replicate line frames dynamically:
@@ -454,7 +552,7 @@ Glyph frames can replicate line frames dynamically:
 
 | Category | Frames |
 |----------|--------|
-| **Gradient** | gradient, gradient-light, gradient-reverse |
+| **Gradient** | gradient, gradient-light, gradient-reverse, gradient-wave |
 | **Solid** | solid-left, solid-right, solid-both |
 | **Lines** | line-light, line-bold, line-double, line-dashed |
 | **Blocks** | block-top, block-bottom |

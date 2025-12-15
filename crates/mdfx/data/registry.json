@@ -729,6 +729,13 @@
         "contexts": ["inline", "block"],
         "aliases": ["gradlight"]
       },
+      "gradient-wave": {
+        "pattern": "▓▒░",
+        "mode": "alternate",
+        "description": "Gradient with wave effect (rotated suffix)",
+        "contexts": ["inline", "block"],
+        "aliases": ["wave"]
+      },
       "gradient-reverse": {
         "pattern": "░▒▓",
         "mode": "mirror",

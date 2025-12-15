@@ -55,6 +55,14 @@ struct KbdData {
     keys: String,
 }
 
+/// Frame modifiers extracted from style string
+#[derive(Debug, Clone)]
+struct FrameModifiers {
+    style: String,
+    separator: Option<String>,
+    spacing: Option<usize>,
+}
+
 /// Result of processing markdown with file-based assets
 #[derive(Debug, Clone)]
 pub struct ProcessedMarkdown {
@@ -338,11 +346,11 @@ impl TemplateParser {
                         self.process_templates_with_assets(&frame_data.content)?;
                     assets.extend(nested_assets);
 
-                    // Check for glyph frame shorthand: {{frame:glyph:NAME[*COUNT][/pad=VALUE][/separator=VALUE]}}
+                    // Check for glyph frame shorthand: {{frame:glyph:NAME[*COUNT][/pad=VALUE][/separator=VALUE][/spacing=N]}}
                     let framed = if frame_data.frame_style.starts_with("glyph:") {
-                        // Parse glyph spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE]
+                        // Parse glyph spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE][/spacing=N]
                         let spec = &frame_data.frame_style[6..];
-                        let (glyph_name, count, pad, separator) =
+                        let (glyph_name, count, pad, separator, spacing) =
                             Self::parse_glyph_frame_spec(spec);
 
                         let glyph_char = self
@@ -350,7 +358,7 @@ impl TemplateParser {
                             .glyph(&glyph_name)
                             .ok_or_else(|| Error::UnknownGlyph(glyph_name.clone()))?;
 
-                        // Build repeated glyph string, optionally with separator
+                        // Build repeated glyph string with separator or spacing
                         let glyphs: String = if let Some(sep) = separator {
                             // Resolve separator from registry or use as literal
                             let sep_char = self.registry.separator(&sep).unwrap_or(&sep);
@@ -358,42 +366,83 @@ impl TemplateParser {
                                 .map(|_| glyph_char)
                                 .collect::<Vec<_>>()
                                 .join(sep_char)
+                        } else if let Some(n) = spacing {
+                            // spacing=N adds N spaces between glyphs
+                            let spaces = " ".repeat(n);
+                            (0..count)
+                                .map(|_| glyph_char)
+                                .collect::<Vec<_>>()
+                                .join(&spaces)
                         } else {
                             glyph_char.repeat(count)
                         };
 
                         // Apply glyphs as both prefix and suffix with padding
                         format!("{}{}{}{}{}", glyphs, pad, processed_content, pad, glyphs)
-                    } else {
-                        // Extract separator from frame style if present
-                        let (frame_style, separator) =
-                            Self::parse_frame_style_separator(&frame_data.frame_style);
+                    } else if frame_data.frame_style.contains('+') {
+                        // Frame combo: fr:outer+inner applies both frames nested
+                        // e.g., fr:gradient+star → ▓▒░ ★ TITLE ☆ ░▒▓
+                        let frames: Vec<&str> = frame_data.frame_style.split('+').collect();
+                        let mut combined_prefix = String::new();
+                        let mut combined_suffix = String::new();
 
-                        // Apply frame to processed content (validates frame exists)
-                        // If separator is specified, insert it between each grapheme of prefix/suffix
-                        if let Some(sep) = separator {
+                        // Build nested prefix: outer to inner
+                        for frame_name in &frames {
                             let frame = self
                                 .registry
-                                .frame(&frame_style)
-                                .ok_or_else(|| Error::UnknownFrame(frame_style.clone()))?;
+                                .frame(frame_name.trim())
+                                .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
+                            combined_prefix.push_str(&frame.prefix);
+                        }
 
-                            // Resolve separator from registry or use as literal
-                            let sep_char = self.registry.separator(&sep).unwrap_or(&sep);
+                        // Build nested suffix: inner to outer (reverse order)
+                        for frame_name in frames.iter().rev() {
+                            let frame = self
+                                .registry
+                                .frame(frame_name.trim())
+                                .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
+                            combined_suffix.push_str(&frame.suffix);
+                        }
 
-                            // Insert separator between graphemes in prefix/suffix
+                        format!("{}{}{}", combined_prefix, processed_content, combined_suffix)
+                    } else {
+                        // Extract modifiers from frame style
+                        let mods = Self::parse_frame_modifiers(&frame_data.frame_style);
+
+                        // Apply frame to processed content (validates frame exists)
+                        // If separator or spacing is specified, insert between each grapheme of prefix/suffix
+                        if mods.separator.is_some() || mods.spacing.is_some() {
+                            let frame = self
+                                .registry
+                                .frame(&mods.style)
+                                .ok_or_else(|| Error::UnknownFrame(mods.style.clone()))?;
+
+                            // Determine the join string: separator takes precedence over spacing
+                            let join_str = if let Some(sep) = &mods.separator {
+                                self.registry
+                                    .separator(sep)
+                                    .map(|s| s.to_string())
+                                    .unwrap_or_else(|| sep.clone())
+                            } else if let Some(n) = mods.spacing {
+                                " ".repeat(n)
+                            } else {
+                                String::new()
+                            };
+
+                            // Insert join string between graphemes in prefix/suffix
                             use unicode_segmentation::UnicodeSegmentation;
                             let prefix_with_sep: String = frame
                                 .prefix
                                 .trim()
                                 .graphemes(true)
                                 .collect::<Vec<_>>()
-                                .join(sep_char);
+                                .join(&join_str);
                             let suffix_with_sep: String = frame
                                 .suffix
                                 .trim()
                                 .graphemes(true)
                                 .collect::<Vec<_>>()
-                                .join(sep_char);
+                                .join(&join_str);
 
                             // Preserve spacing around content
                             let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
@@ -413,7 +462,7 @@ impl TemplateParser {
                             )
                         } else {
                             self.registry
-                                .apply_frame(&processed_content, &frame_style)?
+                                .apply_frame(&processed_content, &mods.style)?
                         }
                     };
                     result.push_str(&framed);
@@ -913,15 +962,16 @@ impl TemplateParser {
         Err(Error::UnclosedTag(style))
     }
 
-    /// Parse glyph frame spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE]
-    /// Returns (glyph_name, count, padding_string, separator_option)
-    fn parse_glyph_frame_spec(spec: &str) -> (String, usize, String, Option<String>) {
+    /// Parse glyph frame spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE][/spacing=N]
+    /// Returns (glyph_name, count, padding_string, separator_option, spacing_option)
+    fn parse_glyph_frame_spec(spec: &str) -> (String, usize, String, Option<String>, Option<usize>) {
         let mut remaining = spec.to_string();
         let mut count: usize = 1;
         let mut pad = " ".to_string(); // default: single space
         let mut separator: Option<String> = None;
+        let mut spacing: Option<usize> = None;
 
-        // Check for /modifiers (can have multiple: /pad=X/separator=Y)
+        // Check for /modifiers (can have multiple: /pad=X/separator=Y/spacing=N)
         while let Some(slash_pos) = remaining.find('/') {
             let after_slash = remaining[slash_pos + 1..].to_string();
             remaining = remaining[..slash_pos].to_string();
@@ -946,6 +996,10 @@ impl TemplateParser {
                 }
             } else if let Some(sep_value) = modifier.strip_prefix("separator=") {
                 separator = Some(sep_value.to_string());
+            } else if let Some(spacing_value) = modifier.strip_prefix("spacing=") {
+                if let Ok(n) = spacing_value.parse::<usize>() {
+                    spacing = Some(n);
+                }
             }
 
             // If there are more modifiers, append them back for next iteration
@@ -965,24 +1019,49 @@ impl TemplateParser {
             }
         }
 
-        (remaining, count, pad, separator)
+        (remaining, count, pad, separator, spacing)
     }
 
-    /// Parse frame style and extract separator modifier
-    /// Input: "gradient/separator=dot" → ("gradient", Some("dot"))
-    /// Input: "gradient" → ("gradient", None)
-    fn parse_frame_style_separator(style: &str) -> (String, Option<String>) {
-        if let Some(slash_pos) = style.find('/') {
-            let base_style = style[..slash_pos].to_string();
-            let modifier = &style[slash_pos + 1..];
+    /// Parse frame style and extract modifiers (separator, spacing)
+    /// Input: "gradient/separator=dot/spacing=1" → FrameModifiers { style: "gradient", separator: Some("dot"), spacing: Some(1) }
+    fn parse_frame_modifiers(style: &str) -> FrameModifiers {
+        let mut remaining = style.to_string();
+        let mut separator: Option<String> = None;
+        let mut spacing: Option<usize> = None;
+
+        // Check for /modifiers
+        while let Some(slash_pos) = remaining.find('/') {
+            let after_slash = remaining[slash_pos + 1..].to_string();
+            remaining = remaining[..slash_pos].to_string();
+
+            // Split on next / if present
+            let (modifier, rest) = if let Some(next_slash) = after_slash.find('/') {
+                (
+                    after_slash[..next_slash].to_string(),
+                    Some(after_slash[next_slash..].to_string()),
+                )
+            } else {
+                (after_slash, None)
+            };
 
             if let Some(sep_value) = modifier.strip_prefix("separator=") {
-                return (base_style, Some(sep_value.to_string()));
+                separator = Some(sep_value.to_string());
+            } else if let Some(spacing_value) = modifier.strip_prefix("spacing=") {
+                if let Ok(n) = spacing_value.parse::<usize>() {
+                    spacing = Some(n);
+                }
             }
-            // Unknown modifier, keep style as-is
-            (style.to_string(), None)
-        } else {
-            (style.to_string(), None)
+
+            // If there are more modifiers, append them back
+            if let Some(rest) = rest {
+                remaining = format!("{}{}", remaining, rest);
+            }
+        }
+
+        FrameModifiers {
+            style: remaining,
+            separator,
+            spacing,
         }
     }
 
@@ -2173,6 +2252,86 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:line-double/separator= }}Title{{/}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "═ ═ ═ Title ═ ═ ═");
+    }
+
+    #[test]
+    fn test_frame_pattern_with_spacing() {
+        let parser = TemplateParser::new().unwrap();
+        // spacing=1 adds 1 space between each grapheme
+        let input = "{{fr:gradient/spacing=1}}TITLE{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓ ▒ ░ TITLE ░ ▒ ▓");
+    }
+
+    #[test]
+    fn test_frame_pattern_with_spacing_two() {
+        let parser = TemplateParser::new().unwrap();
+        // spacing=2 adds 2 spaces between each grapheme
+        let input = "{{fr:gradient/spacing=2}}X{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓  ▒  ░ X ░  ▒  ▓");
+    }
+
+    #[test]
+    fn test_glyph_frame_with_spacing() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:glyph:star*3/spacing=1}}Text{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★ ★ ★ Text ★ ★ ★");
+    }
+
+    #[test]
+    fn test_glyph_frame_with_spacing_two() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:glyph:diamond*2/spacing=2}}Gem{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "◆  ◆ Gem ◆  ◆");
+    }
+
+    #[test]
+    fn test_frame_alternate_mode() {
+        let parser = TemplateParser::new().unwrap();
+        // gradient-wave uses alternate mode: ▓▒░ → ▒░▓ (rotated)
+        let input = "{{fr:gradient-wave}}TITLE{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ TITLE ▒░▓");
+    }
+
+    #[test]
+    fn test_frame_alternate_mode_with_alias() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:wave}}TEXT{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ TEXT ▒░▓");
+    }
+
+    #[test]
+    fn test_frame_combo() {
+        let parser = TemplateParser::new().unwrap();
+        // gradient+star: outer prefix + inner prefix + content + inner suffix + outer suffix
+        let input = "{{fr:gradient+star}}TITLE{{/}}";
+        let result = parser.process(input).unwrap();
+        // gradient prefix: "▓▒░ ", star prefix: "★ "
+        // star suffix: " ☆", gradient suffix: " ░▒▓"
+        assert_eq!(result, "▓▒░ ★ TITLE ☆ ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_combo_three() {
+        let parser = TemplateParser::new().unwrap();
+        // Three frames combined
+        let input = "{{fr:gradient+star+diamond}}X{{/}}";
+        let result = parser.process(input).unwrap();
+        // gradient: ▓▒░  + star: ★  + diamond: ◆  + X + ◇  + ☆  + ░▒▓
+        assert_eq!(result, "▓▒░ ★ ◆ X ◇ ☆ ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_combo_with_spaces() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient + star}}TEXT{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ ★ TEXT ☆ ░▒▓");
     }
 
     #[test]

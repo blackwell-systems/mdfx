@@ -102,6 +102,8 @@ pub enum SuffixMode {
     PrefixOnly,
     /// Suffix only, no prefix
     SuffixOnly,
+    /// Suffix is the pattern rotated (▓▒░ → ▒░▓) - creates wave effect
+    Alternate,
 }
 
 /// Raw frame definition from JSON (supports both formats)
@@ -148,12 +150,20 @@ impl<'de> Deserialize<'de> for Frame {
             // New format: generate prefix/suffix from pattern + mode
             let mode = raw.mode.unwrap_or(SuffixMode::Mirror);
             let reversed: String = pattern.chars().rev().collect();
+            // Rotate pattern by 1 position for alternate mode
+            let chars: Vec<char> = pattern.chars().collect();
+            let rotated: String = if chars.len() > 1 {
+                chars[1..].iter().chain(chars[..1].iter()).collect()
+            } else {
+                pattern.clone()
+            };
 
             match mode {
                 SuffixMode::Mirror => (format!("{} ", pattern), format!(" {}", reversed)),
                 SuffixMode::Repeat => (format!("{} ", pattern), format!(" {}", pattern)),
                 SuffixMode::PrefixOnly => (pattern, String::new()),
                 SuffixMode::SuffixOnly => (String::new(), pattern),
+                SuffixMode::Alternate => (format!("{} ", pattern), format!(" {}", rotated)),
             }
         } else {
             // Legacy format: use explicit prefix/suffix
@@ -548,6 +558,16 @@ mod tests {
         let frame = registry.frame("grad");
         assert!(frame.is_some());
         assert_eq!(frame.unwrap().prefix, "▓▒░ ");
+    }
+
+    #[test]
+    fn test_frame_alternate_mode() {
+        let registry = Registry::new().unwrap();
+
+        // Alternate mode: suffix is pattern rotated by 1 (▓▒░ → ▒░▓)
+        let frame = registry.frame("gradient-wave").unwrap();
+        assert_eq!(frame.prefix, "▓▒░ ");
+        assert_eq!(frame.suffix, " ▒░▓");
     }
 
     #[test]
