@@ -38,7 +38,6 @@
 //! - Zero-copy operations for maximum performance
 //! - Comprehensive error handling
 
-pub mod badges;
 pub mod components;
 pub mod converter;
 pub mod error;
@@ -53,7 +52,6 @@ pub mod styles;
 pub mod targets;
 
 // Re-export main types for convenience
-pub use badges::{BadgeRenderer, BadgeType};
 pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
 pub use converter::Converter;
 pub use error::{Error, Result};

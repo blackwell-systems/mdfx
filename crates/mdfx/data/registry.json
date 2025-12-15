@@ -158,7 +158,132 @@
       "box.round.tl": "╭",
       "box.round.tr": "╮",
       "box.round.bl": "╰",
-      "box.round.br": "╯"
+      "box.round.br": "╯",
+
+      "circle.0": "⓪",
+      "circle.1": "①",
+      "circle.2": "②",
+      "circle.3": "③",
+      "circle.4": "④",
+      "circle.5": "⑤",
+      "circle.6": "⑥",
+      "circle.7": "⑦",
+      "circle.8": "⑧",
+      "circle.9": "⑨",
+      "circle.10": "⑩",
+      "circle.11": "⑪",
+      "circle.12": "⑫",
+      "circle.13": "⑬",
+      "circle.14": "⑭",
+      "circle.15": "⑮",
+      "circle.16": "⑯",
+      "circle.17": "⑰",
+      "circle.18": "⑱",
+      "circle.19": "⑲",
+      "circle.20": "⑳",
+
+      "neg-circle.0": "⓿",
+      "neg-circle.1": "❶",
+      "neg-circle.2": "❷",
+      "neg-circle.3": "❸",
+      "neg-circle.4": "❹",
+      "neg-circle.5": "❺",
+      "neg-circle.6": "❻",
+      "neg-circle.7": "❼",
+      "neg-circle.8": "❽",
+      "neg-circle.9": "❾",
+      "neg-circle.10": "❿",
+      "neg-circle.11": "⓫",
+      "neg-circle.12": "⓬",
+      "neg-circle.13": "⓭",
+      "neg-circle.14": "⓮",
+      "neg-circle.15": "⓯",
+      "neg-circle.16": "⓰",
+      "neg-circle.17": "⓱",
+      "neg-circle.18": "⓲",
+      "neg-circle.19": "⓳",
+      "neg-circle.20": "⓴",
+
+      "dbl-circle.1": "⓵",
+      "dbl-circle.2": "⓶",
+      "dbl-circle.3": "⓷",
+      "dbl-circle.4": "⓸",
+      "dbl-circle.5": "⓹",
+      "dbl-circle.6": "⓺",
+      "dbl-circle.7": "⓻",
+      "dbl-circle.8": "⓼",
+      "dbl-circle.9": "⓽",
+      "dbl-circle.10": "⓾",
+
+      "paren.1": "⑴",
+      "paren.2": "⑵",
+      "paren.3": "⑶",
+      "paren.4": "⑷",
+      "paren.5": "⑸",
+      "paren.6": "⑹",
+      "paren.7": "⑺",
+      "paren.8": "⑻",
+      "paren.9": "⑼",
+      "paren.10": "⑽",
+      "paren.11": "⑾",
+      "paren.12": "⑿",
+      "paren.13": "⒀",
+      "paren.14": "⒁",
+      "paren.15": "⒂",
+      "paren.16": "⒃",
+      "paren.17": "⒄",
+      "paren.18": "⒅",
+      "paren.19": "⒆",
+      "paren.20": "⒇",
+
+      "paren.a": "⒜",
+      "paren.b": "⒝",
+      "paren.c": "⒞",
+      "paren.d": "⒟",
+      "paren.e": "⒠",
+      "paren.f": "⒡",
+      "paren.g": "⒢",
+      "paren.h": "⒣",
+      "paren.i": "⒤",
+      "paren.j": "⒥",
+      "paren.k": "⒦",
+      "paren.l": "⒧",
+      "paren.m": "⒨",
+      "paren.n": "⒩",
+      "paren.o": "⒪",
+      "paren.p": "⒫",
+      "paren.q": "⒬",
+      "paren.r": "⒭",
+      "paren.s": "⒮",
+      "paren.t": "⒯",
+      "paren.u": "⒰",
+      "paren.v": "⒱",
+      "paren.w": "⒲",
+      "paren.x": "⒳",
+      "paren.y": "⒴",
+      "paren.z": "⒵",
+
+      "period.0": "🄀",
+      "period.1": "⒈",
+      "period.2": "⒉",
+      "period.3": "⒊",
+      "period.4": "⒋",
+      "period.5": "⒌",
+      "period.6": "⒍",
+      "period.7": "⒎",
+      "period.8": "⒏",
+      "period.9": "⒐",
+      "period.10": "⒑",
+      "period.11": "⒒",
+      "period.12": "⒓",
+      "period.13": "⒔",
+      "period.14": "⒕",
+      "period.15": "⒖",
+      "period.16": "⒗",
+      "period.17": "⒘",
+      "period.18": "⒙",
+      "period.19": "⒚",
+      "period.20": "⒛"
     },
 
     "components": {
@@ -986,90 +1111,14 @@
           "y": "ⓨ", "z": "ⓩ"
         }
       }
-    },
-
-    "badges": {
-      "circle": {
-        "id": "circle",
-        "name": "Circled Numbers",
-        "description": "Numbers in circles (0-20)",
-        "aliases": ["circled", "number-circle"],
-        "contexts": ["inline", "block"],
-        "mappings": {
-          "0": "⓪", "1": "①", "2": "②", "3": "③", "4": "④", "5": "⑤", "6": "⑥", "7": "⑦",
-          "8": "⑧", "9": "⑨", "10": "⑩", "11": "⑪", "12": "⑫", "13": "⑬", "14": "⑭", "15": "⑮",
-          "16": "⑯", "17": "⑰", "18": "⑱", "19": "⑲", "20": "⑳"
-        }
-      },
-      "paren": {
-        "id": "paren",
-        "name": "Parenthesized Numbers",
-        "description": "Numbers in parentheses (1-20)",
-        "aliases": ["parenthesized", "parens"],
-        "contexts": ["inline", "block"],
-        "mappings": {
-          "1": "⑴", "2": "⑵", "3": "⑶", "4": "⑷", "5": "⑸", "6": "⑹", "7": "⑺", "8": "⑻",
-          "9": "⑼", "10": "⑽", "11": "⑾", "12": "⑿", "13": "⒀", "14": "⒁", "15": "⒂",
-          "16": "⒃", "17": "⒄", "18": "⒅", "19": "⒆", "20": "⒇"
-        }
-      },
-      "paren-letter": {
-        "id": "paren-letter",
-        "name": "Parenthesized Letters",
-        "description": "Lowercase letters in parentheses (a-z)",
-        "aliases": ["letter-paren", "alpha-paren"],
-        "contexts": ["inline", "block"],
-        "mappings": {
-          "a": "⒜", "b": "⒝", "c": "⒞", "d": "⒟", "e": "⒠", "f": "⒡", "g": "⒢", "h": "⒣",
-          "i": "⒤", "j": "⒥", "k": "⒦", "l": "⒧", "m": "⒨", "n": "⒩", "o": "⒪", "p": "⒫",
-          "q": "⒬", "r": "⒭", "s": "⒮", "t": "⒯", "u": "⒰", "v": "⒱", "w": "⒲", "x": "⒳",
-          "y": "⒴", "z": "⒵"
-        }
-      },
-      "period": {
-        "id": "period",
-        "name": "Period Numbers",
-        "description": "Numbers with periods (0-20)",
-        "aliases": ["dot-number", "period-number"],
-        "contexts": ["inline", "block"],
-        "mappings": {
-          "0": "🄀", "1": "🄁", "2": "🄂", "3": "🄃", "4": "🄄", "5": "🄅", "6": "🄆", "7": "🄇",
-          "8": "🄈", "9": "🄉", "10": "🄊", "11": "🄋", "12": "🄌", "13": "🄍", "14": "🄎",
-          "15": "🄏", "16": "🄐", "17": "🄑", "18": "🄒", "19": "🄓", "20": "🄔"
-        }
-      },
-      "negative-circle": {
-        "id": "negative-circle",
-        "name": "Negative Circled Numbers",
-        "description": "White numbers on black circles (0-20)",
-        "aliases": ["neg-circle", "inverse-circle"],
-        "contexts": ["inline", "block"],
-        "mappings": {
-          "0": "⓿", "1": "❶", "2": "❷", "3": "❸", "4": "❹", "5": "❺", "6": "❻", "7": "❼",
-          "8": "❽", "9": "❾", "10": "❿", "11": "⓫", "12": "⓬", "13": "⓭", "14": "⓮",
-          "15": "⓯", "16": "⓰", "17": "⓱", "18": "⓲", "19": "⓳", "20": "⓴"
-        }
-      },
-      "double-circle": {
-        "id": "double-circle",
-        "name": "Double Circled Numbers",
-        "description": "Numbers in double circles (1-10)",
-        "aliases": ["double", "dbl-circle"],
-        "contexts": ["inline", "block"],
-        "mappings": {
-          "1": "⓵", "2": "⓶", "3": "⓷", "4": "⓸", "5": "⓹", "6": "⓺", "7": "⓻", "8": "⓼",
-          "9": "⓽", "10": "⓾"
-        }
-      }
     }
   },
 
   "metadata": {
-    "total_glyphs": 90,
+    "total_glyphs": 209,
     "total_components": 9,
     "total_frames": 32,
     "total_styles": 19,
-    "total_badges": 6,
     "total_palette_colors": 15,
     "total_shield_styles": 5,
     "last_updated": "2025-12-15"

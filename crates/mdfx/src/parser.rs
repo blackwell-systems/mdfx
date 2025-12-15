@@ -1,4 +1,3 @@
-use crate::badges::BadgeRenderer;
 use crate::components::{ComponentOutput, ComponentsRenderer, PostProcess};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
@@ -23,14 +22,6 @@ struct TemplateData {
 struct FrameData {
     end_pos: usize,
     frame_style: String,
-    content: String,
-}
-
-/// Badge template data
-#[derive(Debug, Clone)]
-struct BadgeData {
-    end_pos: usize,
-    badge_type: String,
     content: String,
 }
 
@@ -71,7 +62,6 @@ pub struct ProcessedMarkdown {
 pub struct TemplateParser {
     converter: Converter,
     frame_renderer: FrameRenderer,
-    badge_renderer: BadgeRenderer,
     components_renderer: ComponentsRenderer,
     shields_renderer: ShieldsRenderer, // Keep for {{shields:*}} escape hatch
     backend: Box<dyn Renderer>,        // Pluggable rendering backend
@@ -88,14 +78,12 @@ impl TemplateParser {
     pub fn with_backend(backend: Box<dyn Renderer>) -> Result<Self> {
         let converter = Converter::new()?;
         let frame_renderer = FrameRenderer::new()?;
-        let badge_renderer = BadgeRenderer::new()?;
         let components_renderer = ComponentsRenderer::new()?;
         let shields_renderer = ShieldsRenderer::new()?;
         let registry = Registry::new()?;
         Ok(Self {
             converter,
             frame_renderer,
-            badge_renderer,
             components_renderer,
             shields_renderer,
             backend,
@@ -357,24 +345,6 @@ impl TemplateParser {
 
                     // Skip past the frame template
                     i = frame_data.end_pos;
-                    continue;
-                }
-
-                // Try to parse a badge template
-                if let Some(badge_data) = self.parse_badge_at(&chars, i)? {
-                    // Validate badge exists via unified Registry
-                    if self.registry.badge(&badge_data.badge_type).is_none() {
-                        return Err(Error::UnknownBadge(badge_data.badge_type));
-                    }
-
-                    // Apply badge to content (badges don't support recursive processing)
-                    let badged = self
-                        .badge_renderer
-                        .apply_badge(&badge_data.content, &badge_data.badge_type)?;
-                    result.push_str(&badged);
-
-                    // Skip past the badge template
-                    i = badge_data.end_pos;
                     continue;
                 }
 
@@ -777,88 +747,6 @@ impl TemplateParser {
 
         // No closing tag found
         Err(Error::UnclosedTag("frame".to_string()))
-    }
-
-    /// Try to parse a badge template starting at position i
-    /// Returns: Some(BadgeData) or None if not a valid badge template
-    fn parse_badge_at(&self, chars: &[char], start: usize) -> Result<Option<BadgeData>> {
-        let mut i = start;
-
-        // Must start with {{badge:
-        if i + 8 >= chars.len() {
-            return Ok(None);
-        }
-
-        // Check for "{{badge:"
-        let badge_start = "{{badge:";
-        let badge_chars: Vec<char> = badge_start.chars().collect();
-        for (idx, &expected) in badge_chars.iter().enumerate() {
-            if chars[i + idx] != expected {
-                return Ok(None);
-            }
-        }
-        i += badge_chars.len();
-
-        // Parse badge type name (alphanumeric and hyphens)
-        let mut badge_type = String::new();
-        while i < chars.len() {
-            let ch = chars[i];
-            if ch.is_alphanumeric() || ch == '-' {
-                badge_type.push(ch);
-                i += 1;
-            } else if ch == '}' {
-                break;
-            } else {
-                // Invalid character in badge type name
-                return Ok(None);
-            }
-        }
-
-        // Badge type must be non-empty
-        if badge_type.is_empty() {
-            return Ok(None);
-        }
-
-        // Must have closing }} for opening tag
-        if i + 1 >= chars.len() || chars[i] != '}' || chars[i + 1] != '}' {
-            return Ok(None);
-        }
-        i += 2;
-
-        let content_start = i;
-
-        // Find closing tag {{/badge}}
-        let close_tag = "{{/badge}}";
-        let close_chars: Vec<char> = close_tag.chars().collect();
-
-        while i < chars.len() {
-            // Check if we've found the closing tag
-            if i + close_chars.len() <= chars.len() {
-                let mut matches = true;
-                for (j, &close_ch) in close_chars.iter().enumerate() {
-                    if chars[i + j] != close_ch {
-                        matches = false;
-                        break;
-                    }
-                }
-
-                if matches {
-                    // Found closing tag
-                    let content: String = chars[content_start..i].iter().collect();
-                    let end_pos = i + close_chars.len();
-                    return Ok(Some(BadgeData {
-                        end_pos,
-                        badge_type,
-                        content,
-                    }));
-                }
-            }
-
-            i += 1;
-        }
-
-        // No closing tag found
-        Err(Error::UnclosedTag("badge".to_string()))
     }
 
     /// Try to parse a UI component template starting at position i
@@ -1557,121 +1445,6 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         assert!(result.contains("▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓"));
         assert!(result.contains("█▌𝐼𝑚𝑝𝑜𝑟𝑡𝑎𝑛𝑡 𝑛𝑜𝑡𝑒"));
         assert!(result.contains("𝐬 𝐩 𝐚 𝐜 𝐢 𝐧 𝐠"));
-    }
-
-    // Badge template tests
-    #[test]
-    fn test_badge_circle() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "Step {{badge:circle}}1{{/badge}}: Install";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "Step ①: Install");
-    }
-
-    #[test]
-    fn test_badge_circle_multi_digit() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:circle}}10{{/badge}} items";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "⑩ items");
-    }
-
-    #[test]
-    fn test_badge_paren() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:paren}}5{{/badge}} points";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "⑸ points");
-    }
-
-    #[test]
-    fn test_badge_paren_letter() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "Option {{badge:paren-letter}}a{{/badge}}: Yes";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "Option ⒜: Yes");
-    }
-
-    #[test]
-    fn test_badge_negative_circle() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:negative-circle}}3{{/badge}} warnings";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "❸ warnings");
-    }
-
-    #[test]
-    fn test_badge_double_circle() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "Priority {{badge:double-circle}}1{{/badge}}";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "Priority ⓵");
-    }
-
-    #[test]
-    fn test_badge_period() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:period}}7{{/badge}} days";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "🄇 days");
-    }
-
-    #[test]
-    fn test_badge_alias() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:circled}}2{{/badge}} items";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "② items");
-    }
-
-    #[test]
-    fn test_badge_unknown() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:invalid}}1{{/badge}}";
-        let result = parser.process(input);
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_badge_unsupported_char() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:circle}}99{{/badge}}";
-        let result = parser.process(input);
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_badge_multiple() {
-        let parser = TemplateParser::new().unwrap();
-        let input =
-            "{{badge:circle}}1{{/badge}} {{badge:circle}}2{{/badge}} {{badge:circle}}3{{/badge}}";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "① ② ③");
-    }
-
-    #[test]
-    fn test_badge_in_markdown() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "# Steps\n\n{{badge:circle}}1{{/badge}} First step\n{{badge:circle}}2{{/badge}} Second step";
-        let result = parser.process(input).unwrap();
-        assert!(result.contains("① First step"));
-        assert!(result.contains("② Second step"));
-    }
-
-    #[test]
-    fn test_badge_with_styled_text() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:circle}}1{{/badge}} {{mathbold}}Important{{/mathbold}}";
-        let result = parser.process(input).unwrap();
-        assert!(result.contains("① 𝐈𝐦𝐩𝐨𝐫𝐭𝐚𝐧𝐭"));
-    }
-
-    #[test]
-    fn test_badge_unclosed() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{badge:circle}}1";
-        let result = parser.process(input);
-        assert!(result.is_err());
     }
 
     // UI Component Tests

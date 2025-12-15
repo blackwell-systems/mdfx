@@ -12,17 +12,9 @@ pub enum Error {
     #[error("Unknown frame '{0}'. Run `mdfx frames list` to see available frames.")]
     UnknownFrame(String),
 
-    /// The requested badge does not exist
-    #[error("Unknown badge '{0}'. Run `mdfx badges list` to see available badges.")]
-    UnknownBadge(String),
-
     /// The requested glyph does not exist
-    #[error("Unknown glyph '{0}'. Available glyphs: block.*, shade.*, quad.*")]
+    #[error("Unknown glyph '{0}'. Available glyphs: block.*, shade.*, quad.*, circle.*, etc.")]
     UnknownGlyph(String),
-
-    /// Badge doesn't support the requested character
-    #[error("Badge '{0}' does not support '{1}'. Check badge charset limits.")]
-    UnsupportedChar(String, String),
 
     /// The requested shield style does not exist
     #[error("Unknown shield style '{0}'. Run `mdfx shields list` to see available styles.")]

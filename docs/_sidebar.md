@@ -10,7 +10,6 @@
   - [Components](/guides/COMPONENTS-GUIDE.md)
   - [Frames](/guides/FRAMES-GUIDE.md)
   - [Text Styles](/guides/TEXT-STYLES-GUIDE.md)
-  - [Badges](/guides/BADGES-GUIDE.md)
   - [Glyphs](/guides/GLYPHS-GUIDE.md)
 
 - **Reference**

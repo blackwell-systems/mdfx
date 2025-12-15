@@ -2,8 +2,8 @@
 //!
 //! This module provides a single source of truth for all renderables, styles,
 //! and configuration. It consolidates the previously fragmented data files
-//! (styles.json, frames.json, separators.json, components.json, palette.json,
-//! badges.json, shields.json) into one unified registry.
+//! (styles.json, frames.json, components.json, palette.json, shields.json)
+//! into one unified registry.
 //!
 //! The registry enables:
 //! - IntelliSense/editor tooling support via single JSON schema
@@ -130,19 +130,6 @@ pub struct Style {
     pub mappings: HashMap<String, String>,
 }
 
-/// A badge type (number/letter Unicode badges)
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Badge {
-    pub id: String,
-    pub name: String,
-    #[serde(default)]
-    pub description: Option<String>,
-    #[serde(default)]
-    pub aliases: Vec<String>,
-    pub contexts: Vec<EvalContext>,
-    pub mappings: HashMap<String, String>,
-}
-
 /// Shield style definition
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShieldStyle {
@@ -163,7 +150,6 @@ pub struct Renderables {
     pub components: HashMap<String, Component>,
     pub frames: HashMap<String, Frame>,
     pub styles: HashMap<String, Style>,
-    pub badges: HashMap<String, Badge>,
 }
 
 /// Registry metadata
@@ -173,7 +159,6 @@ pub struct RegistryMetadata {
     pub total_components: usize,
     pub total_frames: usize,
     pub total_styles: usize,
-    pub total_badges: usize,
     pub total_palette_colors: usize,
     pub total_shield_styles: usize,
     pub last_updated: String,
@@ -198,7 +183,6 @@ pub struct Registry {
     // Lookup caches for aliases
     style_aliases: HashMap<String, String>,
     frame_aliases: HashMap<String, String>,
-    badge_aliases: HashMap<String, String>,
     shield_style_aliases: HashMap<String, String>,
 }
 
@@ -228,13 +212,6 @@ impl Registry {
             }
         }
 
-        let mut badge_aliases = HashMap::new();
-        for (id, badge) in &data.renderables.badges {
-            for alias in &badge.aliases {
-                badge_aliases.insert(alias.clone(), id.clone());
-            }
-        }
-
         let mut shield_style_aliases = HashMap::new();
         for (id, style) in &data.shield_styles {
             for alias in &style.aliases {
@@ -246,7 +223,6 @@ impl Registry {
             data,
             style_aliases,
             frame_aliases,
-            badge_aliases,
             shield_style_aliases,
         })
     }
@@ -350,28 +326,6 @@ impl Registry {
     /// Get all styles
     pub fn styles(&self) -> &HashMap<String, Style> {
         &self.data.renderables.styles
-    }
-
-    // =========================================================================
-    // Badge Operations
-    // =========================================================================
-
-    /// Get a badge by name or alias
-    pub fn badge(&self, name: &str) -> Option<&Badge> {
-        // Try direct lookup first
-        if let Some(badge) = self.data.renderables.badges.get(name) {
-            return Some(badge);
-        }
-        // Try alias lookup
-        if let Some(id) = self.badge_aliases.get(name) {
-            return self.data.renderables.badges.get(id);
-        }
-        None
-    }
-
-    /// Get all badges
-    pub fn badges(&self) -> &HashMap<String, Badge> {
-        &self.data.renderables.badges
     }
 
     // =========================================================================
@@ -561,18 +515,6 @@ mod tests {
         assert_eq!(style.id, "flat-square");
 
         assert_eq!(registry.default_shield_style(), "flat-square");
-    }
-
-    #[test]
-    fn test_badge_lookup() {
-        let registry = Registry::new().unwrap();
-
-        let badge = registry.badge("circle").unwrap();
-        assert_eq!(badge.mappings.get("1"), Some(&"①".to_string()));
-
-        // Alias lookup
-        let badge = registry.badge("circled").unwrap();
-        assert_eq!(badge.id, "circle");
     }
 
     #[test]

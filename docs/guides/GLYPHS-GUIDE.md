@@ -156,6 +156,32 @@ Elements: `h` (horizontal), `v` (vertical), `tl/tr/bl/br` (corners), `cross`, `t
 | `box.round.bl` | ╰ | Rounded bottom-left |
 | `box.round.br` | ╯ | Rounded bottom-right |
 
+### Number Badges
+
+Circled numbers (0-20):
+
+| Name | Character | Name | Character |
+|------|-----------|------|-----------|
+| `circle.0` | ⓪ | `circle.10` | ⑩ |
+| `circle.1` | ① | `circle.11` | ⑪ |
+| `circle.2` | ② | `circle.12` | ⑫ |
+| `circle.3` | ③ | ... | ... |
+
+Negative circled (white on black, 0-20):
+
+| Name | Character | Name | Character |
+|------|-----------|------|-----------|
+| `neg-circle.1` | ❶ | `neg-circle.10` | ❿ |
+| `neg-circle.2` | ❷ | ... | ... |
+
+Double-circled (1-10): `dbl-circle.1` → ⓵
+
+Parenthesized numbers (1-20): `paren.1` → ⑴
+
+Parenthesized letters (a-z): `paren.a` → ⒜
+
+Period numbers (0-20): `period.1` → ⒈
+
 ---
 
 ## Examples
