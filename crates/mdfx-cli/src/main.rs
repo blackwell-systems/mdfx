@@ -515,7 +515,9 @@ fn process_file(
             }
         }
         BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
-        BackendType::Hybrid => TemplateParser::with_backend(Box::new(HybridBackend::new(assets_dir)?))?,
+        BackendType::Hybrid => {
+            TemplateParser::with_backend(Box::new(HybridBackend::new(assets_dir)?))?
+        }
     };
 
     // Load custom palette if provided
