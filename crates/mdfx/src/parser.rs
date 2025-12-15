@@ -266,6 +266,9 @@ impl TemplateParser {
 
     /// Process templates in a text segment with asset collection
     fn process_templates_with_assets(&self, text: &str) -> Result<(String, Vec<RenderedAsset>)> {
+        // Pre-process to expand {{//}} into appropriate closing tags
+        let text = self.expand_close_all(text);
+
         let mut result = String::new();
         let mut assets = Vec::new();
         let chars: Vec<char> = text.chars().collect();
@@ -504,6 +507,184 @@ impl TemplateParser {
         }
 
         Ok((result, assets))
+    }
+
+    /// Pre-process text to expand {{//}} into appropriate closing tags
+    ///
+    /// This scans for all open tags (frames, styles, UI components) and when
+    /// {{//}} is encountered, replaces it with the appropriate closing tags
+    /// in reverse order (LIFO).
+    fn expand_close_all(&self, text: &str) -> String {
+        let mut result = String::new();
+        let chars: Vec<char> = text.chars().collect();
+        let mut i = 0;
+
+        // Track open tags: (tag_type, closer)
+        // tag_type: "frame", "style", "ui"
+        let mut open_tags: Vec<(&str, String)> = Vec::new();
+
+        while i < chars.len() {
+            // Check for {{//}}
+            if i + 5 < chars.len()
+                && chars[i] == '{'
+                && chars[i + 1] == '{'
+                && chars[i + 2] == '/'
+                && chars[i + 3] == '/'
+                && chars[i + 4] == '}'
+                && chars[i + 5] == '}'
+            {
+                // Expand to all closing tags in reverse order
+                for (_, closer) in open_tags.iter().rev() {
+                    result.push_str(closer);
+                }
+                open_tags.clear();
+                i += 6;
+                continue;
+            }
+
+            // Check for opening tags
+            if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
+                // Check for frame: {{frame: or {{fr:
+                if i + 8 < chars.len() && self.matches_at(&chars, i, "{{frame:") {
+                    // Check if it's self-closing (has :CONTENT/ pattern before }})
+                    if !self.is_self_closing_frame(&chars, i + 8) {
+                        open_tags.push(("frame", "{{/}}".to_string()));
+                    }
+                } else if i + 5 < chars.len() && self.matches_at(&chars, i, "{{fr:") {
+                    if !self.is_self_closing_frame(&chars, i + 5) {
+                        open_tags.push(("frame", "{{/}}".to_string()));
+                    }
+                }
+                // Check for UI component: {{ui:
+                else if i + 5 < chars.len() && self.matches_at(&chars, i, "{{ui:") {
+                    // Check if it's self-closing (ends with /}})
+                    if !self.is_self_closing_tag(&chars, i) {
+                        open_tags.push(("ui", "{{/ui}}".to_string()));
+                    }
+                }
+                // Check for style template: {{stylename}} (not a known prefix)
+                else if i + 2 < chars.len() && chars[i + 2].is_alphabetic() {
+                    // Parse potential style name
+                    let mut j = i + 2;
+                    let mut name = String::new();
+                    while j < chars.len()
+                        && (chars[j].is_alphanumeric() || chars[j] == '-')
+                    {
+                        name.push(chars[j]);
+                        j += 1;
+                    }
+                    // Check if it's a block style (not self-closing, has closing tag)
+                    // Skip known prefixes
+                    if !name.is_empty()
+                        && !["frame", "fr", "ui", "shields", "glyph", "kbd"].contains(&name.as_str())
+                        && j < chars.len()
+                    {
+                        // Check for closing }} after optional params
+                        let mut k = j;
+                        // Skip parameters like :spacing=N
+                        while k < chars.len() && chars[k] == ':' {
+                            k += 1;
+                            while k < chars.len()
+                                && chars[k] != ':'
+                                && chars[k] != '}'
+                            {
+                                k += 1;
+                            }
+                        }
+                        // Check for }} and NOT self-closing /}}
+                        if k + 1 < chars.len()
+                            && chars[k] == '}'
+                            && chars[k + 1] == '}'
+                            && (k == 0 || chars[k - 1] != '/')
+                        {
+                            // This is a block style, track it
+                            // Note: {{{{ produces {{ in format strings
+                            open_tags.push(("style", format!("{{{{/{}}}}}", name)));
+                        }
+                    }
+                }
+
+                // Check for closing tags to pop from stack
+                if i + 4 < chars.len() && self.matches_at(&chars, i, "{{/") {
+                    // Find what's being closed
+                    let mut j = i + 3;
+                    let mut closer_name = String::new();
+                    while j < chars.len() && chars[j] != '}' {
+                        closer_name.push(chars[j]);
+                        j += 1;
+                    }
+                    // Pop matching tag from stack (or any tag for generic closers)
+                    if closer_name.is_empty() || closer_name == "frame" || closer_name == "fr" {
+                        // Generic or frame closer - pop last frame
+                        if let Some(pos) = open_tags.iter().rposition(|(t, _)| *t == "frame") {
+                            open_tags.remove(pos);
+                        }
+                    } else if closer_name == "ui" {
+                        if let Some(pos) = open_tags.iter().rposition(|(t, _)| *t == "ui") {
+                            open_tags.remove(pos);
+                        }
+                    } else {
+                        // Specific style closer
+                        if let Some(pos) = open_tags
+                            .iter()
+                            .rposition(|(t, c)| *t == "style" && c == &format!("{{{{/{}}}}}", closer_name))
+                        {
+                            open_tags.remove(pos);
+                        }
+                    }
+                }
+            }
+
+            result.push(chars[i]);
+            i += 1;
+        }
+
+        result
+    }
+
+    /// Check if characters match a string at position
+    fn matches_at(&self, chars: &[char], pos: usize, s: &str) -> bool {
+        let s_chars: Vec<char> = s.chars().collect();
+        if pos + s_chars.len() > chars.len() {
+            return false;
+        }
+        for (idx, &expected) in s_chars.iter().enumerate() {
+            if chars[pos + idx] != expected {
+                return false;
+            }
+        }
+        true
+    }
+
+    /// Check if a tag starting at pos is self-closing (ends with /}})
+    fn is_self_closing_tag(&self, chars: &[char], pos: usize) -> bool {
+        let mut i = pos + 2; // Skip {{
+        while i + 2 < chars.len() {
+            if chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
+                return true;
+            }
+            if chars[i] == '}' && i + 1 < chars.len() && chars[i + 1] == '}' {
+                return false; // Found }} without /
+            }
+            i += 1;
+        }
+        false
+    }
+
+    /// Check if a frame is self-closing (has :CONTENT/ pattern)
+    fn is_self_closing_frame(&self, chars: &[char], start: usize) -> bool {
+        // Look for pattern ending in /}} which indicates self-closing
+        let mut i = start;
+        while i + 2 < chars.len() {
+            if chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
+                return true;
+            }
+            if chars[i] == '}' && i + 1 < chars.len() && chars[i + 1] == '}' {
+                return false; // Found }} without /
+            }
+            i += 1;
+        }
+        false
     }
 
     /// Try to parse a template starting at position i
@@ -1876,6 +2057,53 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let result = parser.process(input).unwrap();
         // The {{//}} closes both frames, leaving " end" outside
         assert_eq!(result, "▓▒░ Outer ★ Inner ☆ ░▒▓ end");
+    }
+
+    #[test]
+    fn test_expand_close_all_styles() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{mathbold}}{{italic}}TEXT{{//}}";
+        let expanded = parser.expand_close_all(input);
+        // Should expand to close both styles in reverse order
+        assert_eq!(expanded, "{{mathbold}}{{italic}}TEXT{{/italic}}{{/mathbold}}");
+    }
+
+    #[test]
+    fn test_expand_close_all_mixed() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}{{mathbold}}TEXT{{//}}";
+        let expanded = parser.expand_close_all(input);
+        // Should expand to close style first, then frame
+        assert_eq!(expanded, "{{fr:gradient}}{{mathbold}}TEXT{{/mathbold}}{{/}}");
+    }
+
+    #[test]
+    fn test_universal_close_all_frames_and_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}{{fr:star}}{{mathbold}}VIP{{//}}";
+        let result = parser.process(input).unwrap();
+        // Frame > Frame > Style, all closed by {{//}}
+        assert_eq!(result, "▓▒░ ★ 𝐕𝐈𝐏 ☆ ░▒▓");
+    }
+
+    #[test]
+    fn test_universal_close_all_preserves_partial_closes() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}{{mathbold}}TITLE{{/mathbold}} more text{{//}}";
+        let result = parser.process(input).unwrap();
+        // Style is explicitly closed, only frame left for {{//}}
+        assert_eq!(result, "▓▒░ 𝐓𝐈𝐓𝐋𝐄 more text ░▒▓");
+    }
+
+    #[test]
+    fn test_universal_close_all_self_closing_ignored() {
+        let parser = TemplateParser::new().unwrap();
+        // Self-closing tags should not be tracked
+        let input = "{{fr:gradient}}{{ui:divider/}}text{{//}}";
+        let result = parser.process(input).unwrap();
+        // Only the frame should be closed
+        assert!(result.contains("▓▒░"));
+        assert!(result.contains("░▒▓"));
     }
 
     #[test]

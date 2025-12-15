@@ -114,9 +114,10 @@ For templates with content:
 - Works correctly with nesting
 
 **Close-all `{{//}}`:**
-- Closes all open frames at once
-- Perfect for deeply nested frames: `{{fr:gradient}}{{fr:star}}Text{{//}}`
+- Closes all open tags at once (frames, styles, UI components)
+- Perfect for nested content: `{{fr:gradient}}{{mathbold}}Title{{//}}`
 - No need to count closing tags
+- Closes in reverse order (LIFO)
 
 **Why generic closers?**
 - Less typing: `{{/ui}}` instead of `{{/callout-github}}`

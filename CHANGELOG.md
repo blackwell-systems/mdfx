@@ -68,14 +68,16 @@ mdfx process template.md --backend hybrid --assets-dir assets
 #### Short Close Tag (`{{/}}`) and Close-All (`{{//}}`)
 
 - **Universal closer** - Use `{{/}}` instead of `{{/frame}}` or `{{/ui}}`
-- **Close-all** - Use `{{//}}` to close all open frames at once
+- **Close-all** - Use `{{//}}` to close all open tags at once (frames, styles, UI components)
 - **Cleaner syntax** - Reduces verbosity for deeply nested structures
 - **Backward compatible** - Full tag names (`{{/frame}}`, `{{/ui}}`) still work
+- **LIFO order** - Tags are closed in reverse order of opening
 
 **Usage:**
 ```markdown
 {{fr:gradient}}Title{{/}}                     <!-- Same as {{/frame}} -->
-{{fr:gradient}}{{fr:star}}Nested{{//}}        <!-- Close-all: one tag! -->
+{{fr:gradient}}{{fr:star}}Nested{{//}}        <!-- Close-all: frames -->
+{{fr:gradient}}{{mathbold}}Title{{//}}        <!-- Close-all: frame + style -->
 {{fr:a}}{{fr:b}}{{fr:c}}Deep{{//}}            <!-- Works at any depth -->
 {{ui:header}}Content{{/}}                     <!-- Same as {{/ui}} -->
 ```
