@@ -795,13 +795,15 @@ impl TemplateParser {
 
         let content_start = i;
 
-        // Find closing tag {{/}} or {{/frame}} - track nesting depth
+        // Find closing tag {{/}}, {{//}} (close-all), or {{/frame}} - track nesting depth
         let open_long = "{{frame:";
         let open_short = "{{fr:";
+        let close_all = "{{//}}";
         let close_short = "{{/}}";
         let close_long = "{{/frame}}";
         let open_long_chars: Vec<char> = open_long.chars().collect();
         let open_short_chars: Vec<char> = open_short.chars().collect();
+        let close_all_chars: Vec<char> = close_all.chars().collect();
         let close_short_chars: Vec<char> = close_short.chars().collect();
         let close_long_chars: Vec<char> = close_long.chars().collect();
         let mut depth = 1; // We've already seen one opening tag
@@ -847,38 +849,77 @@ impl TemplateParser {
                 continue;
             }
 
-            // Check for closing tag {{/}} (short form) or {{/frame}} (long form)
-            let (is_close, close_len) = if i + close_short_chars.len() <= chars.len() {
-                let mut matches_short = true;
-                for (j, &ch) in close_short_chars.iter().enumerate() {
-                    if chars[i + j] != ch {
-                        matches_short = false;
-                        break;
+            // Check for closing tag {{//}} (close-all), {{/}} (short), or {{/frame}} (long)
+            // Check close-all first since {{//}} starts with {{/}}
+            let (is_close_all, is_close, close_len) = {
+                let mut matches_all = false;
+                let mut matches_short = false;
+                let mut matches_long = false;
+
+                // Check {{//}} first (close-all)
+                if i + close_all_chars.len() <= chars.len() {
+                    matches_all = true;
+                    for (j, &ch) in close_all_chars.iter().enumerate() {
+                        if chars[i + j] != ch {
+                            matches_all = false;
+                            break;
+                        }
                     }
                 }
-                if matches_short {
-                    (true, close_short_chars.len())
-                } else if i + close_long_chars.len() <= chars.len() {
-                    let mut matches_long = true;
+
+                // Check {{/}} (short form)
+                if !matches_all && i + close_short_chars.len() <= chars.len() {
+                    matches_short = true;
+                    for (j, &ch) in close_short_chars.iter().enumerate() {
+                        if chars[i + j] != ch {
+                            matches_short = false;
+                            break;
+                        }
+                    }
+                }
+
+                // Check {{/frame}} (long form)
+                if !matches_all && !matches_short && i + close_long_chars.len() <= chars.len() {
+                    matches_long = true;
                     for (j, &ch) in close_long_chars.iter().enumerate() {
                         if chars[i + j] != ch {
                             matches_long = false;
                             break;
                         }
                     }
-                    (matches_long, close_long_chars.len())
-                } else {
-                    (false, 0)
                 }
-            } else {
-                (false, 0)
+
+                if matches_all {
+                    (true, true, close_all_chars.len())
+                } else if matches_short {
+                    (false, true, close_short_chars.len())
+                } else if matches_long {
+                    (false, true, close_long_chars.len())
+                } else {
+                    (false, false, 0)
+                }
             };
 
             if is_close {
-                depth -= 1;
+                let prev_depth = depth;
+                if is_close_all {
+                    // {{//}} closes all frames at once
+                    depth = 0;
+                } else {
+                    depth -= 1;
+                }
                 if depth == 0 {
                     // Found matching closing tag
-                    let content: String = chars[content_start..i].iter().collect();
+                    let mut content: String = chars[content_start..i].iter().collect();
+
+                    // If close-all was used and there were nested frames (prev_depth > 1),
+                    // append closing tags for the nested frames so recursive processing works
+                    if is_close_all && prev_depth > 1 {
+                        for _ in 1..prev_depth {
+                            content.push_str("{{/}}");
+                        }
+                    }
+
                     let end_pos = i + close_len;
                     return Ok(Some(FrameData {
                         end_pos,
@@ -1769,6 +1810,40 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{frame:gradient}}{{fr:star}}MIXED{{/}}{{/frame}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "▓▒░ ★ MIXED ☆ ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_close_all() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}{{fr:star}}NESTED{{//}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ ★ NESTED ☆ ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_close_all_three_levels() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}{{fr:star}}{{fr:lenticular}}DEEP{{//}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ ★ 【DEEP】 ☆ ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_close_all_single_frame() {
+        // {{//}} on single frame should work same as {{/}}
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}Title{{//}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ Title ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_close_all_with_content_between() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}Outer {{fr:star}}Inner{{//}} end";
+        let result = parser.process(input).unwrap();
+        // The {{//}} closes both frames, leaving " end" outside
+        assert_eq!(result, "▓▒░ Outer ★ Inner ☆ ░▒▓ end");
     }
 
     #[test]

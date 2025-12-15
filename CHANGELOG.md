@@ -65,16 +65,18 @@ mdfx process template.md --backend hybrid --assets-dir assets
 {{fr:gradient}}{{fr:star}}Nested{{/}}{{/}}  <!-- Nesting supported -->
 ```
 
-#### Short Close Tag (`{{/}}`)
+#### Short Close Tag (`{{/}}`) and Close-All (`{{//}}`)
 
 - **Universal closer** - Use `{{/}}` instead of `{{/frame}}` or `{{/ui}}`
+- **Close-all** - Use `{{//}}` to close all open frames at once
 - **Cleaner syntax** - Reduces verbosity for deeply nested structures
 - **Backward compatible** - Full tag names (`{{/frame}}`, `{{/ui}}`) still work
 
 **Usage:**
 ```markdown
-{{frame:gradient}}Title{{/}}                  <!-- Same as {{/frame}} -->
-{{frame:gradient}}{{frame:star}}Nested{{/}}{{/}}  <!-- Both work -->
+{{fr:gradient}}Title{{/}}                     <!-- Same as {{/frame}} -->
+{{fr:gradient}}{{fr:star}}Nested{{//}}        <!-- Close-all: one tag! -->
+{{fr:a}}{{fr:b}}{{fr:c}}Deep{{//}}            <!-- Works at any depth -->
 {{ui:header}}Content{{/}}                     <!-- Same as {{/ui}} -->
 ```
 

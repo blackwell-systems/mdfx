@@ -113,6 +113,11 @@ For templates with content:
 - Less typing: `{{frame:gradient}}Title{{/}}` instead of `{{frame:gradient}}Title{{/frame}}`
 - Works correctly with nesting
 
+**Close-all `{{//}}`:**
+- Closes all open frames at once
+- Perfect for deeply nested frames: `{{fr:gradient}}{{fr:star}}Text{{//}}`
+- No need to count closing tags
+
 **Why generic closers?**
 - Less typing: `{{/ui}}` instead of `{{/callout-github}}`
 - Easier refactoring: change opening tag without updating closer
@@ -445,6 +450,7 @@ Adds decorative prefix/suffix around content.
 {{fr:frame_type}}CONTENT{{/}}              <!-- shorthand -->
 {{fr:glyph:NAME}}CONTENT{{/}}
 {{fr:glyph:NAME*COUNT/pad=VALUE}}CONTENT{{/}}
+{{fr:a}}{{fr:b}}{{fr:c}}NESTED{{//}}       <!-- close-all -->
 ```
 
 ### Available Frames (27 predefined + unlimited glyph frames)
@@ -866,7 +872,7 @@ line = { character } newline ;
 |---------------|--------------|-------|--------|---------|
 | Component | Yes | Yes | `{{/ui}}` or `{{/}}` | `{{ui:divider/}}` |
 | Style | No | Yes | `{{/style}}` | `{{mathbold}}TEXT{{/mathbold}}` |
-| Frame | No | Yes | `{{/frame}}` or `{{/}}` | `{{fr:gradient}}TEXT{{/}}` |
+| Frame | No | Yes | `{{/}}` or `{{//}}` | `{{fr:gradient}}TEXT{{/}}` |
 | Primitive | Yes | No | N/A | `{{shields:block:color=F41C80/}}` |
 
 **Parameter Syntax:**
