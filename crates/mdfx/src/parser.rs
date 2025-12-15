@@ -787,6 +787,38 @@ impl TemplateParser {
             return Ok(None);
         }
 
+        // Check for self-closing frame: {{fr:TYPE:CONTENT/}}
+        // frame_style would be "TYPE:CONTENT/" in this case
+        if frame_style.ends_with('/') {
+            // Must have closing }} for self-closing tag
+            if i + 1 >= chars.len() || chars[i] != '}' || chars[i + 1] != '}' {
+                return Ok(None);
+            }
+            let end_pos = i + 2;
+
+            // Remove trailing / and split on LAST : to get TYPE and CONTENT
+            // Using rfind handles glyph frames like "glyph:diamond*2:Gem"
+            // which should split into style="glyph:diamond*2" and content="Gem"
+            let style_without_slash = &frame_style[..frame_style.len() - 1];
+            if let Some(colon_pos) = style_without_slash.rfind(':') {
+                let actual_style = style_without_slash[..colon_pos].to_string();
+                let content = style_without_slash[colon_pos + 1..].to_string();
+
+                // Validate frame style is non-empty
+                if actual_style.is_empty() {
+                    return Ok(None);
+                }
+
+                return Ok(Some(FrameData {
+                    end_pos,
+                    frame_style: actual_style,
+                    content,
+                }));
+            }
+            // No colon found - not a valid self-closing frame with content
+            return Ok(None);
+        }
+
         // Must have closing }} for opening tag
         if i + 1 >= chars.len() || chars[i] != '}' || chars[i + 1] != '}' {
             return Ok(None);
@@ -1844,6 +1876,54 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let result = parser.process(input).unwrap();
         // The {{//}} closes both frames, leaving " end" outside
         assert_eq!(result, "▓▒░ Outer ★ Inner ☆ ░▒▓ end");
+    }
+
+    #[test]
+    fn test_frame_self_closing_basic() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient:Title/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ Title ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_self_closing_star() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:star:VIP/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★ VIP ☆");
+    }
+
+    #[test]
+    fn test_frame_self_closing_glyph() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:glyph:diamond*2:Gem/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "◆◆ Gem ◆◆");
+    }
+
+    #[test]
+    fn test_frame_self_closing_glyph_with_padding() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:glyph:star*3/pad=0:Tight/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★★★Tight★★★");
+    }
+
+    #[test]
+    fn test_frame_self_closing_full_syntax() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:solid-left:Note/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "█▌Note");
+    }
+
+    #[test]
+    fn test_frame_self_closing_in_sentence() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "Check this {{fr:star:TIP/}} out!";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "Check this ★ TIP ☆ out!");
     }
 
     #[test]

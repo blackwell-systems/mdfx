@@ -451,7 +451,28 @@ Adds decorative prefix/suffix around content.
 {{fr:glyph:NAME}}CONTENT{{/}}
 {{fr:glyph:NAME*COUNT/pad=VALUE}}CONTENT{{/}}
 {{fr:a}}{{fr:b}}{{fr:c}}NESTED{{//}}       <!-- close-all -->
+{{fr:frame_type:CONTENT/}}                 <!-- self-closing -->
 ```
+
+### Self-Closing Frames
+
+For short inline content, use the self-closing syntax:
+
+```markdown
+{{fr:STYLE:CONTENT/}}
+```
+
+This is equivalent to `{{fr:STYLE}}CONTENT{{/}}` but more compact.
+
+**Examples:**
+```markdown
+{{fr:gradient:Title/}}                → ▓▒░ Title ░▒▓
+{{fr:star:VIP/}}                      → ★ VIP ☆
+{{fr:glyph:diamond*2:Gem/}}           → ◆◆ Gem ◆◆
+{{fr:glyph:star*3/pad=0:Tight/}}      → ★★★Tight★★★
+```
+
+**Note:** The content is everything after the last `:` and before `/}}`. This allows glyph frames with modifiers to work correctly.
 
 ### Available Frames (27 predefined + unlimited glyph frames)
 
@@ -872,7 +893,7 @@ line = { character } newline ;
 |---------------|--------------|-------|--------|---------|
 | Component | Yes | Yes | `{{/ui}}` or `{{/}}` | `{{ui:divider/}}` |
 | Style | No | Yes | `{{/style}}` | `{{mathbold}}TEXT{{/mathbold}}` |
-| Frame | No | Yes | `{{/}}` or `{{//}}` | `{{fr:gradient}}TEXT{{/}}` |
+| Frame | Yes | Yes | `{{/}}` or `{{//}}` | `{{fr:gradient:Title/}}` or `{{fr:gradient}}TEXT{{/}}` |
 | Primitive | Yes | No | N/A | `{{shields:block:color=F41C80/}}` |
 
 **Parameter Syntax:**

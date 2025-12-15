@@ -6,12 +6,22 @@ Frames wrap text content with decorative Unicode borders. They're perfect for he
 
 ```markdown
 {{frame:style}}Your content here{{/frame}}
+{{fr:style}}Short form{{/}}                   <!-- shorthand -->
+{{fr:style:inline content/}}                  <!-- self-closing -->
+```
+
+**Self-closing frames** are perfect for short inline content:
+
+```markdown
+{{fr:gradient:Title/}}           → ▓▒░ Title ░▒▓
+{{fr:star:VIP/}}                 → ★ VIP ☆
+{{fr:glyph:diamond*2:Gem/}}      → ◆◆ Gem ◆◆
 ```
 
 Frames support **nesting** for layered effects:
 
 ```markdown
-{{frame:gradient}}{{frame:line-bold}}NESTED CONTENT{{/frame}}{{/frame}}
+{{fr:gradient}}{{fr:line-bold}}NESTED{{//}}   <!-- close-all -->
 ```
 
 ---

@@ -98,6 +98,21 @@ mdfx process template.md --backend hybrid --assets-dir assets
 {{frame:glyph:diamond*2/pad=·}}Gem{{/}}       <!-- ◆◆·Gem·◆◆ -->
 ```
 
+#### Self-Closing Frames (`{{fr:STYLE:CONTENT/}}`)
+
+- **Inline syntax** - Compact form for short frame content
+- **Less typing** - `{{fr:gradient:Title/}}` instead of `{{fr:gradient}}Title{{/}}`
+- **Glyph support** - Works with glyph frames: `{{fr:glyph:star*3:VIP/}}`
+- **Last colon splits** - Content is everything after the last `:` (handles glyph modifiers correctly)
+
+**Usage:**
+```markdown
+{{fr:gradient:Title/}}                 <!-- ▓▒░ Title ░▒▓ -->
+{{fr:star:VIP/}}                       <!-- ★ VIP ☆ -->
+{{fr:glyph:diamond*2:Gem/}}            <!-- ◆◆ Gem ◆◆ -->
+{{fr:glyph:star*3/pad=0:Tight/}}       <!-- ★★★Tight★★★ -->
+```
+
 ### Changed
 
 - **Frames consolidated** - Removed redundant `FrameRenderer` module, frames now handled entirely by `Registry`
