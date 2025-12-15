@@ -1,34 +1,24 @@
 # Creative Tech Badges
 
----
-
-## Core Stack
+## Primary Stack
 
 ![](https://img.shields.io/badge/-Rust-000000?style=for-the-badge&logo=rust&logoColor=CE412B)
 ![](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-Go-00ADD8?style=for-the-badge&logo=go&logoColor=FFFFFF)
 
----
-
-## Frontend Arsenal
+## Frontend
 
 ![](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=000000)
-![](https://img.shields.io/badge/-Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Vue-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-Svelte-FF3E00?style=for-the-badge&logo=svelte&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=FFFFFF)
-![](https://img.shields.io/badge/-Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=FFFFFF)
 
----
-
-## Backend Power
+## Backend
 
 ![](https://img.shields.io/badge/-Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=FFFFFF)
-![](https://img.shields.io/badge/-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-Redis-DC382D?style=for-the-badge&logo=redis&logoColor=FFFFFF)
-
----
 
 ## Cloud & DevOps
 
@@ -36,65 +26,86 @@
 ![](https://img.shields.io/badge/-Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/-Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=FFFFFF)
-![](https://img.shields.io/badge/-GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=FFFFFF)
 
 ---
 
-## Skill Bars
+## Glowing Badge Row
 
-**Rust** ![](assets/swatch_29abb8e382015c48.svg)![](assets/swatch_437bee162465729b.svg) 95%
-
-**TypeScript** ![](assets/swatch_64e02b3e4b00552e.svg)![](assets/swatch_472b1e84fb5781ea.svg) 90%
-
-**React** ![](assets/swatch_73b4b738ba158ef6.svg)![](assets/swatch_de0dd85c38d73b34.svg) 85%
-
-**Go** ![](assets/swatch_73f4f3516124eef5.svg)![](assets/swatch_b147df2b41ace5f8.svg) 80%
+![](examples/assets/swatch_406b8cda4347ce9c.svg)
+![](https://img.shields.io/badge/-Featured-F41C80?style=for-the-badge&logo=star&logoColor=FFFFFF)
+![](examples/assets/swatch_406b8cda4347ce9c.svg)
 
 ---
 
-## Status Row
+## Badge with Accent Bar
 
-![](https://img.shields.io/badge/-BUILD%20PASSING-22C55E?style=for-the-badge)
-![](https://img.shields.io/badge/-v2.1.0-3B82F6?style=for-the-badge)
-![](https://img.shields.io/badge/-PRs%20WELCOME-F41C80?style=for-the-badge)
-![](https://img.shields.io/badge/-MIT%20LICENSE-8B5CF6?style=for-the-badge)
+![](examples/assets/swatch_db71bdcbe98283e5.svg)
 
----
-
-## Social Links
-
-![](https://img.shields.io/badge/-TWITTER-1DA1F2?style=for-the-badge&logo=twitter&logoColor=FFFFFF)
-![](https://img.shields.io/badge/-LINKEDIN-0A66C2?style=for-the-badge&logo=linkedin&logoColor=FFFFFF)
-![](https://img.shields.io/badge/-GITHUB-181717?style=for-the-badge&logo=github&logoColor=FFFFFF)
-![](https://img.shields.io/badge/-YOUTUBE-FF0000?style=for-the-badge&logo=youtube&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Full%20Stack%20Developer-000000?style=for-the-badge&logo=code&logoColor=F41C80)
 
 ---
 
-## Gradient Banners
+## Status Pills
 
-![](assets/swatch_5e1191bb6c0175ea.svg)
-
-![](assets/swatch_b4cd92d6e5a8be4a.svg)
-
-![](assets/swatch_9ae826c7863a278b.svg)
+![](https://img.shields.io/badge/-Online-22C55E?style=for-the-badge&logo=statuspage&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-v2.0-3B82F6?style=for-the-badge&logo=semver&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Hire%20Me-F41C80?style=for-the-badge&logo=handshake&logoColor=FFFFFF)
 
 ---
 
-## Mini Tech Grid
+## Social Row with Glow
 
-![](assets/swatch_f702b10886dcd5c1.svg)
-![](assets/swatch_904612d46460f8d0.svg)
-![](assets/swatch_dab0bba4cb57a531.svg)
-![](assets/swatch_6a557cade4802c7c.svg)
-![](assets/swatch_ede885baa2964531.svg)
-![](assets/swatch_e9c7045dc4c445fa.svg)
-
----
-
-## Accent Divider
-
-![](assets/swatch_f3d933ce0266a58b.svg)![](assets/swatch_cce68996ee614f29.svg)![](assets/swatch_5e51d0cbfc4382ed.svg)
+![](examples/assets/swatch_c9b40a8966dc2fa2.svg)
+![](https://img.shields.io/badge/-Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)
+![](examples/assets/swatch_d7d06bffb5457563.svg)
+![](https://img.shields.io/badge/-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)
+![](examples/assets/swatch_17fb1ec94c808efe.svg)
+![](https://img.shields.io/badge/-GitHub-181717?style=for-the-badge&logo=github&logoColor=FFFFFF)
 
 ---
 
-*Built with mdfx*
+## Framed Tech Stack
+
+![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)
+![](https://img.shields.io/badge/-Rust-CE412B?style=for-the-badge&logo=rust&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-TS-3178C6?style=for-the-badge&logo=typescript&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=000000)
+![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)
+
+---
+
+## Gradient Divider + Badges
+
+![](examples/assets/swatch_9d1728d985bbd188.svg)
+
+![](https://img.shields.io/badge/-Open%20Source-F41C80?style=for-the-badge&logo=opensource&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-Contributing-22C55E?style=for-the-badge&logo=github&logoColor=FFFFFF)
+![](https://img.shields.io/badge/-PRs%20Welcome-3B82F6?style=for-the-badge&logo=gitpullrequest&logoColor=FFFFFF)
+
+![](examples/assets/swatch_9d1728d985bbd188.svg)
+
+---
+
+## Mini Icon Strip
+
+![](examples/assets/swatch_a5fcc3d6a362e4dc.svg)
+![](examples/assets/swatch_93450afc0b58acc7.svg)
+![](examples/assets/swatch_189796b08f64c48e.svg)
+![](examples/assets/swatch_2d8d54cf3aced633.svg)
+![](examples/assets/swatch_56df2109135747d8.svg)
+![](examples/assets/swatch_b8e591dabdf529e5.svg)
+![](examples/assets/swatch_49dde9879b09a7e5.svg)
+
+---
+
+## Accent Glow Behind Badge
+
+![](examples/assets/swatch_1fd1ecc06821d191.svg)
+
+![](https://img.shields.io/badge/-Sponsor-F41C80?style=for-the-badge&logo=githubsponsors&logoColor=FFFFFF)
+
+---
+
+*Made with mdfx*
