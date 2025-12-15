@@ -334,20 +334,30 @@ impl TemplateParser {
 
                 // Try to parse a frame template
                 if let Some(frame_data) = self.parse_frame_at(&chars, i)? {
-                    // Validate frame exists via unified Registry
-                    if self.registry.frame(&frame_data.frame_style).is_none() {
-                        return Err(Error::UnknownFrame(frame_data.frame_style));
-                    }
-
                     // Process content recursively (may contain style templates and primitives)
                     let (processed_content, nested_assets) =
                         self.process_templates_with_assets(&frame_data.content)?;
                     assets.extend(nested_assets);
 
-                    // Apply frame to processed content
-                    let framed = self
-                        .frame_renderer
-                        .apply_frame(&processed_content, &frame_data.frame_style)?;
+                    // Check for glyph frame shorthand: {{frame:glyph:NAME}}
+                    let framed = if frame_data.frame_style.starts_with("glyph:") {
+                        // Extract glyph name after "glyph:"
+                        let glyph_name = &frame_data.frame_style[6..];
+                        let glyph_char = self
+                            .registry
+                            .glyph(glyph_name)
+                            .ok_or_else(|| Error::UnknownGlyph(glyph_name.to_string()))?;
+                        // Apply glyph as both prefix and suffix with spaces
+                        format!("{} {} {}", glyph_char, processed_content, glyph_char)
+                    } else {
+                        // Validate frame exists via unified Registry
+                        if self.registry.frame(&frame_data.frame_style).is_none() {
+                            return Err(Error::UnknownFrame(frame_data.frame_style));
+                        }
+                        // Apply frame to processed content
+                        self.frame_renderer
+                            .apply_frame(&processed_content, &frame_data.frame_style)?
+                    };
                     result.push_str(&framed);
 
                     // Skip past the frame template
@@ -681,11 +691,11 @@ impl TemplateParser {
         }
         i += frame_chars.len();
 
-        // Parse frame style name (alphanumeric and hyphens)
+        // Parse frame style name (alphanumeric, hyphens, underscores, and colons for glyph:NAME)
         let mut frame_style = String::new();
         while i < chars.len() {
             let ch = chars[i];
-            if ch.is_alphanumeric() || ch == '-' {
+            if ch.is_alphanumeric() || ch == '-' || ch == '_' || ch == ':' {
                 frame_style.push(ch);
                 i += 1;
             } else if ch == '}' {
@@ -1503,6 +1513,35 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
             assert_eq!(name, "invalid");
         } else {
             panic!("Expected UnknownFrame error");
+        }
+    }
+
+    #[test]
+    fn test_frame_glyph_shorthand() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:star}}Title{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★ Title ★");
+    }
+
+    #[test]
+    fn test_frame_glyph_shorthand_diamond() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:diamond}}Gem{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "◆ Gem ◆");
+    }
+
+    #[test]
+    fn test_frame_glyph_shorthand_unknown_glyph() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:glyph:unknown}}Text{{/frame}}";
+        let result = parser.process(input);
+        assert!(result.is_err());
+        if let Err(Error::UnknownGlyph(name)) = result {
+            assert_eq!(name, "unknown");
+        } else {
+            panic!("Expected UnknownGlyph error");
         }
     }
 
