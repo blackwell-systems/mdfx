@@ -91,6 +91,71 @@ Grid positions: 1=top-left, 2=top-right, 3=bottom-left, 4=bottom-right
 | `quad.1-2-4` | ▜ | All except BL |
 | `quad.2-3-4` | ▟ | All except TL |
 
+### Braille Patterns
+
+Bar graph elements (fills from bottom-left, then bottom-right):
+
+| Name | Character | Description |
+|------|-----------|-------------|
+| `braille.empty` | ⠀ | Empty (no dots) |
+| `braille.bar.1` | ⡀ | 1/8 filled |
+| `braille.bar.2` | ⡄ | 2/8 filled |
+| `braille.bar.3` | ⡆ | 3/8 filled |
+| `braille.bar.4` | ⡇ | 4/8 (left column) |
+| `braille.bar.5` | ⣇ | 5/8 filled |
+| `braille.bar.6` | ⣧ | 6/8 filled |
+| `braille.bar.7` | ⣷ | 7/8 filled |
+| `braille.bar.8` | ⣿ | Full (all dots) |
+| `braille.full` | ⣿ | All dots filled |
+| `braille.left` | ⡇ | Left column |
+| `braille.right` | ⢸ | Right column |
+
+### Box Drawing
+
+Elements: `h` (horizontal), `v` (vertical), `tl/tr/bl/br` (corners), `cross`, `t-up/t-down/t-left/t-right` (T-junctions)
+
+**Light** (`box.light.*`):
+
+| Name | Character | Name | Character |
+|------|-----------|------|-----------|
+| `box.light.h` | ─ | `box.light.v` | │ |
+| `box.light.tl` | ┌ | `box.light.tr` | ┐ |
+| `box.light.bl` | └ | `box.light.br` | ┘ |
+| `box.light.cross` | ┼ | `box.light.t-down` | ┬ |
+| `box.light.t-up` | ┴ | `box.light.t-right` | ├ |
+| `box.light.t-left` | ┤ | | |
+
+**Heavy** (`box.heavy.*`):
+
+| Name | Character | Name | Character |
+|------|-----------|------|-----------|
+| `box.heavy.h` | ━ | `box.heavy.v` | ┃ |
+| `box.heavy.tl` | ┏ | `box.heavy.tr` | ┓ |
+| `box.heavy.bl` | ┗ | `box.heavy.br` | ┛ |
+| `box.heavy.cross` | ╋ | `box.heavy.t-down` | ┳ |
+| `box.heavy.t-up` | ┻ | `box.heavy.t-right` | ┣ |
+| `box.heavy.t-left` | ┫ | | |
+
+**Double** (`box.double.*`):
+
+| Name | Character | Name | Character |
+|------|-----------|------|-----------|
+| `box.double.h` | ═ | `box.double.v` | ║ |
+| `box.double.tl` | ╔ | `box.double.tr` | ╗ |
+| `box.double.bl` | ╚ | `box.double.br` | ╝ |
+| `box.double.cross` | ╬ | `box.double.t-down` | ╦ |
+| `box.double.t-up` | ╩ | `box.double.t-right` | ╠ |
+| `box.double.t-left` | ╣ | | |
+
+**Round corners** (`box.round.*`):
+
+| Name | Character | Description |
+|------|-----------|-------------|
+| `box.round.tl` | ╭ | Rounded top-left |
+| `box.round.tr` | ╮ | Rounded top-right |
+| `box.round.bl` | ╰ | Rounded bottom-left |
+| `box.round.br` | ╯ | Rounded bottom-right |
+
 ---
 
 ## Examples
@@ -118,3 +183,26 @@ Output: `███▌▏`
 ```
 
 Output: `𝐇★𝐄★𝐋★𝐋★𝐎`
+
+### Braille bar chart
+
+```markdown
+{{glyph:braille.bar.2/}}{{glyph:braille.bar.5/}}{{glyph:braille.bar.8/}}{{glyph:braille.bar.6/}}{{glyph:braille.bar.3/}}
+```
+
+Output: `⡄⣇⣿⣧⡆`
+
+### Box drawing frame
+
+```markdown
+{{glyph:box.round.tl/}}{{glyph:box.light.h/}}{{glyph:box.light.h/}}{{glyph:box.round.tr/}}
+{{glyph:box.light.v/}} Hi {{glyph:box.light.v/}}
+{{glyph:box.round.bl/}}{{glyph:box.light.h/}}{{glyph:box.light.h/}}{{glyph:box.round.br/}}
+```
+
+Output:
+```
+╭──╮
+│ Hi │
+╰──╯
+```
