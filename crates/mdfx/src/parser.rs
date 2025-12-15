@@ -610,14 +610,14 @@ impl TemplateParser {
                         // Multi-grapheme unknown name - error with suggestions
                         let available: Vec<&str> = self
                             .registry
-                            .separators()
+                            .glyphs()
                             .keys()
                             .map(|name| name.as_str())
                             .take(8)
                             .collect();
 
                         return Err(Error::ParseError(format!(
-                            "Unknown separator '{}'. Available separators: {}. Or use a single character like '→' or '·'.",
+                            "Unknown glyph '{}'. Available glyphs: {}. Or use a single character like '→' or '·'.",
                             sep_input,
                             available.join(", ")
                         )));
@@ -1409,7 +1409,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let result = parser.process(input);
         assert!(result.is_err());
         if let Err(Error::ParseError(msg)) = result {
-            assert!(msg.contains("Unknown separator"));
+            assert!(msg.contains("Unknown glyph"));
         } else {
             panic!("Expected ParseError");
         }

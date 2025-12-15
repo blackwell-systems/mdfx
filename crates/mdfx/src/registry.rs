@@ -159,8 +159,6 @@ pub struct ShieldStyle {
 /// All renderables in the registry
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Renderables {
-    pub separators: HashMap<String, String>,
-    #[serde(default)]
     pub glyphs: HashMap<String, String>,
     pub components: HashMap<String, Component>,
     pub frames: HashMap<String, Frame>,
@@ -171,8 +169,6 @@ pub struct Renderables {
 /// Registry metadata
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RegistryMetadata {
-    pub total_separators: usize,
-    #[serde(default)]
     pub total_glyphs: usize,
     pub total_components: usize,
     pub total_frames: usize,
@@ -280,24 +276,10 @@ impl Registry {
     }
 
     // =========================================================================
-    // Separator Operations
+    // Glyph Operations (includes separators like dot, arrow, etc.)
     // =========================================================================
 
-    /// Get a separator by name
-    pub fn separator(&self, name: &str) -> Option<&str> {
-        self.data.renderables.separators.get(name).map(|s| s.as_str())
-    }
-
-    /// Get all separators
-    pub fn separators(&self) -> &HashMap<String, String> {
-        &self.data.renderables.separators
-    }
-
-    // =========================================================================
-    // Glyph Operations
-    // =========================================================================
-
-    /// Get a glyph by name (e.g., "block.lower.4", "shade.medium", "quad.1-4")
+    /// Get a glyph by name (e.g., "dot", "block.lower.4", "shade.medium", "quad.1-4")
     pub fn glyph(&self, name: &str) -> Option<&str> {
         self.data.renderables.glyphs.get(name).map(|s| s.as_str())
     }
@@ -305,6 +287,11 @@ impl Registry {
     /// Get all glyphs
     pub fn glyphs(&self) -> &HashMap<String, String> {
         &self.data.renderables.glyphs
+    }
+
+    /// Get a separator by name (alias for glyph lookup, for backward compatibility)
+    pub fn separator(&self, name: &str) -> Option<&str> {
+        self.glyph(name)
     }
 
     // =========================================================================
@@ -593,7 +580,7 @@ mod tests {
         let registry = Registry::new().unwrap();
         let meta = registry.metadata();
 
-        assert!(meta.total_separators > 0);
+        assert!(meta.total_glyphs > 0);
         assert!(meta.total_styles > 0);
         assert!(meta.total_frames > 0);
     }
