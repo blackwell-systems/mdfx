@@ -711,20 +711,60 @@ impl TemplateParser {
     fn parse_frame_at(&self, chars: &[char], start: usize) -> Result<Option<FrameData>> {
         let mut i = start;
 
-        // Must start with {{frame:
-        if i + 8 >= chars.len() {
+        // Must start with {{frame: or {{fr: (shorthand)
+        if i + 5 >= chars.len() {
             return Ok(None);
         }
 
-        // Check for "{{frame:"
-        let frame_start = "{{frame:";
-        let frame_chars: Vec<char> = frame_start.chars().collect();
-        for (idx, &expected) in frame_chars.iter().enumerate() {
-            if chars[i + idx] != expected {
+        // Check for "{{frame:" or "{{fr:" (shorthand alias)
+        let frame_long = "{{frame:";
+        let frame_short = "{{fr:";
+        let frame_long_chars: Vec<char> = frame_long.chars().collect();
+        let frame_short_chars: Vec<char> = frame_short.chars().collect();
+
+        let prefix_len = if i + frame_long_chars.len() <= chars.len() {
+            let mut matches_long = true;
+            for (idx, &expected) in frame_long_chars.iter().enumerate() {
+                if chars[i + idx] != expected {
+                    matches_long = false;
+                    break;
+                }
+            }
+            if matches_long {
+                frame_long_chars.len()
+            } else if i + frame_short_chars.len() <= chars.len() {
+                let mut matches_short = true;
+                for (idx, &expected) in frame_short_chars.iter().enumerate() {
+                    if chars[i + idx] != expected {
+                        matches_short = false;
+                        break;
+                    }
+                }
+                if matches_short {
+                    frame_short_chars.len()
+                } else {
+                    return Ok(None);
+                }
+            } else {
                 return Ok(None);
             }
-        }
-        i += frame_chars.len();
+        } else if i + frame_short_chars.len() <= chars.len() {
+            let mut matches_short = true;
+            for (idx, &expected) in frame_short_chars.iter().enumerate() {
+                if chars[i + idx] != expected {
+                    matches_short = false;
+                    break;
+                }
+            }
+            if matches_short {
+                frame_short_chars.len()
+            } else {
+                return Ok(None);
+            }
+        } else {
+            return Ok(None);
+        };
+        i += prefix_len;
 
         // Parse frame style name - allow most characters except }}
         // This enables glyph frames with Unicode padding like /pad=·
@@ -756,29 +796,55 @@ impl TemplateParser {
         let content_start = i;
 
         // Find closing tag {{/}} or {{/frame}} - track nesting depth
-        let open_prefix = "{{frame:";
+        let open_long = "{{frame:";
+        let open_short = "{{fr:";
         let close_short = "{{/}}";
         let close_long = "{{/frame}}";
-        let open_chars: Vec<char> = open_prefix.chars().collect();
+        let open_long_chars: Vec<char> = open_long.chars().collect();
+        let open_short_chars: Vec<char> = open_short.chars().collect();
         let close_short_chars: Vec<char> = close_short.chars().collect();
         let close_long_chars: Vec<char> = close_long.chars().collect();
         let mut depth = 1; // We've already seen one opening tag
 
         while i < chars.len() {
-            // Check for nested opening tag {{frame:
-            if i + open_chars.len() <= chars.len() {
-                let mut is_open = true;
-                for (j, &open_ch) in open_chars.iter().enumerate() {
-                    if chars[i + j] != open_ch {
-                        is_open = false;
-                        break;
+            // Check for nested opening tag {{frame: or {{fr:
+            let (is_nested_open, open_len) = {
+                let mut matches_long = false;
+                let mut matches_short = false;
+
+                if i + open_long_chars.len() <= chars.len() {
+                    matches_long = true;
+                    for (j, &open_ch) in open_long_chars.iter().enumerate() {
+                        if chars[i + j] != open_ch {
+                            matches_long = false;
+                            break;
+                        }
                     }
                 }
-                if is_open {
-                    depth += 1;
-                    i += open_chars.len();
-                    continue;
+
+                if !matches_long && i + open_short_chars.len() <= chars.len() {
+                    matches_short = true;
+                    for (j, &open_ch) in open_short_chars.iter().enumerate() {
+                        if chars[i + j] != open_ch {
+                            matches_short = false;
+                            break;
+                        }
+                    }
                 }
+
+                if matches_long {
+                    (true, open_long_chars.len())
+                } else if matches_short {
+                    (true, open_short_chars.len())
+                } else {
+                    (false, 0)
+                }
+            };
+
+            if is_nested_open {
+                depth += 1;
+                i += open_len;
+                continue;
             }
 
             // Check for closing tag {{/}} (short form) or {{/frame}} (long form)
@@ -1671,6 +1737,38 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let result = parser.process(input).unwrap();
         // 20 bullets on each side + space padding
         assert_eq!(result, "•••••••••••••••••••• X ••••••••••••••••••••");
+    }
+
+    #[test]
+    fn test_frame_fr_shorthand() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ Title ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_fr_shorthand_with_glyph() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:glyph:star*3}}Text{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "★★★ Text ★★★");
+    }
+
+    #[test]
+    fn test_frame_fr_nested() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{fr:gradient}}{{fr:star}}NESTED{{/}}{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ ★ NESTED ☆ ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_fr_mixed_with_full_frame() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}{{fr:star}}MIXED{{/}}{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ ★ MIXED ☆ ░▒▓");
     }
 
     #[test]

@@ -14,7 +14,6 @@
 - [Component Templates](#component-templates)
 - [Style Templates](#style-templates)
 - [Frame Templates](#frame-templates)
-- [Badge Templates](#badge-templates)
 - [Primitive Templates](#primitive-templates)
 - [Advanced Features](#advanced-features)
   - [Nesting and Composition](#nesting-and-composition)
@@ -435,7 +434,7 @@ Converts text to Unicode character styles.
 
 ## Frame Templates
 
-**Namespace:** `{{frame:*}}`
+**Namespace:** `{{frame:*}}` or `{{fr:*}}` (shorthand)
 
 Adds decorative prefix/suffix around content.
 
@@ -443,8 +442,9 @@ Adds decorative prefix/suffix around content.
 
 ```markdown
 {{frame:frame_type}}CONTENT{{/}}
-{{frame:glyph:NAME}}CONTENT{{/}}
-{{frame:glyph:NAME*COUNT/pad=VALUE}}CONTENT{{/}}
+{{fr:frame_type}}CONTENT{{/}}              <!-- shorthand -->
+{{fr:glyph:NAME}}CONTENT{{/}}
+{{fr:glyph:NAME*COUNT/pad=VALUE}}CONTENT{{/}}
 ```
 
 ### Available Frames (27 predefined + unlimited glyph frames)
@@ -512,52 +512,14 @@ Create symmetric frames from any glyph:
 ### Examples
 
 ```markdown
-{{frame:gradient}}TITLE{{/}}
+{{fr:gradient}}TITLE{{/}}
 → ▓▒░ TITLE ░▒▓
 
-{{frame:solid-left}}WARNING{{/}}
+{{fr:solid-left}}WARNING{{/}}
 → █▌ WARNING
 
-{{frame:glyph:diamond*2}}VIP{{/}}
+{{fr:glyph:diamond*2}}VIP{{/}}
 → ◆◆ VIP ◆◆
-```
-
----
-
-## Badge Templates
-
-**Namespace:** `{{badge:*}}`
-
-Wraps single characters or digits in Unicode enclosures.
-
-### Syntax
-
-```markdown
-{{badge:badge_type}}CHARACTER{{/badge}}
-```
-
-### Available Badge Types
-
-- `circle` - ① ② ③ Ⓐ Ⓑ Ⓒ
-- `negative-circle` - ❶ ❷ ❸
-- `double-circle` - ⓵ ⓶ ⓷
-- `paren` - ⑴ ⑵ ⑶ ⒜ ⒝ ⒞
-- `period` - ⒈ ⒉ ⒊
-- `paren-letter` - 🄐 🄑 🄒
-
-### Rules
-
-- Content must be single character
-- Supports: 1-20, A-Z, a-z (depends on badge type)
-- Error if character not supported by badge type
-
-### Examples
-
-```markdown
-{{badge:circle}}1{{/badge}} → ①
-{{badge:circle}}A{{/badge}} → Ⓐ
-{{badge:negative-circle}}2{{/badge}} → ❷
-{{badge:paren}}a{{/badge}} → ⒜
 ```
 
 ---
@@ -904,8 +866,7 @@ line = { character } newline ;
 |---------------|--------------|-------|--------|---------|
 | Component | Yes | Yes | `{{/ui}}` or `{{/}}` | `{{ui:divider/}}` |
 | Style | No | Yes | `{{/style}}` | `{{mathbold}}TEXT{{/mathbold}}` |
-| Frame | No | Yes | `{{/frame}}` or `{{/}}` | `{{frame:gradient}}TEXT{{/}}` |
-| Badge | No | Yes | `{{/badge}}` | `{{badge:circle}}1{{/badge}}` |
+| Frame | No | Yes | `{{/frame}}` or `{{/}}` | `{{fr:gradient}}TEXT{{/}}` |
 | Primitive | Yes | No | N/A | `{{shields:block:color=F41C80/}}` |
 
 **Parameter Syntax:**

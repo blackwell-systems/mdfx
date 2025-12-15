@@ -52,6 +52,19 @@ mdfx process template.md --backend hybrid --assets-dir assets
 {{ui:swatch:1a1a1a:width=120:height=60:border_top=EF4444/3:border_right=F59E0B/3:border_bottom=22C55E/3:border_left=3B82F6/3/}}
 ```
 
+#### Frame Namespace Shorthand (`{{fr:*}}`)
+
+- **Shorter syntax** - Use `{{fr:}}` instead of `{{frame:}}`
+- **Full feature parity** - Works with all frames, glyph frames, nesting
+- **Less typing** - Saves 4 characters per frame tag
+
+**Usage:**
+```markdown
+{{fr:gradient}}Title{{/}}                   <!-- Same as {{frame:gradient}} -->
+{{fr:glyph:star*3}}Text{{/}}                <!-- Glyph frames work too -->
+{{fr:gradient}}{{fr:star}}Nested{{/}}{{/}}  <!-- Nesting supported -->
+```
+
 #### Short Close Tag (`{{/}}`)
 
 - **Universal closer** - Use `{{/}}` instead of `{{/frame}}` or `{{/ui}}`
@@ -86,6 +99,7 @@ mdfx process template.md --backend hybrid --assets-dir assets
 ### Changed
 
 - **Frames consolidated** - Removed redundant `FrameRenderer` module, frames now handled entirely by `Registry`
+- **Badge templates removed** - `{{badge:*}}` templates were never implemented; use glyphs (`{{glyph:circle.1}}` → ①) or styles (`{{circled-latin}}`) instead
 
 #### Keyboard Keys (`{{kbd:...}}`)
 
