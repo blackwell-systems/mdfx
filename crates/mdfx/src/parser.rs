@@ -755,11 +755,13 @@ impl TemplateParser {
 
         let content_start = i;
 
-        // Find closing tag {{/frame}} - track nesting depth
+        // Find closing tag {{/}} or {{/frame}} - track nesting depth
         let open_prefix = "{{frame:";
-        let close_tag = "{{/frame}}";
+        let close_short = "{{/}}";
+        let close_long = "{{/frame}}";
         let open_chars: Vec<char> = open_prefix.chars().collect();
-        let close_chars: Vec<char> = close_tag.chars().collect();
+        let close_short_chars: Vec<char> = close_short.chars().collect();
+        let close_long_chars: Vec<char> = close_long.chars().collect();
         let mut depth = 1; // We've already seen one opening tag
 
         while i < chars.len() {
@@ -779,31 +781,47 @@ impl TemplateParser {
                 }
             }
 
-            // Check for closing tag {{/frame}}
-            if i + close_chars.len() <= chars.len() {
-                let mut is_close = true;
-                for (j, &close_ch) in close_chars.iter().enumerate() {
-                    if chars[i + j] != close_ch {
-                        is_close = false;
+            // Check for closing tag {{/}} (short form) or {{/frame}} (long form)
+            let (is_close, close_len) = if i + close_short_chars.len() <= chars.len() {
+                let mut matches_short = true;
+                for (j, &ch) in close_short_chars.iter().enumerate() {
+                    if chars[i + j] != ch {
+                        matches_short = false;
                         break;
                     }
                 }
-
-                if is_close {
-                    depth -= 1;
-                    if depth == 0 {
-                        // Found matching closing tag
-                        let content: String = chars[content_start..i].iter().collect();
-                        let end_pos = i + close_chars.len();
-                        return Ok(Some(FrameData {
-                            end_pos,
-                            frame_style,
-                            content,
-                        }));
+                if matches_short {
+                    (true, close_short_chars.len())
+                } else if i + close_long_chars.len() <= chars.len() {
+                    let mut matches_long = true;
+                    for (j, &ch) in close_long_chars.iter().enumerate() {
+                        if chars[i + j] != ch {
+                            matches_long = false;
+                            break;
+                        }
                     }
-                    i += close_chars.len();
-                    continue;
+                    (matches_long, close_long_chars.len())
+                } else {
+                    (false, 0)
                 }
+            } else {
+                (false, 0)
+            };
+
+            if is_close {
+                depth -= 1;
+                if depth == 0 {
+                    // Found matching closing tag
+                    let content: String = chars[content_start..i].iter().collect();
+                    let end_pos = i + close_len;
+                    return Ok(Some(FrameData {
+                        end_pos,
+                        frame_style,
+                        content,
+                    }));
+                }
+                i += close_len;
+                continue;
             }
 
             i += 1;
@@ -1473,6 +1491,22 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{frame:gradient}}Title{{/frame}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "▓▒░ Title ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_short_close_tag() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}Title{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ Title ░▒▓");
+    }
+
+    #[test]
+    fn test_frame_nested_short_close() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}{{frame:glyph:star}}NESTED{{/}}{{/}}";
+        let result = parser.process(input).unwrap();
+        assert_eq!(result, "▓▒░ ★ NESTED ★ ░▒▓");
     }
 
     #[test]
