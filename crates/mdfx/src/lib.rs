@@ -41,8 +41,6 @@
 pub mod components;
 pub mod converter;
 pub mod error;
-#[deprecated(since = "1.1.0", note = "Use Registry::apply_frame() instead")]
-pub mod frames;
 pub mod manifest;
 pub mod parser;
 pub mod primitive;
