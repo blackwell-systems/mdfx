@@ -44,34 +44,78 @@ All frames use simple string concatenation: `prefix + content + suffix`
 
 ## Data Structure
 
-Frames are defined in the unified `registry.json`:
+Frames are defined in the unified `registry.json` using either **pattern+mode** (declarative) or **explicit prefix/suffix** format.
+
+### Pattern + Mode Format (Recommended)
 
 ```json
 {
   "frames": {
     "gradient": {
-      "id": "gradient",
-      "name": "Gradient",
+      "pattern": "▓▒░",
+      "mode": "mirror",
       "description": "Gradient blocks from bold to light",
-      "prefix": "▓▒░ ",
-      "suffix": " ░▒▓",
+      "contexts": ["inline", "block"],
       "aliases": ["grad", "gradient-full"]
     },
+    "line-bold": {
+      "pattern": "━━━",
+      "mode": "repeat",
+      "description": "Bold horizontal lines",
+      "contexts": ["inline", "block"],
+      "aliases": ["bold-line"]
+    },
     "solid-left": {
-      "id": "solid-left",
-      "name": "Solid Left",
+      "pattern": "█▌",
+      "mode": "prefix-only",
       "description": "Solid block on the left",
-      "prefix": "█▌",
-      "suffix": "",
+      "contexts": ["inline", "block"],
       "aliases": ["solidleft", "left"]
     }
   }
 }
 ```
 
-**Key points:**
+### Suffix Modes
+
+| Mode | Description | Example |
+|------|-------------|---------|
+| `mirror` | Suffix = pattern reversed | `▓▒░` → prefix=`▓▒░ `, suffix=` ░▒▓` |
+| `repeat` | Suffix = same as pattern | `━━━` → prefix=`━━━ `, suffix=` ━━━` |
+| `prefix-only` | No suffix | `█▌` → prefix=`█▌`, suffix=`` |
+| `suffix-only` | No prefix | `▐█` → prefix=``, suffix=`▐█` |
+
+### Explicit Prefix/Suffix Format
+
+For asymmetric pairs (different glyphs for prefix/suffix):
+
+```json
+{
+  "frames": {
+    "star": {
+      "prefix": "★ ",
+      "suffix": " ☆",
+      "description": "Black and white stars",
+      "contexts": ["inline", "block"],
+      "aliases": ["stars", "featured"]
+    },
+    "guillemet": {
+      "prefix": "« ",
+      "suffix": " »",
+      "description": "French quotation marks",
+      "contexts": ["inline", "block"],
+      "aliases": ["french", "quote"]
+    }
+  }
+}
+```
+
+### Key Points
+
 - Data embedded at compile time via `include_str!()`
-- Each frame has `prefix` and `suffix` (both can be empty string)
+- **Pattern+mode** generates prefix/suffix at load time (DRY, declarative)
+- **Explicit prefix/suffix** for asymmetric pairs like star (★/☆), diamond (◆/◇)
+- Mirror mode automatically reverses Unicode characters
 - Alias support for shorter names
 - No width calculation - frames are applied as-is
 
@@ -93,10 +137,16 @@ Frames can nest with other templates:
 Parser processes in priority order:
 1. UI templates (expand to primitives)
 2. Frame templates (outer)
-3. Badge templates (middle)
+3. Shields templates (middle)
 4. Style templates (inner)
 
 mdfx composes features through **nesting**, not a separate DSL. Pipe syntax like `{{mathbold|frame:double}}` is not supported - keep it simple.
+
+**Close-all syntax** for deeply nested frames:
+```markdown
+{{fr:gradient}}{{fr:star}}{{mathbold}}NESTED{{//}}
+<!-- Closes mathbold, star, gradient in reverse order -->
+```
 
 ---
 
@@ -148,6 +198,7 @@ No width calculation, no wrapping, no complexity.
 
 ## References
 
-- **Implementation:** `crates/mdfx/src/frames.rs`
-- **Data:** `crates/mdfx/data/registry.json` (frames section)
+- **Implementation:** `crates/mdfx/src/registry.rs` (Frame struct, SuffixMode enum)
+- **Data:** `crates/mdfx/data/registry.json` (renderables.frames section)
+- **Parser:** `crates/mdfx/src/parser.rs` (frame template parsing, close-all)
 - **Tests:** `crates/mdfx/src/parser.rs` (frame template tests)

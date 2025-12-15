@@ -218,7 +218,7 @@ The unified registry consolidates all compiler data into a single JSON file, rep
   "separators": { "dot": { "char": "·" }, ... },
   "shield_styles": { "flat-square": { ... }, "flat": { ... }, ... },
   "renderables": {
-    "frames": { "gradient": { "prefix": "▓▒░ ", "suffix": " ░▒▓" }, ... },
+    "frames": { "gradient": { "pattern": "▓▒░", "mode": "mirror" }, ... },
     "components": { "header": { "template": "..." }, ... }
   }
 }
