@@ -2,6 +2,28 @@
 
 The swatch component is mdfx's most versatile visual primitive. This guide covers every parameter and configuration option.
 
+## Table of Contents
+
+- [Basic Syntax](#basic-syntax)
+- [All Parameters](#all-parameters)
+- [Dimensions](#dimensions)
+  - [Width & Height](#width--height)
+  - [Pixel Art](#pixel-art)
+- [Styles](#styles)
+- [Opacity](#opacity)
+  - [Depth Illusion](#depth-illusion)
+  - [Invisible Spacers](#invisible-spacers)
+- [Borders](#borders)
+  - [Border Styles](#border-styles)
+- [Labels](#labels)
+  - [Complex Labels](#complex-labels)
+- [Icons](#icons)
+- [Color Palette Reference](#color-palette-reference)
+- [Complete Examples](#complete-examples)
+- [Backend Differences](#backend-differences)
+- [Tips & Tricks](#tips--tricks)
+- [See Also](#see-also)
+
 ---
 
 ## Basic Syntax

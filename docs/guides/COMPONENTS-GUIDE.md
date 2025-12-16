@@ -2,6 +2,26 @@
 
 Components are reusable UI elements that render to visual primitives like badges, dividers, and status indicators. They use the `{{ui:component}}` namespace.
 
+## Table of Contents
+
+- [Basic Syntax](#basic-syntax)
+- [Native Components](#native-components)
+  - [swatch](#swatch)
+  - [divider](#divider)
+  - [tech](#tech)
+  - [status](#status)
+  - [row](#row)
+- [Expand Components](#expand-components)
+  - [header](#header)
+  - [section](#section)
+  - [callout](#callout)
+  - [callout-github](#callout-github)
+  - [statusitem](#statusitem)
+- [Badge Styles](#badge-styles)
+- [Practical Examples](#practical-examples)
+- [Component Reference](#component-reference)
+- [Tips](#tips)
+
 ## Basic Syntax
 
 **Self-closing:**

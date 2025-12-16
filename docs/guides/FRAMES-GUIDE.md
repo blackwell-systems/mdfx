@@ -2,6 +2,35 @@
 
 Frames wrap text content with decorative Unicode borders. They're perfect for headers, callouts, section dividers, and visual emphasis.
 
+## Table of Contents
+
+- [Basic Syntax](#basic-syntax)
+- [All Frame Styles](#all-frame-styles)
+  - [Gradient Frames](#gradient-frames)
+  - [Solid Block Frames](#solid-block-frames)
+  - [Line Frames](#line-frames)
+  - [Block Element Frames](#block-element-frames)
+  - [Symbol Frames](#symbol-frames)
+  - [Quotation & Bracket Frames](#quotation--bracket-frames)
+  - [Special Frames](#special-frames)
+  - [Alert Frames](#alert-frames)
+- [Nesting Frames](#nesting-frames)
+- [Combining with Text Styles](#combining-with-text-styles)
+- [Practical Examples](#practical-examples)
+- [Quick Reference](#quick-reference)
+- [Tips](#tips)
+- [Advanced Features](#advanced-features)
+  - [Shorthand Syntax](#shorthand-syntax-fr)
+  - [Universal Closer & Close-All](#universal-closer--and-close-all-)
+  - [Frame Combos](#frame-combos-)
+  - [Count Multiplier](#count-multiplier-n)
+  - [Reverse Modifier](#reverse-modifier-reverse)
+  - [Separator](#separator-separatorx)
+  - [Spacing](#spacing-spacingn)
+  - [Glyph Frames](#glyph-frames)
+- [Creative Showcase](#creative-showcase)
+- [See Also](#see-also)
+
 ## Basic Syntax
 
 ```markdown

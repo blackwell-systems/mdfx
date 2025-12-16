@@ -8,7 +8,7 @@ use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
 use mdfx::{
     available_targets, detect_target_from_path, get_target, BackendType, Converter, Error,
-    StyleCategory, Target, TemplateParser,
+    MdfxConfig, SeparatorsData, StyleCategory, Target, TemplateParser,
 };
 use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 use std::fs;
@@ -135,9 +135,10 @@ enum Commands {
         #[arg(long)]
         palette: Option<PathBuf>,
 
-        /// Embed SVG assets as base64 data URIs (works everywhere, no external files)
+        /// mdfx configuration file (default: auto-discover .mdfx.json)
+        /// Contains partials, palette, and other project settings
         #[arg(long)]
-        inline: bool,
+        config: Option<PathBuf>,
     },
 
     /// Generate shell completions
@@ -310,7 +311,7 @@ fn run(cli: Cli) -> Result<(), Error> {
             backend,
             assets_dir,
             palette,
-            inline,
+            config,
         } => {
             process_file(
                 input,
@@ -320,7 +321,7 @@ fn run(cli: Cli) -> Result<(), Error> {
                 backend.as_deref(),
                 &assets_dir,
                 palette.as_deref(),
-                inline,
+                config.as_deref(),
             )?;
         }
 
@@ -449,6 +450,66 @@ fn list_styles(
     Ok(())
 }
 
+fn list_separators(show_examples: bool) -> Result<(), Error> {
+    let separators_data = SeparatorsData::load()?;
+
+    println!("{}", "Available separators:".bold());
+    println!();
+    println!(
+        "{}",
+        "Use with: {{mathbold:separator=NAME}}TEXT{{/mathbold}}".dimmed()
+    );
+    println!(
+        "{}",
+        "Or use any single Unicode character directly: {{mathbold:separator=⚡}}TEXT{{/mathbold}}"
+            .dimmed()
+    );
+    println!();
+
+    for sep in &separators_data.separators {
+        // Show ID and character
+        print!("  {} ", sep.id.green());
+        print!("({}) ", sep.char.cyan().bold());
+
+        // Show Unicode code point
+        print!("[{}] ", sep.unicode.dimmed());
+
+        // Show description
+        println!("- {}", sep.description.dimmed());
+
+        // Show example if requested
+        if show_examples {
+            let example = format!("A {} B", sep.char);
+            println!("    Example: {}", example.yellow());
+            println!(
+                "    {}",
+                format!("{{{{mathbold:separator={}}}}}TEXT{{{{/mathbold}}}}", sep.id).dimmed()
+            );
+        }
+    }
+
+    println!();
+    println!("{}", "💡 Tip:".bold());
+    println!(
+        "  {}",
+        "Any single Unicode character works as a separator:".dimmed()
+    );
+    println!(
+        "  {}",
+        "{{mathbold:separator=⚡}}LIGHTNING{{/mathbold}}".dimmed()
+    );
+    println!(
+        "  {}",
+        "{{mathbold:separator=★}}STARS{{/mathbold}}".dimmed()
+    );
+    println!(
+        "  {}",
+        "{{mathbold:separator=|}}PIPES{{/mathbold}}".dimmed()
+    );
+
+    Ok(())
+}
+
 #[allow(clippy::too_many_arguments)]
 fn process_file(
     input: Option<PathBuf>,
@@ -458,7 +519,7 @@ fn process_file(
     backend_override: Option<&str>,
     assets_dir: &str,
     palette_path: Option<&std::path::Path>,
-    inline: bool,
+    config_path: Option<&std::path::Path>,
 ) -> Result<(), Error> {
     // Resolve target (with auto-detection support)
     let target: Box<dyn Target> = if target_name == "auto" {
@@ -508,20 +569,37 @@ fn process_file(
     // Create the appropriate backend
     let mut parser = match backend_type {
         BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
-        BackendType::Svg => {
-            if inline {
-                TemplateParser::with_backend(Box::new(SvgBackend::new_inline()))?
-            } else {
-                TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?
-            }
-        }
-        BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
-        BackendType::Hybrid => {
-            TemplateParser::with_backend(Box::new(HybridBackend::new(assets_dir)?))?
+        BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
+        BackendType::PlainText => {
+            // Fall back to shields for now (PlainText backend not implemented)
+            TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
         }
     };
 
-    // Load custom palette if provided
+    // Load config file (explicit path or auto-discover)
+    let config = if let Some(config_file) = config_path {
+        Some(MdfxConfig::load(config_file)?)
+    } else {
+        MdfxConfig::discover()
+    };
+
+    if let Some(ref cfg) = config {
+        let partial_count = cfg.partials.len();
+        let palette_count = cfg.palette.len();
+
+        if partial_count > 0 || palette_count > 0 {
+            eprintln!(
+                "{} Loaded config: {} partial(s), {} color(s)",
+                "Info:".cyan(),
+                partial_count,
+                palette_count
+            );
+        }
+
+        parser.load_config(cfg);
+    }
+
+    // Load custom palette if provided (overrides config palette)
     if let Some(palette_file) = palette_path {
         let palette_content = fs::read_to_string(palette_file).map_err(Error::IoError)?;
         let custom_palette: std::collections::HashMap<String, String> =

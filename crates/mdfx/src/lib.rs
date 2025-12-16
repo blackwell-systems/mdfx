@@ -39,6 +39,7 @@
 //! - Comprehensive error handling
 
 pub mod components;
+pub mod config;
 pub mod converter;
 pub mod error;
 pub mod manifest;
@@ -52,6 +53,7 @@ pub mod targets;
 
 // Re-export main types for convenience
 pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
+pub use config::{expand_partial, MdfxConfig, PartialDef};
 pub use converter::Converter;
 pub use error::{Error, Result};
 pub use manifest::{AssetEntry, AssetManifest, PrimitiveInfo, VerificationResult};

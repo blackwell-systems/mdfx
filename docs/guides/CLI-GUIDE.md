@@ -2,6 +2,28 @@
 
 Command-line usage for mdfx, including multi-target rendering.
 
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Commands](#commands)
+  - [mdfx process](#mdfx-process)
+  - [mdfx build](#mdfx-build)
+  - [mdfx watch](#mdfx-watch)
+- [Targets](#targets)
+  - [Available Targets](#available-targets)
+  - [Target Details](#target-details)
+- [Backends](#backends)
+  - [Backend Selection](#backend-selection)
+  - [Hybrid Backend](#hybrid-backend)
+- [Configuration File](#configuration-file)
+  - [Auto-Discovery](#auto-discovery)
+  - [Config File Format](#config-file-format)
+  - [Using Partials](#using-partials)
+- [Custom Palettes](#custom-palettes)
+- [Common Workflows](#common-workflows)
+- [Other Commands](#other-commands)
+- [See Also](#see-also)
+
 ## Quick Start
 
 ```bash
@@ -250,6 +272,67 @@ mdfx process input.md --backend hybrid -o output.md
 
 - Simple swatches → shields.io (fast, no files)
 - Gradients, shadows, custom borders → SVG (full features)
+
+---
+
+## Configuration File
+
+mdfx supports a `.mdfx.json` configuration file for project-wide settings, including reusable template partials and custom palettes.
+
+### Auto-Discovery
+
+By default, mdfx searches for `.mdfx.json` in the current directory and parent directories:
+
+```bash
+# Automatically loads .mdfx.json if found
+mdfx process input.md -o output.md
+```
+
+### Explicit Config Path
+
+```bash
+mdfx process input.md --config myconfig.json -o output.md
+```
+
+### Config File Format
+
+```json
+{
+  "partials": {
+    "hero": {
+      "template": "{{frame:gradient}}{{mathbold}}$1{{/mathbold}}{{/frame}}",
+      "description": "Hero header with gradient frame"
+    },
+    "techstack": {
+      "template": "{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}}"
+    },
+    "warning-box": {
+      "template": "{{frame:solid-left}}⚠️ $content{{/frame}}"
+    }
+  },
+  "palette": {
+    "brand": "FF5500",
+    "primary": "2B6CB0"
+  }
+}
+```
+
+### Using Partials
+
+In your markdown:
+
+```markdown
+{{partial:hero}}MY TITLE{{/partial}}
+{{partial:techstack/}}
+{{partial:warning-box}}Watch out!{{/partial}}
+```
+
+**Output:**
+```
+▓▒░ 𝐌𝐘 𝐓𝐈𝐓𝐋𝐄 ░▒▓
+[rust badge] [typescript badge] [docker badge]
+█▌⚠️ Watch out!
+```
 
 ---
 

@@ -9,7 +9,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-#### Frame Reverse Modifier (`/reverse`)
+#### Template Partials
+
+- **User-defined reusable templates** - Define partials in `.mdfx.json` config file
+- **Content substitution** - Use `$1` or `$content` placeholders for dynamic content
+- **Project-wide consistency** - Share styles across all markdown files in a project
+- **Auto-discovery** - CLI automatically finds `.mdfx.json` in current or parent directories
+
+**Configuration (`.mdfx.json`):**
+```json
+{
+  "partials": {
+    "hero": {
+      "template": "{{frame:gradient}}{{mathbold}}$1{{/mathbold}}{{/frame}}",
+      "description": "Hero header with gradient frame"
+    },
+    "techstack": {
+      "template": "{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}}"
+    },
+    "warning-box": {
+      "template": "{{frame:solid-left}}⚠️ $content{{/frame}}"
+    }
+  },
+  "palette": {
+    "brand": "FF5500"
+  }
+}
+```
+
+**Usage in markdown:**
+```markdown
+{{partial:hero}}MY TITLE{{/partial}}
+{{partial:techstack/}}
+{{partial:warning-box}}Careful here{{/partial}}
+```
+
+**CLI:**
+```bash
+# Auto-discover .mdfx.json
+mdfx process input.md -o output.md
+
+# Explicit config path
+mdfx process input.md --config project.mdfx.json -o output.md
+```
+
+#### Enhanced Swatch Primitives (SVG-only)
 
 - **Flip any frame** - Swap prefix and suffix of any frame with `/reverse` modifier
 - **Alias support** - `/rev` also works
