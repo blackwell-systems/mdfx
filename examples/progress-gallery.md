@@ -167,4 +167,38 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 ---
 
+## Slider Mode
+
+When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
+
+**Basic Slider:**
+{{ui:progress:50:width=200:thumb=14/}}
+
+**Colored Thumb:**
+{{ui:progress:75:width=200:thumb=16:thumb_color=accent/}}
+
+**Square Thumb:**
+{{ui:progress:30:width=200:thumb=14:thumb_shape=square/}}
+
+**Diamond Thumb:**
+{{ui:progress:60:width=200:thumb=14:thumb_shape=diamond:thumb_color=warning/}}
+
+**Large Thumb:**
+{{ui:progress:40:width=200:thumb=20:thumb_color=success/}}
+
+**Minimal Slider:**
+{{ui:progress:65:width=200:thumb=10:track=CCCCCC:thumb_color=333333/}}
+
+---
+
+## Slider Variations
+
+| Setting | Slider |
+|---------|--------|
+| Volume Low | {{ui:progress:25:width=120:thumb=12/}} |
+| Volume Mid | {{ui:progress:50:width=120:thumb=12/}} |
+| Volume High | {{ui:progress:85:width=120:thumb=12:thumb_color=error/}} |
+
+---
+
 *Generated with mdfx progress bar component*

@@ -184,6 +184,9 @@ impl SvgBackend {
                 label_color,
                 border_color,
                 border_width,
+                thumb_size,
+                thumb_color,
+                thumb_shape,
             } => {
                 "progress".hash(&mut hasher);
                 percent.hash(&mut hasher);
@@ -197,6 +200,9 @@ impl SvgBackend {
                 label_color.hash(&mut hasher);
                 border_color.hash(&mut hasher);
                 border_width.hash(&mut hasher);
+                thumb_size.hash(&mut hasher);
+                thumb_color.hash(&mut hasher);
+                thumb_shape.hash(&mut hasher);
             }
         }
 
@@ -494,7 +500,25 @@ impl SvgBackend {
         label_color: Option<&str>,
         border_color: Option<&str>,
         border_width: u32,
+        thumb_size: Option<u32>,
+        thumb_color: Option<&str>,
+        thumb_shape: &str,
     ) -> String {
+        // Slider mode: thin track with thumb at position
+        if let Some(thumb_sz) = thumb_size {
+            return Self::render_slider_svg(
+                percent,
+                width,
+                height,
+                track_color,
+                fill_color,
+                thumb_sz,
+                thumb_color,
+                thumb_shape,
+            );
+        }
+
+        // Standard progress bar mode
         // Calculate fill width based on percentage
         let fill_width = (width as f32 * percent as f32 / 100.0) as u32;
 
@@ -546,6 +570,80 @@ impl SvgBackend {
             width, height, track_color, rx, border_attr,
             fill_y, fill_width, fill_height, fill_color, fill_rx,
             label_elem
+        )
+    }
+
+    /// Render a slider with thin track and thumb at position
+    #[allow(clippy::too_many_arguments)]
+    fn render_slider_svg(
+        percent: u8,
+        width: u32,
+        height: u32,
+        track_color: &str,
+        fill_color: &str,
+        thumb_size: u32,
+        thumb_color: Option<&str>,
+        thumb_shape: &str,
+    ) -> String {
+        // SVG height must accommodate the thumb
+        let svg_height = height.max(thumb_size);
+        let center_y = svg_height / 2;
+
+        // Track is a thin line centered vertically
+        let track_height = 4.min(height); // Track is thin (4px or less)
+        let track_y = center_y - track_height / 2;
+        let track_rx = track_height / 2;
+
+        // Thumb position based on percentage
+        // Ensure thumb stays within bounds (half thumb width from edges)
+        let thumb_radius = thumb_size / 2;
+        let usable_width = width.saturating_sub(thumb_size);
+        let thumb_x = thumb_radius + (usable_width as f32 * percent as f32 / 100.0) as u32;
+
+        // Thumb color defaults to fill color
+        let t_color = thumb_color.unwrap_or(fill_color);
+
+        // Render thumb based on shape
+        let thumb_elem = match thumb_shape {
+            "square" => {
+                let half = thumb_size / 2;
+                format!(
+                    "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"2\"/>",
+                    thumb_x - half,
+                    center_y - half,
+                    thumb_size,
+                    thumb_size,
+                    t_color
+                )
+            }
+            "diamond" => {
+                let half = thumb_size / 2;
+                format!(
+                    "<polygon points=\"{},{} {},{} {},{} {},{}\" fill=\"#{}\"/>",
+                    thumb_x, center_y - half,        // top
+                    thumb_x + half, center_y,        // right
+                    thumb_x, center_y + half,        // bottom
+                    thumb_x - half, center_y,        // left
+                    t_color
+                )
+            }
+            _ => {
+                // Default: circle
+                format!(
+                    "<circle cx=\"{}\" cy=\"{}\" r=\"{}\" fill=\"#{}\"/>",
+                    thumb_x, center_y, thumb_radius, t_color
+                )
+            }
+        };
+
+        format!(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  {}\n\
+</svg>",
+            width, svg_height, width, svg_height,
+            track_y, width, track_height, track_color, track_rx,
+            thumb_elem
         )
     }
 }
@@ -618,6 +716,9 @@ impl Renderer for SvgBackend {
                 label_color,
                 border_color,
                 border_width,
+                thumb_size,
+                thumb_color,
+                thumb_shape,
             } => Self::render_progress_svg(
                 *percent,
                 *width,
@@ -630,6 +731,9 @@ impl Renderer for SvgBackend {
                 label_color.as_deref(),
                 border_color.as_deref(),
                 *border_width,
+                *thumb_size,
+                thumb_color.as_deref(),
+                thumb_shape,
             ),
         };
 

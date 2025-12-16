@@ -7,45 +7,45 @@ A showcase of creative progress bar designs using the `{{ui:progress}}` componen
 ## Basic Styles
 
 **Simple Progress:**
-![](assets/progress_a3d507f4ec118677.svg)
+![](assets/progress_5b68b2f26624f8c6.svg)
 
 **Wide Bar:**
-![](assets/progress_63a1074354302caa.svg)
+![](assets/progress_2d36e000a9f7f4a1.svg)
 
 **Tall Bar:**
-![](assets/progress_4bee0ea15a5cb860.svg)
+![](assets/progress_931239573444bb54.svg)
 
 ---
 
 ## Color Variations
 
 **Success (Green):**
-![](assets/progress_dc1bfbaffc56bf19.svg)
+![](assets/progress_228724abd48489e3.svg)
 
 **Warning (Yellow):**
-![](assets/progress_360000bf4d7cf23f.svg)
+![](assets/progress_9945c6de61e97ce6.svg)
 
 **Error (Red):**
-![](assets/progress_59265ec982bb88a8.svg)
+![](assets/progress_b7b1944e65606441.svg)
 
 **Accent (Pink):**
-![](assets/progress_6af9e0ea12852ea2.svg)
+![](assets/progress_528743bd0cc8ac.svg)
 
 **Cobalt (Blue):**
-![](assets/progress_347278c3d548d0a.svg)
+![](assets/progress_5a54a0f8756d4189.svg)
 
 ---
 
 ## Track Color Variations
 
 **Dark Track:**
-![](assets/progress_94557527d677d566.svg)
+![](assets/progress_5b8a14125d122f75.svg)
 
 **Light Track:**
-![](assets/progress_aae03737f9ea02ec.svg)
+![](assets/progress_b21843f332e0d4a0.svg)
 
 **Contrasting:**
-![](assets/progress_2c557baae2fd6c58.svg)
+![](assets/progress_e5106fe3561ea9a6.svg)
 
 ---
 
@@ -54,55 +54,55 @@ A showcase of creative progress bar designs using the `{{ui:progress}}` componen
 When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 **Subtle Float:**
-![](assets/progress_2aa0da25b025f36.svg)
+![](assets/progress_289f36ee1b1af5b5.svg)
 
 **Prominent Float:**
-![](assets/progress_1e3f1947846d417d.svg)
+![](assets/progress_8558424ad6e2ffe1.svg)
 
 **Thin Float:**
-![](assets/progress_3a81135af3b39b8c.svg)
+![](assets/progress_15da2b1fd4b2e99a.svg)
 
 ---
 
 ## With Labels
 
 **Basic Label:**
-![](assets/progress_588b8100ab5c45d7.svg)
+![](assets/progress_8539fcd160d01d07.svg)
 
 **Tall with Label:**
-![](assets/progress_f2cd70e2d2288549.svg)
+![](assets/progress_c5147bd6a7167b13.svg)
 
 **Colored Label:**
-![](assets/progress_41efe3499e1b95c5.svg)
+![](assets/progress_cf6f54671a95ce72.svg)
 
 ---
 
 ## Corner Radius Variations
 
 **Sharp Corners (rx=0):**
-![](assets/progress_e260c6373f358ec1.svg)
+![](assets/progress_e317e1f147b1ddd6.svg)
 
 **Slightly Rounded (rx=2):**
-![](assets/progress_255f84730398e315.svg)
+![](assets/progress_58cbafe2bfdf56f1.svg)
 
 **Very Rounded (rx=8):**
-![](assets/progress_c82284d774b762e6.svg)
+![](assets/progress_70f37ce5ed3d247d.svg)
 
 **Pill Shape:**
-![](assets/progress_ed9eabd6221403d8.svg)
+![](assets/progress_aae333f4d9f4d6f3.svg)
 
 ---
 
 ## With Borders
 
 **Accent Border:**
-![](assets/progress_1a398c87a896d7b1.svg)
+![](assets/progress_671cc321535aacee.svg)
 
 **Dark Border:**
-![](assets/progress_6b90e8e88316e37c.svg)
+![](assets/progress_57b0fbf92f314f72.svg)
 
 **Contrasting Border:**
-![](assets/progress_578909ee7ef34eb4.svg)
+![](assets/progress_75b9528b233b5b35.svg)
 
 ---
 
@@ -110,11 +110,11 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 | Skill | Level |
 |-------|-------|
-| Rust | ![](assets/progress_2ef75d6d775906c3.svg) |
-| Python | ![](assets/progress_c158967eaf509e2d.svg) |
-| JavaScript | ![](assets/progress_9863b9496cbcf97d.svg) |
-| Go | ![](assets/progress_6cf5418fc342c440.svg) |
-| TypeScript | ![](assets/progress_a1bbf00561cb9023.svg) |
+| Rust | ![](assets/progress_7f9bbb99b5805cb5.svg) |
+| Python | ![](assets/progress_f1187b932f66c64d.svg) |
+| JavaScript | ![](assets/progress_2416d5f91d9ee6a2.svg) |
+| Go | ![](assets/progress_cc2bb17893cc3f43.svg) |
+| TypeScript | ![](assets/progress_3951f901d7120ed1.svg) |
 
 ---
 
@@ -122,48 +122,82 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 | Component | Completion |
 |-----------|------------|
-| Core Engine | ![](assets/progress_73c6c581747607c5.svg) |
-| API | ![](assets/progress_9e354dac50af5d4d.svg) |
-| Documentation | ![](assets/progress_213ba50a001210d4.svg) |
-| Testing | ![](assets/progress_6db38b030bf201e1.svg) |
+| Core Engine | ![](assets/progress_99a9d578adb6df48.svg) |
+| API | ![](assets/progress_a9f0101ae3283c94.svg) |
+| Documentation | ![](assets/progress_ac745b08de3225c5.svg) |
+| Testing | ![](assets/progress_d224edd92359413e.svg) |
 
 ---
 
 ## Creative Combinations
 
 **Neon Style:**
-![](assets/progress_ebf6b4cca04f3ac9.svg)
+![](assets/progress_eb078575c825ce18.svg)
 
 **Minimal:**
-![](assets/progress_bc1bf123ba82b542.svg)
+![](assets/progress_12d92b026f897b15.svg)
 
 **Corporate Blue:**
-![](assets/progress_6a0ebc71e9f71732.svg)
+![](assets/progress_242db36f2445908.svg)
 
 **Sunset Gradient Effect (using multiple bars):**
-![](assets/progress_9b5bc44d04001e7.svg)![](assets/progress_4a5cd2b4e29309b.svg)![](assets/progress_3c6f2f9bc24a23cc.svg)
+![](assets/progress_e1b3607def46f2f9.svg)![](assets/progress_81a4be965f833fec.svg)![](assets/progress_91ec801428aee765.svg)
 
 ---
 
 ## Loading States
 
 **Empty:**
-![](assets/progress_cded21bcedf1c767.svg)
+![](assets/progress_f2e75446956e2798.svg)
 
 **Starting:**
-![](assets/progress_174deeb778bb2a45.svg)
+![](assets/progress_77e6ee0e9804171d.svg)
 
 **Quarter:**
-![](assets/progress_c1ef225ff6b4b84f.svg)
+![](assets/progress_e71cc41fbe0f6ae8.svg)
 
 **Half:**
-![](assets/progress_987201e507143735.svg)
+![](assets/progress_5df7b30b6430be32.svg)
 
 **Three-quarters:**
-![](assets/progress_b013c9db7ed9d238.svg)
+![](assets/progress_fc6bb6375991b53f.svg)
 
 **Complete:**
-![](assets/progress_dc1bfbaffc56bf19.svg)
+![](assets/progress_228724abd48489e3.svg)
+
+---
+
+## Slider Mode
+
+When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
+
+**Basic Slider:**
+![](assets/progress_5f1dcb3bfc952abf.svg)
+
+**Colored Thumb:**
+![](assets/progress_54e083d6ec91a7dd.svg)
+
+**Square Thumb:**
+![](assets/progress_a686983c53fbc6e7.svg)
+
+**Diamond Thumb:**
+![](assets/progress_fc9aef2f6290f9cf.svg)
+
+**Large Thumb:**
+![](assets/progress_467f8a5c03ec5881.svg)
+
+**Minimal Slider:**
+![](assets/progress_799c83b8784c9c60.svg)
+
+---
+
+## Slider Variations
+
+| Setting | Slider |
+|---------|--------|
+| Volume Low | ![](assets/progress_9fdf54955623b67.svg) |
+| Volume Mid | ![](assets/progress_2ca0f502d335efd3.svg) |
+| Volume High | ![](assets/progress_c6abae59d6ccfe83.svg) |
 
 ---
 

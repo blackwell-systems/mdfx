@@ -361,6 +361,16 @@ impl ComponentsRenderer {
                     .and_then(|v| v.parse().ok())
                     .unwrap_or(if border_color.is_some() { 1 } else { 0 });
 
+                // Slider/thumb mode params
+                let thumb_size: Option<u32> = params.get("thumb").and_then(|v| v.parse().ok());
+
+                let thumb_color = params.get("thumb_color").map(|c| self.resolve_color(c));
+
+                let thumb_shape = params
+                    .get("thumb_shape")
+                    .cloned()
+                    .unwrap_or_else(|| "circle".to_string());
+
                 Ok(ComponentOutput::Primitive(Primitive::Progress {
                     percent,
                     width,
@@ -373,6 +383,9 @@ impl ComponentsRenderer {
                     label_color,
                     border_color,
                     border_width,
+                    thumb_size,
+                    thumb_color,
+                    thumb_shape,
                 }))
             }
 

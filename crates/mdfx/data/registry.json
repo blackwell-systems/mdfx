@@ -699,6 +699,21 @@
             "type": "number",
             "default": "1",
             "description": "Border width in pixels (when border is set)"
+          },
+          "thumb": {
+            "type": "number",
+            "default": "none",
+            "description": "Thumb/slider size in pixels (enables slider mode when set)"
+          },
+          "thumb_color": {
+            "type": "color",
+            "default": "same as fill",
+            "description": "Thumb color (defaults to fill color)"
+          },
+          "thumb_shape": {
+            "type": "string",
+            "default": "circle",
+            "description": "Thumb shape: circle, square, or diamond"
           }
         }
       }
