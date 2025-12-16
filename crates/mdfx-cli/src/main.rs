@@ -104,7 +104,7 @@ enum Commands {
     /// Template syntax:
     ///   {{mathbold}}Bold Text{{/mathbold}}
     ///   {{script:spacing=2}}Spaced Script{{/script}}
-    ///   {{ui:divider/}}
+    ///   {{ui:swatch:accent/}}
     ///   {{ui:tech:rust/}}
     Process {
         /// Input file (use - or omit for stdin)

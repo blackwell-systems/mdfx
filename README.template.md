@@ -14,8 +14,6 @@ for READMEs, documentation, and presentations without images or external depende
 ```markdown
 # {{ui:header}}PROJECT NAME{{/ui}}
 
-{{ui:divider/}}
-
 ## Tech Stack
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
 
@@ -62,11 +60,6 @@ mdfx provides high-level semantic components for common use cases. These compile
 frames, and character transformations.
 
 ### Visual Elements
-
-**Dividers** - Section separators
-```markdown
-{{ui:divider/}}
-```
 
 **Color Swatches** - Single color blocks
 ```markdown
@@ -340,8 +333,6 @@ UI components are recommended for most use cases.
 ```markdown
 # {{ui:header}}BLACKWELL SYSTEMS{{/ui}}
 
-{{ui:divider/}}
-
 ## Built With
 {{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:postgresql/}}
 ```
@@ -360,8 +351,6 @@ UI components are recommended for most use cases.
 {{ui:header}}INSTALLATION{{/ui}}
 
 Follow these steps...
-
-{{ui:divider/}}
 
 {{ui:header}}CONFIGURATION{{/ui}}
 
@@ -445,9 +434,9 @@ Use as:
 ### Self-Closing Tags
 For contentless elements:
 ```markdown
-{{ui:divider/}}
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
+{{ui:status:success/}}
 ```
 
 ### Block Tags
@@ -474,7 +463,7 @@ Colon-separated key=value pairs:
 
 **Shipped:**
 - 19 Unicode text styles with aliases
-- 6 UI components (divider, swatch, tech, status, header, callout)
+- 8 UI components (swatch, tech, status, header, callout, row, section, callout-github)
 - 27 inline frames
 - 6 alphanumeric badge types
 - Custom separators and spacing

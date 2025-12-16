@@ -13,8 +13,6 @@ The simplest way to use mdfx is through semantic UI components:
 ```markdown
 # {{ui:header}}PROJECT NAME{{/ui}}
 
-{{ui:divider/}}
-
 ## Tech Stack
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
 
@@ -26,8 +24,6 @@ The simplest way to use mdfx is through semantic UI components:
 
 ```markdown
 # ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓· ·𝐍·𝐀·𝐌·𝐄 ░▒▓
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
 
 ## Tech Stack
 ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=python&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=postgresql&logoColor=FFFFFF&label=&labelColor=292A2D)
@@ -41,19 +37,6 @@ The simplest way to use mdfx is through semantic UI components:
 ## UI Components Reference
 
 ### Visual Elements
-
-#### Dividers
-
-Section separators using themed colors:
-
-```markdown
-{{ui:divider/}}
-```
-
-**Use Cases:**
-- Separate sections in README
-- Visual breaks between content
-- Design accents
 
 #### Color Swatches
 
@@ -175,8 +158,6 @@ Horizontally align content with HTML wrapper (GitHub-compatible):
 ```markdown
 # {{ui:header}}BLACKWELL SYSTEMS{{/ui}}
 
-{{ui:divider/}}
-
 ## Overview
 
 Enterprise-grade system architecture platform.
@@ -191,8 +172,6 @@ Enterprise-grade system architecture platform.
 {{ui:status:success/}} Database: Healthy
 {{ui:status:warning/}} Cache: Degraded
 {{ui:status:success/}} Queue: Processing
-
-{{ui:divider/}}
 
 ## Quick Start
 
@@ -224,8 +203,6 @@ Enterprise-grade system architecture platform.
 ## Development Environment
 
 {{ui:status:success/}} All services operational
-
-{{ui:divider/}}
 
 **Last Updated:** 2025-12-12 10:30 UTC
 ```
@@ -259,8 +236,6 @@ Enterprise-grade system architecture platform.
 {{ui:tech:postgresql/}} PostgreSQL 16
 {{ui:tech:docker/}} Docker 24
 
-{{ui:divider/}}
-
 {{ui:status:success/}} All tests passing
 ```
 
@@ -268,8 +243,6 @@ Enterprise-grade system architecture platform.
 
 ```markdown
 # {{ui:header}}INSTALLATION GUIDE{{/ui}}
-
-{{ui:divider/}}
 
 ## Prerequisites
 
@@ -293,16 +266,12 @@ brew install --cask docker
 
 {{ui:callout:info}}Windows users: Use WSL2 for best compatibility{{/ui}}
 
-{{ui:divider/}}
-
 ## Step 2: Clone Repository
 
 \`\`\`bash
 git clone https://github.com/example/project
 cd project
 \`\`\`
-
-{{ui:divider/}}
 
 ## Step 3: Build
 

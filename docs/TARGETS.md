@@ -401,18 +401,18 @@ mdfx process input.md --target github --backend svg -o README.md
 impl Renderer for MultiTargetBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
         match (primitive, self.target.name()) {
-            (Primitive::Divider { .. }, "github") => {
-                // GitHub: Use shields.io bar
+            (Primitive::Swatch { .. }, "github") => {
+                // GitHub: Use shields.io block
                 self.shields_backend.render(primitive)
             }
-            (Primitive::Divider { .. }, "local") => {
+            (Primitive::Swatch { .. }, "local") => {
                 // Local: Generate SVG
                 self.svg_backend.render(primitive)
             }
-            (Primitive::Divider { .. }, "pypi") => {
-                // PyPI: Fallback to ASCII art
+            (Primitive::Swatch { .. }, "pypi") => {
+                // PyPI: Fallback to text representation
                 Ok(RenderedAsset::InlineMarkdown(
-                    "─────────────────────────────".to_string()
+                    "[#COLOR]".to_string()
                 ))
             }
             _ => self.default_backend.render(primitive),
@@ -738,16 +738,16 @@ mod target_tests {
 
     #[test]
     fn test_target_specific_rendering() {
-        let primitive = Primitive::Divider { style: "flat-square".into() };
-        
+        let primitive = Primitive::Swatch { color: "F41C80".into(), style: "flat-square".into() };
+
         let github_output = render_for_target(&primitive, &GitHubTarget)?;
         let pypi_output = render_for_target(&primitive, &PyPITarget)?;
-        
+
         // GitHub uses shields.io
         assert!(github_output.contains("img.shields.io"));
-        
-        // PyPI uses ASCII fallback
-        assert!(pypi_output.contains("─────"));
+
+        // PyPI uses text fallback
+        assert!(pypi_output.contains("[#F41C80]"));
     }
 }
 ```

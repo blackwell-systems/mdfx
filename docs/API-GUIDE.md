@@ -373,7 +373,7 @@ let renderer = ComponentsRenderer::new()?;
 Expand a component into its primitive template.
 
 **Parameters:**
-- `component` - Component name (e.g., "divider", "tech", "header")
+- `component` - Component name (e.g., "swatch", "tech", "header")
 - `args` - Positional arguments (e.g., `["rust"]` for `tech:rust`)
 - `content` - Inner content for non-self-closing components
 
@@ -383,8 +383,8 @@ Expand a component into its primitive template.
 
 ```rust
 // Self-closing component (no content)
-let result = renderer.expand("divider", &[], None)?;
-// Returns: "{{shields:bar:colors=292a2d,292c34,f41c80,282f3c:style=flat-square/}}"
+let result = renderer.expand("swatch", &["accent".to_string()], None)?;
+// Returns: "{{shields:block:color=f41c80:style=flat-square/}}"
 
 // Component with positional arg
 let result = renderer.expand("tech", &["rust".to_string()], None)?;
@@ -418,7 +418,7 @@ let result = renderer.expand("swatch", &["abc123".to_string()], None)?;
 Check if a component exists.
 
 ```rust
-if renderer.has("divider") {
+if renderer.has("swatch") {
     println!("Component exists!");
 }
 
@@ -444,11 +444,11 @@ for (name, def) in renderer.list() {
 callout: Framed messages with indicators
   Self-closing: false
   Type: expand
-divider: Visual divider bar with themed colors
-  Self-closing: true
-  Type: expand
 header: Section header with gradient frame and bold text
   Self-closing: false
+  Type: expand
+swatch: Single color block
+  Self-closing: true
   Type: expand
 ...
 ```
@@ -490,23 +490,6 @@ if let Some(def) = renderer.get("header") {
 ```
 
 ### Shipped Components
-
-#### divider
-
-**Type:** Self-closing
-**Args:** None
-**Usage:** `{{ui:divider/}}`
-
-```rust
-let result = renderer.expand("divider", &[], None)?;
-```
-
-**Output:** 4-color bar using theme colors
-
-**Template:**
-```
-{{shields:bar:colors=ui.bg,ui.surface,accent,ui.panel:style=flat-square/}}
-```
 
 #### swatch
 
@@ -752,7 +735,7 @@ let result = renderer.render_block("cobalt", "flat-square")?;
 **Use Cases:**
 - Status indicators
 - Color swatches
-- Simple dividers
+- Visual separators
 
 #### `render_twotone(left: &str, right: &str, style: &str) -> Result<String>`
 
@@ -792,7 +775,7 @@ let result = renderer.render_bar(&colors, "flat-square")?;
 
 **Use Cases:**
 - Progress bars
-- Multi-color dividers
+- Multi-color bars
 - Status dashboards
 
 #### `render_icon(logo: &str, bg: &str, logo_color: &str, style: &str) -> Result<String>`
@@ -1700,7 +1683,7 @@ The Asset Manifest System tracks generated SVG assets with SHA-256 hashing for v
 ### Overview
 
 When using the `svg` backend, mdfx generates:
-1. **SVG files** in the assets directory (e.g., `assets/mdfx/divider_a3f8e2.svg`)
+1. **SVG files** in the assets directory (e.g., `assets/mdfx/swatch_a3f8e2.svg`)
 2. **manifest.json** listing all assets with metadata
 
 ### AssetManifest API
@@ -1714,9 +1697,9 @@ let mut manifest = AssetManifest::new("svg".to_string(), "assets/mdfx".to_string
 
 // Add asset
 let bytes = b"<svg>...</svg>";
-let primitive = Primitive::Divider { /* ... */ };
+let primitive = Primitive::Swatch { /* ... */ };
 manifest.add_asset(
-    "assets/mdfx/divider_abc123.svg".to_string(),
+    "assets/mdfx/swatch_abc123.svg".to_string(),
     bytes,
     &primitive,
     "svg".to_string(),
@@ -1755,12 +1738,12 @@ for result in results {
   "total_assets": 3,
   "assets": [
     {
-      "path": "assets/mdfx/divider_a3f8e2.svg",
+      "path": "assets/mdfx/swatch_a3f8e2.svg",
       "sha256": "a3f8e2d1c4b5a6f7e8d9c0b1a2f3e4d5c6b7a8f9e0d1c2b3a4f5e6d7c8b9a0f1",
       "type": "svg",
       "primitive": {
-        "kind": "Bar",
-        "colors": ["292a2d", "292c34", "f41c80", "282f3c"],
+        "kind": "Swatch",
+        "color": "f41c80",
         "style": "flat-square"
       },
       "size_bytes": 1234
@@ -1783,7 +1766,7 @@ Backend: svg
 Total assets: 3
 
 Verifying assets...
-  ✓ assets/mdfx/divider_a3f8e2.svg
+  ✓ assets/mdfx/swatch_a3f8e2.svg
   ✓ assets/mdfx/swatch_f41c80.svg
   ✗ assets/mdfx/badge_rust.svg (missing)
 
@@ -1865,7 +1848,7 @@ mdfx clean --assets-dir assets/mdfx
 Assets use content-based filenames (SHA-256 hash prefix):
 
 ```
-divider_a3f8e2.svg  ← Hash of SVG content
+swatch_a3f8e2.svg   ← Hash of SVG content
 swatch_f41c80.svg   ← Hash of SVG content
 ```
 
@@ -1909,13 +1892,13 @@ GitHub Blocks are specialized components optimized for GitHub's Markdown rendere
 ### Overview
 
 Three components provide GitHub-compatible layouts:
-- **section** - Headers with dividers
+- **section** - Section headers
 - **callout-github** - Blockquote callouts
 - **statusitem** - Inline status badges
 
 ### section Component
 
-Creates section headers with automatic visual dividers.
+Creates section headers.
 
 **Syntax:** `{{ui:section:TITLE/}}`
 
@@ -1924,7 +1907,6 @@ Creates section headers with automatic visual dividers.
 **Template Expansion:**
 ```markdown
 ## TITLE
-{{ui:divider/}}
 ```
 
 **Example:**
@@ -1937,7 +1919,6 @@ let result = parser.process(input)?;
 
 // Outputs:
 // ## Installation
-// ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)...
 ```
 
 **Use Cases:**
@@ -2115,7 +2096,6 @@ let result = parser.process(template)?;
 **Output:**
 ```markdown
 ## Features
-![](divider_badges...)
 
 > ![](green_badge) **Note**
 >

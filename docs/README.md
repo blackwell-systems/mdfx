@@ -11,7 +11,6 @@ cargo install mdfx-cli
 Create `input.md`:
 ```markdown
 {{ui:header}}PROJECT{{/ui}}
-{{ui:divider/}}
 {{ui:tech:rust/}} {{ui:tech:python/}}
 ```
 
@@ -25,7 +24,7 @@ mdfx process input.md -o output.md
 | Guide | Description |
 |-------|-------------|
 | [Swatches](guides/SWATCH-GUIDE.md) | Color blocks, pixel art |
-| [Components](guides/COMPONENTS-GUIDE.md) | divider, tech, status, row |
+| [Components](guides/COMPONENTS-GUIDE.md) | swatch, tech, status, row |
 | [Frames](guides/FRAMES-GUIDE.md) | Decorative Unicode borders |
 | [Text Styles](guides/TEXT-STYLES-GUIDE.md) | Unicode typography |
 | [Glyphs](guides/GLYPHS-GUIDE.md) | Unicode glyphs and symbols |

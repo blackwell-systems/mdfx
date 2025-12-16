@@ -376,12 +376,12 @@ let output = parser.process(&input)?;
 **Example:**
 ```markdown
 {{ui:header}}TITLE{{/ui}}
-{{ui:divider/}}
+{{ui:swatch:accent/}}
 {{ui:tech:rust/}}
 ```
 
 **Characteristics:**
-- Self-documenting names (`header`, `divider`, `tech`)
+- Self-documenting names (`header`, `swatch`, `tech`)
 - Self-closing tags (`/}}`) for contentless elements
 - Generic closer (`{{/ui}}`) for ergonomics
 - Design token integration (palette colors)
@@ -469,7 +469,7 @@ let output = parser.process(&input)?;
 
 ### Overview
 
-UI components (divider, swatch, tech, status) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
+UI components (swatch, tech, status) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
 
 The backend is selected at parser construction time:
 ```rust
@@ -502,9 +502,6 @@ pub enum Primitive {
         icon: Option<String>,         // Simple Icons logo name
         icon_color: Option<String>,   // icon color (default: white)
     },
-
-    /// Multi-color divider bar
-    Divider { colors: Vec<String>, style: String },
 
     /// Technology badge with logo
     Tech { name: String, bg_color: String, logo_color: String, style: String },
@@ -602,10 +599,10 @@ mdfx process --backend svg --assets-dir ./docs/ui input.md
 
 **Implementation Details:**
 - Hash-based filenames prevent collisions and enable caching
-- Filename format: `{type}_{hash}.svg` (e.g., `divider_a3f8e2b1.svg`)
+- Filename format: `{type}_{hash}.svg` (e.g., `swatch_a3f8e2b1.svg`)
 - Hash computed from primitive parameters (color, style, etc.)
 - Assets collected via `process_with_assets()` API
-- Supports: Swatch, Divider, Status (solid colors)
+- Supports: Swatch, Tech, Status (solid colors)
 - Tech badges use embedded Simple Icons SVG logos
 
 #### PlainTextBackend
@@ -662,7 +659,7 @@ Markdown output
 Not all components use primitives. Components fall into two categories:
 
 **1. Primitive-based (image rendering):**
-- `divider`, `swatch`, `tech`, `status`
+- `swatch`, `tech`, `status`
 - Return `ComponentOutput::Primitive(Primitive)`
 - Rendered by backend trait
 
@@ -691,8 +688,8 @@ To implement a new backend:
    impl Renderer for YourBackend {
        fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
            match primitive {
-               Primitive::Swatch { color, style } => { /* generate output */ }
-               Primitive::Divider { colors, style } => { /* generate output */ }
+               Primitive::Swatch { color, style, .. } => { /* generate output */ }
+               Primitive::Tech { name, bg_color, logo_color, style } => { /* generate output */ }
                // ...
            }
        }
@@ -1124,17 +1121,16 @@ Three GitHub-optimized components:
 
 #### 1. section
 
-**Purpose:** Section headers with visual dividers
+**Purpose:** Section headers
 
 **Syntax:** `{{ui:section:TITLE/}}`
 
 **Expansion:**
 ```
 ## TITLE
-{{ui:divider/}}
 ```
 
-**Output:** Markdown header (`##`) followed by divider badge row
+**Output:** Markdown header (`##`)
 
 **Use Cases:**
 - Organizing long READMEs
@@ -1330,14 +1326,14 @@ pub fn list_palette(&self) -> Vec<(&String, &String)>
 **ComponentOutput Enum:**
 ```rust
 pub enum ComponentOutput {
-    Primitive(Primitive),  // For image-based components (divider, swatch, tech, status)
+    Primitive(Primitive),  // For image-based components (swatch, tech, status)
     Template(String),      // For text-effect components (header, callout)
 }
 ```
 
 **Expansion Algorithm:**
 
-**For Primitive components (divider, swatch, tech, status):**
+**For Primitive components (swatch, tech, status):**
 1. Resolve palette colors from args
 2. Construct Primitive enum variant directly
 3. Return `ComponentOutput::Primitive(primitive)`
@@ -1450,7 +1446,6 @@ pub enum RenderedAsset {
 - Wraps `ShieldsRenderer` to implement `Renderer` trait
 - Maps primitives to shields.io rendering methods:
   - `Primitive::Swatch` → `ShieldsRenderer::render_block()`
-  - `Primitive::Divider` → `ShieldsRenderer::render_bar()`
   - `Primitive::Tech` → `ShieldsRenderer::render_icon()`
   - `Primitive::Status` → `ShieldsRenderer::render_block()`
 - Returns `RenderedAsset::InlineMarkdown`
@@ -1459,7 +1454,7 @@ pub enum RenderedAsset {
 - Generates local SVG files with deterministic naming
 - Hash-based filenames for reproducible builds
 - Returns `RenderedAsset::File` with bytes and markdown reference
-- Supports all primitive types: Swatch, Divider, Tech, Status
+- Supports all primitive types: Swatch, Tech, Status
 
 **Design:**
 - **Separation of concerns:** Shield URL generation (ShieldsRenderer) separate from backend abstraction (ShieldsBackend)
@@ -1629,7 +1624,7 @@ The parser uses a character-by-character state machine (no regex) for predictabl
 
 **1. Self-closing** (`/}}`)
 ```markdown
-{{ui:divider/}}
+{{ui:swatch:accent/}}
 {{ui:tech:rust/}}
 {{shields:block:color=accent:style=flat-square/}}
 ```
@@ -1808,7 +1803,7 @@ mdfx process --palette ./brand-colors.json README.template.md
 
 ```markdown
 {{ui:swatch:brand-primary/}}
-{{ui:divider:brand-primary:brand-secondary:brand-accent/}}
+{{ui:swatch:brand-secondary/}}
 {{ui:tech:rust:brand-primary/}}
 ```
 
@@ -1892,9 +1887,9 @@ Users need progressively more control. mdfx provides three tiers:
 
 Portable across all backends, validated, safe:
 ```markdown
-{{ui:divider/}}
-{{ui:tech:rust/}}
 {{ui:swatch:accent/}}
+{{ui:tech:rust/}}
+{{ui:status:success/}}
 ```
 
 ### Tier 2: Primitives (Per-Backend Control)
@@ -1948,11 +1943,11 @@ Target-locked, zero validation:
 ### Decision: Self-Closing Tags
 
 **Options:**
-- A) All tags require closers: `{{ui:divider}}{{/ui}}`
-- B) Self-closing for contentless: `{{ui:divider/}}`
+- A) All tags require closers: `{{ui:swatch:accent}}{{/ui}}`
+- B) Self-closing for contentless: `{{ui:swatch:accent/}}`
 
 **Chose B** because:
-- Contentless components are common (dividers, icons, swatches)
+- Contentless components are common (swatches, icons, status)
 - Reduces verbosity by ~50% for these cases
 - Familiar syntax (XML/React JSX)
 

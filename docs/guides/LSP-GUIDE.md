@@ -216,7 +216,7 @@ When using components that support badge styles, type `style=` to get completion
 
 ```markdown
 {{swatch:cobalt:style=|}}  <!-- cursor here triggers shield style completions -->
-{{divider:style=flat-square/}}
+{{swatch:accent:style=flat-square/}}
 {{tech:rust:style=for-the-badge/}}
 ```
 
@@ -242,7 +242,7 @@ Completions include smart snippets:
 ```
 {{mathbold}} → {{mathbold}}${1:text}{{/mathbold}}
 {{swatch:}}  → {{swatch:${1:color}/}}
-{{divider}}  → {{divider/}}
+{{tech:}}    → {{tech:${1:logo}/}}
 ```
 
 ## Troubleshooting

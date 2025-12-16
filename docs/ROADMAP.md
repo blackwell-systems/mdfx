@@ -12,7 +12,7 @@ Add commands to explore available components without reading docs:
 
 ```bash
 mdfx components              # List all components
-mdfx components show divider # Show component details
+mdfx components show swatch  # Show component details
 mdfx palette                 # List palette colors
 mdfx frames                  # List frame styles
 ```

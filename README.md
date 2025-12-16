@@ -90,6 +90,32 @@ Decorative Unicode borders around text.
 
 See [Frames Guide](docs/guides/FRAMES-GUIDE.md) for all 29 frame styles.
 
+### Glyphs
+389 named Unicode characters for separators, progress bars, and decorative elements.
+
+| Category | Examples | Glyph Names |
+|----------|----------|-------------|
+| **Shades** | ░▒▓█ | `shade.light`, `shade.medium`, `shade.dark`, `block.full` |
+| **Braille Bars** | ⡀⡄⡆⡇⣇⣧⣷⣿ | `braille.bar.1` through `braille.bar.8` |
+| **Circled Numbers** | ①②③④⑤ | `circle.1` through `circle.20` |
+| **Box Drawing** | ┌─┬─┐ │ ├─┼─┤ └─┴─┘ | `box.light.*`, `box.heavy.*`, `box.double.*` |
+| **Shapes** | ■□●○▲△◆◇★☆ | `square.*`, `circle.*`, `tri.*`, `diamond.*`, `star.*` |
+| **Checkmarks** | ☐☑☒✓✗ | `check.empty`, `check.yes`, `check.no`, `check.mark`, `check.x` |
+| **Arrows** | ←↑→↓⇐⇑⇒⇓ | `arrow.*`, `arrow.double-*` |
+| **Math** | ∑∏∫√∞≈≠≤≥ | `math.sum`, `math.product`, `math.integral`, etc. |
+
+```markdown
+{{glyph:star.filled/}} Rating: {{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.empty/}}{{glyph:star.empty/}}
+```
+→ ★ Rating: ★★★☆☆
+
+```markdown
+Progress: {{glyph:braille.bar.8/}}{{glyph:braille.bar.8/}}{{glyph:braille.bar.8/}}{{glyph:braille.bar.4/}}{{glyph:braille.empty/}}
+```
+→ Progress: ⣿⣿⣿⡇⠀
+
+See [Glyphs Guide](docs/guides/GLYPHS-GUIDE.md) for all 389 glyphs.
+
 ## Installation
 
 ### CLI
@@ -183,7 +209,7 @@ See [Architecture](docs/ARCHITECTURE.md) for backend details.
 | Guide | Description |
 |-------|-------------|
 | [Swatches](docs/guides/SWATCH-GUIDE.md) | Color blocks, pixel art |
-| [Components](docs/guides/COMPONENTS-GUIDE.md) | divider, tech, status, row |
+| [Components](docs/guides/COMPONENTS-GUIDE.md) | swatch, tech, status, row |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 decorative Unicode borders |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 19 Unicode typography styles |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | Unicode glyphs and symbols |
