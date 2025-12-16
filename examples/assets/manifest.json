@@ -1,213 +1,933 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-16T12:06:38.352433936+00:00",
+  "created_at": "2025-12-16T12:31:38.451498158+00:00",
   "backend": "svg",
   "assets_dir": "examples/assets",
-  "total_assets": 17,
+  "total_assets": 77,
   "assets": [
     {
-      "path": "examples/assets/progress_47fd59ff6ac8bb9e.svg",
-      "sha256": "2a90cbb2c195f6feb7c96476bfb9b0321ee488b1f4f7f0bd4e181fce6009c354",
-      "type": "progress",
+      "path": "examples/assets/donut_ddfda00e4e63227f.svg",
+      "sha256": "6d0ef79053e77432c76107cd75c5158baa4f9c175b6c772bfe5fe19b2df27d2d",
+      "type": "donut",
       "primitive": {
-        "kind": "Progress",
+        "kind": "Donut",
         "percent": 75,
-        "width": 200,
-        "height": 8
+        "size": 40,
+        "thickness": 4
       },
-      "size_bytes": 242
+      "size_bytes": 309
     },
     {
-      "path": "examples/assets/progress_acecfac29dc7fbd.svg",
-      "sha256": "3f30687801b429fcaff01d49df29f7293e2300fd3e794f1ee110bc408681fc2f",
-      "type": "progress",
+      "path": "examples/assets/donut_fdd7565e538e164.svg",
+      "sha256": "fadf7477ff23c88780519d255998aef33aabdec2be893a1fb13a4b02a373c095",
+      "type": "donut",
       "primitive": {
-        "kind": "Progress",
-        "percent": 60,
-        "width": 200,
-        "height": 8
+        "kind": "Donut",
+        "percent": 50,
+        "size": 40,
+        "thickness": 4
       },
-      "size_bytes": 242
+      "size_bytes": 309
     },
     {
-      "path": "examples/assets/progress_c89114b39486f913.svg",
-      "sha256": "c72b92525cae21994aaab519e0d0728562f2575e21c6a4196e200cd7a35f1325",
+      "path": "examples/assets/donut_4024fc7f93820a56.svg",
+      "sha256": "f33fe5d0dfaa7f257847da10ad1002bb3134d30791d0d2bca358752289f99210",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 90,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 310
+    },
+    {
+      "path": "examples/assets/donut_fa92f21805f10794.svg",
+      "sha256": "f2b5870f58eb467028d0886c72093e842c318d8ab5a53abba38f9b687a2499dd",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 24,
+        "thickness": 3
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/donut_6fbf92c611c2ae35.svg",
+      "sha256": "7fb49b106e92a3dcb289a166b47eb9571fca70820418cca5ee845c0731631f9c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 32,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_fdd7565e538e164.svg",
+      "sha256": "fadf7477ff23c88780519d255998aef33aabdec2be893a1fb13a4b02a373c095",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 50,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_7be8f4cfbf6ba7f.svg",
+      "sha256": "cf287c545915ee457bde4e94ab3bd94d30f646c244f1248f2e8509a44a35134f",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 65,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 310
+    },
+    {
+      "path": "examples/assets/donut_37b24b4bca286a58.svg",
+      "sha256": "f350e5f59d1c0b859c4a5cda112b587fe23fadda1cd2cf0720f0da48916d396c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 80,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 310
+    },
+    {
+      "path": "examples/assets/donut_b329adc490da9a0e.svg",
+      "sha256": "db4e86a209662a865a597c55e711fdd929fb96efa41df85c2e5f57b7c8e28311",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 1
+      },
+      "size_bytes": 314
+    },
+    {
+      "path": "examples/assets/donut_f68f588daba1de19.svg",
+      "sha256": "59a96978ff4892b3e9682d596162320ece61a5eddc0158934e48ff07194b1b89",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 2
+      },
+      "size_bytes": 310
+    },
+    {
+      "path": "examples/assets/donut_4e38d24f26b85c65.svg",
+      "sha256": "75b37808fd95c7085befd476720f0cbd8c74b4b684007083fd78a5b9e41fcee9",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 5
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/donut_5991989d1976367c.svg",
+      "sha256": "a47d94be019f19282cd2a358a1366515079cbbbd78f158489d2a32ca9868ef95",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 10
+      },
+      "size_bytes": 311
+    },
+    {
+      "path": "examples/assets/donut_442dac4b3f3b5fd1.svg",
+      "sha256": "310396e9a522e6cfa6a0f7fbb3e5ee9dc1c5f662dcba8acff323e9a67a7d0118",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 15
+      },
+      "size_bytes": 315
+    },
+    {
+      "path": "examples/assets/donut_8a11c9f6697f5f3f.svg",
+      "sha256": "855541aba18bf8ca00b393fc33786018eb3106d8d77070ad2b5371216e3dd8b8",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 472
+    },
+    {
+      "path": "examples/assets/donut_925acbe642309c33.svg",
+      "sha256": "d082000fd53b762b430bca57d4ee3bb248e8afe37aacd57b9e922d6ff19b0b2f",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 85,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 473
+    },
+    {
+      "path": "examples/assets/donut_cc701a4896ec249d.svg",
+      "sha256": "e78087a781084995e4effd03a004577c47a98529dc5e821fc77562a140330ab8",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 100,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 473
+    },
+    {
+      "path": "examples/assets/donut_fbf7294b0ea447fa.svg",
+      "sha256": "47c46605b3443397a024e5d7e6dad0528d07a7c44cd57bed698ae360b83cf0fb",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_b94419ef7d0371ff.svg",
+      "sha256": "f6285f6c7d18537103c1e07ac790e5c38eb93b9c4106363dbe659cfda5d150ac",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 85,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_67617894fab753cb.svg",
+      "sha256": "eaeaaaa35a51d4999a99d674c0ea6ca98ff81905061c8ffe2d429cf59523a3ce",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 50,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_2f7bb97ecb70d3a0.svg",
+      "sha256": "0cac18d5661b42f38bab7d798bd1c349f5b1d65f67728fc4db6ef62c0087edf7",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 25,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_e0076d00d10cd618.svg",
+      "sha256": "0532a869538b83d848c4cfd99246d6c2404f46956a304bd38312fcb635027c53",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_796868b8d07e462b.svg",
+      "sha256": "e7b5ea90a86f1480fb9fd0d1d9cb143c9ddacba2bb5f1da9886dd9a9e627f376",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 90,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 310
+    },
+    {
+      "path": "examples/assets/donut_7e491842158138c0.svg",
+      "sha256": "3a19c348feb3e87288c48c0101ae23235de678ec8139fd922fb47dd7aea4efc3",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 65,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_f5dc08b17baa30a9.svg",
+      "sha256": "7b5cd0e007626c48b5e4b9da0adcffb8e680aaf6fbf07bec837603b523b00748",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_5e0f1d6e96ff0de5.svg",
+      "sha256": "c5ca7c3997e491cc66aea92e01d17fdc5847b9cb224bf69a4e1ac9f318a5b40c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 50,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_e5979b8dd105885a.svg",
+      "sha256": "0ac6d66daeabb36b6359812877219c39d57536def6c35f3ff42c1d5541c10b7b",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 80,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 309
+    },
+    {
+      "path": "examples/assets/donut_6f9a098014e86b66.svg",
+      "sha256": "c5818925fd0560b95a3081344858b931415b42f618d8a53a4f220e8c3550b6a1",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 98,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 312
+    },
+    {
+      "path": "examples/assets/donut_83c3cb1707969e38.svg",
+      "sha256": "293183e55ea2a20d8fd14ed84297bdb42abaeaa2379c394359a20c5c8c690382",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 72,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/donut_d8b317993ea48d88.svg",
+      "sha256": "fa7f03451fe61b7c15626f68ec30d8b22e10e8a94269f2a5971a27cb76c29fcc",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 100,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 312
+    },
+    {
+      "path": "examples/assets/donut_96ce5e09828540f8.svg",
+      "sha256": "8a3c1da4cfcace0653ae5b5d0c4550a09ff0e3f8cd7c14b329e5d34522429e48",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 45,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/donut_83cb2f1a46040757.svg",
+      "sha256": "1312335449111366dd790fff5e1df17161c053041529a863257be53f0cec27b1",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 15,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/gauge_83639f6c7456252b.svg",
+      "sha256": "76a4d0693deec163d1cbe9ef6d02fbddc66c9ee5b097e308e2e70852173d9603",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 75,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_a564d46d23ccddf1.svg",
+      "sha256": "651889118b103832491fef5a510a9440cc107cd64357c6d13222f2aaf1f6655b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 50,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_2e7e54e35b7871f4.svg",
+      "sha256": "d695a9b8c64e8e0c9c8b2340a52deb57f4a4694c57a049e17594a67dce85e8c1",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 100,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_688f8109f5200c9c.svg",
+      "sha256": "855cb3acea01cfcfdf6cad8b3f09eb74122533309b233ab1d4c407c778cacc67",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_55966f239f921b8c.svg",
+      "sha256": "fa2ca1f5ed331942cf6801f036c85d1290b101844c02b29b8539ad673e7d7ae2",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_5fd4d952ff6c5882.svg",
+      "sha256": "4ca69dbbceecc5aa8edc5cbe0ee3b240eab7fafa586acfded4efd2a2aa3c6643",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 120,
+        "thickness": 12
+      },
+      "size_bytes": 368
+    },
+    {
+      "path": "examples/assets/gauge_38f255e620ab9e24.svg",
+      "sha256": "b3dede0421bf1ae57c295923cb6e513ffe85d6968b3b391d205e9ca6ca10a4bf",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 160,
+        "thickness": 16
+      },
+      "size_bytes": 368
+    },
+    {
+      "path": "examples/assets/gauge_634c2ca265f85ac3.svg",
+      "sha256": "5a4985cd7fa70d7016b07d3821330d0732746e2417559cd3e26e57b600c6307f",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 75,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 498
+    },
+    {
+      "path": "examples/assets/gauge_5585b94b4438c04a.svg",
+      "sha256": "5dd58598ea3b8c9e1321bac950dc32e01260ae52c415945f824e074845627515",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 85,
+        "size": 120,
+        "thickness": 12
+      },
+      "size_bytes": 505
+    },
+    {
+      "path": "examples/assets/gauge_5a1b8c2c7d44bc01.svg",
+      "sha256": "dc9ea048aa813ad23518acb95ab38ac6d195e3e951564c8f6497f431aa8bd497",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 100,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 499
+    },
+    {
+      "path": "examples/assets/gauge_664e9d0351e505b8.svg",
+      "sha256": "0f94a61d0e50f0641f8958990cec6386c4a863cbc79379394946e089e47b9d5b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 65,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_4387bb7ab4824848.svg",
+      "sha256": "4f41e8a137abdc83dfab1d6ab6e1e838b6903dd222170ff85e2f6f38c6a5948e",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 90,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 362
+    },
+    {
+      "path": "examples/assets/gauge_8c3c9b6ca5a27e64.svg",
+      "sha256": "5fd0518ab8376835e44400f4041e0cb268c092ded180b1d67d6723b8f58e5bae",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 45,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_affc0be938face56.svg",
+      "sha256": "c7d45b7b2d74c0a416db9be668995e2b088bd2ca9605573f4ebba38f6a99b82a",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 20,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_516d11bfca6b85d4.svg",
+      "sha256": "5f2f68a91df6278ff7fa4132276c15b2dc7c3a067b414f2fb50ddf559dcc400d",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_e1fe3b604dd866c.svg",
+      "sha256": "9e4b8949aea81bde0893482f7adb3db0fa024c856b1051cd44b0339d43130602",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 80,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_6573ae99b95bbf6e.svg",
+      "sha256": "0d48810bc03313ff8a38389302180e38e4e94562bb81dfe83a171a141f40ebf9",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 25,
+        "size": 100,
+        "thickness": 10
+      },
+      "size_bytes": 503
+    },
+    {
+      "path": "examples/assets/gauge_c7955a28195cbfb5.svg",
+      "sha256": "62b592b86e2d6c6010bb003898bd9b25fbb967806c8ddcdab6d524c3abfc6c19",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 55,
+        "size": 100,
+        "thickness": 10
+      },
+      "size_bytes": 502
+    },
+    {
+      "path": "examples/assets/gauge_bc51db74a79d4008.svg",
+      "sha256": "0956f4d3aac47a2f5d8ff69cc1440b3a59e3bb5c12dd4dc1a121deda3507dcb3",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 85,
+        "size": 100,
+        "thickness": 10
+      },
+      "size_bytes": 503
+    },
+    {
+      "path": "examples/assets/gauge_69ad64c0f5c8baef.svg",
+      "sha256": "3fc031fa7988a709aca697eba05fe52a944b0ae2c1135cc97642eeedc81f066a",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 73,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_ac560d5d42bc59e.svg",
+      "sha256": "bda742834b7b9b3d50c83e5cc0255ee61ef6dd712d3cb0267430248ba636d69b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 45,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_a2e05b1f7b09d9c9.svg",
+      "sha256": "0d15f4eedd4f4dbe95b098027752be0b08e07308a9fdb14b4d7411f2e60b3c6f",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 88,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_c3c8ff9356bf5962.svg",
+      "sha256": "1a535f3fcd818a4409fd39d252fc1cdeb1e72a9332e3a07e18c83da5f69e81e1",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 35,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_4cd4d3c87c52fb67.svg",
+      "sha256": "88cb638bb49aac9c59accf00b1f21a89b97fc4a5e5c4cf87be1e4cb65bd30a55",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 65,
+        "size": 100,
+        "thickness": 4
+      },
+      "size_bytes": 363
+    },
+    {
+      "path": "examples/assets/gauge_649432b442181078.svg",
+      "sha256": "7064e543aebcbf68d84c331e66fb36c8e46303b313654d38d723b51d6e7b99ad",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 80,
+        "size": 100,
+        "thickness": 2
+      },
+      "size_bytes": 364
+    },
+    {
+      "path": "examples/assets/gauge_df0ddae925d1c274.svg",
+      "sha256": "22bfdda04a6a3413123fd447de02033f6f7604697dcc40371b15e09ae8482fb7",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 55,
+        "size": 100,
+        "thickness": 20
+      },
+      "size_bytes": 367
+    },
+    {
+      "path": "examples/assets/gauge_e16b01da74b62cec.svg",
+      "sha256": "367c17f0b461198e6d75341a6e9094d81fcd5fe22626c892efde232626780ac0",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 75,
+        "size": 100,
+        "thickness": 16
+      },
+      "size_bytes": 365
+    },
+    {
+      "path": "examples/assets/donut_9c13fa43f332d6ec.svg",
+      "sha256": "a75e273b618f448fe153185f53181a276f27fe82f2e8fa4ef06a273406cf2ad8",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 85,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/gauge_bb2e32d1aed69a28.svg",
+      "sha256": "2b1d929d4e86842df34ef288c5bddcb0f8f66b2933e37575de608a171cf4c81f",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 85,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/progress_19f127e8d6d92884.svg",
+      "sha256": "1e8509d163710ed77f76dc431b5f47b91d0eba73fb662c0fb2f75aa08580decd",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
         "percent": 85,
-        "width": 200,
-        "height": 8
+        "width": 80,
+        "height": 10
       },
-      "size_bytes": 242
+      "size_bytes": 208
     },
     {
-      "path": "examples/assets/progress_531893701431f78c.svg",
-      "sha256": "99b961faeebf0e9ac2b82330de9e7553ad56801ec040732bcba93b445d2c4971",
+      "path": "examples/assets/donut_83c3cb1707969e38.svg",
+      "sha256": "293183e55ea2a20d8fd14ed84297bdb42abaeaa2379c394359a20c5c8c690382",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 72,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/gauge_6c2d8f644767f466.svg",
+      "sha256": "9e267aac544aaff02894fff6297d2dd9fdef2d955eedbb8249e0911ae0341857",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 72,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/progress_31f31271bdbb5327.svg",
+      "sha256": "a18299e1ec18bee31412b8d3a424cbea2d212b2e904fb4256e1bd8b03bda6454",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 72,
+        "width": 80,
+        "height": 10
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "examples/assets/donut_96ce5e09828540f8.svg",
+      "sha256": "8a3c1da4cfcace0653ae5b5d0c4550a09ff0e3f8cd7c14b329e5d34522429e48",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 45,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 313
+    },
+    {
+      "path": "examples/assets/gauge_4ea6be7c8fde556b.svg",
+      "sha256": "b750c9c3a03e6ac90ac40ef296f2b23a9448fafab6d23ad60bb6bdfe04c34c2a",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 45,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/progress_f309f49e8efed1ff.svg",
+      "sha256": "ec2bc5580fbeaec9c5f0a89ba232044902177ead614b44d9ab5095a1f918043f",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
         "percent": 45,
-        "width": 200,
-        "height": 8
+        "width": 80,
+        "height": 10
       },
-      "size_bytes": 241
+      "size_bytes": 208
     },
     {
-      "path": "examples/assets/progress_6d4b4e4cbeacbc10.svg",
-      "sha256": "2101d2a7d3d3c32df422654af793455d4e9e01fa69cccdfc9cbda055c1d82a89",
-      "type": "progress",
+      "path": "examples/assets/gauge_3f244773ad828cdb.svg",
+      "sha256": "14f9fc977e2749a36564c20adcbfae6e5e9ac4fcc0ba1039d5d51d2e816273ac",
+      "type": "gauge",
       "primitive": {
-        "kind": "Progress",
-        "percent": 70,
-        "width": 200,
-        "height": 8
-      },
-      "size_bytes": 242
-    },
-    {
-      "path": "examples/assets/progress_15ddc4b05ebdd9c9.svg",
-      "sha256": "ede34bf618b5904d6bb135380fe158cfb42106d9a9aefce25f72252e89f12355",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
-        "percent": 55,
-        "width": 200,
-        "height": 8
-      },
-      "size_bytes": 242
-    },
-    {
-      "path": "examples/assets/progress_cd635c6d4b8a5955.svg",
-      "sha256": "f1f601a969b4af79bd488107c8c803c59fae802f0f49b7930ee2eb60eaaf0463",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
-        "percent": 50,
-        "width": 220,
-        "height": 4
-      },
-      "size_bytes": 271
-    },
-    {
-      "path": "examples/assets/progress_9e9d8b053d78aed4.svg",
-      "sha256": "a83365cdf83e0ce89bf8341a73c06413048112b0c0c973dd31485352ff7d5a60",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
-        "percent": 65,
-        "width": 220,
-        "height": 4
-      },
-      "size_bytes": 271
-    },
-    {
-      "path": "examples/assets/progress_51dec13925ab5cb4.svg",
-      "sha256": "d212a850233520693fe8180b1b90eed15c95c7344b42be0e3ead1f597f1e1027",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
-        "percent": 40,
-        "width": 220,
-        "height": 4
-      },
-      "size_bytes": 269
-    },
-    {
-      "path": "examples/assets/progress_467c11a2151941fd.svg",
-      "sha256": "4d94365ff9be530c4b69781e86cea976cbc07a464b19c5de1328f62f94061386",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
+        "kind": "Gauge",
         "percent": 75,
-        "width": 220,
-        "height": 6
+        "size": 100,
+        "thickness": 8
       },
-      "size_bytes": 284
+      "size_bytes": 364
     },
     {
-      "path": "examples/assets/progress_645eb6e8f2f93229.svg",
-      "sha256": "9bf4142e94c7e549f94cf4e3ff5b554945ddce7b29c54ef5dd3196b70966211c",
-      "type": "progress",
+      "path": "examples/assets/gauge_23a12608df1ba093.svg",
+      "sha256": "c2de3eda35e4d0fe3b1b417aae9b1e8839dd6dfe066f17df6f779c1b03dc9b77",
+      "type": "gauge",
       "primitive": {
-        "kind": "Progress",
-        "percent": 78,
-        "width": 140,
-        "height": 6
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 100,
+        "thickness": 8
       },
-      "size_bytes": 242
+      "size_bytes": 363
     },
     {
-      "path": "examples/assets/progress_29ec22960462f132.svg",
-      "sha256": "90001642d641ecdbf93c8ec6a0c5ea5df86bdc01719667a6d53da072fc24437d",
-      "type": "progress",
+      "path": "examples/assets/gauge_f6ceb6b3bab83f98.svg",
+      "sha256": "5462a44088b09dd4f6d1ba045261c6fa07778bc06c5e635449c924f90bbf484e",
+      "type": "gauge",
       "primitive": {
-        "kind": "Progress",
-        "percent": 45,
-        "width": 140,
-        "height": 6
+        "kind": "Gauge",
+        "percent": 85,
+        "size": 100,
+        "thickness": 8
       },
-      "size_bytes": 241
+      "size_bytes": 364
     },
     {
-      "path": "examples/assets/progress_b46b3d7f8e5d2ef1.svg",
-      "sha256": "0e070bd901ab15bf218aa5058bb6c6b0cacdbb9598e73f3c5ccfa1ccb43fdb89",
-      "type": "progress",
+      "path": "examples/assets/gauge_de1cb27afa7d27c6.svg",
+      "sha256": "b21310d5891eb010b1e5c895181093d20cea74825be0510122a7fe9ea0fa2efd",
+      "type": "gauge",
       "primitive": {
-        "kind": "Progress",
-        "percent": 92,
-        "width": 140,
-        "height": 6
-      },
-      "size_bytes": 242
-    },
-    {
-      "path": "examples/assets/progress_fabadd195b0d76cd.svg",
-      "sha256": "3b3b07a2323af441e868b799626d9f1bbd08dd62af38af0af19c63dc94b8a0a7",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
-        "percent": 33,
-        "width": 140,
-        "height": 6
-      },
-      "size_bytes": 241
-    },
-    {
-      "path": "examples/assets/progress_424bf81492d10aa.svg",
-      "sha256": "0676b8ef4b2c0d2205be282c2b7624f32af9ddaafd18282563c5307042e313a0",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
-        "percent": 80,
-        "width": 200,
-        "height": 16
-      },
-      "size_bytes": 246
-    },
-    {
-      "path": "examples/assets/progress_469c524b1b0313d8.svg",
-      "sha256": "e057aafc579087e6df0114e9523a4a0e6e011ed2508a11751449bd080361e52c",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
-        "percent": 65,
-        "width": 200,
-        "height": 16
-      },
-      "size_bytes": 246
-    },
-    {
-      "path": "examples/assets/progress_2738178a11a72eb4.svg",
-      "sha256": "a02d2e1bdb05476a4f46b969ec4bd702ceb5bf2672e6c7396ad93bcf2e00c6e3",
-      "type": "progress",
-      "primitive": {
-        "kind": "Progress",
+        "kind": "Gauge",
         "percent": 50,
-        "width": 200,
-        "height": 16
+        "size": 100,
+        "thickness": 8
       },
-      "size_bytes": 246
+      "size_bytes": 363
+    },
+    {
+      "path": "examples/assets/gauge_f5fbc2a249c97655.svg",
+      "sha256": "103451be15822c82e3aa892cc52eda8713f2e7c42ab977b41c7ea571038844e3",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 0,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 360
+    },
+    {
+      "path": "examples/assets/gauge_6ffa681029acb1c7.svg",
+      "sha256": "2ef6b395d5bef7cc53e7af831fd203467b8825b90ffe89ea5e24b129426a077c",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 20,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_8d6552a0c8af688a.svg",
+      "sha256": "62fd4854dfa3c2a3c0a6b1739999be854ecdb67b9e92da85e8d40dc49069661e",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 40,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_f6bc3eeb4abe5710.svg",
+      "sha256": "87af38448b5f2c88771079fa99b0a3b0599cb1500fdac8d015962a721f95927b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_f4254818b7fbdc8d.svg",
+      "sha256": "654ff6c1f8fa01b979f3e3ddfd657f729e233aee510fbb708bf763943fdfe188",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 80,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "examples/assets/gauge_4846ab2d3cdd638.svg",
+      "sha256": "acf135c33c292189497a57f3b1c9096c517ca4d8613c952060066e221bc34c42",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 100,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 360
     }
   ]
 }

@@ -755,6 +755,45 @@
             "description": "Label text color"
           }
         }
+      },
+      "gauge": {
+        "type": "native",
+        "self_closing": true,
+        "description": "Semi-circular gauge/meter showing percentage (half-donut)",
+        "contexts": ["inline", "block"],
+        "args": ["percent"],
+        "optional_params": {
+          "size": {
+            "type": "number",
+            "default": "80",
+            "description": "Width in pixels (height is approximately half)"
+          },
+          "thickness": {
+            "type": "number",
+            "default": "8",
+            "description": "Arc thickness in pixels"
+          },
+          "track": {
+            "type": "color",
+            "default": "slate",
+            "description": "Track (background) color"
+          },
+          "fill": {
+            "type": "color",
+            "default": "accent",
+            "description": "Fill (progress) color"
+          },
+          "label": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Show percentage label below arc"
+          },
+          "label_color": {
+            "type": "color",
+            "default": "white",
+            "description": "Label text color"
+          }
+        }
       }
     },
 
@@ -1547,7 +1586,7 @@
 
   "metadata": {
     "total_glyphs": 493,
-    "total_components": 5,
+    "total_components": 6,
     "total_frames": 27,
     "total_styles": 23,
     "total_palette_colors": 15,

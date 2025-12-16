@@ -8,6 +8,7 @@
 /// - Tech: Technology logo badge
 /// - Progress: Progress bar with customizable track and fill
 /// - Donut: Circular progress/ring chart
+/// - Gauge: Semi-circular meter (half-donut)
 ///
 /// Text-based transformations (frames, styles, badges) remain as direct
 /// Unicode rendering and don't use this abstraction.
@@ -116,6 +117,24 @@ pub enum Primitive {
         /// Label color
         label_color: Option<String>,
     },
+
+    /// Gauge/half-donut showing percentage as semi-circular meter
+    Gauge {
+        /// Percentage complete (0-100)
+        percent: u8,
+        /// Width in pixels (height is approximately half + label space)
+        size: u32,
+        /// Arc thickness in pixels
+        thickness: u32,
+        /// Track (background) color
+        track_color: String,
+        /// Fill (progress) color
+        fill_color: String,
+        /// Show percentage label below arc
+        show_label: bool,
+        /// Label color
+        label_color: Option<String>,
+    },
 }
 
 impl Primitive {
@@ -185,6 +204,23 @@ impl Primitive {
             percent: percent.min(100),
             size: 40,
             thickness: 4,
+            track_color: track_color.into(),
+            fill_color: fill_color.into(),
+            show_label: false,
+            label_color: None,
+        }
+    }
+
+    /// Create a simple gauge with defaults
+    pub fn simple_gauge(
+        percent: u8,
+        track_color: impl Into<String>,
+        fill_color: impl Into<String>,
+    ) -> Self {
+        Primitive::Gauge {
+            percent: percent.min(100),
+            size: 80,
+            thickness: 8,
             track_color: track_color.into(),
             fill_color: fill_color.into(),
             show_label: false,

@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Gauge Component
+
+- **Semi-circular gauge meter** - Half-donut style visualization for dashboards
+- **Syntax:** `{{ui:gauge:percent/}}` with optional parameters
+- **Parameters:**
+  - `size` - Width in pixels (default: 80)
+  - `thickness` - Arc thickness in pixels (default: 8)
+  - `track` - Track (background) color (default: slate)
+  - `fill` - Fill (progress) color (default: accent)
+  - `label` - Show percentage label (default: false)
+  - `label_color` - Label text color (default: white)
+- **SVG arc rendering** - Uses stroke-dasharray for smooth semi-circular arcs
+- **All renderer backends** - SVG, shields.io fallback, plaintext fallback
+- **Gallery examples** - Comprehensive gallery with size, color, and style variations
+
+**Usage:**
+```markdown
+{{ui:gauge:75/}}
+{{ui:gauge:50:size=120:thickness=12:fill=success/}}
+{{ui:gauge:85:label=true/}}
+```
+
+**Use cases:** CPU/memory meters, speedometers, dashboard widgets, loading indicators
+
 #### Template Partials
 
 - **User-defined reusable templates** - Define partials in `.mdfx.json` config file

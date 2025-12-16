@@ -222,6 +222,24 @@ impl SvgBackend {
                 show_label.hash(&mut hasher);
                 label_color.hash(&mut hasher);
             }
+            Primitive::Gauge {
+                percent,
+                size,
+                thickness,
+                track_color,
+                fill_color,
+                show_label,
+                label_color,
+            } => {
+                "gauge".hash(&mut hasher);
+                percent.hash(&mut hasher);
+                size.hash(&mut hasher);
+                thickness.hash(&mut hasher);
+                track_color.hash(&mut hasher);
+                fill_color.hash(&mut hasher);
+                show_label.hash(&mut hasher);
+                label_color.hash(&mut hasher);
+            }
         }
 
         let hash = hasher.finish();
@@ -230,6 +248,7 @@ impl SvgBackend {
             Primitive::Tech { .. } => "tech",
             Primitive::Progress { .. } => "progress",
             Primitive::Donut { .. } => "donut",
+            Primitive::Gauge { .. } => "gauge",
         };
 
         format!("{}_{:x}.svg", type_name, hash)
@@ -739,6 +758,73 @@ impl SvgBackend {
             label_elem
         )
     }
+
+    /// Render a gauge (semi-circular meter) using SVG arc paths
+    fn render_gauge_svg(
+        percent: u8,
+        size: u32,
+        thickness: u32,
+        track_color: &str,
+        fill_color: &str,
+        show_label: bool,
+        label_color: Option<&str>,
+    ) -> String {
+        // Gauge is a half-circle (180 degrees) arc
+        // Size is the width, height is approximately size/2 + space for label
+        let center_x = size as f32 / 2.0;
+        let radius = (size as f32 / 2.0) - (thickness as f32 / 2.0);
+
+        // Calculate arc endpoints
+        // Arc goes from left (180°) to right (0°), through top
+        let start_x = center_x - radius;
+        let end_x = center_x + radius;
+        let arc_y = radius + (thickness as f32 / 2.0);
+
+        // SVG height: half circle height + space for label if shown
+        let svg_height = if show_label {
+            (size / 2) + thickness + 20
+        } else {
+            (size / 2) + thickness
+        };
+
+        // Semi-circle circumference = π × radius
+        let semi_circumference = std::f32::consts::PI * radius;
+
+        // Fill length based on percentage
+        let fill_length = semi_circumference * (percent as f32 / 100.0);
+        let gap_length = semi_circumference - fill_length;
+
+        // Build track arc path (full semi-circle from left to right)
+        // M = move to start, A = arc (rx ry x-rotation large-arc-flag sweep-flag x y)
+        let track_path = format!(
+            "M {:.1} {:.1} A {:.1} {:.1} 0 0 1 {:.1} {:.1}",
+            start_x, arc_y, radius, radius, end_x, arc_y
+        );
+
+        // Build label element if requested
+        let label_elem = if show_label {
+            let label_col = label_color.unwrap_or("FFFFFF");
+            let font_size = (size / 5).max(12).min(18);
+            let text_y = arc_y + font_size as f32 + 4.0;
+            format!(
+                "\n  <text x=\"{}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",
+                center_x, text_y, label_col, font_size, percent
+            )
+        } else {
+            String::new()
+        };
+
+        format!(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  <path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"round\"/>\n\
+  <path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"round\" stroke-dasharray=\"{:.2} {:.2}\"/>{}\n\
+</svg>",
+            size, svg_height, size, svg_height,
+            track_path, track_color, thickness,
+            track_path, fill_color, thickness, fill_length, gap_length,
+            label_elem
+        )
+    }
 }
 
 impl Renderer for SvgBackend {
@@ -838,6 +924,24 @@ impl Renderer for SvgBackend {
                 show_label,
                 label_color,
             } => Self::render_donut_svg(
+                *percent,
+                *size,
+                *thickness,
+                track_color,
+                fill_color,
+                *show_label,
+                label_color.as_deref(),
+            ),
+
+            Primitive::Gauge {
+                percent,
+                size,
+                thickness,
+                track_color,
+                fill_color,
+                show_label,
+                label_color,
+            } => Self::render_gauge_svg(
                 *percent,
                 *size,
                 *thickness,

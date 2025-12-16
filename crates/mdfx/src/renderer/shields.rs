@@ -98,6 +98,20 @@ impl Renderer for ShieldsBackend {
                     label, label, fill_color
                 )
             }
+
+            // Gauge uses a percentage badge as shields.io fallback
+            // Full gauge (semi-circle) rendering requires SVG backend
+            Primitive::Gauge {
+                percent,
+                fill_color,
+                ..
+            } => {
+                let label = format!("{}%25", percent); // URL-encoded %
+                format!(
+                    "![](https://img.shields.io/badge/{}-{}-{}?style=flat-square)",
+                    label, label, fill_color
+                )
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(markdown))

@@ -44,6 +44,11 @@ pub enum PrimitiveInfo {
         size: u32,
         thickness: u32,
     },
+    Gauge {
+        percent: u8,
+        size: u32,
+        thickness: u32,
+    },
 }
 
 impl From<&Primitive> for PrimitiveInfo {
@@ -80,6 +85,16 @@ impl From<&Primitive> for PrimitiveInfo {
                 thickness,
                 ..
             } => PrimitiveInfo::Donut {
+                percent: *percent,
+                size: *size,
+                thickness: *thickness,
+            },
+            Primitive::Gauge {
+                percent,
+                size,
+                thickness,
+                ..
+            } => PrimitiveInfo::Gauge {
                 percent: *percent,
                 size: *size,
                 thickness: *thickness,

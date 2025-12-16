@@ -10,6 +10,7 @@ Components are reusable UI elements that render to visual primitives like badges
   - [tech](#tech)
   - [progress](#progress)
   - [donut](#donut)
+  - [gauge](#gauge)
   - [row](#row)
 - [Badge Styles](#badge-styles)
 - [Practical Examples](#practical-examples)
@@ -204,6 +205,57 @@ Renders a circular progress/ring chart showing a percentage.
 
 ---
 
+### gauge
+
+Renders a semi-circular gauge/meter showing a percentage. Perfect for dashboards and speedometer-style displays.
+
+**Syntax:**
+```markdown
+{{ui:gauge:percent/}}
+{{ui:gauge:percent:param=value/}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `percent` | number | required | Progress percentage (0-100) |
+| `size` | number | 80 | Width in pixels |
+| `thickness` | number | 8 | Arc thickness in pixels |
+| `track` | color | slate | Track (background) color |
+| `fill` | color | accent | Fill (progress) color |
+| `label` | boolean | false | Show percentage label below arc |
+| `label_color` | color | white | Label text color |
+
+**Basic Examples:**
+```markdown
+{{ui:gauge:75/}}
+{{ui:gauge:50:size=120:thickness=12/}}
+{{ui:gauge:90:fill=success/}}
+```
+
+**With Label:**
+```markdown
+{{ui:gauge:75:label=true/}}
+{{ui:gauge:85:size=100:label=true:label_color=accent/}}
+```
+
+**Speedometer Style:**
+```markdown
+{{ui:gauge:25:fill=success:size=100:thickness=10/}}
+{{ui:gauge:55:fill=warning:size=100:thickness=10/}}
+{{ui:gauge:85:fill=error:size=100:thickness=10/}}
+```
+
+**Neon Colors:**
+```markdown
+{{ui:gauge:75:fill=00FF41:track=0D0D0D:size=100:thickness=8/}}
+```
+
+**Note:** Gauges use SVG arc paths with stroke-dasharray for smooth semi-circular rendering. The arc spans from left to right (180°).
+
+---
+
 ### row
 
 Wraps content in an HTML container with horizontal alignment. Converts markdown images to HTML for GitHub compatibility.
@@ -311,6 +363,15 @@ Volume: {{ui:progress:65:width=150:thumb=12/}}
 | Docs | {{ui:donut:60:fill=warning:label=true/}} |
 ```
 
+### System Gauges
+```markdown
+| Metric | Status |
+|--------|--------|
+| CPU | {{ui:gauge:73:fill=info:size=60:thickness=6/}} |
+| Memory | {{ui:gauge:45:fill=success:size=60:thickness=6/}} |
+| Disk | {{ui:gauge:88:fill=warning:size=60:thickness=6/}} |
+```
+
 ---
 
 ## Component Reference
@@ -321,6 +382,7 @@ Volume: {{ui:progress:65:width=150:thumb=12/}}
 | `tech` | native | yes | inline, block |
 | `progress` | native | yes | inline, block |
 | `donut` | native | yes | inline, block |
+| `gauge` | native | yes | inline, block |
 | `row` | native | no | block |
 
 ---

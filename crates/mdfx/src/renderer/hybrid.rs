@@ -53,6 +53,8 @@ impl HybridBackend {
             Primitive::Progress { .. } => true,
             // Donut charts always use SVG for proper rendering
             Primitive::Donut { .. } => true,
+            // Gauge (half-donut) always uses SVG for proper rendering
+            Primitive::Gauge { .. } => true,
         }
     }
 }

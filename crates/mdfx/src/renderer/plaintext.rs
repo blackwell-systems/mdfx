@@ -58,6 +58,11 @@ impl Renderer for PlainTextBackend {
                 // Render as ASCII donut: (75%)
                 format!("({}%)", percent)
             }
+
+            Primitive::Gauge { percent, .. } => {
+                // Render as ASCII gauge: [75%]
+                format!("[{}%]", percent)
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(text))

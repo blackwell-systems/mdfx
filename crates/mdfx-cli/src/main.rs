@@ -624,6 +624,7 @@ fn process_file(
                                 mdfx::Primitive::Tech { .. } => "tech",
                                 mdfx::Primitive::Progress { .. } => "progress",
                                 mdfx::Primitive::Donut { .. } => "donut",
+                                mdfx::Primitive::Gauge { .. } => "gauge",
                             };
                             m.add_asset(
                                 relative_path.clone(),
