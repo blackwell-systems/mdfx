@@ -329,7 +329,7 @@ Add spaces between characters:
 
 ### Available Styles
 
-**19 styles total:**
+**23 styles total:**
 
 - `mathbold` - Mathematical Bold (𝐀𝐁𝐂)
 - `fullwidth` - Full-Width (ＡＢＣ)
@@ -350,6 +350,10 @@ Add spaces between characters:
 - `bold-script` - Bold Script (𝓐𝓑𝓒)
 - `fraktur` - Fraktur/Gothic (𝔄𝔅ℭ)
 - `bold-fraktur` - Bold Fraktur (𝕬𝕭𝕮)
+- `subscript` - Subscript (ₐᵦ꜀)
+- `superscript` - Superscript (ᵃᵇᶜ)
+- `parenthesized` - Parenthesized (⒜⒝⒞)
+- `inverted` - Inverted/Upside-down (ɐqɔ)
 
 ---
 

@@ -70,11 +70,6 @@ impl Renderer for ShieldsBackend {
             } => self
                 .shields
                 .render_icon(name, bg_color, logo_color, style)?,
-
-            Primitive::Status { level, style } => {
-                // Status uses the level as the color (e.g., "success" → green)
-                self.shields.render_block(level, style)?
-            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(markdown))
@@ -121,22 +116,6 @@ mod tests {
         assert!(markdown.contains("logo=rust"));
         assert!(markdown.contains("logoColor=FFFFFF"));
         assert!(markdown.contains("000000"));
-    }
-
-    #[test]
-    fn test_render_status_primitive() {
-        let backend = ShieldsBackend::new().unwrap();
-        let primitive = Primitive::Status {
-            level: "success".to_string(),
-            style: "flat-square".to_string(),
-        };
-
-        let result = backend.render(&primitive).unwrap();
-        let markdown = result.to_markdown();
-
-        assert!(markdown.contains("https://img.shields.io/badge/"));
-        // success should resolve to green color (22C55E from palette)
-        assert!(markdown.contains("22C55E"));
     }
 
     #[test]

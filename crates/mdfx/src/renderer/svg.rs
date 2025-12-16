@@ -160,11 +160,6 @@ impl SvgBackend {
                 border_bottom.hash(&mut hasher);
                 border_left.hash(&mut hasher);
             }
-            Primitive::Status { level, style } => {
-                "status".hash(&mut hasher);
-                level.hash(&mut hasher);
-                style.hash(&mut hasher);
-            }
             Primitive::Tech {
                 name,
                 bg_color,
@@ -182,7 +177,6 @@ impl SvgBackend {
         let hash = hasher.finish();
         let type_name = match primitive {
             Primitive::Swatch { .. } => "swatch",
-            Primitive::Status { .. } => "status",
             Primitive::Tech { .. } => "tech",
         };
 
@@ -508,30 +502,6 @@ impl Renderer for SvgBackend {
                 border_bottom: border_bottom.as_deref(),
                 border_left: border_left.as_deref(),
             }),
-
-            Primitive::Status { level, style } => {
-                // Status uses simplified swatch (no extra options)
-                Self::render_swatch_svg(SwatchOptions {
-                    color: level,
-                    style,
-                    opacity: None,
-                    width: None,
-                    height: None,
-                    border_color: None,
-                    border_width: None,
-                    label: None,
-                    label_color: None,
-                    rx: None,
-                    ry: None,
-                    shadow: None,
-                    gradient: None,
-                    stroke_dash: None,
-                    border_top: None,
-                    border_right: None,
-                    border_bottom: None,
-                    border_left: None,
-                })
-            }
 
             Primitive::Tech {
                 name,

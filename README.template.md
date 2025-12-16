@@ -71,7 +71,7 @@ frames, and character transformations.
 ```markdown
 {{ui:swatch:success/}}  → 🟢 Green block
 {{ui:swatch:warning/}}  → 🟡 Yellow block
-{{ui:status:error/}}    → 🔴 Red block
+{{ui:swatch:error/}}    → 🔴 Red block
 ```
 
 ### Tech Stack Badges
@@ -110,7 +110,7 @@ You can reference these in any component:
 
 ## {{mathbold}}Text Styles{{/mathbold}}
 
-Transform text into 19 different Unicode character styles.
+Transform text into 23 different Unicode character styles.
 
 ### Bold & Emphasis
 | Style | Example | Use Case |
@@ -366,7 +366,7 @@ Create `palette.json` in your project:
 Then use in components:
 ```markdown
 {{ui:swatch:brand/}}
-{{ui:status:accent/}}
+{{ui:swatch:accent/}}
 ```
 
 ### Custom Components
@@ -423,7 +423,7 @@ Colon-separated key=value pairs:
 **Current Version:** v0.1.0 (Pre-release)
 
 **Shipped:**
-- 19 Unicode text styles with aliases
+- 23 Unicode text styles with aliases
 - 3 UI components (swatch, tech, row)
 - 27 inline frames
 - 6 alphanumeric badge types

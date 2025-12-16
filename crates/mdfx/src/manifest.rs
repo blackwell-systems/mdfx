@@ -34,10 +34,6 @@ pub enum PrimitiveInfo {
         logo_color: String,
         style: String,
     },
-    Status {
-        level: String,
-        style: String,
-    },
 }
 
 impl From<&Primitive> for PrimitiveInfo {
@@ -56,10 +52,6 @@ impl From<&Primitive> for PrimitiveInfo {
                 name: name.clone(),
                 bg_color: bg_color.clone(),
                 logo_color: logo_color.clone(),
-                style: style.clone(),
-            },
-            Primitive::Status { level, style } => PrimitiveInfo::Status {
-                level: level.clone(),
                 style: style.clone(),
             },
         }
@@ -254,23 +246,6 @@ mod tests {
         let info = PrimitiveInfo::from(&primitive);
         match info {
             PrimitiveInfo::Tech { name, .. } => assert_eq!(name, "rust"),
-            _ => panic!("Wrong variant"),
-        }
-    }
-
-    #[test]
-    fn test_primitive_info_status() {
-        let primitive = Primitive::Status {
-            level: "success".to_string(),
-            style: "flat-square".to_string(),
-        };
-
-        let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Status { level, style } => {
-                assert_eq!(level, "success");
-                assert_eq!(style, "flat-square");
-            }
             _ => panic!("Wrong variant"),
         }
     }

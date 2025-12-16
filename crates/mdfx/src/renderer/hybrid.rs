@@ -47,9 +47,8 @@ impl HybridBackend {
                     || border_bottom.is_some()
                     || border_left.is_some()
             }
-            // Other primitives use shields.io
-            Primitive::Status { .. } => false, // shields.io for status
-            Primitive::Tech { .. } => false,   // shields.io for tech badges
+            // Tech badges use shields.io
+            Primitive::Tech { .. } => false,
         }
     }
 }

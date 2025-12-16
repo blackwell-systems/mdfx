@@ -59,7 +59,7 @@ High-level semantic components that compile to shields.io badges or local SVGs.
 See [Components Guide](docs/guides/COMPONENTS-GUIDE.md) for full reference.
 
 ### Text Styles
-Transform text into 19 Unicode character styles.
+Transform text into 23 Unicode character styles.
 
 | Style | Example |
 |-------|---------|
@@ -75,7 +75,7 @@ With modifiers:
 {{mathbold:spacing=1}}HELLO{{/mathbold}}      → 𝐇 𝐄 𝐋 𝐋 𝐎
 ```
 
-See [Text Styles Guide](docs/guides/TEXT-STYLES-GUIDE.md) for all 19 styles.
+See [Text Styles Guide](docs/guides/TEXT-STYLES-GUIDE.md) for all 23 styles.
 
 ### Frames
 Decorative Unicode borders around text.
@@ -89,7 +89,7 @@ Decorative Unicode borders around text.
 See [Frames Guide](docs/guides/FRAMES-GUIDE.md) for all 29 frame styles.
 
 ### Glyphs
-389 named Unicode characters for separators, progress bars, and decorative elements.
+504 named Unicode characters for separators, progress bars, and decorative elements.
 
 | Category | Examples | Glyph Names |
 |----------|----------|-------------|
@@ -112,7 +112,7 @@ Progress: {{glyph:braille.bar.8/}}{{glyph:braille.bar.8/}}{{glyph:braille.bar.8/
 ```
 → Progress: ⣿⣿⣿⡇⠀
 
-See [Glyphs Guide](docs/guides/GLYPHS-GUIDE.md) for all 389 glyphs.
+See [Glyphs Guide](docs/guides/GLYPHS-GUIDE.md) for all 504 glyphs.
 
 ## Installation
 
@@ -207,9 +207,9 @@ See [Architecture](docs/ARCHITECTURE.md) for backend details.
 | Guide | Description |
 |-------|-------------|
 | [Swatches](docs/guides/SWATCH-GUIDE.md) | Color blocks, pixel art |
-| [Components](docs/guides/COMPONENTS-GUIDE.md) | swatch, tech, status, row |
+| [Components](docs/guides/COMPONENTS-GUIDE.md) | swatch, tech, row |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 decorative Unicode borders |
-| [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 19 Unicode typography styles |
+| [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 23 Unicode typography styles |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | Unicode glyphs and symbols |
 | [Template Syntax](docs/TEMPLATE-SYNTAX.md) | Full syntax reference |
 | [API Guide](docs/API-GUIDE.md) | Library usage |

@@ -295,19 +295,6 @@ impl ComponentsRenderer {
                 }))
             }
 
-            "status" => {
-                if args.is_empty() {
-                    return Err(Error::ParseError(
-                        "status component requires a level argument".to_string(),
-                    ));
-                }
-                let level = self.resolve_color(&args[0]);
-                Ok(ComponentOutput::Primitive(Primitive::Status {
-                    level,
-                    style,
-                }))
-            }
-
             "row" => {
                 // Extract align parameter (default: center)
                 let (_, params) = Self::extract_params(&args);

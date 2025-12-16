@@ -267,4 +267,4 @@ Completions include smart snippets:
 
 ### Performance
 
-The LSP server loads the full registry (~389 glyphs, 19 styles, 32 frames) at startup. Initial completion requests may have a small delay while building the completion list.
+The LSP server loads the full registry (~504 glyphs, 23 styles, 29 frames) at startup. Initial completion requests may have a small delay while building the completion list.

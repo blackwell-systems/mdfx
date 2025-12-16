@@ -12,7 +12,6 @@ use crate::renderer::{RenderedAsset, Renderer};
 /// Renders primitives as ASCII-compatible text representations:
 /// - Swatches: `[#RRGGBB]` color codes
 /// - Tech badges: `[Technology]` text labels
-/// - Status: `[OK]`, `[WARN]`, `[ERR]` indicators
 #[derive(Debug, Clone, Default)]
 pub struct PlainTextBackend;
 
@@ -41,23 +40,6 @@ impl Renderer for PlainTextBackend {
 
             Primitive::Tech { name, .. } => {
                 format!("[{}]", name)
-            }
-
-            Primitive::Status { level, .. } => {
-                let indicator = match level.to_lowercase().as_str() {
-                    // Semantic names
-                    "success" | "ok" | "pass" | "green" => "[OK]",
-                    "warning" | "warn" | "yellow" => "[WARN]",
-                    "error" | "err" | "fail" | "red" => "[ERR]",
-                    "info" | "blue" => "[INFO]",
-                    // Hex colors from palette resolution
-                    "22c55e" => "[OK]",   // success green
-                    "eab308" => "[WARN]", // warning yellow
-                    "ef4444" => "[ERR]",  // error red
-                    "3b82f6" => "[INFO]", // info blue
-                    _ => "[?]",
-                };
-                indicator.to_string()
             }
         };
 
@@ -150,48 +132,4 @@ mod tests {
         assert_eq!(asset.to_markdown(), "[rust]");
     }
 
-    #[test]
-    fn test_plaintext_status_success() {
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::Status {
-            level: "success".to_string(),
-            style: "flat-square".to_string(),
-        };
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[OK]");
-    }
-
-    #[test]
-    fn test_plaintext_status_warning() {
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::Status {
-            level: "warning".to_string(),
-            style: "flat-square".to_string(),
-        };
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[WARN]");
-    }
-
-    #[test]
-    fn test_plaintext_status_error() {
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::Status {
-            level: "error".to_string(),
-            style: "flat-square".to_string(),
-        };
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[ERR]");
-    }
-
-    #[test]
-    fn test_plaintext_status_hex_color() {
-        let backend = PlainTextBackend::new();
-        // Components resolve "success" to hex color "22C55E"
-        let primitive = Primitive::Status {
-            level: "22C55E".to_string(),
-            style: "flat-square".to_string(),
-        };
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[OK]");
-    }
 }

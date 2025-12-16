@@ -6,7 +6,6 @@
 /// Each primitive corresponds to a high-level UI concept:
 /// - Swatch: Single colored block
 /// - Tech: Technology logo badge
-/// - Status: Colored status indicator
 ///
 /// Text-based transformations (frames, styles, badges) remain as direct
 /// Unicode rendering and don't use this abstraction.
@@ -65,9 +64,6 @@ pub enum Primitive {
         logo_color: String,
         style: String,
     },
-
-    /// Status indicator (success, warning, error, info)
-    Status { level: String, style: String },
 }
 
 impl Primitive {
@@ -185,17 +181,4 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_primitive_status() {
-        let status = Primitive::Status {
-            level: "success".to_string(),
-            style: "flat-square".to_string(),
-        };
-
-        if let Primitive::Status { level, .. } = status {
-            assert_eq!(level, "success");
-        } else {
-            panic!("Expected Status primitive");
-        }
-    }
 }
