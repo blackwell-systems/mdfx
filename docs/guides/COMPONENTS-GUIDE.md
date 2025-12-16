@@ -11,6 +11,8 @@ Components are reusable UI elements that render to visual primitives like badges
   - [progress](#progress)
   - [donut](#donut)
   - [gauge](#gauge)
+  - [sparkline](#sparkline)
+  - [rating](#rating)
   - [row](#row)
 - [Badge Styles](#badge-styles)
 - [Practical Examples](#practical-examples)
@@ -279,6 +281,114 @@ Renders a semi-circular gauge/meter showing a percentage. Perfect for dashboards
 
 ---
 
+### sparkline
+
+Renders a compact inline chart for trend visualization.
+
+**Syntax:**
+```markdown
+{{ui:sparkline:values/}}
+{{ui:sparkline:values:param=value/}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `values` | string | required | Comma-separated numbers |
+| `width` | number | 100 | Chart width in pixels |
+| `height` | number | 20 | Chart height in pixels |
+| `type` | string | line | Chart type: line, bar, area |
+| `fill` | color | accent | Fill/bar color |
+| `stroke` | color | fill | Line stroke color |
+| `stroke_width` | number | 2 | Line thickness |
+| `track` | color | none | Background color |
+| `dots` | boolean | false | Show data points |
+| `dot_radius` | number | 2 | Dot radius |
+
+**Basic Examples:**
+```markdown
+{{ui:sparkline:10,25,15,30,20,35/}}
+{{ui:sparkline:5,8,3,9,4,7:type=bar/}}
+{{ui:sparkline:1,4,2,5,3,6:type=area:fill=info/}}
+```
+
+**With Data Points:**
+```markdown
+{{ui:sparkline:10,20,15,25,30:dots=true/}}
+{{ui:sparkline:5,15,10,20:dots=true:dot_radius=3:stroke=success/}}
+```
+
+**Custom Sizing:**
+```markdown
+{{ui:sparkline:20,40,35,50,45,60:width=150:height=30/}}
+{{ui:sparkline:10,5,15,8,20:width=80:height=16:type=bar/}}
+```
+
+**With Background:**
+```markdown
+{{ui:sparkline:30,45,20,55,40:track=ui.bg:fill=accent/}}
+```
+
+---
+
+### rating
+
+Renders a star/heart/circle rating with partial fill support.
+
+**Syntax:**
+```markdown
+{{ui:rating:value/}}
+{{ui:rating:value:param=value/}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | float | required | Rating value (e.g., 3.5) |
+| `max` | number | 5 | Maximum rating (number of icons) |
+| `size` | number | 20 | Icon size in pixels |
+| `fill` | color | warning | Filled icon color |
+| `empty` | color | slate | Empty icon color |
+| `icon` | string | star | Icon: star, heart, circle |
+| `spacing` | number | 2 | Space between icons |
+
+**Basic Examples:**
+```markdown
+{{ui:rating:4/}}
+{{ui:rating:3.5/}}
+{{ui:rating:2.5:max=5/}}
+```
+
+**Different Icons:**
+```markdown
+{{ui:rating:4:icon=star/}}
+{{ui:rating:4:icon=heart:fill=error/}}
+{{ui:rating:3:icon=circle:fill=info/}}
+```
+
+**Custom Scale:**
+```markdown
+{{ui:rating:7.5:max=10/}}
+{{ui:rating:8:max=10:size=16/}}
+```
+
+**Custom Colors:**
+```markdown
+{{ui:rating:4.5:fill=warning:empty=ui.bg/}}
+{{ui:rating:3:fill=accent:empty=slate/}}
+```
+
+**Large Size:**
+```markdown
+{{ui:rating:5:size=32:spacing=4/}}
+```
+
+**Note:** Ratings support decimal values for partial fills. A value of 3.5 shows 3 full icons and half of the 4th icon filled.
+
+---
+
 ### row
 
 Wraps content in an HTML container with horizontal alignment. Converts markdown images to HTML for GitHub compatibility.
@@ -406,6 +516,8 @@ Volume: {{ui:progress:65:width=150:thumb=12/}}
 | `progress` | native | yes | inline, block |
 | `donut` | native | yes | inline, block |
 | `gauge` | native | yes | inline, block |
+| `sparkline` | native | yes | inline, block |
+| `rating` | native | yes | inline, block |
 | `row` | native | no | block |
 
 ---

@@ -13,6 +13,7 @@
   - [Frames](/guides/FRAMES-GUIDE.md)
   - [Swatches](/guides/SWATCH-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
+  - [Data Visualization](/guides/DATA-VIZ-GUIDE.md)
   - [Glyphs](/guides/GLYPHS-GUIDE.md)
 
 - **🎯 Multi-Target**
