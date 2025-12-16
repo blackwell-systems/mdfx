@@ -55,6 +55,22 @@ High-level semantic components that compile to shields.io badges or local SVGs.
 |-----------|---------|--------|
 | `{{ui:tech:rust/}}` | Tech badge | ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF) |
 | `{{ui:swatch:F41C80/}}` | Color block | ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) |
+| `{{ui:progress:75/}}` | Progress bar | Horizontal progress indicator |
+| `{{ui:donut:80/}}` | Donut chart | Circular progress ring |
+| `{{ui:gauge:65/}}` | Gauge meter | Semi-circular dashboard meter |
+
+**Progress bars with sliders:**
+```markdown
+{{ui:progress:50:thumb=14/}}                        # Basic slider
+{{ui:progress:75:thumb=12:thumb_width=20/}}         # Oval/pill thumb
+{{ui:progress:60:thumb=14:thumb_color=accent/}}     # Custom thumb color
+```
+
+**Donut and gauge with thumbs:**
+```markdown
+{{ui:donut:75:thumb=12:thumb_color=accent/}}        # Donut slider
+{{ui:gauge:50:thumb=16:thumb_color=warning/}}       # Gauge slider
+```
 
 See [Components Guide](docs/guides/COMPONENTS-GUIDE.md) for full reference.
 
@@ -186,6 +202,18 @@ mdfx convert --style mathbold --separator dot "TITLE"
 # List available styles
 mdfx list
 mdfx frames list
+```
+
+### CLI - Asset Management
+```bash
+# Verify asset integrity
+mdfx verify --assets-dir assets/mdfx
+
+# Clean unused assets (compare against manifest)
+mdfx clean --assets-dir assets/mdfx --dry-run
+
+# Clean unused assets (scan markdown files for references)
+mdfx clean --scan "docs/**/*.md" --assets-dir docs/assets
 ```
 
 ## Rendering Backends

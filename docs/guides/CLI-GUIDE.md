@@ -22,6 +22,8 @@ Command-line usage for mdfx, including multi-target rendering.
 - [Custom Palettes](#custom-palettes)
 - [Common Workflows](#common-workflows)
 - [Other Commands](#other-commands)
+  - [mdfx verify](#mdfx-verify)
+  - [mdfx clean](#mdfx-clean)
 - [See Also](#see-also)
 
 ## Quick Start
@@ -446,6 +448,59 @@ List available separator characters.
 mdfx separators
 mdfx separators --examples
 ```
+
+### `mdfx verify`
+
+Verify asset integrity against manifest.
+
+```bash
+mdfx verify --assets-dir assets/mdfx
+```
+
+Checks that all assets in `manifest.json` exist on disk with correct hashes. Useful for detecting corruption or verifying CI caches.
+
+---
+
+### `mdfx clean`
+
+Remove unreferenced assets from the assets directory.
+
+```bash
+mdfx clean [OPTIONS]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--assets-dir <DIR>` | Assets directory containing manifest.json | `assets/mdfx` |
+| `--dry-run` | Show what would be deleted without deleting | false |
+| `--scan <PATTERN>` | Glob pattern for markdown files to scan | none |
+
+**Examples:**
+
+```bash
+# Clean assets not in manifest.json
+mdfx clean --assets-dir assets/mdfx
+
+# Preview what would be deleted
+mdfx clean --dry-run
+
+# Scan markdown files to find actually referenced assets
+mdfx clean --scan "docs/**/*.md" --assets-dir docs/assets
+
+# Preview scan-based cleanup
+mdfx clean --scan "examples/*-rendered.md" --assets-dir examples/assets --dry-run
+```
+
+**Modes:**
+
+1. **Manifest mode** (default): Removes SVG files not listed in `manifest.json`
+2. **Scan mode** (`--scan`): Parses markdown files for image references and removes assets not found in any scanned file
+
+Scan mode is useful after refactoring when you've removed components from your markdown but the SVG files remain.
+
+---
 
 ### `mdfx lsp`
 
