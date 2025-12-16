@@ -175,20 +175,50 @@ Clean, precise typography for technical content.
 
 ## Separator Parameter
 
-Add visual spacing between words with the `separator` parameter:
+Add visual spacing between characters with the `separator` parameter. **Any glyph name can be used as a separator** - all 500+ glyphs from the [Glyphs Guide](GLYPHS-GUIDE.md) work here.
 
 ```markdown
-{{mathbold:separator=dot}}HELLO WORLD{{/mathbold}}
-{{fullwidth:separator=star}}GET STARTED{{/fullwidth}}
+{{mathbold:separator=dot}}HELLO{{/mathbold}}
+{{mathbold:separator=star}}TITLE{{/mathbold}}
+{{mathbold:separator=diamond}}VIP{{/mathbold}}
+{{mathbold:separator=arrow}}FLOW{{/mathbold}}
+{{mathbold:separator=heart}}LOVE{{/mathbold}}
 ```
 
 **Output:**
 ```
-𝐇𝐄𝐋𝐋𝐎 · 𝐖𝐎𝐑𝐋𝐃
-ＧＥＴＳＴＡＲＴＥＤ ★
+𝐇·𝐄·𝐋·𝐋·𝐎
+𝐓★𝐈★𝐓★𝐋★𝐄
+𝐕◆𝐈◆𝐏
+𝐅→𝐋→𝐎→𝐖
+𝐋♥𝐎♥𝐕♥𝐄
 ```
 
-Available separators: Any separator name (`dot`, `star`, `bullet`, `diamond`, `arrow`, etc.)
+### Common Separators
+
+| Name | Character | Example |
+|------|-----------|---------|
+| `dot` | · | 𝐀·𝐁·𝐂 |
+| `bullet` | • | 𝐀•𝐁•𝐂 |
+| `star` | ★ | 𝐀★𝐁★𝐂 |
+| `diamond` | ◆ | 𝐀◆𝐁◆𝐂 |
+| `arrow` | → | 𝐀→𝐁→𝐂 |
+| `dash` | ─ | 𝐀─𝐁─𝐂 |
+| `bolddash` | ━ | 𝐀━𝐁━𝐂 |
+| `heart` | ♥ | 𝐀♥𝐁♥𝐂 |
+| `lightning` | ⚡ | 𝐀⚡𝐁⚡𝐂 |
+
+### Advanced: Any Glyph Works
+
+Use any glyph name from the registry:
+
+```markdown
+{{script:separator=shade.medium}}FANCY{{/script}}
+{{fraktur:separator=box.light.h}}GOTHIC{{/fraktur}}
+{{mathbold:separator=braille.bar.4}}DATA{{/mathbold}}
+```
+
+See [Glyphs Guide](GLYPHS-GUIDE.md) for all available glyph names.
 
 ---
 

@@ -1,12 +1,15 @@
 # Glyphs Guide
 
-Named Unicode characters for use in templates, separators, and frames.
+500+ named Unicode characters for templates, separators, and frames.
+
+**Key insight:** Any glyph can be used as a separator in text styles. Use `separator=heart` or `separator=lightning` - not just the common ones.
 
 ## Table of Contents
 
 - [Syntax](#syntax)
+- [Using Glyphs as Separators](#using-glyphs-as-separators)
 - [Available Glyphs](#available-glyphs)
-  - [Separators](#separators)
+  - [Common Separators](#common-separators)
   - [Block Elements](#block-elements)
   - [Shades](#shades)
   - [Quadrants](#quadrants)
@@ -33,23 +36,36 @@ Named Unicode characters for use in templates, separators, and frames.
 
 ## Syntax
 
+Insert a glyph inline:
 ```markdown
 {{glyph:name/}}
 ```
 
-Or as a separator in style templates:
+Example: `{{glyph:star/}}` → ★
+
+---
+
+## Using Glyphs as Separators
+
+**Any glyph can be used as a separator** in text style templates. This is one of mdfx's most powerful features.
 
 ```markdown
-{{mathbold:separator=dot}}HELLO{{/mathbold}}
+{{mathbold:separator=dot}}HELLO{{/mathbold}}       → 𝐇·𝐄·𝐋·𝐋·𝐎
+{{mathbold:separator=star}}TITLE{{/mathbold}}      → 𝐓★𝐈★𝐓★𝐋★𝐄
+{{mathbold:separator=heart}}LOVE{{/mathbold}}      → 𝐋♥𝐎♥𝐕♥𝐄
+{{mathbold:separator=lightning}}ZAP{{/mathbold}}   → 𝐙⚡𝐀⚡𝐏
+{{mathbold:separator=shade.medium}}HI{{/mathbold}} → 𝐇▒𝐈
 ```
+
+All 500+ glyphs below work as separators. Get creative!
 
 ---
 
 ## Available Glyphs
 
-### Separators
+### Common Separators
 
-Short names for common inline characters:
+Frequently used inline characters:
 
 | Name | Character | Usage |
 |------|-----------|-------|
