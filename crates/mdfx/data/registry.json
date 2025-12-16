@@ -912,6 +912,60 @@
             "description": "Spacing between icons in pixels"
           }
         }
+      },
+      "waveform": {
+        "type": "native",
+        "self_closing": true,
+        "description": "Audio-style waveform visualization with bars above/below center",
+        "contexts": ["inline", "block"],
+        "args": ["values"],
+        "optional_params": {
+          "width": {
+            "type": "number",
+            "default": "100",
+            "description": "Total width in pixels"
+          },
+          "height": {
+            "type": "number",
+            "default": "40",
+            "description": "Total height in pixels"
+          },
+          "positive": {
+            "type": "color",
+            "default": "success",
+            "description": "Color for bars above zero (alias: up)"
+          },
+          "negative": {
+            "type": "color",
+            "default": "error",
+            "description": "Color for bars below zero (alias: down)"
+          },
+          "bar_width": {
+            "type": "number",
+            "default": "3",
+            "description": "Width of each bar in pixels (alias: bar)"
+          },
+          "spacing": {
+            "type": "number",
+            "default": "1",
+            "description": "Spacing between bars in pixels"
+          },
+          "track": {
+            "type": "color",
+            "default": "none",
+            "description": "Background color (optional)"
+          },
+          "center": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Show center line at zero"
+          },
+          "center_color": {
+            "type": "color",
+            "default": "slate",
+            "description": "Color of center line (if center=true)"
+          }
+        }
       }
     },
 

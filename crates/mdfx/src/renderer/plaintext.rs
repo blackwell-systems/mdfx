@@ -112,6 +112,30 @@ impl Renderer for PlainTextBackend {
                 }
                 result
             }
+
+            Primitive::Waveform { values, .. } => {
+                // Render as Unicode bar characters based on value magnitude
+                // Use block characters: ▁▂▃▄▅▆▇█ for positive, ▔ for negative center
+                if values.is_empty() {
+                    return Ok(RenderedAsset::InlineMarkdown("▔".to_string()));
+                }
+                let max_abs = values.iter().map(|v| v.abs()).fold(0.0f32, f32::max).max(0.001);
+                let bars_pos = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
+                let wave: String = values
+                    .iter()
+                    .map(|&v| {
+                        let normalized = (v / max_abs).abs();
+                        let idx = ((normalized * 7.0).round() as usize).min(7);
+                        if v >= 0.0 {
+                            bars_pos[idx]
+                        } else {
+                            // For negative, use same bars but could differentiate
+                            bars_pos[idx]
+                        }
+                    })
+                    .collect();
+                wave
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(text))

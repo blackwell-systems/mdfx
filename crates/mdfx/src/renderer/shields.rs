@@ -150,6 +150,21 @@ impl Renderer for ShieldsBackend {
                     fill_color
                 )
             }
+
+            // Waveform uses audio emoji badge as shields.io fallback
+            // Full waveform rendering requires SVG backend
+            Primitive::Waveform {
+                values,
+                positive_color,
+                ..
+            } => {
+                let label = format!("{}pts", values.len());
+                format!(
+                    "![](https://img.shields.io/badge/🎵-{}-{}?style=flat-square)",
+                    label,
+                    positive_color
+                )
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(markdown))

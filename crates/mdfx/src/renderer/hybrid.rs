@@ -59,6 +59,8 @@ impl HybridBackend {
             Primitive::Sparkline { .. } => true,
             // Ratings always use SVG for proper rendering
             Primitive::Rating { .. } => true,
+            // Waveforms always use SVG for proper rendering
+            Primitive::Waveform { .. } => true,
         }
     }
 }

@@ -11,6 +11,7 @@
 /// - Gauge: Semi-circular meter (half-donut)
 /// - Sparkline: Mini inline chart for data visualization
 /// - Rating: Star/heart rating display with partial fills
+/// - Waveform: Audio-style visualization with bars above/below center
 ///
 /// Text-based transformations (frames, styles, badges) remain as direct
 /// Unicode rendering and don't use this abstraction.
@@ -189,6 +190,30 @@ pub enum Primitive {
         /// Spacing between icons in pixels
         spacing: u32,
     },
+
+    /// Waveform - audio-style visualization with bars above/below center
+    Waveform {
+        /// Data values (positive = above center, negative = below)
+        values: Vec<f32>,
+        /// Total width in pixels
+        width: u32,
+        /// Total height in pixels
+        height: u32,
+        /// Color for bars above zero
+        positive_color: String,
+        /// Color for bars below zero
+        negative_color: String,
+        /// Width of each bar in pixels
+        bar_width: u32,
+        /// Spacing between bars in pixels
+        spacing: u32,
+        /// Background color (optional)
+        track_color: Option<String>,
+        /// Show center line at zero
+        show_center_line: bool,
+        /// Center line color
+        center_line_color: Option<String>,
+    },
 }
 
 impl Primitive {
@@ -313,6 +338,26 @@ impl Primitive {
             empty_color: "6B7280".to_string(), // slate
             icon: "star".to_string(),
             spacing: 2,
+        }
+    }
+
+    /// Create a simple waveform with defaults
+    pub fn simple_waveform(
+        values: Vec<f32>,
+        positive_color: impl Into<String>,
+        negative_color: impl Into<String>,
+    ) -> Self {
+        Primitive::Waveform {
+            values,
+            width: 100,
+            height: 40,
+            positive_color: positive_color.into(),
+            negative_color: negative_color.into(),
+            bar_width: 3,
+            spacing: 1,
+            track_color: None,
+            show_center_line: false,
+            center_line_color: None,
         }
     }
 }

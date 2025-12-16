@@ -636,6 +636,7 @@ fn process_file(
                                 mdfx::Primitive::Gauge { .. } => "gauge",
                                 mdfx::Primitive::Sparkline { .. } => "sparkline",
                                 mdfx::Primitive::Rating { .. } => "rating",
+                                mdfx::Primitive::Waveform { .. } => "waveform",
                             };
                             m.add_asset(
                                 relative_path.clone(),

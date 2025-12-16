@@ -60,6 +60,11 @@ pub enum PrimitiveInfo {
         max: u32,
         icon: String,
     },
+    Waveform {
+        point_count: usize,
+        width: u32,
+        height: u32,
+    },
 }
 
 impl From<&Primitive> for PrimitiveInfo {
@@ -128,6 +133,16 @@ impl From<&Primitive> for PrimitiveInfo {
                 value: *value,
                 max: *max,
                 icon: icon.clone(),
+            },
+            Primitive::Waveform {
+                values,
+                width,
+                height,
+                ..
+            } => PrimitiveInfo::Waveform {
+                point_count: values.len(),
+                width: *width,
+                height: *height,
             },
         }
     }
