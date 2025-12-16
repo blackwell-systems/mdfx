@@ -232,6 +232,52 @@ Semi-circular meters perfect for dashboards and speedometer-style displays.
 
 ---
 
+## Slider Mode (with Thumb)
+
+Both donut and gauge components support a `thumb` parameter that adds a circular indicator at the fill position, creating a slider-like appearance.
+
+### Donut Sliders
+
+**Basic Donut Slider:**
+{{ui:donut:75:size=60:thickness=6:thumb=14/}}
+
+**Large with Custom Thumb:**
+{{ui:donut:50:size=80:thickness=8:thumb=18:thumb_color=accent/}}
+
+**Thin Track Slider:**
+{{ui:donut:65:size=70:thickness=3:thumb=12/}}
+
+**Multiple Values:**
+{{ui:donut:25:size=50:thickness=5:thumb=12:fill=error/}} {{ui:donut:50:size=50:thickness=5:thumb=12:fill=warning/}} {{ui:donut:75:size=50:thickness=5:thumb=12:fill=success/}}
+
+---
+
+### Gauge Sliders
+
+**Basic Gauge Slider:**
+{{ui:gauge:60:size=100:thickness=8:thumb=16/}}
+
+**Large with Custom Thumb:**
+{{ui:gauge:75:size=120:thickness=10:thumb=20:thumb_color=accent/}}
+
+**Thin Arc Slider:**
+{{ui:gauge:40:size=100:thickness=4:thumb=14/}}
+
+**Volume Control Style:**
+{{ui:gauge:30:size=80:thickness=6:thumb=14:fill=info/}} {{ui:gauge:60:size=80:thickness=6:thumb=14:fill=info/}} {{ui:gauge:90:size=80:thickness=6:thumb=14:fill=info/}}
+
+---
+
+### Neon Sliders
+
+**Neon Donut:**
+{{ui:donut:70:size=70:thickness=6:fill=00FF41:track=0D0D0D:thumb=16:thumb_color=00FF41/}}
+
+**Neon Gauge:**
+{{ui:gauge:65:size=100:thickness=8:fill=FF00FF:track=0D0D0D:thumb=18:thumb_color=FF00FF/}}
+
+---
+
 ## Comparison: Donut vs Gauge vs Progress
 
 Same data, different visualizations:

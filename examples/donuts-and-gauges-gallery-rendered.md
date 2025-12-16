@@ -9,102 +9,102 @@ A showcase of creative donut/ring charts and semi-circular gauges using the `{{u
 ### Basic Donuts
 
 **Simple 75%:**
-![](assets/donut_ddfda00e4e63227f.svg)
+![](assets/donut_137d381a14227ab4.svg)
 
 **Half Full:**
-![](assets/donut_fdd7565e538e164.svg)
+![](assets/donut_67d4d80b0c5ba2a0.svg)
 
 **Almost There:**
-![](assets/donut_4024fc7f93820a56.svg)
+![](assets/donut_8a0b00e3edaada7c.svg)
 
 ---
 
 ### Size Variations
 
 **Tiny (24px):**
-![](assets/donut_fa92f21805f10794.svg)
+![](assets/donut_9020861741ce72a7.svg)
 
 **Small (32px):**
-![](assets/donut_6fbf92c611c2ae35.svg)
+![](assets/donut_d71ecf127fe1c85.svg)
 
 **Default (40px):**
-![](assets/donut_fdd7565e538e164.svg)
+![](assets/donut_67d4d80b0c5ba2a0.svg)
 
 **Large (60px):**
-![](assets/donut_7be8f4cfbf6ba7f.svg)
+![](assets/donut_d9c4ca79bb2a7bbb.svg)
 
 **XL (80px):**
-![](assets/donut_37b24b4bca286a58.svg)
+![](assets/donut_836bb862b4d7d6c2.svg)
 
 ---
 
 ### Thickness Variations
 
 **Hairline:**
-![](assets/donut_b329adc490da9a0e.svg)
+![](assets/donut_f813eabfd985649d.svg)
 
 **Thin:**
-![](assets/donut_f68f588daba1de19.svg)
+![](assets/donut_883e81c709ced607.svg)
 
 **Medium:**
-![](assets/donut_4e38d24f26b85c65.svg)
+![](assets/donut_248b2bc508b5d0bc.svg)
 
 **Thick:**
-![](assets/donut_5991989d1976367c.svg)
+![](assets/donut_c3067d22feafbcb.svg)
 
 **Chunky:**
-![](assets/donut_442dac4b3f3b5fd1.svg)
+![](assets/donut_d9c76537bf0a1c0.svg)
 
 ---
 
 ### With Labels
 
 **Labeled Progress:**
-![](assets/donut_8a11c9f6697f5f3f.svg)
+![](assets/donut_6a6682c83d4e3755.svg)
 
 **Large Labeled:**
-![](assets/donut_925acbe642309c33.svg)
+![](assets/donut_a98f8cb1f09cd2e5.svg)
 
 **Complete:**
-![](assets/donut_cc701a4896ec249d.svg)
+![](assets/donut_58ced3f47a022213.svg)
 
 ---
 
 ### Color Palette
 
 **Accent (Pink):**
-![](assets/donut_fbf7294b0ea447fa.svg)
+![](assets/donut_681b0431ca0465bc.svg)
 
 **Success (Green):**
-![](assets/donut_b94419ef7d0371ff.svg)
+![](assets/donut_9c939d599bd491fe.svg)
 
 **Warning (Yellow):**
-![](assets/donut_67617894fab753cb.svg)
+![](assets/donut_c7793b4e2437a78e.svg)
 
 **Error (Red):**
-![](assets/donut_2f7bb97ecb70d3a0.svg)
+![](assets/donut_c1140c443b55c2f6.svg)
 
 **Info (Blue):**
-![](assets/donut_e0076d00d10cd618.svg)
+![](assets/donut_fcdb9b6ea06b96fd.svg)
 
 **Cobalt:**
-![](assets/donut_796868b8d07e462b.svg)
+![](assets/donut_72b3d1377fdaff5.svg)
 
 ---
 
 ### Custom Track Colors
 
 **Dark Track:**
-![](assets/donut_7e491842158138c0.svg)
+![](assets/donut_c2b678d03428ec18.svg)
 
 **Light Track:**
-![](assets/donut_f5dc08b17baa30a9.svg)
+![](assets/donut_432b477af02ab735.svg)
 
 **Subtle Track:**
-![](assets/donut_5e0f1d6e96ff0de5.svg)
+![](assets/donut_2ff6818153bf8f2b.svg)
 
 **Invisible Track:**
-![](assets/donut_e5979b8dd105885a.svg)
+![](assets/donut_429f369c1d2485a9.svg)
 
 ---
 
@@ -112,11 +112,11 @@ A showcase of creative donut/ring charts and semi-circular gauges using the `{{u
 
 | Metric | Status |
 |--------|--------|
-| Tests Passing | ![](assets/donut_6f9a098014e86b66.svg) |
-| Code Coverage | ![](assets/donut_83c3cb1707969e38.svg) |
-| Build Health | ![](assets/donut_d8b317993ea48d88.svg) |
-| Documentation | ![](assets/donut_96ce5e09828540f8.svg) |
-| Tech Debt | ![](assets/donut_83cb2f1a46040757.svg) |
+| Tests Passing | ![](assets/donut_f473ad1f9add81b1.svg) |
+| Code Coverage | ![](assets/donut_9d69435c4383e4fe.svg) |
+| Build Health | ![](assets/donut_3d4625505f018e88.svg) |
+| Documentation | ![](assets/donut_faab25effff769cd.svg) |
+| Tech Debt | ![](assets/donut_578b4f65cb4bf365.svg) |
 
 ---
 
@@ -127,77 +127,77 @@ Semi-circular meters perfect for dashboards and speedometer-style displays.
 ### Basic Gauges
 
 **Simple 75%:**
-![](assets/gauge_83639f6c7456252b.svg)
+![](assets/gauge_4836b33960fb4af3.svg)
 
 **Half:**
-![](assets/gauge_a564d46d23ccddf1.svg)
+![](assets/gauge_8e0bbd4f53287ff0.svg)
 
 **Full:**
-![](assets/gauge_2e7e54e35b7871f4.svg)
+![](assets/gauge_af0e7378d735b7dd.svg)
 
 ---
 
 ### Size Variations
 
 **Small (60px):**
-![](assets/gauge_688f8109f5200c9c.svg)
+![](assets/gauge_93eca00348838e79.svg)
 
 **Default (80px):**
-![](assets/gauge_55966f239f921b8c.svg)
+![](assets/gauge_697640d9d1fc77fb.svg)
 
 **Large (120px):**
-![](assets/gauge_5fd4d952ff6c5882.svg)
+![](assets/gauge_cf7c3b3c4baceb82.svg)
 
 **XL (160px):**
-![](assets/gauge_38f255e620ab9e24.svg)
+![](assets/gauge_41cf31e89d090364.svg)
 
 ---
 
 ### With Labels
 
 **Labeled Gauge:**
-![](assets/gauge_634c2ca265f85ac3.svg)
+![](assets/gauge_1b96bc9635313921.svg)
 
 **Large Labeled:**
-![](assets/gauge_5585b94b4438c04a.svg)
+![](assets/gauge_dfa1291ec95cd709.svg)
 
 **Complete with Label:**
-![](assets/gauge_5a1b8c2c7d44bc01.svg)
+![](assets/gauge_9b5c044a0836911e.svg)
 
 ---
 
 ### Color Variations
 
 **Accent:**
-![](assets/gauge_664e9d0351e505b8.svg)
+![](assets/gauge_f072ec001b88a117.svg)
 
 **Success:**
-![](assets/gauge_4387bb7ab4824848.svg)
+![](assets/gauge_39b87f8d4cf7726c.svg)
 
 **Warning:**
-![](assets/gauge_8c3c9b6ca5a27e64.svg)
+![](assets/gauge_2f9fc240062051f4.svg)
 
 **Error:**
-![](assets/gauge_affc0be938face56.svg)
+![](assets/gauge_52d6345c3a86b17f.svg)
 
 **Info:**
-![](assets/gauge_516d11bfca6b85d4.svg)
+![](assets/gauge_126642c98de6a71b.svg)
 
 **Cobalt:**
-![](assets/gauge_e1fe3b604dd866c.svg)
+![](assets/gauge_1fb341b60e213363.svg)
 
 ---
 
 ### Speedometer Style
 
 **Speed Low:**
-![](assets/gauge_6573ae99b95bbf6e.svg)
+![](assets/gauge_336648b699045df0.svg)
 
 **Speed Medium:**
-![](assets/gauge_c7955a28195cbfb5.svg)
+![](assets/gauge_6a42457cb68a8b2b.svg)
 
 **Speed High:**
-![](assets/gauge_bc51db74a79d4008.svg)
+![](assets/gauge_40a610a1f1e86117.svg)
 
 ---
 
@@ -205,30 +205,76 @@ Semi-circular meters perfect for dashboards and speedometer-style displays.
 
 | Metric | Gauge |
 |--------|-------|
-| CPU Usage | ![](assets/gauge_69ad64c0f5c8baef.svg) |
-| Memory | ![](assets/gauge_ac560d5d42bc59e.svg) |
-| Disk | ![](assets/gauge_a2e05b1f7b09d9c9.svg) |
-| Network | ![](assets/gauge_c3c8ff9356bf5962.svg) |
+| CPU Usage | ![](assets/gauge_2fe8a5cca934f0c1.svg) |
+| Memory | ![](assets/gauge_847751dd2447d359.svg) |
+| Disk | ![](assets/gauge_984bba1b6951986c.svg) |
+| Network | ![](assets/gauge_81d54447fd843154.svg) |
 
 ---
 
 ### Thin Arc Style
 
 **Elegant Thin:**
-![](assets/gauge_4cd4d3c87c52fb67.svg)
+![](assets/gauge_66f9a920227e8a5f.svg)
 
 **Hairline:**
-![](assets/gauge_649432b442181078.svg)
+![](assets/gauge_c45e59c832cb9a8c.svg)
 
 ---
 
 ### Thick Arc Style
 
 **Chunky:**
-![](assets/gauge_df0ddae925d1c274.svg)
+![](assets/gauge_d08cf415d898569f.svg)
 
 **Bold:**
-![](assets/gauge_e16b01da74b62cec.svg)
+![](assets/gauge_e3584c99b5099aca.svg)
+
+---
+
+## Slider Mode (with Thumb)
+
+Both donut and gauge components support a `thumb` parameter that adds a circular indicator at the fill position, creating a slider-like appearance.
+
+### Donut Sliders
+
+**Basic Donut Slider:**
+![](assets/donut_8687685c429e4752.svg)
+
+**Large with Custom Thumb:**
+![](assets/donut_bd868c79c7ea199a.svg)
+
+**Thin Track Slider:**
+![](assets/donut_a02796741da34075.svg)
+
+**Multiple Values:**
+![](assets/donut_474fe1c5a5f667a5.svg) ![](assets/donut_8d68991e875baa78.svg) ![](assets/donut_ff3e48da0e4b22b7.svg)
+
+---
+
+### Gauge Sliders
+
+**Basic Gauge Slider:**
+![](assets/gauge_99082c6aaea80738.svg)
+
+**Large with Custom Thumb:**
+![](assets/gauge_b6aec3790e631eff.svg)
+
+**Thin Arc Slider:**
+![](assets/gauge_aa4487864ec7e6d6.svg)
+
+**Volume Control Style:**
+![](assets/gauge_39b973e627ffdca6.svg) ![](assets/gauge_66055449c1b858b9.svg) ![](assets/gauge_2fba3ffdf0add795.svg)
+
+---
+
+### Neon Sliders
+
+**Neon Donut:**
+![](assets/donut_850b5d72378fcb3c.svg)
+
+**Neon Gauge:**
+![](assets/gauge_d9eb4f74328f0d39.svg)
 
 ---
 
@@ -238,31 +284,31 @@ Same data, different visualizations:
 
 | Task | Donut | Gauge | Bar |
 |------|-------|-------|-----|
-| API | ![](assets/donut_9c13fa43f332d6ec.svg) | ![](assets/gauge_bb2e32d1aed69a28.svg) | ![](assets/progress_19f127e8d6d92884.svg) |
-| Tests | ![](assets/donut_83c3cb1707969e38.svg) | ![](assets/gauge_6c2d8f644767f466.svg) | ![](assets/progress_31f31271bdbb5327.svg) |
-| Docs | ![](assets/donut_96ce5e09828540f8.svg) | ![](assets/gauge_4ea6be7c8fde556b.svg) | ![](assets/progress_f309f49e8efed1ff.svg) |
+| API | ![](assets/donut_f93d19d3265f9216.svg) | ![](assets/gauge_baca01a9bb105e80.svg) | ![](assets/progress_19f127e8d6d92884.svg) |
+| Tests | ![](assets/donut_9d69435c4383e4fe.svg) | ![](assets/gauge_8f94c8a55d793b6e.svg) | ![](assets/progress_31f31271bdbb5327.svg) |
+| Docs | ![](assets/donut_faab25effff769cd.svg) | ![](assets/gauge_96adc6bc8e44a1e7.svg) | ![](assets/progress_f309f49e8efed1ff.svg) |
 
 ---
 
 ## Neon Gauges
 
 **Neon Green:**
-![](assets/gauge_3f244773ad828cdb.svg)
+![](assets/gauge_ce04453e96157e94.svg)
 
 **Neon Pink:**
-![](assets/gauge_23a12608df1ba093.svg)
+![](assets/gauge_b138de923c70fbdd.svg)
 
 **Neon Cyan:**
-![](assets/gauge_f6ceb6b3bab83f98.svg)
+![](assets/gauge_2cfe0cf5eee3e688.svg)
 
 **Neon Orange:**
-![](assets/gauge_de1cb27afa7d27c6.svg)
+![](assets/gauge_63fd1e2f209602ba.svg)
 
 ---
 
 ## Loading Gauges
 
-![](assets/gauge_f5fbc2a249c97655.svg) ![](assets/gauge_6ffa681029acb1c7.svg) ![](assets/gauge_8d6552a0c8af688a.svg) ![](assets/gauge_f6bc3eeb4abe5710.svg) ![](assets/gauge_f4254818b7fbdc8d.svg) ![](assets/gauge_4846ab2d3cdd638.svg)
+![](assets/gauge_21ddaeaea91347cd.svg) ![](assets/gauge_cabd06229113a342.svg) ![](assets/gauge_5c9ecb4a65ee477a.svg) ![](assets/gauge_2624f21cf1095361.svg) ![](assets/gauge_3362c4c3ad8bb488.svg) ![](assets/gauge_d4b6c496b52be040.svg)
 
 ---
 
