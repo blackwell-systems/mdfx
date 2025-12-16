@@ -2,6 +2,24 @@
 
 Command-line usage for mdfx, including multi-target rendering.
 
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Commands](#commands)
+  - [mdfx process](#mdfx-process)
+  - [mdfx build](#mdfx-build)
+  - [mdfx watch](#mdfx-watch)
+- [Targets](#targets)
+  - [Available Targets](#available-targets)
+  - [Target Details](#target-details)
+- [Backends](#backends)
+  - [Backend Selection](#backend-selection)
+  - [Hybrid Backend](#hybrid-backend)
+- [Custom Palettes](#custom-palettes)
+- [Common Workflows](#common-workflows)
+- [Other Commands](#other-commands)
+- [See Also](#see-also)
+
 ## Quick Start
 
 ```bash
