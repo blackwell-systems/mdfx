@@ -245,7 +245,7 @@ mdfx watch docs/source.md -o docs/rendered.md --backend svg --debounce 200
   - 32 frames
   - 15 palette colors
   - 5 shield styles
-  - 9 UI components
+  - 8 UI components
 - **Hover documentation** - View glyph info and style descriptions
 - **Context-aware** - Detects `{{glyph:`, `{{frame:`, `style=`, etc.
 
@@ -280,7 +280,6 @@ mdfx lsp  # Starts LSP server on stdio
 - **New rendering backend** for PyPI and ASCII-only contexts
 - Renders primitives as plain ASCII text:
   - Swatches: `[#RRGGBB]` or `[#RRGGBB label]`
-  - Dividers: `---` or `--- #color1 #color2 ---`
   - Tech badges: `[rust]`, `[python]`
   - Status indicators: `[OK]`, `[WARN]`, `[ERR]`, `[INFO]`
 - Handles both semantic names and resolved hex colors for status
@@ -415,6 +414,11 @@ mdfx process --target auto -o docs/README.md  # Auto-detect
 mdfx process --target github --backend svg input.md  # Override backend
 ```
 
+### Removed
+
+- **Divider component** - Removed `{{ui:divider/}}` component entirely. It was just 4 colored swatches without distinct value. Users can achieve similar effects with multiple `{{ui:swatch:color/}}` components if needed.
+- **Section divider** - The `{{ui:section:Title/}}` component now expands to just `## Title` without the divider line
+
 ### Changed
 
 #### Data Consolidation
@@ -452,7 +456,7 @@ mdfx process --target github --backend svg input.md  # Override backend
 - **Renderables taxonomy**:
   - **Glyphs** (21): Unicode character mappings (`dot`, `bullet`, `arrow`, etc.)
   - **Snippets** (10): Template expansion shortcuts (`sep.accent`, `header.bold`, etc.)
-  - **Components** (9): Semantic UI elements (`divider`, `swatch`, `tech`, `status`, etc.)
+  - **Components** (8): Semantic UI elements (`swatch`, `tech`, `status`, `header`, etc.)
   - **Frames** (32): Decorative wrappers (`gradient`, `solid-left`, `dashed`, etc.)
   - **Styles** (19): Character transformations (`mathbold`, `italic`, `monospace`, etc.)
   - **Badges** (6): Character modifiers (`circle`, `paren`, `period`, etc.)
@@ -613,7 +617,7 @@ Breaking changes in v2.0!
 **Major architectural shift to semantic UI components:**
 
 - **ComponentsRenderer** - New primary API for high-level semantic elements
-  - 9 UI components shipped: `divider`, `swatch`, `tech`, `status`, `header`, `callout`, `section`, `callout-github`, `statusitem`
+  - 8 UI components shipped: `divider`, `swatch`, `tech`, `status`, `header`, `callout`, `section`, `callout-github`, `statusitem`
   - Expansion model: components expand to primitives (data-driven, not code)
   - Design token integration: named colors resolve from palette.json
   - Template syntax: `{{ui:component/}}` (self-closing) or `{{ui:component}}content{{/ui}}` (block)
