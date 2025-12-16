@@ -94,8 +94,8 @@ For templates with content:
 **Examples:**
 ```markdown
 {{mathbold}}HELLO{{/mathbold}}
-{{ui:header}}TITLE{{/ui}}
-{{ui:callout:warning}}Message{{/ui}}
+{{ui:row:align=center}}badges{{/ui}}
+{{ui:callout-github:warning}}Message{{/ui}}
 {{frame:gradient}}{{script}}Text{{/script}}{{/frame}}
 ```
 
@@ -141,7 +141,7 @@ Arguments separated by colons (`:`)
 **Examples:**
 ```markdown
 {{ui:tech:rust/}}                              ← 1 positional arg
-{{ui:callout:warning}}Message{{/ui}}           ← 1 positional arg
+{{ui:status:success/}}                         ← 1 positional arg
 {{ui:statusitem:Label:Level:Text/}}            ← 3 positional args
 {{ui:section:Getting Started/}}                ← 1 positional arg
 ```
@@ -252,8 +252,7 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 | `swatch` | color | self-closing | `{{ui:swatch:accent/}}` |
 | `tech` | logo_name | self-closing | `{{ui:tech:rust/}}` |
 | `status` | level | self-closing | `{{ui:status:success/}}` |
-| `header` | none | block | `{{ui:header}}TITLE{{/ui}}` |
-| `callout` | type | block | `{{ui:callout:warning}}Msg{{/ui}}` |
+| `row` | align | block | `{{ui:row:align=center}}badges{{/ui}}` |
 | `section` | title | self-closing | `{{ui:section:Features/}}` |
 | `callout-github` | type | block | `{{ui:callout-github:info}}Msg{{/ui}}` |
 | `statusitem` | label, level, text | self-closing | `{{ui:statusitem:Build:success:passing/}}` |
@@ -301,22 +300,6 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 - 1 arg: `success`, `warning`, `error`, `info`
 - Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
 - Renders colored block badge
-
-**header:**
-```markdown
-{{ui:header}}CONTENT{{/ui}}
-```
-- No args
-- Content is transformed to mathbold with dot separators
-- Wrapped in gradient frame
-
-**callout:**
-```markdown
-{{ui:callout:TYPE}}CONTENT{{/ui}}
-```
-- 1 arg: `success`, `warning`, `error`, `info`
-- Uses inline frame (not blockquote)
-- Content can be multiline
 
 **section:**
 ```markdown
@@ -689,9 +672,9 @@ Templates can be nested to create complex effects:
 {{frame:gradient}}{{mathbold}}HELLO{{/mathbold}}{{/frame}}
 ```
 
-2. **Component with styled content:**
+2. **Frame with styled content:**
 ```markdown
-{{ui:header}}{{script}}Elegant{{/script}}{{/ui}}
+{{frame:gradient}}{{script}}Elegant{{/script}}{{/frame}}
 ```
 
 3. **Multiple styles:**

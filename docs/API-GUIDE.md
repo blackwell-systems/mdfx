@@ -72,12 +72,12 @@ use mdfx::TemplateParser;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let parser = TemplateParser::new()?;
     
-    // Process UI components (primary API)
-    let input = "# {{ui:header}}PROJECT{{/ui}}";
+    // Process templates (primary API)
+    let input = "# {{mathbold}}PROJECT{{/mathbold}}";
     let output = parser.process(input)?;
-    
+
     println!("{}", output);
-    // Output: # ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓 ░▒▓
+    // Output: # 𝐏𝐑𝐎𝐉𝐄𝐂𝐓
     
     Ok(())
 }
@@ -351,7 +351,7 @@ use mdfx::ComponentsRenderer;
 let renderer = ComponentsRenderer::new()?;
 ```
 
-The `ComponentsRenderer` expands UI components (like `{{ui:header}}`) into primitive templates (like `{{frame:*}}{{mathbold}}...{{/mathbold}}{{/frame}}`).
+The `ComponentsRenderer` expands UI components (like `{{ui:swatch:accent/}}`) into primitive templates (like `{{shields:block:color=F41C80:style=flat-square/}}`).
 
 ### Creating a Renderer
 
@@ -373,7 +373,7 @@ let renderer = ComponentsRenderer::new()?;
 Expand a component into its primitive template.
 
 **Parameters:**
-- `component` - Component name (e.g., "swatch", "tech", "header")
+- `component` - Component name (e.g., "swatch", "tech", "status")
 - `args` - Positional arguments (e.g., `["rust"]` for `tech:rust`)
 - `content` - Inner content for non-self-closing components
 
@@ -390,13 +390,9 @@ let result = renderer.expand("swatch", &["accent".to_string()], None)?;
 let result = renderer.expand("tech", &["rust".to_string()], None)?;
 // Returns: "{{shields:icon:logo=rust:bg=292A2D:logoColor=FFFFFF:style=flat-square/}}"
 
-// Component with content
-let result = renderer.expand("header", &[], Some("TITLE"))?;
-// Returns: "{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}"
-
-// Component with arg + content
-let result = renderer.expand("callout", &["warning".to_string()], Some("Breaking change"))?;
-// Returns: "{{frame:solid-left}}{{shields:block:color=eab308:style=flat-square/}} Breaking change{{/frame}}"
+// Component with content (callout-github)
+let result = renderer.expand("callout-github", &["warning".to_string()], Some("Breaking change"))?;
+// Returns: "{{ui:status:warning/}} **Note**\nBreaking change"
 ```
 
 **Color Resolution:**
@@ -441,11 +437,11 @@ for (name, def) in renderer.list() {
 
 **Output:**
 ```
-callout: Framed messages with indicators
+callout-github: GitHub blockquote callout
   Self-closing: false
   Type: expand
-header: Section header with gradient frame and bold text
-  Self-closing: false
+section: Section heading
+  Self-closing: true
   Type: expand
 swatch: Single color block
   Self-closing: true
@@ -483,7 +479,7 @@ white: #ffffff
 Get a component definition.
 
 ```rust
-if let Some(def) = renderer.get("header") {
+if let Some(def) = renderer.get("swatch") {
     println!("Template: {}", def.template);
     println!("Args: {:?}", def.args);
 }
@@ -544,40 +540,6 @@ let result = renderer.expand("status", &["success".to_string()], None)?;
 **Template:**
 ```
 {{shields:block:color=$1:style=flat-square/}}
-```
-
-#### header
-
-**Type:** Block (requires content)
-**Args:** None
-**Usage:** `{{ui:header}}TITLE{{/ui}}`
-
-```rust
-let result = renderer.expand("header", &[], Some("TITLE"))?;
-```
-
-**Output:** Gradient frame with bold dotted text
-
-**Template:**
-```
-{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}
-```
-
-#### callout
-
-**Type:** Block (requires content)
-**Args:** `[level]`
-**Usage:** `{{ui:callout:warning}}Message{{/ui}}`
-
-```rust
-let result = renderer.expand("callout", &["warning".to_string()], Some("Message"))?;
-```
-
-**Output:** Left-framed message with colored indicator
-
-**Template:**
-```
-{{frame:solid-left}}{{shields:block:color=$1:style=flat-square/}} $content{{/frame}}
 ```
 
 #### row
@@ -852,7 +814,7 @@ for style in renderer.list_styles() {
 flat-square: Flat Square
   Aliases: ["flat", "square"]
 for-the-badge: For The Badge
-  Aliases: ["badge", "header"]
+  Aliases: ["badge"]
 plastic: Plastic
 social: Social
 ```
@@ -874,7 +836,7 @@ for (name, hex) in renderer.list_palette() {
 | ID | Name | Aliases | Visual |
 |----|------|---------|--------|
 | `flat-square` | Flat Square | `flat`, `square` | Minimal, clean |
-| `for-the-badge` | For The Badge | `badge`, `header` | Tall, bold |
+| `for-the-badge` | For The Badge | `badge` | Tall, bold |
 | `plastic` | Plastic | - | Glossy, 3D |
 | `social` | Social | - | GitHub-style |
 

@@ -15,9 +15,9 @@ mdfx uses a **component-first architecture** where users write semantic `{{ui:*}
 
 **What users write:**
 ```markdown
-{{ui:header}}TITLE{{/ui}}
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
+{{ui:status:success/}}
 ```
 
 **Purpose:** High-level semantic elements optimized for common use cases.
@@ -63,17 +63,18 @@ mdfx uses a **component-first architecture** where users write semantic `{{ui:*}
 
 ### How It Works
 
-When the parser encounters `{{ui:header}}TITLE{{/ui}}`:
+When the parser encounters `{{ui:swatch:accent/}}`:
 
-1. **Parse** UI template → extract component name (`header`), content (`TITLE`)
+1. **Parse** UI template → extract component name (`swatch`), args (`accent`)
 2. **Expand** using `registry.json`:
    ```json
-   "header": {
-     "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}"
+   "swatch": {
+     "template": "{{shields:block:color=$1:style=flat-square/}}"
    }
    ```
-3. **Substitute** `$content` → `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`
-4. **Recursively process** the expanded template (frame → style → render)
+3. **Substitute** `$1` → `{{shields:block:color=accent:style=flat-square/}}`
+4. **Resolve palette** → `accent` becomes `F41C80`
+5. **Render** shields URL
 
 ### Parser Priority
 
@@ -90,18 +91,16 @@ This ensures UI components can use any primitive, and primitives can use styles.
 
 Input:
 ```markdown
-{{ui:header}}PROJECT{{/ui}}
+{{ui:tech:rust/}}
 ```
 
 Expansion steps:
 ```
-1. Parse: ui:header with content="PROJECT"
-2. Expand: {{frame:gradient}}{{mathbold:separator=dot}}PROJECT{{/mathbold}}{{/frame}}
-3. Parse frame: frame_style="gradient", content="{{mathbold:separator=dot}}PROJECT{{/mathbold}}"
-4. Parse style: style="mathbold", separator="dot", content="PROJECT"
-5. Transform: PROJECT → 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓
-6. Apply frame: ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓 ░▒▓
-7. Output
+1. Parse: ui:tech with args=["rust"]
+2. Expand: {{shields:icon:logo=rust:bg=ui.bg:logoColor=white:style=flat-square/}}
+3. Resolve palette: ui.bg → 292A2D
+4. Generate shields URL: https://img.shields.io/badge/...
+5. Output: ![](https://img.shields.io/badge/...)
 ```
 
 ## Component Structure
@@ -131,7 +130,7 @@ Components are defined in `registry.json` under `renderables.components`:
 ### Fields
 
 **type** (`"expand"` or `"native"`)
-- `"expand"` - Template substitution components (header, callout, section, etc.)
+- `"expand"` - Template substitution components (section, statusitem, callout-github)
 - `"native"` - Rust-implemented logic (swatch, tech, status, row)
 
 **self_closing** (`boolean`)
@@ -152,7 +151,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components (9 total)
+### Shipped Components (7 total)
 
 #### swatch
 ```json
@@ -195,33 +194,6 @@ Components are defined in `registry.json` under `renderables.components`:
 **Usage:** `{{ui:status:success/}}`
 
 **Output:** Colored block (success → green, warning → yellow, error → red)
-
-#### header
-```json
-{
-  "type": "expand",
-  "self_closing": false,
-  "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}"
-}
-```
-
-**Usage:** `{{ui:header}}TITLE{{/ui}}`
-
-**Output:** `▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓`
-
-#### callout
-```json
-{
-  "type": "expand",
-  "self_closing": false,
-  "args": ["level"],
-  "template": "{{frame:solid-left}}{{shields:block:color=$1:style=flat-square/}} $content{{/frame}}"
-}
-```
-
-**Usage:** `{{ui:callout:warning}}Message{{/ui}}`
-
-**Output:** `█▌ 🟡 Message`
 
 #### section
 ```json
@@ -399,8 +371,8 @@ This groups related colors without requiring nested objects.
 
 **Example:**
 ```markdown
-{{ui:header}}TITLE{{/ui}}
-{{ui:callout:warning}}Message{{/ui}}
+{{ui:row:align=center}}badges{{/ui}}
+{{ui:callout-github:warning}}Message{{/ui}}
 ```
 
 ### Generic Closers
@@ -420,7 +392,7 @@ This groups related colors without requiring nested objects.
 **Without `=`** → Positional arg
 ```markdown
 {{ui:tech:rust/}}           → args = ["rust"]
-{{ui:callout:warning}}      → args = ["warning"]
+{{ui:status:success/}}      → args = ["success"]
 {{ui:multi:a:b:c/}}         → args = ["a", "b", "c"]
 ```
 
@@ -655,8 +627,8 @@ fn test_ui_swatch() {
 
 **End-to-end tests:**
 ```bash
-echo "{{ui:header}}TEST{{/ui}}" | mdfx process -
-# Verify: ▓▒░ 𝐓·𝐄·𝐒·𝐓 ░▒▓
+echo "{{ui:swatch:accent/}}" | mdfx process -
+# Verify: ![](https://img.shields.io/badge/...)
 ```
 
 ## Troubleshooting

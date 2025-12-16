@@ -11,9 +11,7 @@ Components are reusable UI elements that render to visual primitives like badges
   - [status](#status)
   - [row](#row)
 - [Expand Components](#expand-components)
-  - [header](#header)
   - [section](#section)
-  - [callout](#callout)
   - [callout-github](#callout-github)
   - [statusitem](#statusitem)
 - [Badge Styles](#badge-styles)
@@ -177,32 +175,6 @@ content
 
 Components that expand to templates with other mdfx syntax.
 
-### header
-
-Section header with gradient frame and bold mathematical text.
-
-**Syntax:**
-```markdown
-{{ui:header}}Title Text{{/ui}}
-```
-
-**Expands to:**
-```markdown
-{{frame:gradient}}{{mathbold:separator=dot}}Title Text{{/mathbold}}{{/frame}}
-```
-
-**Example:**
-```markdown
-{{ui:header}}GETTING STARTED{{/ui}}
-```
-
-**Output:**
-```
-▓▒░ 𝐆𝐄𝐓𝐓𝐈𝐍𝐆 · 𝐒𝐓𝐀𝐑𝐓𝐄𝐃 ░▒▓
-```
-
----
-
 ### section
 
 Creates a styled markdown heading.
@@ -222,33 +194,6 @@ Creates a styled markdown heading.
 {{ui:section:Installation/}}
 
 Follow these steps to install...
-```
-
----
-
-### callout
-
-Callout box with status color indicator.
-
-**Syntax:**
-```markdown
-{{ui:callout:level}}Content{{/ui}}
-```
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `level` | string | Status color (success, warning, error, info) |
-
-**Expands to:**
-```markdown
-{{frame:solid-left}}{{shields:block:color=level:style=flat-square/}} Content{{/frame}}
-```
-
-**Example:**
-```markdown
-{{ui:callout:warning}}This action cannot be undone.{{/ui}}
 ```
 
 ---
@@ -361,9 +306,9 @@ All components that render badges support these styles:
 - Zero-cost abstractions
 ```
 
-### Callout Box
+### GitHub Callout
 ```markdown
-{{ui:callout:warning}}
+{{ui:callout-github:warning}}
 Breaking changes in v2.0. See migration guide.
 {{/ui}}
 ```
@@ -390,9 +335,7 @@ Breaking changes in v2.0. See migration guide.
 | `tech` | native | yes | inline, block |
 | `status` | native | yes | inline, block |
 | `row` | native | no | block |
-| `header` | expand | no | block |
 | `section` | expand | yes | block |
-| `callout` | expand | no | block |
 | `callout-github` | expand | no | block |
 | `statusitem` | expand | yes | inline, block |
 

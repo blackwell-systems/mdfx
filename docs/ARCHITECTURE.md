@@ -219,7 +219,7 @@ The unified registry consolidates all compiler data into a single JSON file, rep
   "shield_styles": { "flat-square": { ... }, "flat": { ... }, ... },
   "renderables": {
     "frames": { "gradient": { "pattern": "▓▒░", "mode": "mirror" }, ... },
-    "components": { "header": { "template": "..." }, ... }
+    "components": { "swatch": { "template": "..." }, ... }
   }
 }
 ```
@@ -375,13 +375,13 @@ let output = parser.process(&input)?;
 
 **Example:**
 ```markdown
-{{ui:header}}TITLE{{/ui}}
 {{ui:swatch:accent/}}
 {{ui:tech:rust/}}
+{{ui:status:success/}}
 ```
 
 **Characteristics:**
-- Self-documenting names (`header`, `swatch`, `tech`)
+- Self-documenting names (`swatch`, `tech`, `status`)
 - Self-closing tags (`/}}`) for contentless elements
 - Generic closer (`{{/ui}}`) for ergonomics
 - Design token integration (palette colors)
@@ -442,20 +442,17 @@ let output = parser.process(&input)?;
 
 ### How Layers Interact
 
-**Input:** `{{ui:header}}PROJECT{{/ui}}`
+**Input:** `{{ui:swatch:accent/}}`
 
 **Processing:**
 ```
-1. Layer 1 (UI):    Expand "header" component
-   → {{frame:gradient}}{{mathbold:separator=dot}}PROJECT{{/mathbold}}{{/frame}}
+1. Layer 1 (UI):    Expand "swatch" component
+   → {{shields:block:color=F41C80:style=flat-square/}}
 
-2. Layer 2 (Frame): Add prefix/suffix
-   → ▓▒░ {{mathbold:separator=dot}}PROJECT{{/mathbold}} ░▒▓
+2. Layer 2 (Shields): Generate image URL
+   → ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)
 
-3. Layer 3 (Style): Transform characters + separators
-   → ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓 ░▒▓
-
-4. Output
+3. Output
 ```
 
 **Key insight:** Expansion happens **once** at UI layer, then rendering flows through primitives/styles naturally. No special-casing needed.
@@ -1360,13 +1357,11 @@ let result = renderer.expand("tech", &["rust".to_string()], None)?;
 
 **Example (Template):**
 ```rust
-// Component definition in components.json:
-// "header": { "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}" }
+// Component definition in registry.json:
+// "section": { "template": "## $1" }
 
-let result = renderer.expand("header", &[], Some("TITLE"))?;
-// Returns: ComponentOutput::Template(
-//   "{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}"
-// )
+let result = renderer.expand("section", &["Features".to_string()], None)?;
+// Returns: ComponentOutput::Template("## Features")
 ```
 
 **Design:**
@@ -1548,22 +1543,22 @@ convert_with_separator("TITLE", "mathbold", "·", 1)
 ### Expansion Flow
 
 ```
-┌─────────────────────┐
-│ {{ui:header}}TEXT{{/ui}} │  ← User writes this
-└─────────────────────┘
+┌─────────────────────────┐
+│ {{ui:swatch:accent/}}  │  ← User writes this
+└─────────────────────────┘
            │
            ▼
 ┌─────────────────────────────────────────────────────┐
-│ ComponentsRenderer.expand("header", [], "TEXT")     │
+│ ComponentsRenderer.expand("swatch", ["accent"], None) │
 │ → Lookup in registry.json → renderables.components  │
-│ → Substitute $content → TEXT                         │
-│ → Resolve palette refs → ui.bg → 292A2D            │
+│ → Substitute $1 → accent                             │
+│ → Resolve palette refs → accent → F41C80            │
 └─────────────────────────────────────────────────────┘
            │
            ▼
-┌───────────────────────────────────────────────────────────────┐
-│ {{frame:gradient}}{{mathbold:separator=dot}}TEXT{{/mathbold}}{{/frame}} │
-└───────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│ {{shields:block:color=F41C80:style=flat-square/}}           │
+└─────────────────────────────────────────────────────────────┘
            │
            ▼
 ┌─────────────────────────┐
@@ -1633,8 +1628,8 @@ Parser detects `/}}` before `}}`, skips closer search.
 
 **2. Block with generic closer** (`{{/ui}}`)
 ```markdown
-{{ui:header}}CONTENT{{/ui}}
-{{ui:callout:warning}}MESSAGE{{/ui}}
+{{ui:row:align=center}}CONTENT{{/ui}}
+{{ui:callout-github:warning}}MESSAGE{{/ui}}
 ```
 
 Parser uses stack to match `{{/ui}}` with most recent `ui:*` opener.
@@ -1930,8 +1925,8 @@ Target-locked, zero validation:
 ### Decision: Generic {{/ui}} Closer
 
 **Options:**
-- A) Specific closers: `{{ui:header}}...{{/ui:header}}`
-- B) Generic closer: `{{ui:header}}...{{/ui}}`
+- A) Specific closers: `{{ui:row}}...{{/ui:row}}`
+- B) Generic closer: `{{ui:row}}...{{/ui}}`
 
 **Chose B** because:
 - UI is high-frequency authoring layer (ergonomics matter)

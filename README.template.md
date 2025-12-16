@@ -1,4 +1,4 @@
-# {{ui:header}}MDFX{{/ui}}
+# {{frame:gradient}}{{mathbold:separator=dot}}MDFX{{/mathbold}}{{/frame}}
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
@@ -12,7 +12,7 @@ for READMEs, documentation, and presentations without images or external depende
 ## {{mathbold}}Quick Start{{/mathbold}}
 
 ```markdown
-# {{ui:header}}PROJECT NAME{{/ui}}
+# {{frame:gradient}}{{mathbold:separator=dot}}PROJECT NAME{{/mathbold}}{{/frame}}
 
 ## Tech Stack
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
@@ -36,7 +36,7 @@ Renders as:
 Unicode offers diverse styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful Ⓒⓘⓡⓒⓛⓔⓢ—but they're
 cumbersome to use. Finding glyphs requires hunting through Unicode tables and manually spacing them.
 
-**mdfx** makes Unicode styling simple and repeatable. Use intuitive templates like `{{ui:header}}TITLE{{/ui}}`
+**mdfx** makes Unicode styling simple and repeatable. Use intuitive templates like `{{mathbold}}TITLE{{/mathbold}}`
 or CLI commands like `mdfx convert --style script "Elegant"`.
 
 Transform Unicode styling from a frustrating manual process into something as easy as markdown formatting.
@@ -45,7 +45,7 @@ Transform Unicode styling from a frustrating manual process into something as ea
 
 **Why not just copy/paste Unicode characters?**
 
-- **Repeatability**: Reuse `{{ui:header}}TITLE{{/ui}}` across dozens of files
+- **Repeatability**: Reuse `{{mathbold}}TITLE{{/mathbold}}` across dozens of files
 - **Consistency**: Change style once, regenerate all docs - instant rebrand
 - **Maintainability**: Source files remain readable ASCII, styled output is generated
 - **Search & Replace**: Find/replace works on template names, not opaque glyphs
@@ -86,21 +86,6 @@ frames, and character transformations.
 ```
 
 Uses [Simple Icons](https://simpleicons.org/) logo library (2000+ logos available).
-
-### Content Blocks
-
-**Section Headers** - Gradient frames with bold text
-```markdown
-{{ui:header}}INSTALLATION{{/ui}}
-{{ui:header}}API REFERENCE{{/ui}}
-```
-
-**Callouts** - Framed messages with indicators
-```markdown
-{{ui:callout:info}}Remember to run tests{{/ui}}
-{{ui:callout:warning}}Breaking change in v2.0{{/ui}}
-{{ui:callout:error}}Deprecated{{/ui}}
-```
 
 ### Design Tokens
 
@@ -236,7 +221,7 @@ mdfx process README.template.md > README.md
 mdfx process input.md --output output.md
 
 # Process from stdin
-echo "{{ui:header}}HELLO{{/ui}}" | mdfx process -
+echo "{{mathbold}}HELLO{{/mathbold}}" | mdfx process -
 ```
 
 ### CLI - Direct Conversion
@@ -270,7 +255,7 @@ fn main() {
     let parser = TemplateParser::new().unwrap();
 
     // Process templates
-    let input = "# {{ui:header}}PROJECT{{/ui}}";
+    let input = "# {{mathbold}}PROJECT{{/mathbold}}";
     let output = parser.process(input).unwrap();
 
     println!("{}", output);
@@ -331,7 +316,7 @@ UI components are recommended for most use cases.
 
 ### Project README Header
 ```markdown
-# {{ui:header}}BLACKWELL SYSTEMS{{/ui}}
+# {{frame:gradient}}{{mathbold:separator=dot}}BLACKWELL SYSTEMS{{/mathbold}}{{/frame}}
 
 ## Built With
 {{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:postgresql/}}
@@ -346,30 +331,6 @@ UI components are recommended for most use cases.
 {{ui:status:warning/}} Cache: Degraded
 ```
 
-### Documentation Sections
-```markdown
-{{ui:header}}INSTALLATION{{/ui}}
-
-Follow these steps...
-
-{{ui:header}}CONFIGURATION{{/ui}}
-
-Configure your environment...
-```
-
-### Release Notes
-```markdown
-# Release v2.0.0
-
-{{ui:callout:warning}}Breaking changes in this release{{/ui}}
-
-## New Features
-- Feature A
-- Feature B
-
-{{ui:callout:info}}See migration guide for upgrade path{{/ui}}
-```
-
 ## {{mathbold}}How It Works{{/mathbold}}
 
 mdfx uses a three-layer architecture:
@@ -378,13 +339,13 @@ mdfx uses a three-layer architecture:
 2. **Primitives** (`{{shields:*}}`, `{{frame:*}}` / `{{fr:*}}`) - Rendering engines
 3. **Styles** (`{{mathbold}}`) - Character transformations
 
-When you write `{{ui:header}}TITLE{{/ui}}`, mdfx:
-1. Expands the component to `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`
-2. Applies the frame decoration
+When you write `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`, mdfx:
+1. Parses the nested templates (frame → style)
+2. Applies the frame decoration (gradient prefix/suffix)
 3. Transforms characters with mathbold
 4. Adds dot separators
 
-This expansion model keeps your markdown concise while allowing full customization when needed.
+This composition model keeps your markdown readable while enabling powerful visual effects.
 
 ## {{mathbold}}Configuration{{/mathbold}}
 
@@ -442,9 +403,9 @@ For contentless elements:
 ### Block Tags
 For elements with content:
 ```markdown
-{{ui:header}}TITLE{{/ui}}
-{{ui:callout:warning}}Message{{/ui}}
 {{mathbold}}TEXT{{/mathbold}}
+{{frame:gradient}}TITLE{{/frame}}
+{{ui:row:align=center}}badges{{/ui}}
 ```
 
 Note: UI components use generic `{{/ui}}` closer. Other templates use specific closers (`{{/mathbold}}`, `{{/frame}}`).
@@ -454,7 +415,7 @@ Colon-separated key=value pairs:
 ```markdown
 {{mathbold:separator=dot:spacing=1}}TEXT{{/mathbold}}
 {{ui:tech:rust/}}    ← Positional arg
-{{ui:callout:warning}}...{{/ui}}    ← Positional arg
+{{ui:status:success/}}    ← Positional arg
 ```
 
 ## {{mathbold}}Project Status{{/mathbold}}
@@ -463,7 +424,7 @@ Colon-separated key=value pairs:
 
 **Shipped:**
 - 19 Unicode text styles with aliases
-- 8 UI components (swatch, tech, status, header, callout, row, section, callout-github)
+- 7 UI components (swatch, tech, status, row, section, statusitem, callout-github)
 - 27 inline frames
 - 6 alphanumeric badge types
 - Custom separators and spacing

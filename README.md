@@ -20,7 +20,7 @@ cargo install mdfx-cli
 
 Create `README.template.md`:
 ```markdown
-# {{ui:header}}PROJECT NAME{{/ui}}
+# {{frame:gradient}}{{mathbold:separator=dot}}PROJECT NAME{{/mathbold}}{{/frame}}
 
 ## Tech Stack
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
@@ -53,7 +53,6 @@ High-level semantic components that compile to shields.io badges or local SVGs.
 
 | Component | Example | Output |
 |-----------|---------|--------|
-| `{{ui:header}}TEXT{{/ui}}` | Section header | `▓▒░ 𝐓·𝐄·𝐗·𝐓 ░▒▓` |
 | `{{ui:tech:rust/}}` | Tech badge | ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF) |
 | `{{ui:status:success/}}` | Status indicator | ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) |
 | `{{ui:swatch:F41C80/}}` | Color block | ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) |
@@ -159,7 +158,7 @@ mdfx process README.template.md > README.md
 mdfx process input.md --output output.md
 
 # Process from stdin
-echo "{{ui:header}}HELLO{{/ui}}" | mdfx process -
+echo "{{mathbold}}HELLO{{/mathbold}}" | mdfx process -
 ```
 
 ### CLI - Multi-Target Rendering

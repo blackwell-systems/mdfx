@@ -102,7 +102,7 @@ impl ComponentsRenderer {
     ///
     /// # Arguments
     ///
-    /// * `component` - Component name (e.g., "swatch", "tech", "header")
+    /// * `component` - Component name (e.g., "swatch", "tech", "status")
     /// * `args` - Positional arguments (e.g., ["rust"] for tech:rust)
     /// * `content` - Optional content between tags (for non-self-closing components)
     ///
@@ -110,7 +110,7 @@ impl ComponentsRenderer {
     ///
     /// Either:
     /// - `ComponentOutput::Primitive` for image-based components (swatch, tech, status)
-    /// - `ComponentOutput::Template` for components using frames/styles (header, callout)
+    /// - `ComponentOutput::Template` for expand components (section, callout-github)
     ///
     /// # Examples
     ///
@@ -123,8 +123,8 @@ impl ComponentsRenderer {
     /// let result = renderer.expand("swatch", &["accent".to_string()], None).unwrap();
     /// assert!(matches!(result, ComponentOutput::Primitive(_)));
     ///
-    /// // Header returns a Template
-    /// let result = renderer.expand("header", &[], Some("TITLE")).unwrap();
+    /// // Section returns a Template
+    /// let result = renderer.expand("section", &["TITLE".to_string()], None).unwrap();
     /// assert!(matches!(result, ComponentOutput::Template(_)));
     /// ```
     pub fn expand(
@@ -801,41 +801,6 @@ mod tests {
                 assert_eq!(level, "22C55E"); // success → green
             }
             _ => panic!("Expected Primitive::Status"),
-        }
-    }
-
-    #[test]
-    fn test_expand_header_with_content() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer
-            .expand("header", &[], Some("INSTALLATION"))
-            .unwrap();
-
-        // Header should return a Template for recursive processing
-        match result {
-            ComponentOutput::Template(template) => {
-                assert!(template.contains("INSTALLATION"));
-                assert!(template.contains("{{frame:gradient}}"));
-                assert!(template.contains("{{mathbold:separator=dot}}"));
-            }
-            _ => panic!("Expected ComponentOutput::Template"),
-        }
-    }
-
-    #[test]
-    fn test_expand_callout_with_content() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer
-            .expand("callout", &["warning".to_string()], Some("Breaking change"))
-            .unwrap();
-
-        // Callout should return a Template with substitutions
-        match result {
-            ComponentOutput::Template(template) => {
-                assert!(template.contains("Breaking change"));
-                assert!(template.contains("EAB308")); // warning color resolved
-            }
-            _ => panic!("Expected ComponentOutput::Template"),
         }
     }
 

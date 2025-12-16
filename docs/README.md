@@ -10,7 +10,7 @@ cargo install mdfx-cli
 
 Create `input.md`:
 ```markdown
-{{ui:header}}PROJECT{{/ui}}
+# {{frame:gradient}}{{mathbold}}PROJECT{{/mathbold}}{{/frame}}
 {{ui:tech:rust/}} {{ui:tech:python/}}
 ```
 

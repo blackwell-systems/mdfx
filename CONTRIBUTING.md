@@ -216,10 +216,10 @@ For end-to-end testing:
 #[test]
 fn test_full_template_processing() {
     let parser = TemplateParser::new().unwrap();
-    let input = "# {{ui:header}}TEST{{/ui}}";
+    let input = "# {{mathbold}}TEST{{/mathbold}}";
     let output = parser.process(input).unwrap();
-    assert!(output.contains("▓▒░"));
     assert!(output.contains("𝐓"));
+    assert!(output.contains("𝐄"));
 }
 ```
 

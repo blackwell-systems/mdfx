@@ -1549,7 +1549,7 @@ impl TemplateParser {
     ///
     /// Supports both self-closing and block-style:
     /// - Self-closing: {{ui:swatch:accent/}}
-    /// - Block: {{ui:header}}CONTENT{{/ui}}
+    /// - Block: {{ui:row}}CONTENT{{/ui}}
     /// - With args: {{ui:tech:rust/}}
     fn parse_ui_at(&self, chars: &[char], start: usize) -> Result<Option<UIData>> {
         let mut i = start;
@@ -2847,26 +2847,6 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     }
 
     #[test]
-    fn test_ui_header_with_content() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:header}}TITLE{{/ui}}";
-        let result = parser.process(input).unwrap();
-        // Should expand to frame+mathbold and render
-        assert!(result.contains("▓▒░")); // gradient frame prefix
-        assert!(result.contains("𝐓")); // mathbold T
-    }
-
-    #[test]
-    fn test_ui_callout_with_content() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:callout:warning}}Breaking change{{/ui}}";
-        let result = parser.process(input).unwrap();
-        // Should have frame + shield + content
-        assert!(result.contains("Breaking change"));
-        assert!(result.contains("![]("));
-    }
-
-    #[test]
     fn test_ui_multiple_inline() {
         let parser = TemplateParser::new().unwrap();
         let input = "{{ui:tech:rust/}} {{ui:tech:python/}}";
@@ -2902,7 +2882,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     #[test]
     fn test_ui_unclosed() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:header}}TITLE";
+        let input = "{{ui:row}}TITLE";
         let result = parser.process(input);
         assert!(result.is_err());
     }
@@ -3035,8 +3015,8 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     fn test_preserves_blank_lines_around_block_components() {
         let parser = TemplateParser::new().unwrap();
 
-        // Test with block component (header)
-        let input = "Intro text\n\n{{ui:header}}TITLE{{/ui}}\n\nFollowing text";
+        // Test with block component (frame)
+        let input = "Intro text\n\n{{frame:gradient}}TITLE{{/frame}}\n\nFollowing text";
         let result = parser.process(input).unwrap();
 
         // Should preserve structure
@@ -3084,13 +3064,13 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     fn test_multiline_component_content_preserves_structure() {
         let parser = TemplateParser::new().unwrap();
 
-        // Multiline content in component
-        let input = "{{ui:header}}Multi\nLine\nTitle{{/ui}}";
+        // Multiline content in component (using frame)
+        let input = "{{frame:gradient}}Multi\nLine\nTitle{{/frame}}";
         let result = parser.process(input).unwrap();
 
         // Content should be processed but structure preserved
-        // (Even though header may not handle newlines perfectly, it shouldn't crash or mangle output)
         assert!(!result.is_empty());
+        assert!(result.contains("▓▒░")); // gradient frame prefix
     }
 
     #[test]
@@ -3147,13 +3127,13 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     fn test_component_expansion_preserves_empty_lines_in_content() {
         let parser = TemplateParser::new().unwrap();
 
-        // Block component with empty lines in content
-        let input = "{{ui:callout:warning}}Line 1\n\nLine 3{{/ui}}";
+        // Block component with empty lines in content (using frame)
+        let input = "{{frame:solid-left}}Line 1\n\nLine 3{{/frame}}";
         let result = parser.process(input).unwrap();
 
         // Empty line in content should be preserved
-        // (though current callout may not handle this perfectly, it shouldn't crash)
         assert!(!result.is_empty());
+        assert!(result.contains("█▌")); // solid-left frame prefix
     }
 
     // ========================================

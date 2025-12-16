@@ -11,7 +11,7 @@ Comprehensive examples showcasing mdfx capabilities, from high-level UI componen
 The simplest way to use mdfx is through semantic UI components:
 
 ```markdown
-# {{ui:header}}PROJECT NAME{{/ui}}
+# {{frame:gradient}}{{mathbold:separator=dot}}PROJECT NAME{{/mathbold}}{{/frame}}
 
 ## Tech Stack
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
@@ -97,41 +97,6 @@ Technology logos using Simple Icons:
 
 ### Content Blocks
 
-#### Headers
-
-Gradient-framed section headers with bold dotted text:
-
-```markdown
-{{ui:header}}INSTALLATION{{/ui}}
-{{ui:header}}API REFERENCE{{/ui}}
-{{ui:header}}TROUBLESHOOTING{{/ui}}
-```
-
-**Use Cases:**
-- Major section headers
-- Chapter titles
-- Prominent headings
-
-#### Callouts
-
-Framed messages with colored indicators:
-
-```markdown
-{{ui:callout:info}}Remember to run tests before deploying{{/ui}}
-
-{{ui:callout:warning}}Breaking changes in v2.0{{/ui}}
-
-{{ui:callout:error}}This feature is deprecated{{/ui}}
-```
-
-**Levels:** `info`, `warning`, `error`, `success`
-
-**Use Cases:**
-- Important notes
-- Warnings and alerts
-- Migration guides
-- Release notes
-
 #### Row Layout
 
 Horizontally align content with HTML wrapper (GitHub-compatible):
@@ -156,7 +121,7 @@ Horizontally align content with HTML wrapper (GitHub-compatible):
 ### Project README
 
 ```markdown
-# {{ui:header}}BLACKWELL SYSTEMS{{/ui}}
+# {{frame:gradient}}{{mathbold:separator=dot}}BLACKWELL SYSTEMS{{/mathbold}}{{/frame}}
 
 ## Overview
 
@@ -175,13 +140,13 @@ Enterprise-grade system architecture platform.
 
 ## Quick Start
 
-{{ui:callout:info}}Requires Rust 1.70+ and Docker{{/ui}}
+> **Note:** Requires Rust 1.70+ and Docker
 
 1. Clone the repository
 2. Run `make setup`
 3. Start services: `docker-compose up`
 
-{{ui:callout:warning}}First-time setup may take 10-15 minutes{{/ui}}
+> **Warning:** First-time setup may take 10-15 minutes
 ```
 
 ### Status Dashboard
@@ -212,7 +177,7 @@ Enterprise-grade system architecture platform.
 ```markdown
 # Release v2.0.0
 
-{{ui:callout:warning}}This release contains breaking changes{{/ui}}
+> **Warning:** This release contains breaking changes
 
 ## New Features
 
@@ -222,13 +187,13 @@ Enterprise-grade system architecture platform.
 
 ## Breaking Changes
 
-{{ui:callout:error}}The old API has been removed{{/ui}}
+> **Error:** The old API has been removed
 
 1. Update imports from `v1` to `v2`
 2. Migrate configuration files
 3. Run database migrations
 
-{{ui:callout:info}}See migration guide for detailed instructions{{/ui}}
+> **Info:** See migration guide for detailed instructions
 
 ## Tech Stack Updates
 
@@ -242,7 +207,7 @@ Enterprise-grade system architecture platform.
 ### Documentation Page
 
 ```markdown
-# {{ui:header}}INSTALLATION GUIDE{{/ui}}
+# {{frame:gradient}}{{mathbold:separator=dot}}INSTALLATION GUIDE{{/mathbold}}{{/frame}}
 
 ## Prerequisites
 
@@ -252,7 +217,7 @@ You'll need:
 - {{ui:tech:docker/}} Docker 20+
 - {{ui:tech:postgresql/}} PostgreSQL 14+
 
-{{ui:callout:warning}}macOS users: Install via Homebrew{{/ui}}
+> **Note:** macOS users: Install via Homebrew
 
 ## Step 1: Install Dependencies
 
@@ -264,7 +229,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 brew install --cask docker
 \`\`\`
 
-{{ui:callout:info}}Windows users: Use WSL2 for best compatibility{{/ui}}
+> **Info:** Windows users: Use WSL2 for best compatibility
 
 ## Step 2: Clone Repository
 
@@ -467,13 +432,13 @@ Components use named colors from the palette:
 
 ```bash
 # Create example
-echo "# {{ui:header}}TEST{{/ui}}" > example.md
+echo "# {{mathbold}}TEST{{/mathbold}}" > example.md
 
 # Process it
 mdfx process example.md
 
 # Output:
-# ▓▒░ 𝐓·𝐄·𝐒·𝐓 ░▒▓
+# 𝐓𝐄𝐒𝐓
 ```
 
 ### View Demo Files
