@@ -131,9 +131,6 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 ## Creative Combinations
 
-**Neon Style:**
-![](assets/progress_eb078575c825ce18.svg)
-
 **Minimal:**
 ![](assets/progress_12d92b026f897b15.svg)
 
@@ -142,6 +139,70 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 **Sunset Gradient Effect (using multiple bars):**
 ![](assets/progress_e1b3607def46f2f9.svg)![](assets/progress_81a4be965f833fec.svg)![](assets/progress_91ec801428aee765.svg)
+
+---
+
+## Neon Collection
+
+Cyberpunk-inspired glowing progress bars with dark backgrounds and vibrant fills.
+
+**Neon Green (Matrix):**
+![](assets/progress_47fd59ff6ac8bb9e.svg)
+
+**Neon Pink (Synthwave):**
+![](assets/progress_acecfac29dc7fbd.svg)
+
+**Neon Cyan (Tron):**
+![](assets/progress_c89114b39486f913.svg)
+
+**Neon Orange (Blade Runner):**
+![](assets/progress_531893701431f78c.svg)
+
+**Neon Purple (Vaporwave):**
+![](assets/progress_6d4b4e4cbeacbc10.svg)
+
+**Neon Yellow (Warning):**
+![](assets/progress_15ddc4b05ebdd9c9.svg)
+
+---
+
+## Neon Sliders
+
+**Neon Green Slider:**
+![](assets/progress_cd635c6d4b8a5955.svg)
+
+**Neon Pink Slider:**
+![](assets/progress_9e9d8b053d78aed4.svg)
+
+**Neon Cyan Slider:**
+![](assets/progress_51dec13925ab5cb4.svg)
+
+**Neon with Diamond:**
+![](assets/progress_467c11a2151941fd.svg)
+
+---
+
+## Neon Dashboard
+
+| System | Status |
+|--------|--------|
+| CPU | ![](assets/progress_645eb6e8f2f93229.svg) |
+| Memory | ![](assets/progress_29ec22960462f132.svg) |
+| Disk | ![](assets/progress_b46b3d7f8e5d2ef1.svg) |
+| Network | ![](assets/progress_fabadd195b0d76cd.svg) |
+
+---
+
+## Neon Thick Bars
+
+**Thick Neon Green:**
+![](assets/progress_424bf81492d10aa.svg)
+
+**Thick Neon Pink:**
+![](assets/progress_469c524b1b0313d8.svg)
+
+**Thick Neon Cyan:**
+![](assets/progress_2738178a11a72eb4.svg)
 
 ---
 
@@ -207,6 +268,113 @@ When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 | Volume Low | ![](assets/progress_9fdf54955623b67.svg) |
 | Volume Mid | ![](assets/progress_2ca0f502d335efd3.svg) |
 | Volume High | ![](assets/progress_c6abae59d6ccfe83.svg) |
+
+---
+
+## Audio Mixer
+
+| Channel | Level |
+|---------|-------|
+| Master | ![](assets/progress_11f0b516e68283d6.svg) |
+| Bass | ![](assets/progress_4019ab6e8cd5b722.svg) |
+| Treble | ![](assets/progress_5ea0468268325842.svg) |
+| Vocals | ![](assets/progress_3ee2120011b296d9.svg) |
+
+---
+
+## Media Player Controls
+
+**Seek Bar (Dark Theme):**
+![](assets/progress_f95b6346efe8ff0.svg)
+
+**Spotify-style (Green):**
+![](assets/progress_51f3a477050017b.svg)
+
+**SoundCloud-style (Orange):**
+![](assets/progress_de92ad956c6f76e4.svg)
+
+---
+
+## Settings Sliders
+
+**Brightness:**
+![](assets/progress_fb9bdf92c4e92c93.svg)
+
+**Contrast:**
+![](assets/progress_7d951e4f712e35be.svg)
+
+**Saturation:**
+![](assets/progress_95c78358596972d.svg)
+
+---
+
+## Creative Thumb Shapes
+
+**Circle (Default):**
+![](assets/progress_9051248a36128bb9.svg)
+
+**Square:**
+![](assets/progress_bba0974a708b299a.svg)
+
+**Diamond:**
+![](assets/progress_753ca395b502e456.svg)
+
+---
+
+## Material Design Style
+
+**Primary:**
+![](assets/progress_927012421a97104.svg)
+
+**Secondary:**
+![](assets/progress_ff433be4133d79c6.svg)
+
+**Error:**
+![](assets/progress_d805eac6c014ec3d.svg)
+
+---
+
+## Game UI Sliders
+
+**Health Bar:**
+![](assets/progress_3cfe40f74d75e6c6.svg)
+
+**Mana Bar:**
+![](assets/progress_705a179d5250d811.svg)
+
+**XP Bar:**
+![](assets/progress_d4acf395d3e215dc.svg)
+
+---
+
+## Temperature Control
+
+**Cold:**
+![](assets/progress_3d8948e1af47a5e5.svg)
+
+**Comfortable:**
+![](assets/progress_593a8e08054bbcf2.svg)
+
+**Hot:**
+![](assets/progress_2051aede9a9ccd9a.svg)
+
+---
+
+## Minimal Dark Mode
+
+![](assets/progress_67fd5fe49c005633.svg)
+
+![](assets/progress_121c262ab0b5e5e0.svg)
+
+![](assets/progress_2bb1cb876c688096.svg)
+
+---
+
+## Chunky Retro Style
+
+![](assets/progress_cce24da9c50091ca.svg)
+
+![](assets/progress_39c69c5e8e5026a0.svg)
 
 ---
 
