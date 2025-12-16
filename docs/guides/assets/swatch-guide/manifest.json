@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-16T01:22:03.440826577+00:00",
+  "created_at": "2025-12-16T01:25:03.132179181+00:00",
   "backend": "svg",
-  "assets_dir": "docs/guides/assets/swatch-guide",
+  "assets_dir": "assets/swatch-guide",
   "total_assets": 80,
   "assets": [
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_8010e28a060480ec.svg",
+      "path": "assets/swatch-guide/swatch_8010e28a060480ec.svg",
       "sha256": "35a776cb274db7214501a00c5ed4604dfee646f5fa9b9aa9ea471ae2ed13cc64",
       "type": "swatch",
       "primitive": {
@@ -17,7 +17,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_9548868f54f0a66e.svg",
+      "path": "assets/swatch-guide/swatch_9548868f54f0a66e.svg",
       "sha256": "48ae610a077b1b4cae1b156bb508722c385933c28232d877a42b420661211dcb",
       "type": "swatch",
       "primitive": {
@@ -28,7 +28,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e4795ff410c7b4fe.svg",
+      "path": "assets/swatch-guide/swatch_e4795ff410c7b4fe.svg",
       "sha256": "a7a1d6418a5e151e0ecbd194e5f0d11999e40fdd80abbbf91baff345476d5007",
       "type": "swatch",
       "primitive": {
@@ -39,7 +39,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e666c671e27adcb2.svg",
+      "path": "assets/swatch-guide/swatch_e666c671e27adcb2.svg",
       "sha256": "6499be019c6417b262957bfc24c4a74eb119c09da138f8077cd26d36f499b471",
       "type": "swatch",
       "primitive": {
@@ -50,7 +50,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_3d20307c5841ba1a.svg",
+      "path": "assets/swatch-guide/swatch_3d20307c5841ba1a.svg",
       "sha256": "23acbbed0fad61a6338fb8e7d363341a8b5865683a01401697b3a6cf9dffc737",
       "type": "swatch",
       "primitive": {
@@ -61,7 +61,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_a38ae1a73b6d0db8.svg",
+      "path": "assets/swatch-guide/swatch_a38ae1a73b6d0db8.svg",
       "sha256": "f0b0aed47cba854b9da400b2cecf1132c0b28d371a961241bee232456d687ed2",
       "type": "swatch",
       "primitive": {
@@ -72,7 +72,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_f2850eb05da6202f.svg",
+      "path": "assets/swatch-guide/swatch_f2850eb05da6202f.svg",
       "sha256": "a49a5d9efa03c82990289f31676ef33b8c03df94da7ace98c585dbac67ae8d70",
       "type": "swatch",
       "primitive": {
@@ -83,7 +83,7 @@
       "size_bytes": 158
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_d72d096a850f1aca.svg",
+      "path": "assets/swatch-guide/swatch_d72d096a850f1aca.svg",
       "sha256": "35a776cb274db7214501a00c5ed4604dfee646f5fa9b9aa9ea471ae2ed13cc64",
       "type": "swatch",
       "primitive": {
@@ -94,7 +94,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_b9d5e624537c531e.svg",
+      "path": "assets/swatch-guide/swatch_b9d5e624537c531e.svg",
       "sha256": "db7fdaa58c1965aa8348b660fed68fcf16a1966110677842da0dec5723d8292b",
       "type": "swatch",
       "primitive": {
@@ -105,7 +105,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_b0dbba0d4f1f94da.svg",
+      "path": "assets/swatch-guide/swatch_b0dbba0d4f1f94da.svg",
       "sha256": "16831998e92df1c2f075cb66119b5b28e56436012a969547a621839a347da4b5",
       "type": "swatch",
       "primitive": {
@@ -116,7 +116,7 @@
       "size_bytes": 167
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_4ba3d9f7aaf6a356.svg",
+      "path": "assets/swatch-guide/swatch_4ba3d9f7aaf6a356.svg",
       "sha256": "d7a391dabb665ebaff918ae542b1f94c74ebc1d86295452f57e3fa558859ddc1",
       "type": "swatch",
       "primitive": {
@@ -127,7 +127,7 @@
       "size_bytes": 167
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_c0dfa498b4254034.svg",
+      "path": "assets/swatch-guide/swatch_c0dfa498b4254034.svg",
       "sha256": "a877dcaa64b3689dc4f16f27c640fd4fe49a27f3184c6d8486d842b3299f2c02",
       "type": "swatch",
       "primitive": {
@@ -138,7 +138,7 @@
       "size_bytes": 167
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_843d5d5252eef802.svg",
+      "path": "assets/swatch-guide/swatch_843d5d5252eef802.svg",
       "sha256": "4d3c78439e4839b61bcc185e7b3b2858d4b7b2ab4be5692f1789523c73c2ac7e",
       "type": "swatch",
       "primitive": {
@@ -149,7 +149,7 @@
       "size_bytes": 167
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_f07558fe91949d69.svg",
+      "path": "assets/swatch-guide/swatch_f07558fe91949d69.svg",
       "sha256": "ab88ff96afd03196bb8aa6b6e8df3144df50453ffdff5819a0ad945d3f69db46",
       "type": "swatch",
       "primitive": {
@@ -160,7 +160,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_8aa8fc1a7b89499e.svg",
+      "path": "assets/swatch-guide/swatch_8aa8fc1a7b89499e.svg",
       "sha256": "4c87e923b07aa20829bda77dcfd75268949fec3bfa677940673bca51e7ef86ce",
       "type": "swatch",
       "primitive": {
@@ -171,7 +171,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e23fee9c050c7a1d.svg",
+      "path": "assets/swatch-guide/swatch_e23fee9c050c7a1d.svg",
       "sha256": "0055dea2658be6fd2bcbb1afd07e7cc164dde5ec08f6b35328c84eb53d7e35e9",
       "type": "swatch",
       "primitive": {
@@ -182,7 +182,7 @@
       "size_bytes": 158
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_6d533bd20b4347c3.svg",
+      "path": "assets/swatch-guide/swatch_6d533bd20b4347c3.svg",
       "sha256": "aab486cdbd757a6e4ab1368169e8dc65a558bbef6235695e7221a166bae94902",
       "type": "swatch",
       "primitive": {
@@ -193,7 +193,7 @@
       "size_bytes": 158
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_6e5285ba68468042.svg",
+      "path": "assets/swatch-guide/swatch_6e5285ba68468042.svg",
       "sha256": "38c87c55bf4e42011645b5a21bb1f5c98c91eeabb68dcaa9dc2bde4e53985984",
       "type": "swatch",
       "primitive": {
@@ -204,7 +204,7 @@
       "size_bytes": 158
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_187fadcf52235b27.svg",
+      "path": "assets/swatch-guide/swatch_187fadcf52235b27.svg",
       "sha256": "5a5792b73c76c3f8605ff897b579beaac52e67e6c64c13447469f33c44854aba",
       "type": "swatch",
       "primitive": {
@@ -215,7 +215,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_bcea76ace6be4ef4.svg",
+      "path": "assets/swatch-guide/swatch_bcea76ace6be4ef4.svg",
       "sha256": "326e0eb494d6d047787dd66e38b536a57ae3e0fbd11b6f5c449aaae35a91da91",
       "type": "swatch",
       "primitive": {
@@ -226,7 +226,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e777e4bb4af61a9d.svg",
+      "path": "assets/swatch-guide/swatch_e777e4bb4af61a9d.svg",
       "sha256": "1206181273b969318b12ee99ca1612e2c3bad52f9a7f4cb7274241e2d3e58a75",
       "type": "swatch",
       "primitive": {
@@ -237,7 +237,7 @@
       "size_bytes": 478
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_c1cd5f9b1b48cdd3.svg",
+      "path": "assets/swatch-guide/swatch_c1cd5f9b1b48cdd3.svg",
       "sha256": "b34a7f605ad01560ce07c00127f35977410f7e42ed60619deb5788e19ab28bc9",
       "type": "swatch",
       "primitive": {
@@ -248,7 +248,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_3fb4d725530e28cb.svg",
+      "path": "assets/swatch-guide/swatch_3fb4d725530e28cb.svg",
       "sha256": "f267c2ae9ec426c48c4f1037883ff01f51609fcc570bfdd52c5cba90df767db6",
       "type": "swatch",
       "primitive": {
@@ -259,7 +259,7 @@
       "size_bytes": 166
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_2069ae55fccfac21.svg",
+      "path": "assets/swatch-guide/swatch_2069ae55fccfac21.svg",
       "sha256": "1fe12dd90cf901df6c1d9211c633c38f06f2ac2a7729472053d36b89d3cb213a",
       "type": "swatch",
       "primitive": {
@@ -270,7 +270,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_300578deb26bfc0b.svg",
+      "path": "assets/swatch-guide/swatch_300578deb26bfc0b.svg",
       "sha256": "2f77639d1ecdd0630bb40e9da149ca3c0e9c71099693551db96c90617bf3a6a1",
       "type": "swatch",
       "primitive": {
@@ -281,7 +281,7 @@
       "size_bytes": 184
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e2ab9ea78450e514.svg",
+      "path": "assets/swatch-guide/swatch_e2ab9ea78450e514.svg",
       "sha256": "e43294206e05ca7fd8023094182c8be9343d1ff4e97f08a94ceec02a28b99756",
       "type": "swatch",
       "primitive": {
@@ -292,7 +292,7 @@
       "size_bytes": 183
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_b66fee6a77ee6730.svg",
+      "path": "assets/swatch-guide/swatch_b66fee6a77ee6730.svg",
       "sha256": "05a1cb800983ad45ff4f0884a6af878a780e21a81aa5a884feaecf0cc3bbd0df",
       "type": "swatch",
       "primitive": {
@@ -303,7 +303,7 @@
       "size_bytes": 184
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_334ab4b1edae93a4.svg",
+      "path": "assets/swatch-guide/swatch_334ab4b1edae93a4.svg",
       "sha256": "25d8aa9a5058c3382daea4a85510f8120843a819b5012f0643b4334eec3a8512",
       "type": "swatch",
       "primitive": {
@@ -314,7 +314,7 @@
       "size_bytes": 167
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_473ae5dc815994f5.svg",
+      "path": "assets/swatch-guide/swatch_473ae5dc815994f5.svg",
       "sha256": "535ccd93eced9d1c1b567c3fed3920742b8256f299e42ca0b13ca2f5f1fe4a2b",
       "type": "swatch",
       "primitive": {
@@ -325,7 +325,7 @@
       "size_bytes": 187
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_445e6b19941cda20.svg",
+      "path": "assets/swatch-guide/swatch_445e6b19941cda20.svg",
       "sha256": "179ee876283ca2407ce5ea5eb444e0389f6afe9989a874e836053b0e0837b325",
       "type": "swatch",
       "primitive": {
@@ -336,7 +336,7 @@
       "size_bytes": 186
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_6b2d0fd72bbd7c2a.svg",
+      "path": "assets/swatch-guide/swatch_6b2d0fd72bbd7c2a.svg",
       "sha256": "e2a46eec5761029a091a969300dc43a84445702eb40209467555735f12408716",
       "type": "swatch",
       "primitive": {
@@ -347,7 +347,7 @@
       "size_bytes": 187
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e70394d38af4d9c6.svg",
+      "path": "assets/swatch-guide/swatch_e70394d38af4d9c6.svg",
       "sha256": "42ab2208aa1c4532a254227220ef97548c4dfd51ffb6286da75678cdf52ce1f6",
       "type": "swatch",
       "primitive": {
@@ -358,7 +358,7 @@
       "size_bytes": 198
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_6fc31497c91e1da5.svg",
+      "path": "assets/swatch-guide/swatch_6fc31497c91e1da5.svg",
       "sha256": "0e299aba3bde7370e69e53656abf68774c8fc414798b05de83cec5adca3fb9c7",
       "type": "swatch",
       "primitive": {
@@ -369,7 +369,7 @@
       "size_bytes": 198
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_105bbb2534d6a7f6.svg",
+      "path": "assets/swatch-guide/swatch_105bbb2534d6a7f6.svg",
       "sha256": "9f9cb8a5009d590aba8f3de525e647c127de11ad796bfbc12881d699429c4a02",
       "type": "swatch",
       "primitive": {
@@ -380,7 +380,7 @@
       "size_bytes": 198
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_197fa9af9eec2c3e.svg",
+      "path": "assets/swatch-guide/swatch_197fa9af9eec2c3e.svg",
       "sha256": "933806da0b075d1853b8f0924e991d6e6a3af27ba8762f57e5a2732c80973c07",
       "type": "swatch",
       "primitive": {
@@ -391,7 +391,7 @@
       "size_bytes": 198
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_8065cddbe122d51b.svg",
+      "path": "assets/swatch-guide/swatch_8065cddbe122d51b.svg",
       "sha256": "d7118f1846a2f1adf59ca354304e9ac588686d7f1262f8278adcee1444649894",
       "type": "swatch",
       "primitive": {
@@ -402,7 +402,7 @@
       "size_bytes": 198
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_bfb12525111cdf6f.svg",
+      "path": "assets/swatch-guide/swatch_bfb12525111cdf6f.svg",
       "sha256": "7e128dd988f2e0a0823b039a96b88403735a5a7d952a69efbf6893f03d76b12f",
       "type": "swatch",
       "primitive": {
@@ -413,7 +413,7 @@
       "size_bytes": 198
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_a16abeb735756af6.svg",
+      "path": "assets/swatch-guide/swatch_a16abeb735756af6.svg",
       "sha256": "5b26522dbfd0990c706dc5bb4dac0bdb7ab9c8ea77634f91234586fa5326ac10",
       "type": "swatch",
       "primitive": {
@@ -424,7 +424,7 @@
       "size_bytes": 221
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e6b13611298cdb70.svg",
+      "path": "assets/swatch-guide/swatch_e6b13611298cdb70.svg",
       "sha256": "9c9a4d810cda5a9109e58ff0a61a4408e4bd08364d0a5a214c0bf8ec4b4be77d",
       "type": "swatch",
       "primitive": {
@@ -435,7 +435,7 @@
       "size_bytes": 300
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_6adb7527dece1638.svg",
+      "path": "assets/swatch-guide/swatch_6adb7527dece1638.svg",
       "sha256": "c3e26ebd4a7e0ad87287f5e02846835d0885605f0dd62425939e0f9b488140b3",
       "type": "swatch",
       "primitive": {
@@ -446,7 +446,7 @@
       "size_bytes": 300
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_7bd8f708d3cac5ed.svg",
+      "path": "assets/swatch-guide/swatch_7bd8f708d3cac5ed.svg",
       "sha256": "19d6ce7eb28155e26a3727943161c8ac08e8adefd48d004e7a78d2a139b6b94f",
       "type": "swatch",
       "primitive": {
@@ -457,7 +457,7 @@
       "size_bytes": 301
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_2c6f418e8b247bef.svg",
+      "path": "assets/swatch-guide/swatch_2c6f418e8b247bef.svg",
       "sha256": "5f7dd01ea3c7460ae01f986c2784d37e8d3cfd6f8e6e7c62586098f5968c4c98",
       "type": "swatch",
       "primitive": {
@@ -468,7 +468,7 @@
       "size_bytes": 301
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_1784cf31e43b0eae.svg",
+      "path": "assets/swatch-guide/swatch_1784cf31e43b0eae.svg",
       "sha256": "d9e783257a182f80d64c736fac9ab35b0502b224629c5959bec3ff769952ba4a",
       "type": "swatch",
       "primitive": {
@@ -479,7 +479,7 @@
       "size_bytes": 310
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_24faeb097a53bd01.svg",
+      "path": "assets/swatch-guide/swatch_24faeb097a53bd01.svg",
       "sha256": "5512e155a5af3b7b017fa47638879f8cc76db180781169a5e4ede37d801d160e",
       "type": "swatch",
       "primitive": {
@@ -490,7 +490,7 @@
       "size_bytes": 309
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_ac7eb2d4287124a5.svg",
+      "path": "assets/swatch-guide/swatch_ac7eb2d4287124a5.svg",
       "sha256": "678d59ef74e2fd9655b436c41fdbd21a011e35cd8c7d649ee6aaa2a8ad80e3ad",
       "type": "swatch",
       "primitive": {
@@ -501,7 +501,7 @@
       "size_bytes": 307
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_25d63c00d887063e.svg",
+      "path": "assets/swatch-guide/swatch_25d63c00d887063e.svg",
       "sha256": "e7ed38e66a303eebc7ef54887a9f730693cc22918e28fe67691a53eb92d6d9f8",
       "type": "swatch",
       "primitive": {
@@ -512,7 +512,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_f7631bc52605e401.svg",
+      "path": "assets/swatch-guide/swatch_f7631bc52605e401.svg",
       "sha256": "e269d88d7100dd0780d2f4b2047fd37caf8eb69676f5db25031f373dcf1db84e",
       "type": "swatch",
       "primitive": {
@@ -523,7 +523,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_8de39ee9eb0d8872.svg",
+      "path": "assets/swatch-guide/swatch_8de39ee9eb0d8872.svg",
       "sha256": "e7c8e07dd3301667251f987ea09628211f793c9fe5a1c20cb93fad9d2e712266",
       "type": "swatch",
       "primitive": {
@@ -534,7 +534,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_5451a80f4ae790ba.svg",
+      "path": "assets/swatch-guide/swatch_5451a80f4ae790ba.svg",
       "sha256": "fa903dea4a87455c011d1b019062a94fd9cfbbe97714c433aa49eec1c73c26c5",
       "type": "swatch",
       "primitive": {
@@ -545,7 +545,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_b9d5e624537c531e.svg",
+      "path": "assets/swatch-guide/swatch_b9d5e624537c531e.svg",
       "sha256": "db7fdaa58c1965aa8348b660fed68fcf16a1966110677842da0dec5723d8292b",
       "type": "swatch",
       "primitive": {
@@ -556,7 +556,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_c0397877dee4cc0e.svg",
+      "path": "assets/swatch-guide/swatch_c0397877dee4cc0e.svg",
       "sha256": "4d0610df2609146fd6c772abf10a1c97c72bb42f6b0a47c3b6f70b12275dfd5e",
       "type": "swatch",
       "primitive": {
@@ -567,7 +567,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_20c9e19d412a74be.svg",
+      "path": "assets/swatch-guide/swatch_20c9e19d412a74be.svg",
       "sha256": "4c7c894fe574fbee3af216ba3093910b2d6ca537f87e0767a8083b6533450f66",
       "type": "swatch",
       "primitive": {
@@ -578,7 +578,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_67b59d12305ed09.svg",
+      "path": "assets/swatch-guide/swatch_67b59d12305ed09.svg",
       "sha256": "0f748fcfe409379506c24578f4bddfa64a62d425ee9cea6efa00d754e6a61d8d",
       "type": "swatch",
       "primitive": {
@@ -589,7 +589,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_224b8da9039b2c7b.svg",
+      "path": "assets/swatch-guide/swatch_224b8da9039b2c7b.svg",
       "sha256": "0ba6cd3fec0865fec2f48227f5292cb80b69267fb64593aedd2a8969d47cff3a",
       "type": "swatch",
       "primitive": {
@@ -600,7 +600,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_dbbccfab56ff1adf.svg",
+      "path": "assets/swatch-guide/swatch_dbbccfab56ff1adf.svg",
       "sha256": "d982090eac2c44e9e9e3bd247491a60decc75e6e836113c9b4c02c761a100111",
       "type": "swatch",
       "primitive": {
@@ -611,7 +611,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_b51ae78bbddddf56.svg",
+      "path": "assets/swatch-guide/swatch_b51ae78bbddddf56.svg",
       "sha256": "112c71ce48c1f39b0bdb162deec16597489491c9ecbab488511de1c740608c52",
       "type": "swatch",
       "primitive": {
@@ -622,7 +622,7 @@
       "size_bytes": 166
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_b51ae78bbddddf56.svg",
+      "path": "assets/swatch-guide/swatch_b51ae78bbddddf56.svg",
       "sha256": "112c71ce48c1f39b0bdb162deec16597489491c9ecbab488511de1c740608c52",
       "type": "swatch",
       "primitive": {
@@ -633,7 +633,7 @@
       "size_bytes": 166
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_5935bad76cab4e14.svg",
+      "path": "assets/swatch-guide/swatch_5935bad76cab4e14.svg",
       "sha256": "4195e01c7456216e95abfbe98616eb54d7e41cfcb1df70c4838da9adc542354d",
       "type": "swatch",
       "primitive": {
@@ -644,7 +644,7 @@
       "size_bytes": 166
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_aa967ee39be7fdb1.svg",
+      "path": "assets/swatch-guide/swatch_aa967ee39be7fdb1.svg",
       "sha256": "fcedce9a30488e39d8fea78333198b47a140d19eff6212fda1df2a455a901c7a",
       "type": "swatch",
       "primitive": {
@@ -655,7 +655,7 @@
       "size_bytes": 166
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_58170cb2d9364f72.svg",
+      "path": "assets/swatch-guide/swatch_58170cb2d9364f72.svg",
       "sha256": "b62b61ad2789d90036e27d1d5fb87d143f99882d020cadcda5a95e3cb03a9ac5",
       "type": "swatch",
       "primitive": {
@@ -666,7 +666,7 @@
       "size_bytes": 167
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_19c0b18c4e263066.svg",
+      "path": "assets/swatch-guide/swatch_19c0b18c4e263066.svg",
       "sha256": "948888c334945999b4cdd3c53e30bd80d718645f270255770746354dbfe4d6b3",
       "type": "swatch",
       "primitive": {
@@ -677,7 +677,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_3d53c3d32e63b5a9.svg",
+      "path": "assets/swatch-guide/swatch_3d53c3d32e63b5a9.svg",
       "sha256": "db0e1b30a79d815ae7773dfad2b3d4fa225d338d9521c896b652b4668afd7c56",
       "type": "swatch",
       "primitive": {
@@ -688,7 +688,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_e93088831b38961e.svg",
+      "path": "assets/swatch-guide/swatch_e93088831b38961e.svg",
       "sha256": "bef4b724f086b8d4df668e2d5e47a6dd4cb623258c2124362e65b9feeaf66f2e",
       "type": "swatch",
       "primitive": {
@@ -699,7 +699,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_94e3acb31f72174.svg",
+      "path": "assets/swatch-guide/swatch_94e3acb31f72174.svg",
       "sha256": "46ae8cdd2ad60ad2f7cd73cb6a3f3cc9948c2875c29895e0dedab6a557392938",
       "type": "swatch",
       "primitive": {
@@ -710,7 +710,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_f4cdbfc3b2f04480.svg",
+      "path": "assets/swatch-guide/swatch_f4cdbfc3b2f04480.svg",
       "sha256": "efc1fcfb70e645fc38a6dd17915e88d2aa49f8bdd5ed78d3f936ebe967a06c61",
       "type": "swatch",
       "primitive": {
@@ -721,7 +721,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_4d6f36f8da90bd84.svg",
+      "path": "assets/swatch-guide/swatch_4d6f36f8da90bd84.svg",
       "sha256": "cb182914f3a29cfe4d42a59958723f2b3404bd69b14e2eaf681f19a6056e85b1",
       "type": "swatch",
       "primitive": {
@@ -732,7 +732,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_f1e0ff7f09474ab9.svg",
+      "path": "assets/swatch-guide/swatch_f1e0ff7f09474ab9.svg",
       "sha256": "6bbeaad4d3ee436da4a24c622fc518703b2c0e44133a0bba8ae872721cea10aa",
       "type": "swatch",
       "primitive": {
@@ -743,7 +743,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_a1319f3bf493fd9d.svg",
+      "path": "assets/swatch-guide/swatch_a1319f3bf493fd9d.svg",
       "sha256": "74c22f6346bed788874010553711956852aeaecff6fc74c669476772bae1ad4c",
       "type": "swatch",
       "primitive": {
@@ -754,7 +754,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_67bd1fa73f0e4cc9.svg",
+      "path": "assets/swatch-guide/swatch_67bd1fa73f0e4cc9.svg",
       "sha256": "13067185c8b118f14334f1e705cd5ca9873fb695d2fc95c38d5c054691529e8a",
       "type": "swatch",
       "primitive": {
@@ -765,7 +765,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_7221875061703aa9.svg",
+      "path": "assets/swatch-guide/swatch_7221875061703aa9.svg",
       "sha256": "a29ed3f023bba3cda4492ae8804b617bec24af8316c75b0344b1502db0e12ded",
       "type": "swatch",
       "primitive": {
@@ -776,7 +776,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_f09981457c1867.svg",
+      "path": "assets/swatch-guide/swatch_f09981457c1867.svg",
       "sha256": "e3b4f2f1f31817407c5f02ac1f01992eae48f1c4a8eb1ee7d5db586606e1c094",
       "type": "swatch",
       "primitive": {
@@ -787,7 +787,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_418a9aaabbd2315b.svg",
+      "path": "assets/swatch-guide/swatch_418a9aaabbd2315b.svg",
       "sha256": "e5832934ea72a69136d7040aa1756d89832c8e8307b427a5da082682eca8ba65",
       "type": "swatch",
       "primitive": {
@@ -798,7 +798,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_b68f50980587a665.svg",
+      "path": "assets/swatch-guide/swatch_b68f50980587a665.svg",
       "sha256": "59e46c5fcf634c18be3cd796236849236fc6c38d771a126616acddc7a08b825a",
       "type": "swatch",
       "primitive": {
@@ -809,7 +809,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_22c890b2a6ddfb97.svg",
+      "path": "assets/swatch-guide/swatch_22c890b2a6ddfb97.svg",
       "sha256": "f2210af548942ab9ea3e2d51f253e8323ecb35389fa6b28909cab890aaa75e67",
       "type": "swatch",
       "primitive": {
@@ -820,7 +820,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_2533c2fbe877fba1.svg",
+      "path": "assets/swatch-guide/swatch_2533c2fbe877fba1.svg",
       "sha256": "a3634c143e77b888c4bcd892112e5fa3342b6d852347bdf6884adf7fc93d6e89",
       "type": "swatch",
       "primitive": {
@@ -831,7 +831,7 @@
       "size_bytes": 164
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_a547b13cf8d1bee.svg",
+      "path": "assets/swatch-guide/swatch_a547b13cf8d1bee.svg",
       "sha256": "82ebd5652281ebb4a3c2544fbbb7d9a1cd4da8440e793e198798a579e29168d3",
       "type": "swatch",
       "primitive": {
@@ -842,7 +842,7 @@
       "size_bytes": 335
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_fb7576333d736ef5.svg",
+      "path": "assets/swatch-guide/swatch_fb7576333d736ef5.svg",
       "sha256": "e2e4cb62d0446af0567ab875522e9cef2e31aad3564fa378901d1ece428349e6",
       "type": "swatch",
       "primitive": {
@@ -853,7 +853,7 @@
       "size_bytes": 335
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_c548076f36f6ac3c.svg",
+      "path": "assets/swatch-guide/swatch_c548076f36f6ac3c.svg",
       "sha256": "c23950956c3c05dd994481ab972e63daaa1474eb11cfb4d9a7fc59853a05144e",
       "type": "swatch",
       "primitive": {
@@ -864,7 +864,7 @@
       "size_bytes": 334
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_2f20d2053e228edf.svg",
+      "path": "assets/swatch-guide/swatch_2f20d2053e228edf.svg",
       "sha256": "09f97daff50c7fa93948a7da7163a82af9921c3cec95ac1dba112dccc055692f",
       "type": "swatch",
       "primitive": {
@@ -875,7 +875,7 @@
       "size_bytes": 343
     },
     {
-      "path": "docs/guides/assets/swatch-guide/swatch_8b24e350f6530ecd.svg",
+      "path": "assets/swatch-guide/swatch_8b24e350f6530ecd.svg",
       "sha256": "908a48790e7e19d606edff66d53c365c8d5cfdcccb561fe561d5c7119cc1baee",
       "type": "swatch",
       "primitive": {
