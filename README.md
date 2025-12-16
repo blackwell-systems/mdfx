@@ -2,6 +2,7 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![codecov](https://codecov.io/gh/blackwell-systems/mdfx/graph/badge.svg)](https://codecov.io/gh/blackwell-systems/mdfx)
 
 **Add visual design to markdown without leaving markdown.**
 
