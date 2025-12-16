@@ -1,0 +1,1317 @@
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-16T16:02:42.620098900+00:00",
+  "backend": "svg",
+  "assets_dir": "docs/guides/assets/donut-gauge-guide",
+  "total_assets": 109,
+  "assets": [
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_60bfe4b2791e86a.svg",
+      "sha256": "ade54e466e1d7007288d735cbf896478274b5d868b356ff5cacb50d71f7571fe",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 0,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_4976f08f2b723755.svg",
+      "sha256": "9832c1bc84d2aa4641e87552a475d8406c5463d0e26c4ebff1251898a343c075",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 25,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_67d4d80b0c5ba2a0.svg",
+      "sha256": "e7a9fe99be03e83afe64b93b907eb7a26b563c52a1f503f518bbc35c8dfe87d8",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 50,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_137d381a14227ab4.svg",
+      "sha256": "56c00c2992d1ae4885a5811b8e77b7f5e3867519e5f4dfdf15d5a5719f5e75f3",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_2c8347511457fcd7.svg",
+      "sha256": "d1f2107336eb66ddb3dde9e1378aa1928339db926789ec548a02550470c1f5e5",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 100,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_6e62977a0e39d5e2.svg",
+      "sha256": "b06577ce2efca31a7342d03c7f29962fe2fad4ef547c06c007e0f5b63ad7644f",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 65,
+        "size": 24,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_abdd81dc90ecc4a7.svg",
+      "sha256": "3f4393cc7aaa96e2e116d3581a8708b66a813d218cbb3bffe43a143a19ebb014",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 65,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_eca20efe9a9f4877.svg",
+      "sha256": "1c260bcf2df2a24710f1f3c04fa54343c10c4d3e501a7427a5eff75be8a85c69",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 65,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_ee55f6b3f54e0f02.svg",
+      "sha256": "1b96d2777a1a3335db9c3e8190b2fd3aa9aedaa1d9352c1e6d5bcda977450642",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 65,
+        "size": 80,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_7a21749b944ebaf3.svg",
+      "sha256": "3b57c4c05f638d8879639ad1f95d12b1367c04a9c77131aef5d01418b8f0335c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 65,
+        "size": 100,
+        "thickness": 4
+      },
+      "size_bytes": 331
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_da8d2f83c44b5fcc.svg",
+      "sha256": "dd3a1c43a6805e3ab3f2eddef64a76a354ba4213ea183419ca830ba0679ae637",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 60,
+        "thickness": 2
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_fd31c7d7bce5807d.svg",
+      "sha256": "b723c01070c2b05aedc85f3b4543061a4e5964baa0a27b43c8ec487b8e511e2d",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_6a0183dae964224b.svg",
+      "sha256": "3a2cb0e123c60fab2adbdf83ede9bb4e42bb7a882360a81a12ac99a01bb5e5be",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 60,
+        "thickness": 8
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_66ee6f3c2ba6d44.svg",
+      "sha256": "4c9aeaa1302a473c514205ead015c4be2b780b40b81ef2e939de9b1f9a12d38d",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 60,
+        "thickness": 12
+      },
+      "size_bytes": 328
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_d8189022cccda866.svg",
+      "sha256": "692cfa8ff6230cee97c8843937d87ccc125c284596c74688c668873bbfbde4bf",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 60,
+        "thickness": 16
+      },
+      "size_bytes": 327
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_b517c279e55bbd21.svg",
+      "sha256": "5f73480a6490c141d7b240dc76a59c42d1c5a6e6ede325ad3c5ad293cdb5539c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 80,
+        "size": 80,
+        "thickness": 2
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_800415b31fece2d4.svg",
+      "sha256": "03f46bd1ac03ac0c1d28b0ae3461414109d14950a4edd35a8cc43517c9304596",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 80,
+        "thickness": 18
+      },
+      "size_bytes": 328
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_6c409192df33d447.svg",
+      "sha256": "6b128eb122899b745dc014bb248343add6ba514abce9f4fa40c0532562e7adab",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_154fc9124ddf966c.svg",
+      "sha256": "c0031eac5eec3980d85eb4fbfe236fabc00061d418092f7a30ff5c79ed856adc",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_9e916d04cbb8a988.svg",
+      "sha256": "0ded39f01e13a6a8ac95ccd04d821065519a79d72c88c1f2726ba2a43f73192e",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_c7293300a97fe711.svg",
+      "sha256": "90ed06f823a063f3ba0b96bfc40715738c3611876520b471ce58f44106a957f1",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_ecb45e75af17c45d.svg",
+      "sha256": "0533069c3bf35a1f1317262d07ebcd8f122f837e961ca863efcdb871aff17d02",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_b9562fd89c8144b7.svg",
+      "sha256": "85fa3909bdb1a4bd52cd1da6b8e7ea94e8057316c27e1c7bf50b40f1eea33e5a",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_f36d138985189c7f.svg",
+      "sha256": "f844b0ac0d6fcb3de571ad56ce2e52c4bf899c366b16e31c8ce523863b915b75",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_58a92dea91e79a05.svg",
+      "sha256": "bcdd75a4916db889f03cf423ed64cac928d6063335200c966010578eb45d8f74",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_9ce51a45bdc07553.svg",
+      "sha256": "d050bbd232a9ba7cf66c255f108b077f8b68f346f254deaf40dc25bd7a14c307",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 50,
+        "thickness": 4
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_abe5ef530f32959.svg",
+      "sha256": "282b6b2e87bb1e70b20926c06c394ce4d410f9b4d28d66939a2914fccb0ddeaf",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_5e8603b7101a69a3.svg",
+      "sha256": "3a331c3e4d3c507bdfc7ed9abb145727fb43831c5987803dfb1191ff2f1fdb3a",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_8b6067adf41a1691.svg",
+      "sha256": "d178600b8de50bdc6d202667addacd8bd7c17ec81c78273ef5a76ada4671e8a8",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 85,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_21bdbcb2e9d57d71.svg",
+      "sha256": "e426ae17f2946e783d87eb4d5c3482858a3d86a2f2a97254ca000aa4cd519858",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 25,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 493
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_624e3b4ac5e074cf.svg",
+      "sha256": "7d2b9d855dbc08d7adb361758f374d07004a9c0561c477cc128e8a5b1d1b5a6c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 50,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 492
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_d22031e548db30b.svg",
+      "sha256": "c0f833eec8022558ec5189ae9be51efb2ee29d10354f6e4ac08605f3537ce67a",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 493
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_e2943709001d84b.svg",
+      "sha256": "5fe1ee3952d421789ffbf953c0a3d0dd0e35105454b951d76887720de6961198",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 100,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 493
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_404c1e151a1aeba1.svg",
+      "sha256": "a6efa02b9379dc25d749a417540e429f1ab283a46eaa0e2a387e56dbcf22edd5",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 85,
+        "size": 70,
+        "thickness": 4
+      },
+      "size_bytes": 493
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_420b82876393738c.svg",
+      "sha256": "f7f580306d80b5a0ccc831920bf36fc8253cdc0751dbaf5261c3d9bdff62b7bd",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 30,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_d428761f7c3a190c.svg",
+      "sha256": "b78ba3ef20f2e345795aa9d3b011cfcdbbbcdf16446b6f5537e668a83a3f81a2",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 50,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 380
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_181c7608c0cb706a.svg",
+      "sha256": "325b833fabf24fb9eeb82b112d10c4442ddc92ce3fbc9f8428d29ae213a9adac",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 70,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 380
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_62be9abe08993fb7.svg",
+      "sha256": "d5273c2060c31e1efa32bc117661c95cc418457d571450cda03313727c2acddd",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 90,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_53496b22a6f008ab.svg",
+      "sha256": "bb6951eb6b48002d8d2b19e7bf50c81a5ad9909296c1b6da3302f6912a8104c5",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_5c4528d280d66ce9.svg",
+      "sha256": "2814494977f3cb71c7902b273778d175ec33874ed28b0e2643eca84be834f170",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_8f683d50cfd6cd4f.svg",
+      "sha256": "a6988c1e6c562a65742df59b8dfa2945ad57bdbaf07afb13c173dfeb09f3ee40",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_6397fed2fd723142.svg",
+      "sha256": "91d7575f15d44d9fb4c0d0c7fe2295075aa8d7b26385729a3f21876fbe88cb99",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 382
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_23f217ef7400eb.svg",
+      "sha256": "7c093846517db2b80060753f118e6c973d298237992be9aa59f37c6e37cdc89f",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 0,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_e88045b13327fa57.svg",
+      "sha256": "2672621a303bc3d78066e6100c7231bb0f4b18e665f44cc90d1f3fc1d495249d",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 25,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_8e0bbd4f53287ff0.svg",
+      "sha256": "651889118b103832491fef5a510a9440cc107cd64357c6d13222f2aaf1f6655b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 50,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_4836b33960fb4af3.svg",
+      "sha256": "76a4d0693deec163d1cbe9ef6d02fbddc66c9ee5b097e308e2e70852173d9603",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 75,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_2ff5a5c77cbab7a6.svg",
+      "sha256": "e85b8dd1565aa6e8c5eba6738047d496b9cb29abd0a4356a70f1378c7e5f15a0",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 100,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_a9bdd0f0fae8e951.svg",
+      "sha256": "e44791bd9cdbdbd3ae8150d71603021b8c2f990dd1e00414560e0b28fc5b1394",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 65,
+        "size": 50,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_f072ec001b88a117.svg",
+      "sha256": "0f94a61d0e50f0641f8958990cec6386c4a863cbc79379394946e089e47b9d5b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 65,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_4c977f251e5ddd43.svg",
+      "sha256": "f97d48fbfa4e2a25b530d206fad444f453bc347639d6b239f8bfc853223f4f42",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 65,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 363
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_7ee67f1a5dc20187.svg",
+      "sha256": "ef7b5752250bd2bbae8e48544fc3873fc67ebffe56bb67269419026baa3369e3",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 65,
+        "size": 120,
+        "thickness": 8
+      },
+      "size_bytes": 366
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_70fdb0206bc2a819.svg",
+      "sha256": "2ac2caca306ac7436896381f1d705dd71a6bdb8705a92267e421baba590ed45b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 100,
+        "thickness": 4
+      },
+      "size_bytes": 364
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_971accc126cfb69e.svg",
+      "sha256": "cdbead11c7eac338c3347c78ae018841b08cbf2c6d667c6c366cc641a4c0fa98",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 364
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_b821ed9f1f7b43a2.svg",
+      "sha256": "d1749fecff76461ebda5300f1935fb27397c2b52119485418581692b54fde14a",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 100,
+        "thickness": 12
+      },
+      "size_bytes": 365
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_325cfade06e47570.svg",
+      "sha256": "e76070e44ee6dbf2d9044606e4b6079cb13369866bcf6d0fb03950a9085a34bc",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 100,
+        "thickness": 16
+      },
+      "size_bytes": 365
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_60f42f8d76426fa6.svg",
+      "sha256": "8c84e84faada785329725162869cad55ef1bc9add03a9730356ba838cd6f68b3",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 80,
+        "size": 120,
+        "thickness": 3
+      },
+      "size_bytes": 366
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_521d6e61d50a1302.svg",
+      "sha256": "f9e9bb4171d8716840d52a02c8a3159748141817bbeda1b2d4e0795e58168783",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 120,
+        "thickness": 20
+      },
+      "size_bytes": 369
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_697640d9d1fc77fb.svg",
+      "sha256": "fa2ca1f5ed331942cf6801f036c85d1290b101844c02b29b8539ad673e7d7ae2",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_b013dabbbdd4acec.svg",
+      "sha256": "3cd0312cca4fd7ec89253bc1ad8580755cf9cdef3dad481733f1bc4d0903a160",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_ce0c4d93e692bae2.svg",
+      "sha256": "ccbbea2657efc595cb34d0aeb6bddb7a3e855656221b30d9a0a4cce705bb4210",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_4fb1172f2d412068.svg",
+      "sha256": "3a12cb4f97206e11a61c7cba0f6e39f0dd2ae5475c91d9a0c4e4fc0a46c21471",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_126642c98de6a71b.svg",
+      "sha256": "5f2f68a91df6278ff7fa4132276c15b2dc7c3a067b414f2fb50ddf559dcc400d",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 80,
+        "thickness": 8
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_182961c2d3691731.svg",
+      "sha256": "83bad9dd711f8102e3df2b149a136e9d998eeea742c8698ff2beb744c9f3bc02",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 25,
+        "size": 100,
+        "thickness": 10
+      },
+      "size_bytes": 366
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_fdfcb4159304dc99.svg",
+      "sha256": "cf30232f3209f9c12aac69741e11a3d96e426eaef10286b92265898c2e609578",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 55,
+        "size": 100,
+        "thickness": 10
+      },
+      "size_bytes": 365
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_b2e252af1ca27f88.svg",
+      "sha256": "441da276c6ee72d360ac4d0ed7bb6146973989204264c23cdbed3500dc401392",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 85,
+        "size": 100,
+        "thickness": 10
+      },
+      "size_bytes": 366
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_ce04453e96157e94.svg",
+      "sha256": "14f9fc977e2749a36564c20adcbfae6e5e9ac4fcc0ba1039d5d51d2e816273ac",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 75,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 364
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_b138de923c70fbdd.svg",
+      "sha256": "c2de3eda35e4d0fe3b1b417aae9b1e8839dd6dfe066f17df6f779c1b03dc9b77",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 363
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_2cfe0cf5eee3e688.svg",
+      "sha256": "5462a44088b09dd4f6d1ba045261c6fa07778bc06c5e635449c924f90bbf484e",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 85,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 364
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_10e37342b0d4dff4.svg",
+      "sha256": "7712159a587c288785978cb3b973b8d3fb71ed1c7677580c239552de225d5290",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 25,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 501
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_2fc101a56d7592bf.svg",
+      "sha256": "9163b903114cca7eaaf4be5bc0052066a06b7a958c994b31f4b5102fc4f3cdd6",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 50,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 500
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_c378b59ae2f379ce.svg",
+      "sha256": "ca168cd0120b0a8d351610282bb94d95b6d311b399d4bf8c89e28b2127f5c23a",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 75,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 501
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_879e98a989bc4a2c.svg",
+      "sha256": "1d22dedc62d576a012455e4612a6f9e043cf701831e3c1385f37eaecd50c6b34",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 100,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 501
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_f5ad48ee8e5b7d2f.svg",
+      "sha256": "5fa9b8a4dacef858081a1f087b37cbc3b840228ad5527600bb5cd5e923743193",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 30,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 419
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_ffed1ec483f5fe1.svg",
+      "sha256": "bf78b372df5a9e885f80d676ce31599696ddd8b1abfe0246d14e9e04d7c5f1f9",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 50,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 417
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_ae4ff7f36e1a874a.svg",
+      "sha256": "8f9d2baf3dddf8d2e0455e7a0cc7429f464ba945e1f0284b54808e776609af80",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 70,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 419
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_713380368085d0b4.svg",
+      "sha256": "5a5dea256a6caddb5389304c8ffe4b33789cc1e8cc38d1c278337526a699e7f8",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 90,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 419
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_be6b9d8b54140657.svg",
+      "sha256": "37b863aace0e37b7dac3d0f1c4369a6220a28d73935f3cb29418993b5868803d",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_56a3dfff231755ed.svg",
+      "sha256": "c4ccd8ad7755ccfe2158566893e4db7fe29721387a7f7c8b955725ed97f90daf",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_c093ac29b7dc5c2e.svg",
+      "sha256": "794bf490e5bad137af8bc32880ff48981fcb314f49eb1cb0ee8e6b28ba124317",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_389bec4fb2066248.svg",
+      "sha256": "883af8511010d2202bb631816596fc7911b08fc5b7a0f584b7ca00ee8d3b52c0",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 60,
+        "thickness": 4
+      },
+      "size_bytes": 381
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_d90e23e10c164306.svg",
+      "sha256": "2ef78cafab7c3e1f7896dded6fb5e3369fe5b0a975bf299a5e5c21d0d98d2bd4",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 417
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_4f6830222c186442.svg",
+      "sha256": "48bfb128264b1d1ed2e68111563b14a8c5028315cf64edb66b471b0b8f8b1c6c",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 417
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_d567d241322ea6ad.svg",
+      "sha256": "49ad1cbd0b773010533ee959e3896c92422767d1cadb6b9049d56cda8cce704b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 417
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_ffac00d7073c5e92.svg",
+      "sha256": "8e5a6195b9861571b0d199aaaf261ac54021aeecf28bcfad9861582cbd3d5919",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 100,
+        "thickness": 8
+      },
+      "size_bytes": 417
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_823f45e337ec2d67.svg",
+      "sha256": "ad0260cb6e73cfc38e47b67bee22eba6254d779c28b033137927820c668fbc1d",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 70,
+        "thickness": 4
+      },
+      "size_bytes": 380
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_d58590afd958787b.svg",
+      "sha256": "ef4bac6054d8983a5f0977563cb744bdd40925ae120890c38d664d52e2125053",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 65,
+        "size": 110,
+        "thickness": 8
+      },
+      "size_bytes": 420
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_2fe8a5cca934f0c1.svg",
+      "sha256": "3fc031fa7988a709aca697eba05fe52a944b0ae2c1135cc97642eeedc81f066a",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 73,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_847751dd2447d359.svg",
+      "sha256": "bda742834b7b9b3d50c83e5cc0255ee61ef6dd712d3cb0267430248ba636d69b",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 45,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_984bba1b6951986c.svg",
+      "sha256": "0d15f4eedd4f4dbe95b098027752be0b08e07308a9fdb14b4d7411f2e60b3c6f",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 88,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_69c649b019067cb5.svg",
+      "sha256": "9537927ff65c338ca9cad190f4546407053ca89079cb814364f39f28eabdc943",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 32,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_58ced3f47a022213.svg",
+      "sha256": "c59ed57bffd83f2a977a28b904e84dd2e700c0e7aa85b38da9393e59e3666441",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 100,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 493
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_73c5f4edf523a2c.svg",
+      "sha256": "cb94bfcf32f6ee8a2da6ca77c99a0ed9737314bdde2083896f30c07954aa97b7",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 75,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 492
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_51e2d043ea9c1b57.svg",
+      "sha256": "71c559a2c47405db567958d77882500433cd8fc7d44e422a93886d869cf50c6e",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 45,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 492
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_d0f292710d6df70d.svg",
+      "sha256": "333c068385c592095291f19cecd91640000a9fd8c4b472d9183aef3ac7f7be7a",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 20,
+        "size": 40,
+        "thickness": 4
+      },
+      "size_bytes": 492
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_7c1885a93adfa016.svg",
+      "sha256": "8f4be310fa67fbb72b08db54d2ff1f1da9f5b8cd41924a64b2bb917e617f3b7c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 30,
+        "size": 80,
+        "thickness": 10
+      },
+      "size_bytes": 383
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_9e6fdf880b03aac3.svg",
+      "sha256": "2592f999ec8cece2b079daa8b37c28c37184b9bc0521ec7260d2f26de4dc81cb",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 60,
+        "size": 80,
+        "thickness": 10
+      },
+      "size_bytes": 383
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_271dec50a3882434.svg",
+      "sha256": "ca25f6b5a330f32d3c939ffa82e7a954c2c56ca7615b129ef5c4d791752efc9b",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 90,
+        "size": 80,
+        "thickness": 10
+      },
+      "size_bytes": 383
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_5f33f78938de0d2d.svg",
+      "sha256": "fb81c830ed2a12fa1088008046f9356235f874c691c68b19369c191b123a185c",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 20,
+        "size": 120,
+        "thickness": 12
+      },
+      "size_bytes": 505
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_938b0d41ddbcb0.svg",
+      "sha256": "4158e393e7a716b03699c358a869f89bf7f1445ffe555085ff8049436d94b950",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 60,
+        "size": 120,
+        "thickness": 12
+      },
+      "size_bytes": 505
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_be8fc1200d8c9365.svg",
+      "sha256": "2df4afd72cb84731f1f180f6b310494112ceffa33b1f45f4411b6cd27391fa26",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 95,
+        "size": 120,
+        "thickness": 12
+      },
+      "size_bytes": 504
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_f93d19d3265f9216.svg",
+      "sha256": "77ea4122bbbbba514267ea678941291ab7bc5702feb18751846a1466044def1a",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 85,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_baca01a9bb105e80.svg",
+      "sha256": "2b1d929d4e86842df34ef288c5bddcb0f8f66b2933e37575de608a171cf4c81f",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 85,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/progress_e7f5b75bbf0a1a9e.svg",
+      "sha256": "1e8509d163710ed77f76dc431b5f47b91d0eba73fb662c0fb2f75aa08580decd",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 85,
+        "width": 80,
+        "height": 10
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_9d69435c4383e4fe.svg",
+      "sha256": "237260e7fb8b8ac1ce6ef8e6520820f77d2eb9240530f1edd28cd004180aa34f",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 72,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_8f94c8a55d793b6e.svg",
+      "sha256": "9e267aac544aaff02894fff6297d2dd9fdef2d955eedbb8249e0911ae0341857",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 72,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/progress_1dcb85164099b0a.svg",
+      "sha256": "a18299e1ec18bee31412b8d3a424cbea2d212b2e904fb4256e1bd8b03bda6454",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 72,
+        "width": 80,
+        "height": 10
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/donut_faab25effff769cd.svg",
+      "sha256": "db41e832d01030a176434003916b2f4ab9196f2e49535c4527759709a499c12c",
+      "type": "donut",
+      "primitive": {
+        "kind": "Donut",
+        "percent": 45,
+        "size": 36,
+        "thickness": 5
+      },
+      "size_bytes": 325
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/gauge_96adc6bc8e44a1e7.svg",
+      "sha256": "b750c9c3a03e6ac90ac40ef296f2b23a9448fafab6d23ad60bb6bdfe04c34c2a",
+      "type": "gauge",
+      "primitive": {
+        "kind": "Gauge",
+        "percent": 45,
+        "size": 60,
+        "thickness": 6
+      },
+      "size_bytes": 361
+    },
+    {
+      "path": "docs/guides/assets/donut-gauge-guide/progress_a41686b9cb0a298a.svg",
+      "sha256": "ec2bc5580fbeaec9c5f0a89ba232044902177ead614b44d9ab5095a1f918043f",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 45,
+        "width": 80,
+        "height": 10
+      },
+      "size_bytes": 208
+    }
+  ]
+}

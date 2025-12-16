@@ -1,0 +1,1161 @@
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-16T16:02:31.618212639+00:00",
+  "backend": "svg",
+  "assets_dir": "docs/guides/assets/progress-guide",
+  "total_assets": 96,
+  "assets": [
+    {
+      "path": "docs/guides/assets/progress-guide/progress_3737363d8c3b5daf.svg",
+      "sha256": "76307b0fff4534e73b60261f3cc525f30d4216828450844d8957d0328b809afa",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 0,
+        "width": 100,
+        "height": 10
+      },
+      "size_bytes": 210
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_7bba39a365d30137.svg",
+      "sha256": "294fff71db4c2701a3ca506b011e2842426e02c31fbc72785c9e8d629e0c4ea2",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 25,
+        "width": 100,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_fcca95c901c86487.svg",
+      "sha256": "f75efb515701010baa28592b38dc3e5fa9dc386bb4c9fdf32e667681ecaa771c",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 100,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_71859eed66c84737.svg",
+      "sha256": "412f75947f29847a34fccd1a4268a40684b0a999dbf0fca00bab86c4ce72dddd",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 75,
+        "width": 100,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_e8f548aa2f9574de.svg",
+      "sha256": "65e38e2a72402b8014113559ffe8bf6dd5c2b28104081b6b7c538d1812d31a52",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 100,
+        "width": 100,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_436af944a59459f0.svg",
+      "sha256": "85cef349e672495394e6884f13c3090d73e4f5c55600d3c83203f371391c9e75",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 80,
+        "height": 10
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_8bd3f2eda9fc20a0.svg",
+      "sha256": "478519614fb8c4b9c296a86bc0c345e8845ae17b74396cc24ffa427168eded80",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 120,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_18187201b45f7ac6.svg",
+      "sha256": "2d347b0792d09b59a461609a9f15b241ad221cadc3da095bd03b6b213c40f5b9",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 200,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_e380c3ecebf9a9cb.svg",
+      "sha256": "597b811cc22973001585b3047f8d85c41f5535e30bcb79cd49fc69cba17e1052",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 300,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_e7eff1654b9aed4c.svg",
+      "sha256": "9860b54fa067b72cd0bd86993ef31c677dcfd72f676d40d6112d9db6d701a3a5",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 4
+      },
+      "size_bytes": 207
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_88f23662285a9b34.svg",
+      "sha256": "8c5ff2a5631e3b35df696245444278950448d6d9dacf67f2035792504498735e",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 8
+      },
+      "size_bytes": 207
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_3be42669441fee5b.svg",
+      "sha256": "17a765bf2b7569cc942923f8feec933c15be596d8ebc5490fd9e38cd13c312b5",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 16
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_2f5cf2504b631511.svg",
+      "sha256": "246f6c3da2476c280f61fe5622f332a5809aee9462443c950ee0c3ae0f445c81",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 24
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_1f12169f5390a7e3.svg",
+      "sha256": "06973170f690a62ec6278ccb8183a589b46e753e86eaeafc3979d92d121f4591",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_a935ac416f831853.svg",
+      "sha256": "9d8ec021e47301e1d46c14fdc3590ba995730a1f206fc0b18c16064d4838abcc",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_77c1375a5b0b85f2.svg",
+      "sha256": "d4f3ebad84a9c5386879ba31c6eb7b488ef3c1f842ce9d549597c152dc16e804",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_2ae5a600424b6cf8.svg",
+      "sha256": "fe1dd089bccf6e27becba066196a9277ccbd87be72cdad6fbf5957bc74aac6d4",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_d1270765a640c6cb.svg",
+      "sha256": "0faef1875ae60720d74d5c5d0f927409152d223b2aede388b74e259b965235e2",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_909aea20f64ba41c.svg",
+      "sha256": "7b33e0b2ee93e832e6863feb530fdc995cc9cfe69a05f1b2440896d58b981fc9",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_7b00dd2f6651618e.svg",
+      "sha256": "38a176a5e45457d43f2b569d6123c951b5cc005e99598af4786e4c135541e35b",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_bebd6de0469c9292.svg",
+      "sha256": "5d678260d47f9e85b9c1714722231cea863908328bb03449c4bbfacfb406fd56",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_80eb4d92cf6dff81.svg",
+      "sha256": "1a040dd9a7cd26480fd940edf513e41a0020c60a47e8d4059167cf3a275c47b2",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_628c34fb38bc6c35.svg",
+      "sha256": "a0c23ee958ce9e28987a17fc57f868225ff8c5f0adfbfe9e39c64a35ec6ac0c4",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_cc8f0cb630b256be.svg",
+      "sha256": "10f804472c877fc353f522d0baddf002e833f6444a647114f6065bc2f24f6636",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 75,
+        "width": 200,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_a4c4467e0391369e.svg",
+      "sha256": "2cad73234f7979816bb15c02463c5d371e97889c3acf44221d2d1d1d68f9efa6",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 200,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_3c880475d6523167.svg",
+      "sha256": "b61cf52e35eea7f7843a04ef383bb976428f64329a6649b15bf93263fab24fa3",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 85,
+        "width": 200,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_512d04f29cf91b73.svg",
+      "sha256": "e49d405d122cb8b317ad49f9cee5a66a65e0354d74ad4874830ecb9163e6fae4",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 65,
+        "width": 150,
+        "height": 12
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_4ccfe5984ac92120.svg",
+      "sha256": "c46bc26e2eadf7697906e6bdafd40ace3bdf6e82fa60083d74e17376dd0fffba",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 65,
+        "width": 150,
+        "height": 12
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_9a8ad2fa0539c3ca.svg",
+      "sha256": "96f4a7e2e75944569f688546824570779130a0cbee38629916e122fba4774db6",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 65,
+        "width": 150,
+        "height": 12
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_24b40391d201d75e.svg",
+      "sha256": "638b98a0a51798a4fb033184c8766609ac15fe6dd623fe6ccd4e2ae01301f75d",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 65,
+        "width": 150,
+        "height": 12
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_fd3c8e66bb8f7645.svg",
+      "sha256": "3da5170cbf2eee22aaaae86db006e35f37ea539e92dd99052d93284976a5b41d",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 200,
+        "height": 16
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_35a79674ad3a61b3.svg",
+      "sha256": "d175d617148fa4d044e1094aa99a253bc98da2000d4c8417e95927f2195b981e",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 180,
+        "height": 16
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_39f6f320facf34de.svg",
+      "sha256": "6c7694498d87c41046a61c3dd12a90d05a434ef5cef9b1e8d9942c3ed35bd634",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 180,
+        "height": 16
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_3b30f6780398ae79.svg",
+      "sha256": "77633953d3cd29e1a866eaf1b714c50c5533fa0d4682b18ca1c3203d0db9a29d",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 180,
+        "height": 16
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_2ae6648bbc045fdf.svg",
+      "sha256": "243294454074e37425ecca02ad0cd68651e23b68ce5ee9052993aafd58481c85",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 180,
+        "height": 16
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_162333db8bb9fe3.svg",
+      "sha256": "4b1839cd9cf43604a37876f62afa2651dd525f68621147b762a76fbdaeed61f0",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 80,
+        "width": 250,
+        "height": 20
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_12defa73979cee3f.svg",
+      "sha256": "f5344ad3790ac9d548805ae5377ee5673d0e54e17b7a46127caf450e02d0e5e2",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 25,
+        "width": 150,
+        "height": 18
+      },
+      "size_bytes": 365
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_99b6ab4c33124ae8.svg",
+      "sha256": "d813377a8db9853e54712aed61eb15d77bb122907239dfeaabbc65cbc0f6fc35",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 150,
+        "height": 18
+      },
+      "size_bytes": 365
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_53bec15bcfefb94c.svg",
+      "sha256": "431eced89685521b5bcd1253f41b9b2d561d6172e3658abf9191cddc849486e1",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 75,
+        "width": 150,
+        "height": 18
+      },
+      "size_bytes": 366
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_d36090babf845fc2.svg",
+      "sha256": "2a4a7b3a048ac1c4e5a5c66dc42c260d8aaecfc9879c44fc70498eafb4159ab3",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 100,
+        "width": 150,
+        "height": 18
+      },
+      "size_bytes": 367
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_da66312bd8579b2f.svg",
+      "sha256": "df1903656e7156d4e6348d6ed087c6238f4f958a20d427a99d4b87abd920e960",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 65,
+        "width": 180,
+        "height": 20
+      },
+      "size_bytes": 366
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_4991308a2678099d.svg",
+      "sha256": "17db9670f0a282b0cb415e1df1f53235e3dda5c24fa81ed104552e1c27567475",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 12
+      },
+      "size_bytes": 245
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_ec515a0138225cd8.svg",
+      "sha256": "eca455d7c6de05251a3797f35d9c79d5a3415028755f984925493b645efc3b05",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 12
+      },
+      "size_bytes": 245
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_813d642d1d8908b6.svg",
+      "sha256": "81c3eb61defe7f614814adf11833091c2e291e9917f517f085192dbabfa20c61",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 12
+      },
+      "size_bytes": 245
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_9aa0bf5bd52e2556.svg",
+      "sha256": "cf78e4461a773a4dde7a6acc2e578f863b754b053191c91f2b655137a62c7543",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 150,
+        "height": 14
+      },
+      "size_bytes": 245
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_1d199bea15188e1b.svg",
+      "sha256": "c1b0a8329f4e9303857182c1e9b64c3a543bb439d988fcd45582dc9a09ee0eab",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 150,
+        "height": 14
+      },
+      "size_bytes": 245
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_f5a1ca2c95b56e9d.svg",
+      "sha256": "3ca34e702d76f5edafbe324d803a938ad8c9e1cdb599983ebba0e28a0e182497",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 150,
+        "height": 14
+      },
+      "size_bytes": 245
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_6987db8594b603d.svg",
+      "sha256": "c7ff1777df52017d012e9ad23611c9f62f1924ac54138071d80727d34bdb132d",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 30,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 282
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_8da0499ff71d4a64.svg",
+      "sha256": "773b99e9a727bef1e97d2390fab1f315058c9d024864ba0237aec608d1c61fd8",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 282
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_41163926e122300f.svg",
+      "sha256": "91bedf8eced08d262a0085bf1b5857774ba5a0a29458df7d0b030290949aa7ad",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_fbbb1b1b92c4e15d.svg",
+      "sha256": "d46712275f83e7cb4d8a15431c720f84aec1065e2e02cacf647237fe8316a913",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 90,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_c4024d059aa13885.svg",
+      "sha256": "25fdcdcb275b80a46a21c7b5e48d89ef12471ac25b6113b6269f51c2dcde5c43",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 282
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_8da0499ff71d4a64.svg",
+      "sha256": "773b99e9a727bef1e97d2390fab1f315058c9d024864ba0237aec608d1c61fd8",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 282
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_997ac1b6e930dbdf.svg",
+      "sha256": "414e80baa1de23b83ebc336501094a1891f01a557caba651811f197fd6326134",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 282
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_bb660f512b017bf6.svg",
+      "sha256": "fccfbcbe0321ea2f4d70f29cb149737b722109b33710a05c11c461c03d6437b2",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 6
+      },
+      "size_bytes": 285
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_1350575f34e9156b.svg",
+      "sha256": "93569cebe7c89bfd1d12a200c3157843926562813c2666eda05845552cd171ee",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_9cbe0a144e6f715f.svg",
+      "sha256": "c81bd5be24b3d9af08010ffda38d14f16b5e82cfd7744ff695bd907b03652911",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_e932bb08a429b148.svg",
+      "sha256": "3568aa7b113e8949faa6616b5ad9972249c3d4ed94579cf5c9ac6a96dbbe22e8",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_2240120ce94fbe26.svg",
+      "sha256": "78e83126b2d1bf61386b4273ac59b465cc6d7753b86993124913ed1be9b18086",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_782fe7c7afa694a.svg",
+      "sha256": "93569cebe7c89bfd1d12a200c3157843926562813c2666eda05845552cd171ee",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_4a6e6a78c7d0a031.svg",
+      "sha256": "6b1fa2b2bb249460208822621ed3db97fc4c51e381d8d2367397f359278df7bc",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 291
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_f6360a59eca8c585.svg",
+      "sha256": "74e632cda8c17f830e7b0fd5afce941b54106b370482cced69bc8f240f8bbefd",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 281
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_113d4b7249b47eb5.svg",
+      "sha256": "afb4b14005f4485dd07931a37f212759c35973f7ce72dfef78caeab41949892f",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 65,
+        "width": 200,
+        "height": 10
+      },
+      "size_bytes": 286
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_6387372db986c169.svg",
+      "sha256": "52fb1977eafad9287094a3743e0bd2a6df430571d496677926b3482852aa8f5e",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 45,
+        "width": 200,
+        "height": 10
+      },
+      "size_bytes": 291
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_c3052968c0eaf3fa.svg",
+      "sha256": "f719326225e955d6cfc711f86ff0cb3f3ba612e16f31dc61c277400dd04f2999",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_7c37ff40c227e5f6.svg",
+      "sha256": "05bcd3bfe1f54a1e648838ea860cea6a483c35e721ea956f74e29e187b441ec0",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_92a4d2a724876b64.svg",
+      "sha256": "4e383c19455821ca30993d30798d80efa74a5de1b07f601a02118270b48d8c01",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 285
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_5ff07b5214d06453.svg",
+      "sha256": "c81712c0324860bec92c670fd230743e8c38084b472ab4354788550347521e5d",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 285
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_8e5e927aee8e47a7.svg",
+      "sha256": "5bf3b2a1b6a4f49f722d9f79151dddd257998ebc91013d7e8f9266a258e66951",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 286
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_cce5a8306c053d31.svg",
+      "sha256": "f92cb707dc72d226a33fb5ac6972224c8e5dd227f0d912de9ce5c0ca724e626f",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 180,
+        "height": 10
+      },
+      "size_bytes": 286
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_bd2676fa2ee98f19.svg",
+      "sha256": "abf6c74c6949eb26953ab5d5868d4360a02f05c46ae6fd9dd83e665b4e7e08f9",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 220,
+        "height": 8
+      },
+      "size_bytes": 285
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_a578588a54e89115.svg",
+      "sha256": "7afb455a2863263f1c171615e8e36effff89e6c89eacc0f3709d5cf7558cd70e",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 45,
+        "width": 200,
+        "height": 10
+      },
+      "size_bytes": 291
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_478cef77093fa246.svg",
+      "sha256": "76a3de18d8ec32bd5ac039a5b026b8de997cf3d52f29cf3783c6ae5bb2c9a121",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 95,
+        "width": 120,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_a0fe5e9b03b4df74.svg",
+      "sha256": "579d51ad903a3e766b027ccdb099760b4d1fe0a12e3f99b4604a2bdb686f7465",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 85,
+        "width": 120,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_191cf5d62d5b4e8c.svg",
+      "sha256": "a316d88ef8464781a6e0763f1bc92e3807f7a3cf09eb026e4f2d08cfab6bab56",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 80,
+        "width": 120,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_efaf459128b467c1.svg",
+      "sha256": "6f33436cbdaeda0bd364e7498e096f269db729e39bd4ccdad140014e32dfaa56",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 120,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_6a1ae399a8fb6576.svg",
+      "sha256": "5b66484588365ac6fae9ca08cafd2888768847016de1bca4a36bb6e858f44404",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 30,
+        "width": 150,
+        "height": 4
+      },
+      "size_bytes": 282
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_4071bb24159cec96.svg",
+      "sha256": "aa5f7fd9f9234f329a379e7f04f60d1c3204c63753fc51a498c7ef30961f48e2",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 150,
+        "height": 4
+      },
+      "size_bytes": 282
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_f425b8fca73d7025.svg",
+      "sha256": "7f5a3d1cc38dbe8baa1d5c704e809bf7395e072438d6349d1b2c48276fd7a813",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 90,
+        "width": 150,
+        "height": 4
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_b3467ee9258ebfb5.svg",
+      "sha256": "f9397745706c41251e13b92e492a1b6fd16b2908a0f90af0e0a3f1b2f218f2f1",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 10,
+        "width": 200,
+        "height": 6
+      },
+      "size_bytes": 207
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_6c08e11e55c0ee40.svg",
+      "sha256": "fb384dc01af798d58a97acc5c91f3438cf39747b8c0bb09b6f73bd23f65e2fbc",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 45,
+        "width": 200,
+        "height": 6
+      },
+      "size_bytes": 207
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_8062b59d8a2901de.svg",
+      "sha256": "e9549be82860016c20f96cbe9f6f6000fece69b87b41b4ca485720e24e1a370f",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 80,
+        "width": 200,
+        "height": 6
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_ae747c949ffde275.svg",
+      "sha256": "20ba4a5a88857073e18ea11a3efb70203fc238b8540cc8aec3d3080523ebe039",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 100,
+        "width": 200,
+        "height": 6
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_217d45f069d706d7.svg",
+      "sha256": "e893f1fc5d8b79b8c62fbbc60fcee14426eaacfa02ea299e42178ad74cd3119f",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 75,
+        "width": 220,
+        "height": 8
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_74d4f82841a7d94.svg",
+      "sha256": "e24345cc6f1b9c37c765712085b9e8e076da76205b47822c257c571c2d4f4ecf",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 60,
+        "width": 220,
+        "height": 8
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_cfe895c180bc78d.svg",
+      "sha256": "4d3a39a4b3c203e61aef47410d87c2288b0b5ba222eaaf0ef2d520dd0ae36827",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 85,
+        "width": 220,
+        "height": 8
+      },
+      "size_bytes": 208
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_d15fa28e78d61b91.svg",
+      "sha256": "895ce8de7e56b7c6320be0a7c4c0b5f79e86f35ce8281e8bb56f290306486560",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 35,
+        "width": 280,
+        "height": 4
+      },
+      "size_bytes": 285
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_de7581d46dd39be7.svg",
+      "sha256": "fb23660c3b71f6e6aab92e5ce3605add53795aff93e1d760ceca18386fe3a526",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 73,
+        "width": 100,
+        "height": 12
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_cf80636c9823277b.svg",
+      "sha256": "589a408b1e3c71179c52a50ca7b937b96bd63650cf5fe85d83e9db0704fb71a0",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 45,
+        "width": 100,
+        "height": 12
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_548b3420e7993c08.svg",
+      "sha256": "780ac1f049991b4aadfa978f0570dca8f8e194bbbd150f742a6828d11d36eb40",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 88,
+        "width": 100,
+        "height": 12
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_b9d11549966f6387.svg",
+      "sha256": "f79dda60bcc208e2a20a922fa7fcb8de5c3782f68c01fdab0df75d651b8923ce",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 50,
+        "width": 200,
+        "height": 2
+      },
+      "size_bytes": 284
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_e3abefa3739d261d.svg",
+      "sha256": "f73682c4162354f70449f7de4f3445cc7b17b9be0bfe5c67d4fe35178ba863a5",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 65,
+        "width": 200,
+        "height": 16
+      },
+      "size_bytes": 286
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_d9777242ad99f54d.svg",
+      "sha256": "00eea9f0c0d2a8816a5e37e270cc331782d1e5c38ff65d62cd70b5efe15a3b9e",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 25,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_dbaf29e33cdcef84.svg",
+      "sha256": "3cb4f79437494dbd10679273e1b52fc112960f98f43a77c0786697b9e4f42c8c",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 55,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 211
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_68c224e3a3a84434.svg",
+      "sha256": "d2bb04ace94ad7deedefc4c924c050876ca6489ecaf0b1087fdf3fb10d759b2d",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 85,
+        "width": 150,
+        "height": 10
+      },
+      "size_bytes": 212
+    },
+    {
+      "path": "docs/guides/assets/progress-guide/progress_e9f94e0dca09a2a1.svg",
+      "sha256": "f5ee55a80cd979726080ce254c086c2dd7c034cff6c52e9c58e70c3a20b9ee22",
+      "type": "progress",
+      "primitive": {
+        "kind": "Progress",
+        "percent": 70,
+        "width": 200,
+        "height": 14
+      },
+      "size_bytes": 246
+    }
+  ]
+}
