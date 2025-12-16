@@ -32,44 +32,6 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 
 ---
 
-## Quick Examples
-
-**Swatch:**
-```markdown
-{{ui:swatch:accent/}}
-{{ui:swatch:FF5500:width=100:height=30/}}
-```
-
-**Frame:**
-```markdown
-{{frame:gradient}}HEADER{{/frame}}
-{{fr:gradient+star}}TITLE{{/}}           <!-- frame combo -->
-{{fr:star*3}}VIP{{/}}                    <!-- repeated -->
-```
-
-**Text Style:**
-```markdown
-{{mathbold}}BOLD TEXT{{/mathbold}}
-{{fraktur}}Gothic Text{{/fraktur}}
-{{subscript}}H2O{{/subscript}}
-```
-
-**Component:**
-```markdown
-{{ui:tech:rust/}} {{ui:tech:python/}}
-{{ui:divider/}}
-{{ui:status:success/}}
-```
-
-**Multi-Target Build:**
-```bash
-mdfx build README.template.md --all-targets
-mdfx process input.md --target github -o README.md
-mdfx process input.md --target pypi -o PKG-INFO.md
-```
-
----
-
 ## See Also
 
 - [Template Syntax](../TEMPLATE-SYNTAX.md) - Full syntax specification
