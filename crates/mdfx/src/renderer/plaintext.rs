@@ -53,6 +53,11 @@ impl Renderer for PlainTextBackend {
                     + &" ".repeat(empty);
                 format!("[{}] {}%", bar, percent)
             }
+
+            Primitive::Donut { percent, .. } => {
+                // Render as ASCII donut: (75%)
+                format!("({}%)", percent)
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(text))

@@ -9,6 +9,7 @@ Components are reusable UI elements that render to visual primitives like badges
   - [swatch](#swatch)
   - [tech](#tech)
   - [progress](#progress)
+  - [donut](#donut)
   - [row](#row)
 - [Badge Styles](#badge-styles)
 - [Practical Examples](#practical-examples)
@@ -158,6 +159,51 @@ Renders a progress bar or slider with customizable colors, sizes, and optional s
 
 ---
 
+### donut
+
+Renders a circular progress/ring chart showing a percentage.
+
+**Syntax:**
+```markdown
+{{ui:donut:percent/}}
+{{ui:donut:percent:param=value/}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `percent` | number | required | Progress percentage (0-100) |
+| `size` | number | 40 | Diameter in pixels |
+| `thickness` | number | 4 | Ring thickness in pixels |
+| `track` | color | slate | Track (background) color |
+| `fill` | color | accent | Fill (progress) color |
+| `label` | boolean | false | Show percentage label in center |
+| `label_color` | color | white | Label text color |
+
+**Basic Examples:**
+```markdown
+{{ui:donut:75/}}
+{{ui:donut:50:size=60:thickness=8/}}
+{{ui:donut:90:fill=success/}}
+```
+
+**With Label:**
+```markdown
+{{ui:donut:75:label=true/}}
+{{ui:donut:50:size=60:label=true:label_color=accent/}}
+```
+
+**Custom Colors:**
+```markdown
+{{ui:donut:80:fill=success:track=slate/}}
+{{ui:donut:25:fill=warning:track=error/}}
+```
+
+**Note:** Donuts use SVG stroke-dasharray for smooth, scalable rendering. The percentage fills clockwise from the top.
+
+---
+
 ### row
 
 Wraps content in an HTML container with horizontal alignment. Converts markdown images to HTML for GitHub compatibility.
@@ -256,6 +302,15 @@ All components that render badges support these styles:
 Volume: {{ui:progress:65:width=150:thumb=12/}}
 ```
 
+### Completion Donuts
+```markdown
+| Task | Status |
+|------|--------|
+| Tests | {{ui:donut:100:fill=success:label=true/}} |
+| Coverage | {{ui:donut:85:fill=info:label=true/}} |
+| Docs | {{ui:donut:60:fill=warning:label=true/}} |
+```
+
 ---
 
 ## Component Reference
@@ -265,6 +320,7 @@ Volume: {{ui:progress:65:width=150:thumb=12/}}
 | `swatch` | native | yes | inline, block |
 | `tech` | native | yes | inline, block |
 | `progress` | native | yes | inline, block |
+| `donut` | native | yes | inline, block |
 | `row` | native | no | block |
 
 ---

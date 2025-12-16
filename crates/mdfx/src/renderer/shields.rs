@@ -84,6 +84,20 @@ impl Renderer for ShieldsBackend {
                     label, label, fill_color
                 )
             }
+
+            // Donut charts use a circular percentage badge as shields.io fallback
+            // Full donut rendering requires SVG backend
+            Primitive::Donut {
+                percent,
+                fill_color,
+                ..
+            } => {
+                let label = format!("{}%25", percent); // URL-encoded %
+                format!(
+                    "![](https://img.shields.io/badge/{}-{}-{}?style=flat-square)",
+                    label, label, fill_color
+                )
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(markdown))

@@ -204,6 +204,24 @@ impl SvgBackend {
                 thumb_color.hash(&mut hasher);
                 thumb_shape.hash(&mut hasher);
             }
+            Primitive::Donut {
+                percent,
+                size,
+                thickness,
+                track_color,
+                fill_color,
+                show_label,
+                label_color,
+            } => {
+                "donut".hash(&mut hasher);
+                percent.hash(&mut hasher);
+                size.hash(&mut hasher);
+                thickness.hash(&mut hasher);
+                track_color.hash(&mut hasher);
+                fill_color.hash(&mut hasher);
+                show_label.hash(&mut hasher);
+                label_color.hash(&mut hasher);
+            }
         }
 
         let hash = hasher.finish();
@@ -211,6 +229,7 @@ impl SvgBackend {
             Primitive::Swatch { .. } => "swatch",
             Primitive::Tech { .. } => "tech",
             Primitive::Progress { .. } => "progress",
+            Primitive::Donut { .. } => "donut",
         };
 
         format!("{}_{:x}.svg", type_name, hash)
@@ -675,6 +694,51 @@ impl SvgBackend {
             thumb_elem
         )
     }
+
+    /// Render a donut/ring chart using stroke-dasharray trick
+    fn render_donut_svg(
+        percent: u8,
+        size: u32,
+        thickness: u32,
+        track_color: &str,
+        fill_color: &str,
+        show_label: bool,
+        label_color: Option<&str>,
+    ) -> String {
+        // Use radius ~15.9 so circumference ≈ 100 (makes percentage math easy)
+        // Scale radius based on size: r = (size/2 - thickness/2)
+        let center = size as f32 / 2.0;
+        let radius = center - (thickness as f32 / 2.0);
+        let circumference = 2.0 * std::f32::consts::PI * radius;
+
+        // Calculate dash lengths for percentage
+        let fill_length = circumference * (percent as f32 / 100.0);
+        let gap_length = circumference - fill_length;
+
+        // Build label element if requested (and size is large enough)
+        let label_elem = if show_label && size >= 30 {
+            let label_col = label_color.unwrap_or("FFFFFF");
+            // Font size scales with donut size
+            let font_size = (size / 4).max(10).min(16);
+            format!(
+                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",
+                center, center, label_col, font_size, percent
+            )
+        } else {
+            String::new()
+        };
+
+        format!(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  <circle cx=\"{}\" cy=\"{}\" r=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\"/>\n\
+  <circle cx=\"{}\" cy=\"{}\" r=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-dasharray=\"{:.2} {:.2}\" transform=\"rotate(-90 {} {})\"/>{}\n\
+</svg>",
+            size, size, size, size,
+            center, center, radius, track_color, thickness,
+            center, center, radius, fill_color, thickness, fill_length, gap_length, center, center,
+            label_elem
+        )
+    }
 }
 
 impl Renderer for SvgBackend {
@@ -763,6 +827,24 @@ impl Renderer for SvgBackend {
                 *thumb_size,
                 thumb_color.as_deref(),
                 thumb_shape,
+            ),
+
+            Primitive::Donut {
+                percent,
+                size,
+                thickness,
+                track_color,
+                fill_color,
+                show_label,
+                label_color,
+            } => Self::render_donut_svg(
+                *percent,
+                *size,
+                *thickness,
+                track_color,
+                fill_color,
+                *show_label,
+                label_color.as_deref(),
             ),
         };
 

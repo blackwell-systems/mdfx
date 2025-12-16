@@ -7,6 +7,7 @@
 /// - Swatch: Single colored block
 /// - Tech: Technology logo badge
 /// - Progress: Progress bar with customizable track and fill
+/// - Donut: Circular progress/ring chart
 ///
 /// Text-based transformations (frames, styles, badges) remain as direct
 /// Unicode rendering and don't use this abstraction.
@@ -97,6 +98,24 @@ pub enum Primitive {
         /// Thumb shape: "circle", "square", "diamond"
         thumb_shape: String,
     },
+
+    /// Donut/ring chart showing percentage
+    Donut {
+        /// Percentage complete (0-100)
+        percent: u8,
+        /// Diameter in pixels
+        size: u32,
+        /// Ring thickness in pixels
+        thickness: u32,
+        /// Track (background) color
+        track_color: String,
+        /// Fill (progress) color
+        fill_color: String,
+        /// Show percentage label in center
+        show_label: bool,
+        /// Label color
+        label_color: Option<String>,
+    },
 }
 
 impl Primitive {
@@ -153,6 +172,23 @@ impl Primitive {
             thumb_size: None,
             thumb_color: None,
             thumb_shape: "circle".to_string(),
+        }
+    }
+
+    /// Create a simple donut with defaults
+    pub fn simple_donut(
+        percent: u8,
+        track_color: impl Into<String>,
+        fill_color: impl Into<String>,
+    ) -> Self {
+        Primitive::Donut {
+            percent: percent.min(100),
+            size: 40,
+            thickness: 4,
+            track_color: track_color.into(),
+            fill_color: fill_color.into(),
+            show_label: false,
+            label_color: None,
         }
     }
 }

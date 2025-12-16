@@ -51,6 +51,8 @@ impl HybridBackend {
             Primitive::Tech { .. } => false,
             // Progress bars always use SVG for proper rendering
             Primitive::Progress { .. } => true,
+            // Donut charts always use SVG for proper rendering
+            Primitive::Donut { .. } => true,
         }
     }
 }

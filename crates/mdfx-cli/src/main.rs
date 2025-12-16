@@ -623,6 +623,7 @@ fn process_file(
                                 mdfx::Primitive::Swatch { .. } => "swatch",
                                 mdfx::Primitive::Tech { .. } => "tech",
                                 mdfx::Primitive::Progress { .. } => "progress",
+                                mdfx::Primitive::Donut { .. } => "donut",
                             };
                             m.add_asset(
                                 relative_path.clone(),
