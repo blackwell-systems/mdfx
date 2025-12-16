@@ -639,4 +639,103 @@ mod tests {
         assert!(meta.total_styles > 0);
         assert!(meta.total_frames > 0);
     }
+
+    #[test]
+    fn test_schema_version() {
+        let registry = Registry::new().unwrap();
+        let schema = registry.schema_version();
+        // Should have a valid schema version string
+        assert!(!schema.is_empty());
+    }
+
+    #[test]
+    fn test_palette() {
+        let registry = Registry::new().unwrap();
+        let palette = registry.palette();
+
+        // Should have palette colors
+        assert!(!palette.is_empty());
+        // Should contain known colors
+        assert!(palette.contains_key("accent"));
+    }
+
+    #[test]
+    fn test_glyphs() {
+        let registry = Registry::new().unwrap();
+        let glyphs = registry.glyphs();
+
+        // Should have glyphs
+        assert!(!glyphs.is_empty());
+    }
+
+    #[test]
+    fn test_glyph() {
+        let registry = Registry::new().unwrap();
+
+        // Test getting a known glyph
+        let dot = registry.glyph("dot");
+        assert!(dot.is_some());
+
+        // Test getting unknown glyph returns None
+        let unknown = registry.glyph("nonexistent_glyph_xyz");
+        assert!(unknown.is_none());
+    }
+
+    #[test]
+    fn test_components() {
+        let registry = Registry::new().unwrap();
+        let components = registry.components();
+
+        // Should have components
+        assert!(!components.is_empty());
+    }
+
+    #[test]
+    fn test_frames() {
+        let registry = Registry::new().unwrap();
+        let frames = registry.frames();
+
+        // Should have frames
+        assert!(!frames.is_empty());
+    }
+
+    #[test]
+    fn test_styles() {
+        let registry = Registry::new().unwrap();
+        let styles = registry.styles();
+
+        // Should have styles
+        assert!(!styles.is_empty());
+    }
+
+    #[test]
+    fn test_shield_styles_collection() {
+        let registry = Registry::new().unwrap();
+        let shield_styles = registry.shield_styles();
+
+        // Should have shield styles
+        assert!(!shield_styles.is_empty());
+        // Should contain flat-square (default)
+        assert!(shield_styles.contains_key("flat-square"));
+    }
+
+    #[test]
+    fn test_from_json_valid() {
+        // Get the embedded JSON and verify it loads
+        let json_data = include_str!("../data/registry.json");
+        let registry = Registry::from_json(json_data);
+        assert!(registry.is_ok());
+    }
+
+    #[test]
+    fn test_from_json_invalid() {
+        let result = Registry::from_json("{ invalid json }");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_from_json_empty() {
+        let result = Registry::from_json("");
+        assert!(result.is_err());
+    }
 }

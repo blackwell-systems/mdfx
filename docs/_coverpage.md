@@ -20,8 +20,6 @@ mdfx = "1.0"
 - **5 Targets** - GitHub, GitLab, npm, PyPI, local docs
 - **4 Backends** - shields.io, SVG, plaintext, hybrid (auto-select)
 - **LSP Server** - IDE autocompletion for VS Code and others
-- **Watch Mode** - Auto-rebuild on file changes
-- **307 Tests** - Comprehensive test coverage
 - **Cross-Platform** - macOS • Linux • Windows • WSL2
 
 [Get Started](#quick-start)

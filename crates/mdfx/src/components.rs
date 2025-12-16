@@ -1008,4 +1008,59 @@ mod style_tests {
         assert_eq!(remaining, vec!["F41C80"]);
         assert_eq!(style, "flat-square");
     }
+
+    #[test]
+    fn test_get_component() {
+        let renderer = ComponentsRenderer::new().unwrap();
+
+        // Test getting a known component
+        let divider = renderer.get("divider");
+        assert!(divider.is_some());
+        let divider = divider.unwrap();
+        assert!(!divider.description.is_empty());
+
+        // Test getting unknown component returns None
+        let unknown = renderer.get("nonexistent_component");
+        assert!(unknown.is_none());
+    }
+
+    #[test]
+    fn test_apply_row_basic() {
+        // Basic content with whitespace
+        let result = ComponentsRenderer::apply_row("  Hello   World  ", "center");
+        assert!(result.contains("<p align=\"center\">"));
+        assert!(result.contains("Hello World"));
+        assert!(result.contains("</p>"));
+    }
+
+    #[test]
+    fn test_apply_row_with_image() {
+        // Test markdown image conversion
+        let result = ComponentsRenderer::apply_row("![alt text](image.png)", "left");
+        assert!(result.contains("<img alt=\"alt text\" src=\"image.png\">"));
+        assert!(result.contains("<p align=\"left\">"));
+    }
+
+    #[test]
+    fn test_apply_row_with_empty_alt_image() {
+        // Test markdown image with empty alt
+        let result = ComponentsRenderer::apply_row("![](image.png)", "right");
+        assert!(result.contains("<img alt=\"\" src=\"image.png\">"));
+        assert!(result.contains("<p align=\"right\">"));
+    }
+
+    #[test]
+    fn test_apply_row_multiple_images() {
+        // Test multiple images
+        let result = ComponentsRenderer::apply_row("![a](1.png) ![b](2.png)", "center");
+        assert!(result.contains("<img alt=\"a\" src=\"1.png\">"));
+        assert!(result.contains("<img alt=\"b\" src=\"2.png\">"));
+    }
+
+    #[test]
+    fn test_apply_row_collapses_whitespace() {
+        // Test that multiple newlines/spaces get collapsed
+        let result = ComponentsRenderer::apply_row("Line1\n\n\nLine2    Line3", "center");
+        assert!(result.contains("Line1 Line2 Line3"));
+    }
 }
