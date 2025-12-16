@@ -1,5 +1,6 @@
 use crate::badges::BadgeRenderer;
 use crate::components::{ComponentOutput, ComponentsRenderer};
+use crate::config::{expand_partial, MdfxConfig};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
@@ -7,6 +8,7 @@ use crate::registry::{EvalContext, Registry};
 use crate::renderer::shields::ShieldsBackend;
 use crate::renderer::{RenderedAsset, Renderer};
 use crate::shields::ShieldsRenderer;
+use std::collections::HashMap;
 
 /// Template data extracted from parsing
 #[derive(Debug, Clone)]
@@ -51,6 +53,14 @@ struct ShieldData {
     params: std::collections::HashMap<String, String>,
 }
 
+/// Partial template data
+#[derive(Debug, Clone)]
+struct PartialData {
+    end_pos: usize,
+    partial_name: String,
+    content: String,
+}
+
 /// Result of processing markdown with file-based assets
 #[derive(Debug, Clone)]
 pub struct ProcessedMarkdown {
@@ -69,6 +79,7 @@ pub struct TemplateParser {
     shields_renderer: ShieldsRenderer, // Keep for {{shields:*}} escape hatch
     backend: Box<dyn Renderer>,        // Pluggable rendering backend
     registry: Registry,                // Unified registry for resolution
+    partials: HashMap<String, String>, // User-defined partial templates
 }
 
 impl TemplateParser {
@@ -93,7 +104,47 @@ impl TemplateParser {
             shields_renderer,
             backend,
             registry,
+            partials: HashMap::new(),
         })
+    }
+
+    /// Load partials from an MdfxConfig
+    ///
+    /// # Example
+    ///
+    /// ```ignore
+    /// use mdfx::{TemplateParser, MdfxConfig};
+    ///
+    /// let mut parser = TemplateParser::new()?;
+    /// let config = MdfxConfig::load(".mdfx.json")?;
+    /// parser.load_config(&config);
+    /// ```
+    pub fn load_config(&mut self, config: &MdfxConfig) {
+        // Load partials
+        for (name, def) in &config.partials {
+            self.partials.insert(name.clone(), def.template.clone());
+        }
+
+        // Load custom palette
+        if !config.palette.is_empty() {
+            self.components_renderer
+                .extend_palette(config.palette.clone());
+        }
+    }
+
+    /// Add a single partial template
+    ///
+    /// # Arguments
+    ///
+    /// * `name` - The partial name (used as `{{partial:name}}`)
+    /// * `template` - The template string (may contain `$1` or `$content` for content substitution)
+    pub fn add_partial(&mut self, name: impl Into<String>, template: impl Into<String>) {
+        self.partials.insert(name.into(), template.into());
+    }
+
+    /// Check if a partial exists
+    pub fn has_partial(&self, name: &str) -> bool {
+        self.partials.contains_key(name)
     }
 
     /// Extend the color palette with custom definitions
@@ -276,6 +327,26 @@ impl TemplateParser {
         while i < chars.len() {
             // Look for opening tag {{ (could be ui, frame, badge, or style template)
             if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
+                // Try to parse a partial template first (highest priority for user-defined)
+                if let Some(partial_data) = self.parse_partial_at(&chars, i)? {
+                    // Get the partial template
+                    if let Some(template) = self.partials.get(&partial_data.partial_name) {
+                        // Expand the partial with content
+                        let expanded = expand_partial(template, &partial_data.content);
+
+                        // Recursively process the expanded template
+                        let (processed, nested_assets) =
+                            self.process_templates_with_assets(&expanded)?;
+                        result.push_str(&processed);
+                        assets.extend(nested_assets);
+
+                        // Skip past the partial template
+                        i = partial_data.end_pos;
+                        continue;
+                    }
+                    // Partial name not found - fall through to try other parsers
+                }
+
                 // Try to parse a UI component first (highest priority)
                 if let Some(ui_data) = self.parse_ui_at(&chars, i)? {
                     // Expand the UI component
@@ -803,6 +874,102 @@ impl TemplateParser {
 
         // No closing tag found
         Err(Error::UnclosedTag("badge".to_string()))
+    }
+
+    /// Try to parse a partial template starting at position i
+    /// Returns: Some(PartialData) or None if not a valid partial template
+    ///
+    /// Syntax: {{partial:name}}CONTENT{{/partial}} or {{partial:name}}CONTENT{{/}}
+    fn parse_partial_at(&self, chars: &[char], start: usize) -> Result<Option<PartialData>> {
+        let mut i = start;
+
+        // Must start with {{partial:
+        if i + 11 >= chars.len() {
+            return Ok(None);
+        }
+
+        // Check for "{{partial:"
+        let partial_start = "{{partial:";
+        let partial_chars: Vec<char> = partial_start.chars().collect();
+        for (idx, &expected) in partial_chars.iter().enumerate() {
+            if chars[i + idx] != expected {
+                return Ok(None);
+            }
+        }
+        i += partial_chars.len();
+
+        // Parse partial name (alphanumeric, hyphens, underscores)
+        let mut partial_name = String::new();
+        while i < chars.len() {
+            let ch = chars[i];
+            if ch.is_alphanumeric() || ch == '-' || ch == '_' {
+                partial_name.push(ch);
+                i += 1;
+            } else if ch == '}' || ch == '/' {
+                break;
+            } else {
+                // Invalid character in partial name
+                return Ok(None);
+            }
+        }
+
+        // Partial name must be non-empty
+        if partial_name.is_empty() {
+            return Ok(None);
+        }
+
+        // Check for self-closing tag (ends with /}}) - for partials without content
+        if i + 2 < chars.len() && chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
+            // Self-closing tag (empty content)
+            let end_pos = i + 3;
+            return Ok(Some(PartialData {
+                end_pos,
+                partial_name,
+                content: String::new(),
+            }));
+        }
+
+        // Must have closing }} for opening tag
+        if i + 1 >= chars.len() || chars[i] != '}' || chars[i + 1] != '}' {
+            return Ok(None);
+        }
+        i += 2;
+
+        let content_start = i;
+
+        // Find closing tag - supports both {{/partial}} and {{/}}
+        let close_tags = ["{{/partial}}", "{{/}}"];
+
+        while i < chars.len() {
+            for close_tag in &close_tags {
+                let close_chars: Vec<char> = close_tag.chars().collect();
+                if i + close_chars.len() <= chars.len() {
+                    let mut matches = true;
+                    for (j, &close_ch) in close_chars.iter().enumerate() {
+                        if chars[i + j] != close_ch {
+                            matches = false;
+                            break;
+                        }
+                    }
+
+                    if matches {
+                        // Found closing tag
+                        let content: String = chars[content_start..i].iter().collect();
+                        let end_pos = i + close_chars.len();
+                        return Ok(Some(PartialData {
+                            end_pos,
+                            partial_name,
+                            content,
+                        }));
+                    }
+                }
+            }
+
+            i += 1;
+        }
+
+        // No closing tag found
+        Err(Error::UnclosedTag("partial".to_string()))
     }
 
     /// Try to parse a UI component template starting at position i
@@ -2165,5 +2332,120 @@ mod badge_style_tests {
         assert!(output.contains("style=plastic"));
         // Should resolve accent color
         assert!(output.contains("F41C80"));
+    }
+}
+
+#[cfg(test)]
+mod partial_tests {
+    use super::*;
+
+    #[test]
+    fn test_partial_with_content() {
+        let mut parser = TemplateParser::new().unwrap();
+        // Use explicit closers in template to avoid ambiguity
+        parser.add_partial(
+            "hero",
+            "{{frame:gradient}}{{mathbold}}$1{{/mathbold}}{{/frame}}",
+        );
+
+        let input = "{{partial:hero}}HELLO{{/partial}}";
+        let result = parser.process(input).unwrap();
+
+        // Should expand to gradient frame with mathbold text
+        assert!(result.contains("▓▒░"));
+        assert!(result.contains("𝐇𝐄𝐋𝐋𝐎"));
+    }
+
+    #[test]
+    fn test_partial_self_closing() {
+        let mut parser = TemplateParser::new().unwrap();
+        parser.add_partial("techstack", "{{ui:tech:rust/}} {{ui:tech:typescript/}}");
+
+        let input = "{{partial:techstack/}}";
+        let result = parser.process(input).unwrap();
+
+        // Should expand to tech badges
+        assert!(result.contains("rust"));
+        assert!(result.contains("typescript"));
+    }
+
+    #[test]
+    fn test_partial_with_universal_closer() {
+        let mut parser = TemplateParser::new().unwrap();
+        parser.add_partial("simple", "PREFIX $1 SUFFIX");
+
+        // Use explicit {{/partial}} to avoid ambiguity
+        let input = "{{partial:simple}}CONTENT{{/partial}}";
+        let result = parser.process(input).unwrap();
+
+        assert_eq!(result, "PREFIX CONTENT SUFFIX");
+    }
+
+    #[test]
+    fn test_partial_content_substitution() {
+        let mut parser = TemplateParser::new().unwrap();
+        parser.add_partial("wrapper", "[ $content ]");
+
+        let input = "{{partial:wrapper}}TEXT{{/partial}}";
+        let result = parser.process(input).unwrap();
+
+        assert_eq!(result, "[ TEXT ]");
+    }
+
+    #[test]
+    fn test_partial_nested_templates() {
+        let mut parser = TemplateParser::new().unwrap();
+        // Use explicit closer in template
+        parser.add_partial("styled", "{{frame:star}}$1{{/frame}}");
+
+        let input = "{{partial:styled}}VIP{{/partial}}";
+        let result = parser.process(input).unwrap();
+
+        assert!(result.contains("★"));
+        assert!(result.contains("VIP"));
+        assert!(result.contains("☆"));
+    }
+
+    #[test]
+    fn test_partial_not_found_passthrough() {
+        let parser = TemplateParser::new().unwrap();
+        // Without registering a partial, the tag should pass through
+        let input = "{{partial:nonexistent}}CONTENT{{/partial}}";
+        let result = parser.process(input).unwrap();
+
+        // The parser should not crash, but the partial tag will remain
+        // (since it couldn't find a matching partial, it falls through)
+        assert!(result.contains("partial"));
+    }
+
+    #[test]
+    fn test_has_partial() {
+        let mut parser = TemplateParser::new().unwrap();
+        assert!(!parser.has_partial("test"));
+
+        parser.add_partial("test", "template");
+        assert!(parser.has_partial("test"));
+    }
+
+    #[test]
+    fn test_partial_with_hyphen_underscore_name() {
+        let mut parser = TemplateParser::new().unwrap();
+        parser.add_partial("my-partial_name", "[$1]");
+
+        let input = "{{partial:my-partial_name}}X{{/partial}}";
+        let result = parser.process(input).unwrap();
+
+        assert_eq!(result, "[X]");
+    }
+
+    #[test]
+    fn test_partial_simple_text_replacement() {
+        let mut parser = TemplateParser::new().unwrap();
+        parser.add_partial("greeting", "Hello, $1!");
+
+        let input = "{{partial:greeting}}World{{/partial}}";
+        let result = parser.process(input).unwrap();
+
+        assert_eq!(result, "Hello, World!");
     }
 }

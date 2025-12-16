@@ -40,6 +40,7 @@
 
 pub mod badges;
 pub mod components;
+pub mod config;
 pub mod converter;
 pub mod error;
 pub mod frames;
@@ -56,6 +57,7 @@ pub mod targets;
 // Re-export main types for convenience
 pub use badges::{BadgeRenderer, BadgeType};
 pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
+pub use config::{expand_partial, MdfxConfig, PartialDef};
 pub use converter::Converter;
 pub use error::{Error, Result};
 pub use frames::{FrameRenderer, FrameStyle};
