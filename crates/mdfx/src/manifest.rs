@@ -217,6 +217,8 @@ pub enum VerificationResult {
 mod tests {
     use super::*;
     use crate::primitive::Primitive;
+    use std::io::Write;
+    use tempfile::TempDir;
 
     #[test]
     fn test_create_manifest() {
@@ -261,6 +263,168 @@ mod tests {
         match info {
             PrimitiveInfo::Tech { name, .. } => assert_eq!(name, "rust"),
             _ => panic!("Wrong variant"),
+        }
+    }
+
+    #[test]
+    fn test_primitive_info_divider() {
+        let primitive = Primitive::Divider {
+            colors: vec!["FF0000".to_string(), "00FF00".to_string()],
+            style: "flat".to_string(),
+            separator: None,
+        };
+
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Divider { colors, style } => {
+                assert_eq!(colors.len(), 2);
+                assert_eq!(style, "flat");
+            }
+            _ => panic!("Wrong variant"),
+        }
+    }
+
+    #[test]
+    fn test_primitive_info_status() {
+        let primitive = Primitive::Status {
+            level: "success".to_string(),
+            style: "flat-square".to_string(),
+        };
+
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Status { level, style } => {
+                assert_eq!(level, "success");
+                assert_eq!(style, "flat-square");
+            }
+            _ => panic!("Wrong variant"),
+        }
+    }
+
+    #[test]
+    fn test_asset_paths() {
+        let mut manifest = AssetManifest::new("svg", "assets");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+
+        manifest.add_asset(
+            "path1.svg".to_string(),
+            b"svg1",
+            &primitive,
+            "swatch".to_string(),
+        );
+        manifest.add_asset(
+            "path2.svg".to_string(),
+            b"svg2",
+            &primitive,
+            "swatch".to_string(),
+        );
+
+        let paths = manifest.asset_paths();
+        assert_eq!(paths.len(), 2);
+        assert!(paths.contains(&"path1.svg"));
+        assert!(paths.contains(&"path2.svg"));
+    }
+
+    #[test]
+    fn test_write_and_load() {
+        let temp_dir = TempDir::new().unwrap();
+        let manifest_path = temp_dir.path().join("manifest.json");
+
+        let mut manifest = AssetManifest::new("svg", "assets");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+        manifest.add_asset(
+            "test.svg".to_string(),
+            b"<svg/>",
+            &primitive,
+            "swatch".to_string(),
+        );
+
+        // Write manifest
+        manifest.write(&manifest_path).unwrap();
+        assert!(manifest_path.exists());
+
+        // Load manifest
+        let loaded = AssetManifest::load(&manifest_path).unwrap();
+        assert_eq!(loaded.version, "1.0.0");
+        assert_eq!(loaded.backend, "svg");
+        assert_eq!(loaded.total_assets, 1);
+        assert_eq!(loaded.assets[0].path, "test.svg");
+    }
+
+    #[test]
+    fn test_verify_valid_asset() {
+        let temp_dir = TempDir::new().unwrap();
+        let asset_path = temp_dir.path().join("test.svg");
+        let svg_content = b"<svg>valid</svg>";
+
+        // Write asset file
+        let mut file = fs::File::create(&asset_path).unwrap();
+        file.write_all(svg_content).unwrap();
+
+        // Create manifest with matching hash
+        let mut manifest = AssetManifest::new("svg", ".");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+        manifest.add_asset(
+            "test.svg".to_string(),
+            svg_content,
+            &primitive,
+            "swatch".to_string(),
+        );
+
+        // Verify
+        let results = manifest.verify(temp_dir.path());
+        assert_eq!(results.len(), 1);
+        match &results[0] {
+            VerificationResult::Valid { path } => assert_eq!(path, "test.svg"),
+            _ => panic!("Expected Valid result"),
+        }
+    }
+
+    #[test]
+    fn test_verify_missing_asset() {
+        let temp_dir = TempDir::new().unwrap();
+
+        let mut manifest = AssetManifest::new("svg", ".");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+        manifest.add_asset(
+            "missing.svg".to_string(),
+            b"<svg/>",
+            &primitive,
+            "swatch".to_string(),
+        );
+
+        let results = manifest.verify(temp_dir.path());
+        assert_eq!(results.len(), 1);
+        match &results[0] {
+            VerificationResult::Missing { path } => assert_eq!(path, "missing.svg"),
+            _ => panic!("Expected Missing result"),
+        }
+    }
+
+    #[test]
+    fn test_verify_hash_mismatch() {
+        let temp_dir = TempDir::new().unwrap();
+        let asset_path = temp_dir.path().join("test.svg");
+
+        // Write asset file with different content
+        let mut file = fs::File::create(&asset_path).unwrap();
+        file.write_all(b"<svg>modified</svg>").unwrap();
+
+        // Create manifest with original content hash
+        let mut manifest = AssetManifest::new("svg", ".");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+        manifest.add_asset(
+            "test.svg".to_string(),
+            b"<svg>original</svg>",
+            &primitive,
+            "swatch".to_string(),
+        );
+
+        let results = manifest.verify(temp_dir.path());
+        assert_eq!(results.len(), 1);
+        match &results[0] {
+            VerificationResult::HashMismatch { path, .. } => assert_eq!(path, "test.svg"),
+            _ => panic!("Expected HashMismatch result"),
         }
     }
 }
