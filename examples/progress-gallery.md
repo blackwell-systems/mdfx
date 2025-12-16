@@ -7,45 +7,45 @@ A showcase of creative progress bar designs using the `{{ui:progress}}` componen
 ## Basic Styles
 
 **Simple Progress:**
-{{ui:progress:75/}}
+![](examples/assets/progress_5b68b2f26624f8c6.svg)
 
 **Wide Bar:**
-{{ui:progress:60:width=200/}}
+![](examples/assets/progress_2d36e000a9f7f4a1.svg)
 
 **Tall Bar:**
-{{ui:progress:80:width=150:height=20/}}
+![](examples/assets/progress_931239573444bb54.svg)
 
 ---
 
 ## Color Variations
 
 **Success (Green):**
-{{ui:progress:100:fill=success:width=150/}}
+![](examples/assets/progress_228724abd48489e3.svg)
 
 **Warning (Yellow):**
-{{ui:progress:65:fill=warning:width=150/}}
+![](examples/assets/progress_9945c6de61e97ce6.svg)
 
 **Error (Red):**
-{{ui:progress:25:fill=error:width=150/}}
+![](examples/assets/progress_b7b1944e65606441.svg)
 
 **Accent (Pink):**
-{{ui:progress:90:fill=accent:width=150/}}
+![](examples/assets/progress_528743bd0cc8ac.svg)
 
 **Cobalt (Blue):**
-{{ui:progress:50:fill=cobalt:width=150/}}
+![](examples/assets/progress_5a54a0f8756d4189.svg)
 
 ---
 
 ## Track Color Variations
 
 **Dark Track:**
-{{ui:progress:70:track=ink:fill=success:width=150/}}
+![](examples/assets/progress_5b8a14125d122f75.svg)
 
 **Light Track:**
-{{ui:progress:45:track=CCCCCC:fill=accent:width=150/}}
+![](examples/assets/progress_b21843f332e0d4a0.svg)
 
 **Contrasting:**
-{{ui:progress:85:track=slate:fill=warning:width=150/}}
+![](examples/assets/progress_e5106fe3561ea9a6.svg)
 
 ---
 
@@ -54,55 +54,55 @@ A showcase of creative progress bar designs using the `{{ui:progress}}` componen
 When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 **Subtle Float:**
-{{ui:progress:60:height=12:fill_height=8:width=150/}}
+![](examples/assets/progress_289f36ee1b1af5b5.svg)
 
 **Prominent Float:**
-{{ui:progress:75:height=16:fill_height=8:width=150/}}
+![](examples/assets/progress_8558424ad6e2ffe1.svg)
 
 **Thin Float:**
-{{ui:progress:80:height=14:fill_height=4:width=150/}}
+![](examples/assets/progress_15da2b1fd4b2e99a.svg)
 
 ---
 
 ## With Labels
 
 **Basic Label:**
-{{ui:progress:75:width=120:height=16:label=true/}}
+![](examples/assets/progress_27a2cbd1121d121e.svg)
 
 **Tall with Label:**
-{{ui:progress:50:width=150:height=20:label=true/}}
+![](examples/assets/progress_c5147bd6a7167b13.svg)
 
 **Colored Label:**
-{{ui:progress:90:width=150:height=18:label=true:label_color=000000/}}
+![](examples/assets/progress_cf6f54671a95ce72.svg)
 
 ---
 
 ## Corner Radius Variations
 
 **Sharp Corners (rx=0):**
-{{ui:progress:65:rx=0:width=150/}}
+![](examples/assets/progress_e317e1f147b1ddd6.svg)
 
 **Slightly Rounded (rx=2):**
-{{ui:progress:65:rx=2:width=150/}}
+![](examples/assets/progress_58cbafe2bfdf56f1.svg)
 
 **Very Rounded (rx=8):**
-{{ui:progress:65:rx=8:height=16:width=150/}}
+![](examples/assets/progress_70f37ce5ed3d247d.svg)
 
 **Pill Shape:**
-{{ui:progress:65:rx=10:height=20:width=150/}}
+![](examples/assets/progress_aae333f4d9f4d6f3.svg)
 
 ---
 
 ## With Borders
 
 **Accent Border:**
-{{ui:progress:70:width=150:border=accent/}}
+![](examples/assets/progress_671cc321535aacee.svg)
 
 **Dark Border:**
-{{ui:progress:55:width=150:border=ink:border_width=2/}}
+![](examples/assets/progress_57b0fbf92f314f72.svg)
 
 **Contrasting Border:**
-{{ui:progress:80:width=150:track=slate:fill=success:border=white/}}
+![](examples/assets/progress_75b9528b233b5b35.svg)
 
 ---
 
@@ -110,11 +110,11 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 | Skill | Level |
 |-------|-------|
-| Rust | {{ui:progress:95:width=100:fill=DEA584/}} |
-| Python | {{ui:progress:85:width=100:fill=3776AB/}} |
-| JavaScript | {{ui:progress:80:width=100:fill=F7DF1E/}} |
-| Go | {{ui:progress:70:width=100:fill=00ADD8/}} |
-| TypeScript | {{ui:progress:75:width=100:fill=3178C6/}} |
+| Rust | ![](examples/assets/progress_7f9bbb99b5805cb5.svg) |
+| Python | ![](examples/assets/progress_f1187b932f66c64d.svg) |
+| JavaScript | ![](examples/assets/progress_2416d5f91d9ee6a2.svg) |
+| Go | ![](examples/assets/progress_cc2bb17893cc3f43.svg) |
+| TypeScript | ![](examples/assets/progress_3951f901d7120ed1.svg) |
 
 ---
 
@@ -122,48 +122,48 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 | Component | Completion |
 |-----------|------------|
-| Core Engine | {{ui:progress:100:width=120:height=16:fill=success:label=true/}} |
-| API | {{ui:progress:85:width=120:height=16:fill=accent:label=true/}} |
-| Documentation | {{ui:progress:60:width=120:height=16:fill=warning:label=true/}} |
-| Testing | {{ui:progress:40:width=120:height=16:fill=error:label=true/}} |
+| Core Engine | ![](examples/assets/progress_cdc476b1c656de20.svg) |
+| API | ![](examples/assets/progress_3566a832bed03fcc.svg) |
+| Documentation | ![](examples/assets/progress_a18e2bd6e99bf7eb.svg) |
+| Testing | ![](examples/assets/progress_e320a77ded84bf0d.svg) |
 
 ---
 
 ## Creative Combinations
 
 **Neon Style:**
-{{ui:progress:75:width=200:height=8:fill_height=4:track=111111:fill=00FF88:border=00FF88/}}
+![](examples/assets/progress_eb078575c825ce18.svg)
 
 **Minimal:**
-{{ui:progress:60:width=200:height=4:rx=2:track=EEEEEE:fill=333333/}}
+![](examples/assets/progress_12d92b026f897b15.svg)
 
 **Corporate Blue:**
-{{ui:progress:80:width=180:height=14:track=E8EEF4:fill=cobalt:border=cobalt:rx=7/}}
+![](examples/assets/progress_242db36f2445908.svg)
 
 **Sunset Gradient Effect (using multiple bars):**
-{{ui:progress:100:width=50:height=12:fill=FF6B6B:rx=0/}}{{ui:progress:100:width=50:height=12:fill=FFE66D:rx=0/}}{{ui:progress:100:width=50:height=12:fill=4ECDC4:rx=0/}}
+![](examples/assets/progress_e1b3607def46f2f9.svg)![](examples/assets/progress_81a4be965f833fec.svg)![](examples/assets/progress_91ec801428aee765.svg)
 
 ---
 
 ## Loading States
 
 **Empty:**
-{{ui:progress:0:width=150/}}
+![](examples/assets/progress_f2e75446956e2798.svg)
 
 **Starting:**
-{{ui:progress:10:width=150/}}
+![](examples/assets/progress_77e6ee0e9804171d.svg)
 
 **Quarter:**
-{{ui:progress:25:width=150/}}
+![](examples/assets/progress_e71cc41fbe0f6ae8.svg)
 
 **Half:**
-{{ui:progress:50:width=150/}}
+![](examples/assets/progress_5df7b30b6430be32.svg)
 
 **Three-quarters:**
-{{ui:progress:75:width=150/}}
+![](examples/assets/progress_fc6bb6375991b53f.svg)
 
 **Complete:**
-{{ui:progress:100:width=150:fill=success/}}
+![](examples/assets/progress_228724abd48489e3.svg)
 
 ---
 
@@ -172,31 +172,31 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 
 **Basic Slider:**
-{{ui:progress:50:width=200:thumb=14/}}
+![](examples/assets/progress_5f1dcb3bfc952abf.svg)
 
 **Colored Thumb:**
-{{ui:progress:75:width=200:thumb=16:thumb_color=accent/}}
+![](examples/assets/progress_54e083d6ec91a7dd.svg)
 
 **Square Thumb:**
-{{ui:progress:30:width=200:thumb=14:thumb_shape=square/}}
+![](examples/assets/progress_a686983c53fbc6e7.svg)
 
 **Diamond Thumb:**
-{{ui:progress:60:width=200:thumb=14:thumb_shape=diamond:thumb_color=warning/}}
+![](examples/assets/progress_fc9aef2f6290f9cf.svg)
 
 **Large Thumb:**
-{{ui:progress:40:width=200:thumb=20:thumb_color=success/}}
+![](examples/assets/progress_467f8a5c03ec5881.svg)
 
 **Minimal Slider (thin track):**
-{{ui:progress:65:width=200:height=4:thumb=10:track=CCCCCC:thumb_color=333333/}}
+![](examples/assets/progress_ef53e6264ac96851.svg)
 
 **Thick Track Slider:**
-{{ui:progress:50:width=200:height=10:thumb=14/}}
+![](examples/assets/progress_5f1dcb3bfc952abf.svg)
 
 **Barely Larger Thumb:**
-{{ui:progress:70:width=200:height=12:thumb=16:thumb_color=cobalt/}}
+![](examples/assets/progress_774f7ffea44b43c4.svg)
 
 **iOS-style Slider:**
-{{ui:progress:45:width=200:height=8:thumb=20:track=DDDDDD:thumb_color=FFFFFF:border=CCCCCC/}}
+![](examples/assets/progress_8621812da61ba03f.svg)
 
 ---
 
@@ -204,9 +204,9 @@ When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 
 | Setting | Slider |
 |---------|--------|
-| Volume Low | {{ui:progress:25:width=120:thumb=12/}} |
-| Volume Mid | {{ui:progress:50:width=120:thumb=12/}} |
-| Volume High | {{ui:progress:85:width=120:thumb=12:thumb_color=error/}} |
+| Volume Low | ![](examples/assets/progress_9fdf54955623b67.svg) |
+| Volume Mid | ![](examples/assets/progress_2ca0f502d335efd3.svg) |
+| Volume High | ![](examples/assets/progress_c6abae59d6ccfe83.svg) |
 
 ---
 
@@ -214,106 +214,106 @@ When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 
 | Channel | Level |
 |---------|-------|
-| Master | {{ui:progress:75:width=140:height=6:thumb=14:fill=success:thumb_color=success/}} |
-| Bass | {{ui:progress:85:width=140:height=6:thumb=14:fill=error:thumb_color=error/}} |
-| Treble | {{ui:progress:60:width=140:height=6:thumb=14:fill=info:thumb_color=info/}} |
-| Vocals | {{ui:progress:70:width=140:height=6:thumb=14:fill=warning:thumb_color=warning/}} |
+| Master | ![](examples/assets/progress_11f0b516e68283d6.svg) |
+| Bass | ![](examples/assets/progress_4019ab6e8cd5b722.svg) |
+| Treble | ![](examples/assets/progress_5ea0468268325842.svg) |
+| Vocals | ![](examples/assets/progress_3ee2120011b296d9.svg) |
 
 ---
 
 ## Media Player Controls
 
 **Seek Bar (Dark Theme):**
-{{ui:progress:35:width=300:height=4:thumb=12:track=333333:fill=accent:thumb_color=FFFFFF/}}
+![](examples/assets/progress_f95b6346efe8ff0.svg)
 
 **Spotify-style (Green):**
-{{ui:progress:62:width=300:height=4:thumb=12:track=4D4D4D:fill=1DB954:thumb_color=FFFFFF/}}
+![](examples/assets/progress_51f3a477050017b.svg)
 
 **SoundCloud-style (Orange):**
-{{ui:progress:45:width=300:height=3:thumb=10:track=333333:fill=FF5500:thumb_color=FF5500/}}
+![](examples/assets/progress_de92ad956c6f76e4.svg)
 
 ---
 
 ## Settings Sliders
 
 **Brightness:**
-{{ui:progress:80:width=180:height=8:thumb=16:track=1a1a2e:fill=FFD700:thumb_color=FFD700/}}
+![](examples/assets/progress_fb9bdf92c4e92c93.svg)
 
 **Contrast:**
-{{ui:progress:50:width=180:height=8:thumb=16:track=1a1a2e:fill=FFFFFF:thumb_color=FFFFFF/}}
+![](examples/assets/progress_7d951e4f712e35be.svg)
 
 **Saturation:**
-{{ui:progress:65:width=180:height=8:thumb=16:track=1a1a2e:fill=FF6B6B:thumb_color=FF6B6B/}}
+![](examples/assets/progress_95c78358596972d.svg)
 
 ---
 
 ## Creative Thumb Shapes
 
 **Circle (Default):**
-{{ui:progress:50:width=160:thumb=16:thumb_color=accent/}}
+![](examples/assets/progress_9051248a36128bb9.svg)
 
 **Square:**
-{{ui:progress:50:width=160:thumb=14:thumb_shape=square:thumb_color=cobalt/}}
+![](examples/assets/progress_bba0974a708b299a.svg)
 
 **Diamond:**
-{{ui:progress:50:width=160:thumb=16:thumb_shape=diamond:thumb_color=success/}}
+![](examples/assets/progress_753ca395b502e456.svg)
 
 ---
 
 ## Material Design Style
 
 **Primary:**
-{{ui:progress:60:width=200:height=4:thumb=14:track=E0E0E0:fill=6200EE:thumb_color=6200EE/}}
+![](examples/assets/progress_927012421a97104.svg)
 
 **Secondary:**
-{{ui:progress:40:width=200:height=4:thumb=14:track=E0E0E0:fill=03DAC6:thumb_color=03DAC6/}}
+![](examples/assets/progress_ff433be4133d79c6.svg)
 
 **Error:**
-{{ui:progress:75:width=200:height=4:thumb=14:track=E0E0E0:fill=B00020:thumb_color=B00020/}}
+![](examples/assets/progress_d805eac6c014ec3d.svg)
 
 ---
 
 ## Game UI Sliders
 
 **Health Bar:**
-{{ui:progress:45:width=200:height=12:thumb=18:track=2D0000:fill=FF0000:thumb_color=FF4444:thumb_shape=diamond/}}
+![](examples/assets/progress_3cfe40f74d75e6c6.svg)
 
 **Mana Bar:**
-{{ui:progress:80:width=200:height=12:thumb=18:track=00002D:fill=0066FF:thumb_color=4499FF:thumb_shape=diamond/}}
+![](examples/assets/progress_705a179d5250d811.svg)
 
 **XP Bar:**
-{{ui:progress:65:width=200:height=12:thumb=18:track=2D2D00:fill=FFD700:thumb_color=FFEE44:thumb_shape=diamond/}}
+![](examples/assets/progress_d4acf395d3e215dc.svg)
 
 ---
 
 ## Temperature Control
 
 **Cold:**
-{{ui:progress:20:width=180:height=8:thumb=16:track=EEEEEE:fill=00BFFF:thumb_color=00BFFF/}}
+![](examples/assets/progress_3d8948e1af47a5e5.svg)
 
 **Comfortable:**
-{{ui:progress:50:width=180:height=8:thumb=16:track=EEEEEE:fill=32CD32:thumb_color=32CD32/}}
+![](examples/assets/progress_593a8e08054bbcf2.svg)
 
 **Hot:**
-{{ui:progress:85:width=180:height=8:thumb=16:track=EEEEEE:fill=FF4500:thumb_color=FF4500/}}
+![](examples/assets/progress_2051aede9a9ccd9a.svg)
 
 ---
 
 ## Minimal Dark Mode
 
-{{ui:progress:40:width=220:height=2:thumb=10:track=444444:fill=888888:thumb_color=FFFFFF/}}
+![](examples/assets/progress_67fd5fe49c005633.svg)
 
-{{ui:progress:60:width=220:height=2:thumb=10:track=444444:fill=888888:thumb_color=FFFFFF/}}
+![](examples/assets/progress_121c262ab0b5e5e0.svg)
 
-{{ui:progress:80:width=220:height=2:thumb=10:track=444444:fill=888888:thumb_color=FFFFFF/}}
+![](examples/assets/progress_2bb1cb876c688096.svg)
 
 ---
 
 ## Chunky Retro Style
 
-{{ui:progress:50:width=160:height=16:thumb=20:rx=0:track=222222:fill=00FF00:thumb_color=00FF00:thumb_shape=square/}}
+![](examples/assets/progress_cce24da9c50091ca.svg)
 
-{{ui:progress:75:width=160:height=16:thumb=20:rx=0:track=222222:fill=FF00FF:thumb_color=FF00FF:thumb_shape=square/}}
+![](examples/assets/progress_39c69c5e8e5026a0.svg)
 
 ---
 
