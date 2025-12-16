@@ -1,0 +1,14 @@
+//! Component handlers for native component expansion
+//!
+//! Each handler module implements the logic for expanding a specific
+//! native component type into a Primitive or ComponentOutput.
+
+pub mod donut;
+pub mod gauge;
+pub mod progress;
+pub mod rating;
+pub mod row;
+pub mod sparkline;
+pub mod swatch;
+pub mod tech;
+pub mod waveform;
