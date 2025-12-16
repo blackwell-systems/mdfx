@@ -5,8 +5,6 @@
 //!
 //! Enable with: `cargo install mdfx-cli --features lsp`
 
-#![cfg(feature = "lsp")]
-
 use mdfx::Registry;
 use std::sync::Arc;
 use tower_lsp::jsonrpc::Result;
@@ -266,7 +264,7 @@ impl MdfxLanguageServer {
                     let style_prefix = &after_open[style_pos + 6..];
                     // Don't include any trailing characters after the style value
                     let style_prefix = style_prefix
-                        .split(|c| c == ':' || c == '/' || c == '}')
+                        .split([':', '/', '}'])
                         .next()
                         .unwrap_or(style_prefix);
                     return CompletionContext::ShieldStyle(style_prefix.to_string());
@@ -458,7 +456,7 @@ impl LanguageServer for MdfxLanguageServer {
             if let Some(glyph_name) = template_start.strip_prefix("glyph:") {
                 // Find end of glyph name
                 let name = glyph_name
-                    .split(|c| c == '/' || c == '}')
+                    .split(['/', '}'])
                     .next()
                     .unwrap_or(glyph_name);
                 let full_name = if let Some(end_pos) = after.find('/') {
@@ -485,7 +483,7 @@ impl LanguageServer for MdfxLanguageServer {
 
             // Check for style
             let style_name = template_start
-                .split(|c| c == ':' || c == '}')
+                .split([':', '}'])
                 .next()
                 .unwrap_or("");
             if let Some(style) = self.registry.style(style_name) {
@@ -508,7 +506,7 @@ impl LanguageServer for MdfxLanguageServer {
 
             // Check for component
             let comp_name = template_start
-                .split(|c| c == ':' || c == '/' || c == '}')
+                .split([':', '/', '}'])
                 .next()
                 .unwrap_or("");
             if let Some(component) = self.registry.component(comp_name) {

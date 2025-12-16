@@ -26,14 +26,6 @@ struct FrameData {
     content: String,
 }
 
-/// Badge template data
-#[derive(Debug, Clone)]
-struct BadgeData {
-    end_pos: usize,
-    badge_type: String,
-    content: String,
-}
-
 /// UI component template data
 #[derive(Debug, Clone)]
 struct UIData {
@@ -1454,88 +1446,6 @@ impl TemplateParser {
 
         // No closing tag found
         Err(Error::UnclosedTag("frame".to_string()))
-    }
-
-    /// Try to parse a badge template starting at position i
-    /// Returns: Some(BadgeData) or None if not a valid badge template
-    fn parse_badge_at(&self, chars: &[char], start: usize) -> Result<Option<BadgeData>> {
-        let mut i = start;
-
-        // Must start with {{badge:
-        if i + 8 >= chars.len() {
-            return Ok(None);
-        }
-
-        // Check for "{{badge:"
-        let badge_start = "{{badge:";
-        let badge_chars: Vec<char> = badge_start.chars().collect();
-        for (idx, &expected) in badge_chars.iter().enumerate() {
-            if chars[i + idx] != expected {
-                return Ok(None);
-            }
-        }
-        i += badge_chars.len();
-
-        // Parse badge type name (alphanumeric and hyphens)
-        let mut badge_type = String::new();
-        while i < chars.len() {
-            let ch = chars[i];
-            if ch.is_alphanumeric() || ch == '-' {
-                badge_type.push(ch);
-                i += 1;
-            } else if ch == '}' {
-                break;
-            } else {
-                // Invalid character in badge type name
-                return Ok(None);
-            }
-        }
-
-        // Badge type must be non-empty
-        if badge_type.is_empty() {
-            return Ok(None);
-        }
-
-        // Must have closing }} for opening tag
-        if i + 1 >= chars.len() || chars[i] != '}' || chars[i + 1] != '}' {
-            return Ok(None);
-        }
-        i += 2;
-
-        let content_start = i;
-
-        // Find closing tag {{/badge}}
-        let close_tag = "{{/badge}}";
-        let close_chars: Vec<char> = close_tag.chars().collect();
-
-        while i < chars.len() {
-            // Check if we've found the closing tag
-            if i + close_chars.len() <= chars.len() {
-                let mut matches = true;
-                for (j, &close_ch) in close_chars.iter().enumerate() {
-                    if chars[i + j] != close_ch {
-                        matches = false;
-                        break;
-                    }
-                }
-
-                if matches {
-                    // Found closing tag
-                    let content: String = chars[content_start..i].iter().collect();
-                    let end_pos = i + close_chars.len();
-                    return Ok(Some(BadgeData {
-                        end_pos,
-                        badge_type,
-                        content,
-                    }));
-                }
-            }
-
-            i += 1;
-        }
-
-        // No closing tag found
-        Err(Error::UnclosedTag("badge".to_string()))
     }
 
     /// Try to parse a partial template starting at position i
