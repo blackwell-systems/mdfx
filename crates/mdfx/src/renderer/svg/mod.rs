@@ -10,7 +10,7 @@ mod progress;
 mod rating;
 mod sparkline;
 pub mod swatch;
-mod tech;
+pub mod tech;
 mod waveform;
 
 use crate::error::Result;
