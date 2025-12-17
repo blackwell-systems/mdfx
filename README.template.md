@@ -142,22 +142,6 @@ mdfx build input.md --all-targets
 
 ---
 
-## {{mathbold}}Palette{{/mathbold}}
-
-| Token | Hex | |
-|-------|-----|---|
-| accent | F41C80 | {{ui:swatch:accent/}} |
-| success | 22C55E | {{ui:swatch:success/}} |
-| warning | EAB308 | {{ui:swatch:warning/}} |
-| error | EF4444 | {{ui:swatch:error/}} |
-| info | 3B82F6 | {{ui:swatch:info/}} |
-| cobalt | 2B6CB0 | {{ui:swatch:cobalt/}} |
-| plum | 6B46C1 | {{ui:swatch:plum/}} |
-
-Custom: `mdfx process --palette brand.json input.md`
-
----
-
 ## {{mathbold}}Documentation{{/mathbold}}
 
 | | |

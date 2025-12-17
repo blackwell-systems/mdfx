@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-17T17:39:39.382415796+00:00",
+  "created_at": "2025-12-17T17:42:51.922900372+00:00",
   "backend": "svg",
-  "assets_dir": "assets",
-  "total_assets": 47,
+  "assets_dir": "assets/",
+  "total_assets": 40,
   "assets": [
     {
       "path": "assets/tech_abfb5c5be62dde98.svg",
@@ -483,83 +483,6 @@
         "style": "flat-square"
       },
       "size_bytes": 3910
-    },
-    {
-      "path": "assets/swatch_8010e28a060480ec.svg",
-      "sha256": "35a776cb274db7214501a00c5ed4604dfee646f5fa9b9aa9ea471ae2ed13cc64",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "F41C80",
-        "style": "flat-square"
-      },
-      "size_bytes": 164
-    },
-    {
-      "path": "assets/swatch_9548868f54f0a66e.svg",
-      "sha256": "48ae610a077b1b4cae1b156bb508722c385933c28232d877a42b420661211dcb",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "22C55E",
-        "style": "flat-square"
-      },
-      "size_bytes": 164
-    },
-    {
-      "path": "assets/swatch_e4795ff410c7b4fe.svg",
-      "sha256": "a7a1d6418a5e151e0ecbd194e5f0d11999e40fdd80abbbf91baff345476d5007",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EAB308",
-        "style": "flat-square"
-      },
-      "size_bytes": 164
-    },
-    {
-      "path": "assets/swatch_e666c671e27adcb2.svg",
-      "sha256": "6499be019c6417b262957bfc24c4a74eb119c09da138f8077cd26d36f499b471",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EF4444",
-        "style": "flat-square"
-      },
-      "size_bytes": 164
-    },
-    {
-      "path": "assets/swatch_b4740ff4b229ace7.svg",
-      "sha256": "ff01137deeeb4382b128f9ca95724bf926e998bd03dd32eb783c977740d8b583",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "3B82F6",
-        "style": "flat-square"
-      },
-      "size_bytes": 164
-    },
-    {
-      "path": "assets/swatch_518ded146f6f965a.svg",
-      "sha256": "da892cf8828a0f78a2c183bba4919fda5a432523e28574954cbc794b246a009d",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "2B6CB0",
-        "style": "flat-square"
-      },
-      "size_bytes": 164
-    },
-    {
-      "path": "assets/swatch_c056f66b5750e2ba.svg",
-      "sha256": "5211873805e5b4da7ca4949db88cc142774b43c71a5690df6c0482f0ccd6b317",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "6B46C1",
-        "style": "flat-square"
-      },
-      "size_bytes": 164
     }
   ]
 }
