@@ -508,7 +508,7 @@ mod tests {
 
     #[test]
     fn test_primitive_progress() {
-        let progress = Primitive::simple_progress(75, "slate", "accent");
+        let progress = Primitive::simple_progress(75, "gray", "pink");
 
         if let Primitive::Progress {
             percent,
@@ -529,7 +529,7 @@ mod tests {
 
     #[test]
     fn test_primitive_progress_clamped() {
-        let progress = Primitive::simple_progress(150, "slate", "accent");
+        let progress = Primitive::simple_progress(150, "gray", "pink");
 
         if let Primitive::Progress { percent, .. } = progress {
             assert_eq!(percent, 100); // Clamped to 100

@@ -4,12 +4,12 @@
   "description": "Unified mdfx registry - single source of truth for all renderables, styles, and configuration",
 
   "palette": {
-    "accent": "F41C80",
-    "slate": "6B7280",
-    "ui.bg": "292A2D",
-    "ui.surface": "292C34",
-    "ui.panel": "282F3C",
-    "ui.raised": "263143",
+    "pink": "F41C80",
+    "gray": "6B7280",
+    "dark1": "292A2D",
+    "dark2": "292C34",
+    "dark3": "282F3C",
+    "dark4": "263143",
     "success": "22C55E",
     "warning": "EAB308",
     "error": "EF4444",
@@ -696,12 +696,12 @@
           },
           "track": {
             "type": "color",
-            "default": "slate",
+            "default": "gray",
             "description": "Track (background) color"
           },
           "fill": {
             "type": "color",
-            "default": "accent",
+            "default": "pink",
             "description": "Fill (progress) color"
           },
           "rx": {
@@ -770,12 +770,12 @@
           },
           "track": {
             "type": "color",
-            "default": "slate",
+            "default": "gray",
             "description": "Track (background) color"
           },
           "fill": {
             "type": "color",
-            "default": "accent",
+            "default": "pink",
             "description": "Fill (progress) color"
           },
           "label": {
@@ -819,12 +819,12 @@
           },
           "track": {
             "type": "color",
-            "default": "slate",
+            "default": "gray",
             "description": "Track (background) color"
           },
           "fill": {
             "type": "color",
-            "default": "accent",
+            "default": "pink",
             "description": "Fill (progress) color"
           },
           "label": {
@@ -873,7 +873,7 @@
           },
           "fill": {
             "type": "color",
-            "default": "accent",
+            "default": "pink",
             "description": "Line/bar/area fill color"
           },
           "stroke": {
@@ -927,7 +927,7 @@
           },
           "empty": {
             "type": "color",
-            "default": "slate",
+            "default": "gray",
             "description": "Color for empty icons"
           },
           "icon": {
@@ -991,7 +991,7 @@
           },
           "center_color": {
             "type": "color",
-            "default": "slate",
+            "default": "gray",
             "description": "Color of center line (if center=true)"
           }
         }
@@ -1195,12 +1195,12 @@
         "contexts": ["block"],
         "aliases": ["danger", "fail"]
       },
-      "color-accent": {
-        "pattern": "{{ui:swatch:accent/}} ",
+      "color-pink": {
+        "pattern": "{{ui:swatch:pink/}} ",
         "mode": "prefix-only",
-        "description": "Accent color block prefix",
+        "description": "Pink color block prefix",
         "contexts": ["block"],
-        "aliases": ["accent"]
+        "aliases": ["pink-block"]
       }
     },
 

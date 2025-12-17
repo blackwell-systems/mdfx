@@ -47,7 +47,7 @@ pub fn handle(
     let fill_color = params
         .get("fill")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("accent"));
+        .unwrap_or_else(|| resolve_color("pink"));
 
     let stroke_color = params.get("stroke").map(|c| resolve_color(c));
 

@@ -3,7 +3,7 @@
 //! ComponentsRenderer provides a semantic layer on top of primitives (shields, frames, badges).
 //! Components are defined in `registry.json` and expand to primitive templates at parse time.
 //!
-//! This allows users to write concise, semantic markup like `{{ui:swatch:accent/}}` instead of
+//! This allows users to write concise, semantic markup like `{{ui:swatch:cobalt/}}` instead of
 //! verbose primitive calls like `{{shields:block:color=...}}`.
 
 mod handlers;
@@ -122,7 +122,7 @@ impl ComponentsRenderer {
     /// let renderer = ComponentsRenderer::new().unwrap();
     ///
     /// // Swatch returns a Primitive (shields.io badge)
-    /// let result = renderer.expand("swatch", &["accent".to_string()], None).unwrap();
+    /// let result = renderer.expand("swatch", &["cobalt".to_string()], None).unwrap();
     /// assert!(matches!(result, ComponentOutput::Primitive(_)));
     ///
     /// // Tech badge also returns a Primitive
@@ -302,7 +302,7 @@ impl ComponentsRenderer {
     ///
     /// # Arguments
     ///
-    /// * `color` - Color name (e.g., "accent", "ui.bg") or hex code
+    /// * `color` - Color name (e.g., "cobalt", "success") or hex code
     ///
     /// # Returns
     ///
@@ -417,13 +417,13 @@ mod tests {
     fn test_expand_swatch_with_arg() {
         let renderer = ComponentsRenderer::new().unwrap();
         let result = renderer
-            .expand("swatch", &["accent".to_string()], None)
+            .expand("swatch", &["pink".to_string()], None)
             .unwrap();
 
         // Swatch should return a Primitive::Swatch with resolved color
         match result {
             ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
-                assert_eq!(color, "F41C80"); // accent resolved
+                assert_eq!(color, "F41C80"); // pink resolved
             }
             _ => panic!("Expected Primitive::Swatch"),
         }
@@ -451,7 +451,7 @@ mod tests {
         let result = renderer
             .expand(
                 "swatch",
-                &["accent".to_string(), "opacity=0.5".to_string()],
+                &["pink".to_string(), "opacity=0.5".to_string()],
                 None,
             )
             .unwrap();
@@ -502,7 +502,7 @@ mod tests {
             .expand(
                 "swatch",
                 &[
-                    "accent".to_string(),
+                    "pink".to_string(),
                     "border=white".to_string(),
                     "border_width=2".to_string(),
                 ],
@@ -529,7 +529,7 @@ mod tests {
         let result = renderer
             .expand(
                 "swatch",
-                &["accent".to_string(), "label=v1".to_string()],
+                &["pink".to_string(), "label=v1".to_string()],
                 None,
             )
             .unwrap();
@@ -549,7 +549,7 @@ mod tests {
         let result = renderer
             .expand(
                 "swatch",
-                &["accent".to_string(), "opacity=1.5".to_string()],
+                &["pink".to_string(), "opacity=1.5".to_string()],
                 None,
             )
             .unwrap();
@@ -588,13 +588,13 @@ mod tests {
     fn test_extend_palette_override() {
         let mut renderer = ComponentsRenderer::new().unwrap();
 
-        // Override built-in accent color
+        // Override built-in pink color
         let mut custom = HashMap::new();
-        custom.insert("accent".to_string(), "00FF00".to_string());
+        custom.insert("pink".to_string(), "00FF00".to_string());
         renderer.extend_palette(custom);
 
         let result = renderer
-            .expand("swatch", &["accent".to_string()], None)
+            .expand("swatch", &["pink".to_string()], None)
             .unwrap();
 
         match result {
@@ -616,7 +616,7 @@ mod tests {
         match result {
             ComponentOutput::Primitive(Primitive::Tech { name, bg_color, .. }) => {
                 assert_eq!(name, "rust");
-                assert_eq!(bg_color, "292A2D"); // ui.bg resolved
+                assert_eq!(bg_color, "292A2D"); // dark1 resolved
             }
             _ => panic!("Expected Primitive::Tech"),
         }
@@ -658,14 +658,14 @@ mod tests {
         let colors = renderer.list_palette();
 
         assert!(!colors.is_empty());
-        assert!(colors.iter().any(|(name, _)| *name == "accent"));
-        assert!(colors.iter().any(|(name, _)| *name == "ui.bg"));
+        assert!(colors.iter().any(|(name, _)| *name == "pink"));
+        assert!(colors.iter().any(|(name, _)| *name == "dark1"));
     }
 
     #[test]
     fn test_resolve_color_palette() {
         let renderer = ComponentsRenderer::new().unwrap();
-        let resolved = renderer.resolve_color("accent");
+        let resolved = renderer.resolve_color("pink");
         assert_eq!(resolved, "F41C80");
     }
 

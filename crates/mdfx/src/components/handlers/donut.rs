@@ -39,12 +39,12 @@ pub fn handle(
     let track_color = params
         .get("track")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("slate"));
+        .unwrap_or_else(|| resolve_color("gray"));
 
     let fill_color = params
         .get("fill")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("accent"));
+        .unwrap_or_else(|| resolve_color("pink"));
 
     let show_label = params
         .get("label")

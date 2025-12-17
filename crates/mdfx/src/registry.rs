@@ -511,7 +511,7 @@ mod tests {
     #[test]
     fn test_palette_resolution() {
         let registry = Registry::new().unwrap();
-        assert_eq!(registry.resolve_color("accent"), Some("F41C80"));
+        assert_eq!(registry.resolve_color("pink"), Some("F41C80"));
         assert_eq!(registry.resolve_color("success"), Some("22C55E"));
         assert_eq!(registry.resolve_color("nonexistent"), None);
     }
@@ -656,7 +656,7 @@ mod tests {
         // Should have palette colors
         assert!(!palette.is_empty());
         // Should contain known colors
-        assert!(palette.contains_key("accent"));
+        assert!(palette.contains_key("pink"));
     }
 
     #[test]

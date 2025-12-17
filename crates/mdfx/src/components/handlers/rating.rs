@@ -40,7 +40,7 @@ pub fn handle(
     let empty_color = params
         .get("empty")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("slate"));
+        .unwrap_or_else(|| resolve_color("gray"));
 
     let icon = params
         .get("icon")

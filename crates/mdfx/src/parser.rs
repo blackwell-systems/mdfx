@@ -199,7 +199,7 @@ impl TemplateParser {
     ///
     /// let backend = Box::new(SvgBackend::new("assets"));
     /// let parser = TemplateParser::with_backend(backend).unwrap();
-    /// let processed = parser.process_with_assets("{{ui:swatch:accent/}}").unwrap();
+    /// let processed = parser.process_with_assets("{{ui:swatch:pink/}}").unwrap();
     ///
     /// // Write assets to disk
     /// for asset in processed.assets {
@@ -1566,7 +1566,7 @@ impl TemplateParser {
     /// Returns: Some(UIData) or None if not a valid UI template
     ///
     /// Supports both self-closing and block-style:
-    /// - Self-closing: {{ui:swatch:accent/}}
+    /// - Self-closing: {{ui:swatch:pink/}}
     /// - Block: {{ui:row}}CONTENT{{/ui}}
     /// - With args: {{ui:tech:rust/}}
     fn parse_ui_at(&self, chars: &[char], start: usize) -> Result<Option<UIData>> {
@@ -1713,7 +1713,7 @@ impl TemplateParser {
     /// Try to parse a shields template starting at position i
     /// Returns: Some(ShieldData) or None if not a valid shields template
     ///
-    /// Supports self-closing only: {{shields:block:color=accent:style=flat-square/}}
+    /// Supports self-closing only: {{shields:block:color=cobalt:style=flat-square/}}
     fn parse_shields_at(&self, chars: &[char], start: usize) -> Result<Option<ShieldData>> {
         let mut i = start;
 
@@ -2728,7 +2728,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     fn test_universal_close_all_self_closing_ignored() {
         let parser = TemplateParser::new().unwrap();
         // Self-closing tags should not be tracked
-        let input = "{{fr:gradient}}{{ui:swatch:accent/}}text{{//}}";
+        let input = "{{fr:gradient}}{{ui:swatch:pink/}}text{{//}}";
         let result = parser.process(input).unwrap();
         // Only the frame should be closed
         assert!(result.contains("▓▒░"));
@@ -2837,11 +2837,11 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     #[test]
     fn test_ui_swatch() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:accent/}}";
+        let input = "{{ui:swatch:pink/}}";
         let result = parser.process(input).unwrap();
-        // Should expand to shields:block with accent color resolved
+        // Should expand to shields:block with pink color resolved
         assert!(result.contains("![]("));
-        assert!(result.contains("F41C80")); // accent color (uppercased by shields)
+        assert!(result.contains("F41C80")); // pink color (uppercased by shields)
     }
 
     #[test]
@@ -2868,7 +2868,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     #[test]
     fn test_ui_in_markdown() {
         let parser = TemplateParser::new().unwrap();
-        let input = "# Header\n\n{{ui:swatch:accent/}}\n\n## Section";
+        let input = "# Header\n\n{{ui:swatch:pink/}}\n\n## Section";
         let result = parser.process(input).unwrap();
         assert!(result.contains("# Header"));
         assert!(result.contains("![]("));
@@ -2922,7 +2922,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
 
         let parser =
             TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
-        let input = "{{frame:gradient}}\n{{ui:swatch:accent/}}\n{{ui:swatch:success/}}\n{{/frame}}";
+        let input = "{{frame:gradient}}\n{{ui:swatch:pink/}}\n{{ui:swatch:success/}}\n{{/frame}}";
         let result = parser.process_with_assets(input).unwrap();
 
         // Should process frame correctly
@@ -2941,11 +2941,11 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
 
         let parser =
             TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
-        let input = "```\n{{ui:swatch:accent/}}\n```\n{{ui:swatch:accent/}}";
+        let input = "```\n{{ui:swatch:pink/}}\n```\n{{ui:swatch:pink/}}";
         let result = parser.process_with_assets(input).unwrap();
 
         // Code block should be preserved
-        assert!(result.markdown.contains("```\n{{ui:swatch:accent/}}\n```"));
+        assert!(result.markdown.contains("```\n{{ui:swatch:pink/}}\n```"));
 
         // Only one asset generated (outside code block)
         assert_eq!(result.assets.len(), 1);
@@ -2984,7 +2984,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     #[test]
     fn test_shields_bar_with_named_separator() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{shields:bar:colors=accent,success:style=flat-square:separator=dot/}}";
+        let input = "{{shields:bar:colors=pink,success:style=flat-square:separator=dot/}}";
         let result = parser.process(input).unwrap();
         // Should render 2 badges with · separator
         assert!(result.contains(")·![](")); // dot separator
@@ -3001,7 +3001,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let parser = TemplateParser::new().unwrap();
 
         // Test with self-closing component (swatch)
-        let input = "Paragraph 1\n\n{{ui:swatch:accent/}}\n\nParagraph 2";
+        let input = "Paragraph 1\n\n{{ui:swatch:pink/}}\n\nParagraph 2";
         let result = parser.process(input).unwrap();
 
         // Should preserve blank lines before and after component
@@ -3112,7 +3112,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let parser = TemplateParser::new().unwrap();
 
         // Component at end of document with trailing newline
-        let input = "Text before\n{{ui:swatch:accent/}}\n";
+        let input = "Text before\n{{ui:swatch:pink/}}\n";
         let result = parser.process(input).unwrap();
 
         // Should preserve trailing newline
@@ -3124,7 +3124,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let parser = TemplateParser::new().unwrap();
 
         // Component at end without trailing newline
-        let input = "Text before\n{{ui:swatch:accent/}}";
+        let input = "Text before\n{{ui:swatch:pink/}}";
         let result = parser.process(input).unwrap();
 
         // Should NOT add trailing newline
@@ -3220,10 +3220,10 @@ mod badge_style_tests {
     #[test]
     fn test_style_with_palette_color() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:accent:style=plastic/}}";
+        let input = "{{ui:swatch:pink:style=plastic/}}";
         let output = parser.process(input).unwrap();
         assert!(output.contains("style=plastic"));
-        // Should resolve accent color
+        // Should resolve pink color
         assert!(output.contains("F41C80"));
     }
 }

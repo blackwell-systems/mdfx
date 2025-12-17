@@ -45,12 +45,12 @@ pub fn handle(
         .get("track")
         .or(params.get("color"))
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("slate"));
+        .unwrap_or_else(|| resolve_color("gray"));
 
     let fill_color = params
         .get("fill")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("accent"));
+        .unwrap_or_else(|| resolve_color("pink"));
 
     let rx: u32 = params.get("rx").and_then(|v| v.parse().ok()).unwrap_or(3);
 

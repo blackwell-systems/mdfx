@@ -23,7 +23,7 @@ pub fn handle(
     let bg_color = params
         .get("bg")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("ui.bg"));
+        .unwrap_or_else(|| resolve_color("dark1"));
     let logo_color = params
         .get("logo")
         .map(|c| resolve_color(c))
