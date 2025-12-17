@@ -77,6 +77,10 @@ pub enum Primitive {
         border_width: Option<u32>,
         /// Corner radius. SVG-only.
         rx: Option<u32>,
+        /// Text/label color (hex). SVG-only.
+        text_color: Option<String>,
+        /// Font family. SVG-only.
+        font: Option<String>,
     },
 
     /// Progress bar with customizable track and fill

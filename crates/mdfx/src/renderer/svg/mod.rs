@@ -112,6 +112,8 @@ impl SvgBackend {
                 border_color,
                 border_width,
                 rx,
+                text_color,
+                font,
             } => {
                 "tech".hash(&mut hasher);
                 name.hash(&mut hasher);
@@ -122,6 +124,8 @@ impl SvgBackend {
                 border_color.hash(&mut hasher);
                 border_width.hash(&mut hasher);
                 rx.hash(&mut hasher);
+                text_color.hash(&mut hasher);
+                font.hash(&mut hasher);
             }
             Primitive::Progress {
                 percent,
@@ -352,6 +356,8 @@ impl Renderer for SvgBackend {
                 border_color,
                 border_width,
                 rx,
+                text_color,
+                font,
             } => tech::render_with_options(
                 name,
                 label.as_deref(),
@@ -361,6 +367,8 @@ impl Renderer for SvgBackend {
                 border_color.as_deref(),
                 *border_width,
                 *rx,
+                text_color.as_deref(),
+                font.as_deref(),
             ),
 
             Primitive::Progress {

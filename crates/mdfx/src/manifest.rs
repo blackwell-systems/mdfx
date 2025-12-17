@@ -79,10 +79,7 @@ impl From<&Primitive> for PrimitiveInfo {
                 bg_color,
                 logo_color,
                 style,
-                label: _,
-                border_color: _,
-                border_width: _,
-                rx: _,
+                ..
             } => PrimitiveInfo::Tech {
                 name: name.clone(),
                 bg_color: bg_color.clone(),
