@@ -67,10 +67,7 @@ impl Renderer for ShieldsBackend {
                 bg_color,
                 logo_color,
                 style,
-                label: _,
-                border_color: _,
-                border_width: _,
-                rx: _,
+                ..
             } => self
                 .shields
                 .render_icon(name, bg_color, logo_color, style)?,

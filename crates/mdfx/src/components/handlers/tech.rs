@@ -43,6 +43,19 @@ pub fn handle(
     let border_width = params.get("border_width").and_then(|v| v.parse().ok());
     let rx = params.get("rx").and_then(|v| v.parse().ok());
 
+    // Text color defaults to intelligent selection based on right segment color
+    let text_color = params
+        .get("text_color")
+        .or_else(|| params.get("text"))
+        .or_else(|| params.get("color"))
+        .map(|c| resolve_color(c));
+
+    // Font family (optional)
+    let font = params
+        .get("font")
+        .or_else(|| params.get("font_family"))
+        .cloned();
+
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
         bg_color,
@@ -52,5 +65,7 @@ pub fn handle(
         border_color,
         border_width,
         rx,
+        text_color,
+        font,
     }))
 }

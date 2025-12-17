@@ -81,6 +81,8 @@ struct TechOptions<'a> {
     border_color: Option<&'a str>,
     border_width: u32,
     rx: u32,
+    text_color: Option<&'a str>,
+    font: Option<&'a str>,
 }
 
 /// Render a tech badge with full options
@@ -89,6 +91,7 @@ struct TechOptions<'a> {
 /// - Icon only or Icon + label layouts
 /// - Custom border color and width
 /// - Custom corner radius
+/// - Custom text color and font
 #[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
     name: &str,
@@ -99,6 +102,8 @@ pub fn render_with_options(
     border_color: Option<&str>,
     border_width: Option<u32>,
     rx: Option<u32>,
+    text_color: Option<&str>,
+    font: Option<&str>,
 ) -> String {
     let metrics = super::swatch::SvgMetrics::from_style(style);
     let opts = TechOptions {
@@ -106,6 +111,8 @@ pub fn render_with_options(
         border_color,
         border_width: border_width.unwrap_or(0),
         metrics,
+        text_color,
+        font,
     };
     let icon_path = get_icon_path(name);
 
@@ -146,6 +153,14 @@ fn render_two_segment(
     let right_bg = darken_color(bg_color, 0.15);
     let scale = icon_size as f32 / 24.0;
 
+    // Text color: use specified, or auto-select based on right segment luminance
+    let text_color = opts
+        .text_color
+        .unwrap_or_else(|| get_logo_color_for_bg(&right_bg));
+
+    // Font family
+    let font_family = opts.font.unwrap_or("Verdana,Arial,sans-serif");
+
     // Border stroke attribute
     let border_attr = if opts.border_width > 0 {
         let color = opts.border_color.unwrap_or("FFFFFF");
@@ -165,7 +180,7 @@ fn render_two_segment(
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
-  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Verdana,Arial,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
         total_width, height, total_width, height,
         total_width, height, bg_color, rx, border_attr,
@@ -173,7 +188,7 @@ fn render_two_segment(
         total_width - rx, rx, height, right_bg, rx,
         icon_x, icon_y, scale,
         logo_color, icon_path,
-        text_x, text_y, font_size, label
+        text_x, text_y, text_color, font_family, font_size, label
     )
 }
 
