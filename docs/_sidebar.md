@@ -12,7 +12,6 @@
   - [Text Styles](/guides/TEXT-STYLES-GUIDE.md)
   - [Frames](/guides/FRAMES-GUIDE.md)
   - [Glyphs](/guides/GLYPHS-GUIDE.md)
-  - [Badges](/guides/BADGES-GUIDE.md)
   - [Colors](/guides/COLORS-GUIDE.md)
   - [Swatches](/guides/SWATCH-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
