@@ -27,14 +27,14 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 
 Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 
-| Syntax | Description |
-|--------|-------------|
-| `{{ui:tech:rust/}}` | Rust badge with orange brand color |
-| `{{ui:tech:python/}}` | Python badge with blue brand color |
-| `{{ui:tech:typescript/}}` | TypeScript badge with blue brand color |
-| `{{ui:tech:docker/}}` | Docker badge with blue brand color |
-| `{{ui:tech:postgresql/}}` | PostgreSQL badge with blue brand color |
-| `{{ui:tech:go/}}` | Go badge with cyan brand color |
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust/}}` | {{ui:tech:rust/}} |
+| `{{ui:tech:python/}}` | {{ui:tech:python/}} |
+| `{{ui:tech:typescript/}}` | {{ui:tech:typescript/}} |
+| `{{ui:tech:docker/}}` | {{ui:tech:docker/}} |
+| `{{ui:tech:postgresql/}}` | {{ui:tech:postgresql/}} |
+| `{{ui:tech:go/}}` | {{ui:tech:go/}} |
 
 ---
 
@@ -116,12 +116,11 @@ luminance = 0.2126*R + 0.7152*G + 0.0722*B
 
 Force a specific logo color with `logo`:
 
-```markdown
-{{ui:tech:rust:logo=white/}}           <!-- Force white logo -->
-{{ui:tech:rust:logo=FFFFFF/}}          <!-- Same, hex format -->
-{{ui:tech:docker:logo=000000/}}        <!-- Force black logo -->
-{{ui:tech:postgresql:logo=black/}}     <!-- Force black logo -->
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:logo=white/}}` | {{ui:tech:rust:logo=white/}} |
+| `{{ui:tech:docker:logo=000000/}}` | {{ui:tech:docker:logo=000000/}} |
+| `{{ui:tech:go:logo=white/}}` | {{ui:tech:go:logo=white/}} |
 
 ---
 
@@ -166,13 +165,13 @@ Customize the font with `font` (alias: `font_family`):
 
 Use `label` to customize the displayed text:
 
-```markdown
-{{ui:tech:typescript:label=TS/}}           <!-- Short label -->
-{{ui:tech:javascript:label=JS/}}           <!-- Short label -->
-{{ui:tech:rust:label=Rust 1.75/}}          <!-- Version label -->
-{{ui:tech:python:label=Python 3.12/}}      <!-- Version label -->
-{{ui:tech:docker:label=Container/}}        <!-- Descriptive label -->
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:typescript:label=TS/}}` | {{ui:tech:typescript:label=TS/}} |
+| `{{ui:tech:javascript:label=JS/}}` | {{ui:tech:javascript:label=JS/}} |
+| `{{ui:tech:rust:label=Rust 1.75/}}` | {{ui:tech:rust:label=Rust 1.75/}} |
+| `{{ui:tech:python:label=Python 3.12/}}` | {{ui:tech:python:label=Python 3.12/}} |
+| `{{ui:tech:docker:label=Container/}}` | {{ui:tech:docker:label=Container/}} |
 
 ### Version Badges
 
@@ -330,28 +329,30 @@ The `style` parameter changes the badge appearance:
 {{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}}
 ```
 
+**Rendered:** {{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}}
+
 ### With Versions
 
-```markdown
-{{ui:tech:rust:label=Rust 1.75/}}
-{{ui:tech:python:label=Python 3.12/}}
-{{ui:tech:nodejs:label=Node 20/}}
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:label=Rust 1.75/}}` | {{ui:tech:rust:label=Rust 1.75/}} |
+| `{{ui:tech:python:label=Python 3.12/}}` | {{ui:tech:python:label=Python 3.12/}} |
+| `{{ui:tech:nodejs:label=Node 20/}}` | {{ui:tech:nodejs:label=Node 20/}} |
 
 ### Monochrome Style
 
-```markdown
-{{ui:tech:rust:bg=000000:logo=white/}}
-{{ui:tech:python:bg=000000:logo=white/}}
-{{ui:tech:docker:bg=000000:logo=white/}}
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg=000000:logo=white/}}` | {{ui:tech:rust:bg=000000:logo=white/}} |
+| `{{ui:tech:python:bg=000000:logo=white/}}` | {{ui:tech:python:bg=000000:logo=white/}} |
+| `{{ui:tech:docker:bg=000000:logo=white/}}` | {{ui:tech:docker:bg=000000:logo=white/}} |
 
 ### Custom Branded
 
-```markdown
-{{ui:tech:rust:bg=1a1a2e:text_color=F41C80:border=F41C80/}}
-{{ui:tech:docker:bg=1a1a2e:text_color=00D4FF:border=00D4FF/}}
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg=1a1a2e:border=F41C80/}}` | {{ui:tech:rust:bg=1a1a2e:border=F41C80/}} |
+| `{{ui:tech:docker:bg=1a1a2e:border=00D4FF/}}` | {{ui:tech:docker:bg=1a1a2e:border=00D4FF/}} |
 
 ### Status Dashboard
 
