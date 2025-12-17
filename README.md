@@ -1,7 +1,7 @@
 # ▓︎▒︎░︎ 𝐌·𝐃·𝐅·𝐗 ░︎▒︎▓︎
 
 <p align="center">
-<img alt="" src="assets/tech_280e4169ab654a30.svg"> <img alt="" src="assets/swatch_ac37902cb003889f.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
+<img alt="" src="assets/tech_abfb5c5be62dde98.svg"> <img alt="" src="assets/swatch_ac37902cb003889f.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
@@ -111,7 +111,7 @@ cargo install mdfx-cli
 ### Tech
 
 <p align="center">
-<img alt="" src="assets/tech_280e4169ab654a30.svg"> <img alt="" src="assets/tech_e0a66117821b4ab4.svg"> <img alt="" src="assets/tech_9403fca3232fbd53.svg"> <img alt="" src="assets/tech_b3176b9aa0bc8dac.svg"> <img alt="" src="assets/tech_2cb657d0c91a4b65.svg"> <img alt="" src="assets/tech_f44b382c3419bb2a.svg">
+<img alt="" src="assets/tech_abfb5c5be62dde98.svg"> <img alt="" src="assets/tech_2fc6eda4a7dfa4d.svg"> <img alt="" src="assets/tech_22f5c369904f37b7.svg"> <img alt="" src="assets/tech_e36c30bc2d511501.svg"> <img alt="" src="assets/tech_7540c9e4510f2af2.svg"> <img alt="" src="assets/tech_bc742128c87c5680.svg">
 </p>
 
 ---

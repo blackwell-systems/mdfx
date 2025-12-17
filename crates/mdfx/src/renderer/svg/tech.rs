@@ -1,5 +1,31 @@
 //! Tech badge SVG renderer with Simple Icons support
 
+/// Get brand color for a given technology name
+/// Colors sourced from https://simpleicons.org/
+pub fn get_brand_color(name: &str) -> Option<&'static str> {
+    match name.to_lowercase().as_str() {
+        "rust" => Some("DEA584"),
+        "typescript" => Some("3178C6"),
+        "javascript" => Some("F7DF1E"),
+        "python" => Some("3776AB"),
+        "react" => Some("61DAFB"),
+        "docker" => Some("2496ED"),
+        "kubernetes" => Some("326CE5"),
+        "postgresql" => Some("4169E1"),
+        "go" | "golang" => Some("00ADD8"),
+        "nodejs" | "node.js" => Some("5FA04E"),
+        "vue" | "vuejs" | "vue.js" => Some("4FC08D"),
+        "svelte" => Some("FF3E00"),
+        "terraform" => Some("844FBA"),
+        "amazonaws" | "aws" => Some("232F3E"),
+        "redis" => Some("FF4438"),
+        "mongodb" => Some("47A248"),
+        "github" => Some("181717"),
+        "gitlab" => Some("FC6D26"),
+        _ => None,
+    }
+}
+
 /// Get Simple Icons SVG path for a given icon name
 /// Paths sourced from https://simpleicons.org/
 pub fn get_icon_path(name: &str) -> Option<&'static str> {
