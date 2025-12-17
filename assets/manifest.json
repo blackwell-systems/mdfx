@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-17T20:57:08.095957265+00:00",
+  "created_at": "2025-12-17T21:01:33.380412356+00:00",
   "backend": "svg",
   "assets_dir": "assets",
   "total_assets": 41,
@@ -63,53 +63,53 @@
       "size_bytes": 164
     },
     {
-      "path": "assets/progress_852a234fef787503.svg",
-      "sha256": "68c6c4955941da135b939507215c59e932cae331a51af1000755338556c1d209",
+      "path": "assets/progress_a3b899b22ff209a9.svg",
+      "sha256": "c6729bc940cc22355f9cd6e85cc46ab3379b2e2b466dda47aa4fd1d39ec0ce34",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
-        "percent": 85,
-        "width": 100,
+        "percent": 70,
+        "width": 140,
         "height": 10
       },
-      "size_bytes": 211
+      "size_bytes": 284
     },
     {
-      "path": "assets/donut_6edc7eef1bdce5bc.svg",
-      "sha256": "104b70bc10e58070e0b940e6d4187f13b3c5e41407e639eab1ac41e0d7ff5855",
+      "path": "assets/donut_7fa1261e087c4190.svg",
+      "sha256": "0b2612ba28ae84dde891a63fcb37cd196da490cac1553f186c2497214bc206b4",
       "type": "donut",
       "primitive": {
         "kind": "Donut",
-        "percent": 72,
-        "size": 28,
-        "thickness": 3
+        "percent": 68,
+        "size": 50,
+        "thickness": 4
       },
-      "size_bytes": 325
+      "size_bytes": 379
     },
     {
-      "path": "assets/gauge_3b0f180b75d1bb16.svg",
-      "sha256": "7b7f043b9981ef141c3e7ab2bcce812951b9e8313114ce75d315ba2fdea9fdf3",
+      "path": "assets/gauge_c0f052769cb69ff6.svg",
+      "sha256": "89a06bc37f6daac816fb0b5b871ed05a82ff1fe655548fd3e79a7fa287c5c8ab",
       "type": "gauge",
       "primitive": {
         "kind": "Gauge",
-        "percent": 58,
-        "size": 44,
-        "thickness": 5
+        "percent": 75,
+        "size": 70,
+        "thickness": 6
       },
-      "size_bytes": 361
+      "size_bytes": 416
     },
     {
-      "path": "assets/sparkline_f927d7bae307e7ac.svg",
-      "sha256": "b85a84fd46f342eb67ab5cbfeae3a7cb87d8a6f0bd729749cc6d8d679d24a70c",
+      "path": "assets/sparkline_c5986b94fd30062a.svg",
+      "sha256": "029ee8d48ea3caf35deb79e281c02853e1684fea6c28512cae5ee670cd69799d",
       "type": "sparkline",
       "primitive": {
         "kind": "Sparkline",
-        "point_count": 8,
-        "width": 80,
-        "height": 16,
-        "chart_type": "line"
+        "point_count": 10,
+        "width": 100,
+        "height": 24,
+        "chart_type": "area"
       },
-      "size_bytes": 328
+      "size_bytes": 475
     },
     {
       "path": "assets/progress_8c3ecedcea0c2152.svg",
