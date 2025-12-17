@@ -476,6 +476,27 @@ Also: `sub.+` ₊, `sub.-` ₋, `sub.=` ₌, `sub.(` ₍, `sub.)` ₎
 | `misc.smiley` | ☺ | `misc.frown` | ☹ |
 | `misc.hot` | ♨ | | |
 
+### Keyboard Keys
+
+For documenting keyboard shortcuts:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `key.command` | ⌘ | `key.option` | ⌥ |
+| `key.control` | ⌃ | `key.shift` | ⇧ |
+| `key.caps` | ⇪ | `key.return` | ⏎ |
+| `key.delete` | ⌫ | `key.forward-delete` | ⌦ |
+| `key.tab` | ⇥ | `key.backtab` | ⇤ |
+| `key.escape` | ⎋ | `key.space` | ␣ |
+| `key.enter` | ⌅ | `key.eject` | ⏏ |
+| `key.power` | ⏻ | | |
+
+**Example:**
+```markdown
+{{glyph:key.command/}}+C = Copy, {{glyph:key.command/}}+V = Paste
+```
+Output: `⌘+C = Copy, ⌘+V = Paste`
+
 ---
 
 ## Examples

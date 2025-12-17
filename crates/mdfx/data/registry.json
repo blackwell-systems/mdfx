@@ -596,7 +596,23 @@
       "misc.scissors": "✂",
       "misc.pencil": "✏",
       "misc.flag": "⚑",
-      "misc.flag.empty": "⚐"
+      "misc.flag.empty": "⚐",
+
+      "key.command": "⌘",
+      "key.option": "⌥",
+      "key.control": "⌃",
+      "key.shift": "⇧",
+      "key.caps": "⇪",
+      "key.return": "⏎",
+      "key.delete": "⌫",
+      "key.forward-delete": "⌦",
+      "key.tab": "⇥",
+      "key.backtab": "⇤",
+      "key.escape": "⎋",
+      "key.space": "␣",
+      "key.eject": "⏏",
+      "key.power": "⏻",
+      "key.enter": "⌅"
     },
 
     "components": {
