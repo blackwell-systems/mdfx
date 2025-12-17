@@ -136,24 +136,6 @@ mdfx build input.md --all-targets
 
 ---
 
-## 𝐏𝐚𝐥𝐞𝐭𝐭𝐞
-
-| Token | Hex | |
-|-------|-----|---|
-| success | 22C55E | ![](assets/swatch_9548868f54f0a66e.svg) |
-| warning | EAB308 | ![](assets/swatch_e4795ff410c7b4fe.svg) |
-| error | EF4444 | ![](assets/swatch_e666c671e27adcb2.svg) |
-| info | 3B82F6 | ![](assets/swatch_b4740ff4b229ace7.svg) |
-| gray | 6B7280 | ![](assets/swatch_6b7280.svg) |
-| cobalt | 2B6CB0 | ![](assets/swatch_518ded146f6f965a.svg) |
-| plum | 6B46C1 | ![](assets/swatch_c056f66b5750e2ba.svg) |
-
-Use any 6-digit hex: `{{ui:swatch:FF5500/}}`
-
-Custom palette: `mdfx process --palette brand.json input.md`
-
----
-
 ## 𝐃𝐨𝐜𝐮𝐦𝐞𝐧𝐭𝐚𝐭𝐢𝐨𝐧
 
 | | |
