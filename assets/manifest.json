@@ -1,58 +1,113 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-17T16:32:15.394789741+00:00",
+  "created_at": "2025-12-17T16:39:39.660940384+00:00",
   "backend": "svg",
   "assets_dir": "assets/",
-  "total_assets": 4,
+  "total_assets": 9,
   "assets": [
     {
-      "path": "assets//progress_fc9e4dc664048574.svg",
-      "sha256": "dd7d4f2d643bbef7cad6824f056067dbc7966d488aebc6a6dc71dc9106dab1b0",
+      "path": "assets//progress_1916335a55e85a43.svg",
+      "sha256": "157100f707f8125b4f40b661fd56240874fd119f498a45f1f884dbc45676b192",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
-        "percent": 72,
-        "width": 140,
+        "percent": 85,
+        "width": 80,
         "height": 6
       },
-      "size_bytes": 282
+      "size_bytes": 204
     },
     {
-      "path": "assets//donut_2b901d88c0f805d6.svg",
-      "sha256": "85b878cd111c44c1aed15c3c243a7a27049741f70c23adf01cf90b12c42ed2b8",
+      "path": "assets//donut_46de99796df06ee2.svg",
+      "sha256": "bc1809e968d6f0855a67ec4fd1b508c290bddf1c815f7daeb2948a2e3b16472b",
       "type": "donut",
       "primitive": {
         "kind": "Donut",
-        "percent": 68,
-        "size": 44,
-        "thickness": 4
+        "percent": 72,
+        "size": 28,
+        "thickness": 3
       },
-      "size_bytes": 379
+      "size_bytes": 325
     },
     {
-      "path": "assets//gauge_c0f052769cb69ff6.svg",
-      "sha256": "89a06bc37f6daac816fb0b5b871ed05a82ff1fe655548fd3e79a7fa287c5c8ab",
+      "path": "assets//gauge_6b78b8fea1029af9.svg",
+      "sha256": "cad10d18073bee1263a8f49022758eebad77fd721664c7b664a4694b033b769f",
       "type": "gauge",
       "primitive": {
         "kind": "Gauge",
-        "percent": 75,
-        "size": 70,
-        "thickness": 6
+        "percent": 68,
+        "size": 40,
+        "thickness": 4
       },
-      "size_bytes": 416
+      "size_bytes": 361
     },
     {
-      "path": "assets//sparkline_2e6de6cd98cb8040.svg",
-      "sha256": "85e6d631d07f56dcbae33cf05db8d0671d6f5169db076bd49a9e3d3a6a5506b2",
+      "path": "assets//sparkline_a58c817d6cf883a7.svg",
+      "sha256": "c1fe2c9ca951801d035892f6a327c348af09f74594f00374a2c108d928bc36ff",
       "type": "sparkline",
       "primitive": {
         "kind": "Sparkline",
-        "point_count": 10,
-        "width": 100,
-        "height": 24,
-        "chart_type": "area"
+        "point_count": 7,
+        "width": 60,
+        "height": 16,
+        "chart_type": "line"
       },
-      "size_bytes": 954
+      "size_bytes": 270
+    },
+    {
+      "path": "assets//swatch_fef1674eb7eb8571.svg",
+      "sha256": "1d835074d71b4bd5b99050a08e25b4fd75051d7c07454f0d6ea1eee0c513424c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 164
+    },
+    {
+      "path": "assets//swatch_58b4a8eea57a2580.svg",
+      "sha256": "5f2fd85167e05e1b9a24157d3b78cc4e16486dc1c062f65703e2b47ee86c3de4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 164
+    },
+    {
+      "path": "assets//swatch_2c26b92dc8f22aeb.svg",
+      "sha256": "652eee1902408469324ed40f70174e4c41d84024335c5b18fcf694f5ca8a38a5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 164
+    },
+    {
+      "path": "assets//swatch_20c9e19d412a74be.svg",
+      "sha256": "4c7c894fe574fbee3af216ba3093910b2d6ca537f87e0767a8083b6533450f66",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 164
+    },
+    {
+      "path": "assets//swatch_3b1972d7b9e0bc14.svg",
+      "sha256": "03b78387101ee097e1ac1f40e1a3a2277790fe5372195d6c8395f3c7a264a5fe",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6B46C1",
+        "style": "flat-square"
+      },
+      "size_bytes": 164
     }
   ]
 }

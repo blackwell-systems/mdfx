@@ -1,7 +1,7 @@
 # 【𝐌𝐃𝐅𝐗】
 
 <p align="center">
-<img alt="" src="assets/tech_280e4169ab654a30.svg"> <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
+<img alt="" src="assets/progress_1916335a55e85a43.svg">&nbsp;&nbsp;<img alt="" src="assets/donut_46de99796df06ee2.svg">&nbsp;&nbsp;<img alt="" src="assets/gauge_6b78b8fea1029af9.svg">&nbsp;&nbsp;<img alt="" src="assets/sparkline_a58c817d6cf883a7.svg">&nbsp;&nbsp;&nbsp;<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
@@ -60,7 +60,7 @@ cargo install mdfx-cli
 
 ## ◆ Frames ◇
 
-29 preconfigured frames + any glyph works as a frame.
+29 preconfigured frames with full 531 glyph support. Any symbol becomes a frame.
 
 | Preconfigured | |
 |---|---|
@@ -75,12 +75,34 @@ cargo install mdfx-cli
 
 **Syntax:**
 ```markdown
-{{frame:gradient}}TEXT{{/frame}}      <!-- named frame -->
-{{fr:star}}TEXT{{//}}                 <!-- short + universal close -->
-{{fr:glyph:misc.lightning}}ZAP{{//}}  <!-- any of 500+ glyphs -->
+{{fr:gradient}}TEXT{{//}}             <!-- short form + universal close -->
+{{fr:glyph:misc.lightning}}ZAP{{//}}  <!-- any of 531 named glyphs -->
 ```
 
-**Universal closer** `{{//}}` closes any open frame, style, or nested combo.
+`{{//}}` closes any open frame, style, or nested tag.
+
+---
+
+## ◆ Glyphs ◇
+
+531 named Unicode symbols. Access obscure characters by memorable names.
+
+| Category | Examples |
+|----------|----------|
+| Shapes | ● ○ ◆ ◇ ▲ △ ■ □ |
+| Arrows | → ← ↑ ↓ ⇒ ⇐ ⇔ ↔ |
+| Checks | ✓ ✔ ✗ ✘ ☐ ☑ ☒ |
+| Math | ∞ ≠ ≈ √ ∑ ∫ ± × |
+| Blocks | █ ▓ ▒ ░ ▄ ▀ ▌ ▐ |
+| Music | ♩ ♪ ♫ ♬ ♭ ♯ |
+| Cards | ♠ ♥ ♦ ♣ ♤ ♡ ♢ ♧ |
+| Badges | ① ② ③ ❶ ❷ ❸ Ⓐ Ⓑ |
+
+```markdown
+{{glyph:check.yes}} Done               <!-- ☑ Done -->
+{{glyph:arrow.right}} Next             <!-- → Next -->
+{{mathbold:separator=diamond}}TEXT{{//}}  <!-- 𝐓◆𝐄◆𝐗◆𝐓 -->
+```
 
 ---
 
@@ -162,7 +184,7 @@ mdfx build input.md --all-targets
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
-| [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
+| [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 531 symbols |
 | [CLI](docs/guides/CLI-GUIDE.md) | Commands |
 
 ---
