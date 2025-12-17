@@ -84,6 +84,10 @@ Use `bg` to override the brand color:
 {{ui:tech:python:bg=1a1a2e/}}      <!-- Custom dark blue -->
 ```
 
+**Rendered:**
+
+{{ui:tech:rust:bg=000000/}} {{ui:tech:docker:bg=accent/}} {{ui:tech:python:bg=1a1a2e/}}
+
 ---
 
 ## Logo Colors
@@ -137,6 +141,10 @@ Control the label text color with `text_color` (aliases: `text`, `color`):
 {{ui:tech:docker:text_color=accent/}}   <!-- Theme color -->
 ```
 
+**Rendered:**
+
+{{ui:tech:rust:text_color=white/}} {{ui:tech:rust:text=FFFFFF/}} {{ui:tech:rust:color=000000/}} {{ui:tech:docker:text_color=accent/}}
+
 Text color also auto-selects based on the right segment luminance if not specified.
 
 ### Font Family
@@ -150,12 +158,20 @@ Customize the font with `font` (alias: `font_family`):
 {{ui:tech:docker:font=Georgia,serif/}}
 ```
 
+**Rendered:**
+
+{{ui:tech:rust:font=monospace/}} {{ui:tech:python:font=Monaco,Consolas,monospace/}} {{ui:tech:go:font_family=Arial/}} {{ui:tech:docker:font=Georgia,serif/}}
+
 ### Combined Text Styling
 
 ```markdown
 {{ui:tech:rust:text_color=white:font=monospace/}}
 {{ui:tech:postgresql:text=FFFFFF:font=Monaco,monospace/}}
 ```
+
+**Rendered:**
+
+{{ui:tech:rust:text_color=white:font=monospace/}} {{ui:tech:postgresql:text=FFFFFF:font=Monaco,monospace/}}
 
 ---
 
@@ -181,6 +197,10 @@ Use `label` to customize the displayed text:
 {{ui:tech:python:label=3.12/}}
 ```
 
+**Rendered:**
+
+{{ui:tech:rust:label=v1.75.0/}} {{ui:tech:nodejs:label=v20 LTS/}} {{ui:tech:python:label=3.12/}}
+
 ### Status Labels
 
 ```markdown
@@ -188,6 +208,10 @@ Use `label` to customize the displayed text:
 {{ui:tech:postgresql:label=Connected/}}
 {{ui:tech:redis:label=Cached/}}
 ```
+
+**Rendered:**
+
+{{ui:tech:docker:label=Running/}} {{ui:tech:postgresql:label=Connected/}} {{ui:tech:redis:label=Cached/}}
 
 ---
 
@@ -203,6 +227,10 @@ Use `border` and `border_width` to add borders:
 {{ui:tech:docker:border=accent:border_width=3/}}
 ```
 
+**Rendered:**
+
+{{ui:tech:rust:border=white/}} {{ui:tech:rust:border=FFFFFF:border_width=2/}} {{ui:tech:docker:border=accent:border_width=3/}}
+
 ### Rounded Corners
 
 Use `rx` to add rounded corners:
@@ -213,12 +241,20 @@ Use `rx` to add rounded corners:
 {{ui:tech:rust:rx=10/}}         <!-- Very rounded -->
 ```
 
+**Rendered:**
+
+{{ui:tech:rust:rx=3/}} {{ui:tech:rust:rx=6/}} {{ui:tech:rust:rx=10/}}
+
 ### Combined Border & Corners
 
 ```markdown
 {{ui:tech:rust:border=white:border_width=2:rx=4/}}
 {{ui:tech:docker:border=accent:rx=6/}}
 ```
+
+**Rendered:**
+
+{{ui:tech:rust:border=white:border_width=2:rx=4/}} {{ui:tech:docker:border=accent:rx=6/}}
 
 ---
 
@@ -241,6 +277,10 @@ The `style` parameter changes the badge appearance:
 {{ui:tech:rust:style=for-the-badge/}}
 {{ui:tech:rust:style=social/}}
 ```
+
+**Rendered:**
+
+{{ui:tech:rust:style=flat-square/}} {{ui:tech:rust:style=flat/}} {{ui:tech:rust:style=plastic/}} {{ui:tech:rust:style=for-the-badge/}} {{ui:tech:rust:style=social/}}
 
 ---
 
@@ -365,6 +405,15 @@ The `style` parameter changes the badge appearance:
 | Queue | {{ui:tech:docker:label=3 containers/}} | ⚠️ |
 ```
 
+**Rendered:**
+
+| Service | Tech | Status |
+|---------|------|--------|
+| API | {{ui:tech:rust:label=Running/}} | ✅ |
+| Database | {{ui:tech:postgresql:label=Connected/}} | ✅ |
+| Cache | {{ui:tech:redis:label=Healthy/}} | ✅ |
+| Queue | {{ui:tech:docker:label=3 containers/}} | ⚠️ |
+
 ### Minimal Dark Theme
 
 ```markdown
@@ -373,11 +422,19 @@ The `style` parameter changes the badge appearance:
 {{ui:tech:go:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}}
 ```
 
+**Rendered:**
+
+{{ui:tech:rust:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}} {{ui:tech:python:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}} {{ui:tech:go:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}}
+
 ### Full Customization
 
 ```markdown
 {{ui:tech:rust:bg=1a1a2e:logo=DEA584:text_color=FFFFFF:font=Monaco,monospace:border=DEA584:border_width=1:rx=4/}}
 ```
+
+**Rendered:**
+
+{{ui:tech:rust:bg=1a1a2e:logo=DEA584:text_color=FFFFFF:font=Monaco,monospace:border=DEA584:border_width=1:rx=4/}}
 
 ---
 
@@ -417,6 +474,8 @@ Let the brand colors do the work - they're already optimized for each technology
 {{ui:tech:go/}}    <!-- Cyan is Go's brand -->
 ```
 
+**Rendered:** {{ui:tech:rust/}} {{ui:tech:go/}}
+
 ### 2. Match Logo to Background
 
 When overriding backgrounds, ensure contrast:
@@ -429,6 +488,8 @@ When overriding backgrounds, ensure contrast:
 {{ui:tech:rust:bg=000000:logo=white/}}
 ```
 
+**Rendered:** {{ui:tech:docker:bg=FFFFFF:logo=black/}} {{ui:tech:rust:bg=000000:logo=white/}}
+
 ### 3. Short Labels for Compact Displays
 
 ```markdown
@@ -436,6 +497,8 @@ When overriding backgrounds, ensure contrast:
 {{ui:tech:javascript:label=JS/}}
 {{ui:tech:postgresql:label=PG/}}
 ```
+
+**Rendered:** {{ui:tech:typescript:label=TS/}} {{ui:tech:javascript:label=JS/}} {{ui:tech:postgresql:label=PG/}}
 
 ### 4. Version Badges in Tables
 
@@ -446,12 +509,21 @@ When overriding backgrounds, ensure contrast:
 | {{ui:tech:nodejs:label=node/}} | 20.10.0 |
 ```
 
+**Rendered:**
+
+| Dependency | Version |
+|------------|---------|
+| {{ui:tech:rust:label=rustc/}} | 1.75.0 |
+| {{ui:tech:nodejs:label=node/}} | 20.10.0 |
+
 ### 5. Monochrome for Professional Docs
 
 ```markdown
 {{ui:tech:rust:bg=333:logo=white:text_color=white/}}
 {{ui:tech:python:bg=333:logo=white:text_color=white/}}
 ```
+
+**Rendered:** {{ui:tech:rust:bg=333:logo=white:text_color=white/}} {{ui:tech:python:bg=333:logo=white:text_color=white/}}
 
 ---
 
