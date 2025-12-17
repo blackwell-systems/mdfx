@@ -34,7 +34,7 @@ pub fn render(
     let label_elem = if show_label && size >= 30 {
         let label_col = label_color.unwrap_or("FFFFFF");
         // Font size scales with donut size
-        let font_size = (size / 4).max(10).min(16);
+        let font_size = (size / 4).clamp(10, 16);
         format!(
             "\n  <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",
             adjusted_center, adjusted_center, label_col, font_size, percent

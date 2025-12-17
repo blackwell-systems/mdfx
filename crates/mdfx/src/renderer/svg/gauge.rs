@@ -53,7 +53,7 @@ pub fn render(
     // Build label element if requested
     let label_elem = if show_label {
         let label_col = label_color.unwrap_or("FFFFFF");
-        let font_size = (size / 5).max(12).min(18);
+        let font_size = (size / 5).clamp(12, 18);
         let text_y = arc_y + font_size as f32 + 4.0;
         format!(
             "\n  <text x=\"{}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",

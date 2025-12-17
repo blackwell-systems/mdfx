@@ -29,7 +29,7 @@ pub enum PostProcess {
     /// Prefix every line with "> " for Markdown blockquotes
     Blockquote,
     /// Row layout with HTML wrapper (applied AFTER recursive parsing)
-    /// Converts markdown images to HTML img tags and wraps in <p align="...">
+    /// Converts markdown images to HTML img tags and wraps in `<p align="...">`
     #[serde(skip)]
     Row { align: String },
 }

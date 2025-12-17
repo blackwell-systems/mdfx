@@ -40,6 +40,7 @@ struct TechOptions<'a> {
 /// - Icon only or Icon + label layouts
 /// - Custom border color and width
 /// - Custom corner radius
+#[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
     name: &str,
     label: Option<&str>,
