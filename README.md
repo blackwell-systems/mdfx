@@ -58,14 +58,27 @@ cargo install mdfx-cli
 
 ## ◆ Frames ◇
 
-29 decorative borders. Pure Unicode.
+29 preconfigured frames + any glyph works as a frame.
 
-| | |
+| Preconfigured | |
 |---|---|
 | ▓▒░ GRADIENT ░▒▓ | 【LENTICULAR】 |
 | ★ STARRED ☆ | « QUOTED » |
-| ▶ TRIANGLES ◀ | ═══ DOUBLE ═══ |
-| ☞ POINTED ☜ | 《ANGLED》 |
+| ═══ DOUBLE ═══ | ───  LIGHT  ─── |
+
+| Glyph Frames | |
+|---|---|
+| ♦ DIAMOND ♦ | ⚡ LIGHTNING ⚡ |
+| ☢ RADIOACTIVE ☢ | ♠ SPADES ♠ |
+
+**Syntax:**
+```markdown
+{{frame:gradient}}TEXT{{/frame}}      <!-- named frame -->
+{{fr:star}}TEXT{{//}}                 <!-- short + universal close -->
+{{fr:glyph:misc.lightning}}ZAP{{//}}  <!-- any of 500+ glyphs -->
+```
+
+**Universal closer** `{{//}}` closes any open frame, style, or nested combo.
 
 ---
 
