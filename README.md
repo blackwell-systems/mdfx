@@ -6,6 +6,8 @@
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
 
+**Zero dependencies at runtime.** Generate SVG assets that render on GitHub without shields.io. Your READMEs work offline, forever.
+
 ---
 
 ## 【At a Glance】
@@ -132,20 +134,20 @@ cargo install mdfx-cli
 ## 𝐔𝐬𝐚𝐠𝐞
 
 ```bash
-# Process a template
-mdfx process README.template.md -o README.md
+# Generate offline SVG assets (recommended)
+mdfx process README.template.md -o README.md --backend svg --assets-dir assets/
 
-# SVG backend for local docs
-mdfx process input.md -o output.md --backend svg --assets-dir assets/
+# Process with shields.io fallback
+mdfx process README.template.md -o README.md
 
 # Multi-target build
 mdfx build input.md --all-targets
 ```
 
-**Targets:**
-- `github` / `gitlab` → shields.io badges
-- `local` → SVG files
-- `pypi` → Unicode plaintext
+**Backends:**
+- `svg` → Local SVG files, commit to repo, no external dependencies
+- `shields` → shields.io badges (requires network)
+- `plaintext` → Unicode text only
 
 ---
 
