@@ -16,6 +16,10 @@
   - [Colors](/guides/COLORS-GUIDE.md)
   - [Swatches](/guides/SWATCH-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
+  - [Progress Bars](/guides/PROGRESS-GUIDE.md)
+  - [Donut & Gauge](/guides/DONUT-GAUGE-GUIDE.md)
+  - [Sparklines](/guides/SPARKLINE-GUIDE.md)
+  - [Waveforms](/guides/WAVEFORM-GUIDE.md)
   - [Data Visualization](/guides/DATA-VIZ-GUIDE.md)
 
 - **🎯 Multi-Target**
