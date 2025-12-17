@@ -1,6 +1,6 @@
 # mdfx Documentation
 
-A markdown compiler that transforms template syntax into styled output.
+A markdown compiler that transforms template syntax into styled output with Unicode typography, SVG components, and decorative frames.
 
 ## Quick Start
 
@@ -11,36 +11,69 @@ cargo install mdfx-cli
 Create `input.md`:
 ```markdown
 # {{frame:gradient}}{{mathbold}}PROJECT{{/mathbold}}{{/frame}}
+
+{{ui:progress:75:width=200/}}
 {{ui:tech:rust/}} {{ui:tech:python/}}
 ```
 
 Process:
 ```bash
 mdfx process input.md -o output.md
+mdfx process input.md -o output.md --backend svg --assets-dir assets/
 ```
 
-## Design Guides
+## Features
+
+- **24 Unicode Styles** - mathbold, script, fraktur, strikethrough, and more
+- **30+ Frames** - Decorative borders, glyph frames, modifiers
+- **739 Glyphs** - Symbols, arrows, chess pieces, keyboard keys
+- **Data Visualization** - Progress bars, donuts, gauges, sparklines
+- **5 Targets** - GitHub, GitLab, npm, PyPI, local docs
+- **LSP Server** - IDE autocompletion for VS Code
+
+## Guides
+
+### UI Components
 
 | Guide | Description |
 |-------|-------------|
-| [Swatches](guides/SWATCH-GUIDE.md) | Color blocks, pixel art |
-| [Components](guides/COMPONENTS-GUIDE.md) | swatch, tech, row, progress |
+| [Components](guides/COMPONENTS-GUIDE.md) | Overview of all UI components |
+| [Swatches](guides/SWATCH-GUIDE.md) | Color blocks for palettes |
+| [Progress](guides/PROGRESS-GUIDE.md) | Progress bars and sliders |
+| [Donut & Gauge](guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
+| [Sparklines](guides/SPARKLINE-GUIDE.md) | Inline data visualization |
+| [Data Viz](guides/DATA-VIZ-GUIDE.md) | Complete data visualization guide |
+
+### Text & Symbols
+
+| Guide | Description |
+|-------|-------------|
+| [Text Styles](guides/TEXT-STYLES-GUIDE.md) | 24 Unicode typography styles |
 | [Frames](guides/FRAMES-GUIDE.md) | Decorative Unicode borders |
-| [Text Styles](guides/TEXT-STYLES-GUIDE.md) | Unicode typography |
-| [Glyphs](guides/GLYPHS-GUIDE.md) | Unicode glyphs and symbols |
+| [Glyphs](guides/GLYPHS-GUIDE.md) | 739 Unicode symbols |
+
+### Tools & Integration
+
+| Guide | Description |
+|-------|-------------|
+| [CLI Guide](guides/CLI-GUIDE.md) | Command-line interface |
+| [LSP Guide](guides/LSP-GUIDE.md) | Language server for IDEs |
 
 ## Reference
 
 - [Template Syntax](TEMPLATE-SYNTAX.md) - Full syntax specification
 - [API Guide](API-GUIDE.md) - Library usage
+- [Architecture](ARCHITECTURE.md) - System design
+- [Targets](TARGETS.md) - Multi-target rendering
 
-## CLI
+## CLI Commands
 
 ```bash
 mdfx convert --style mathbold "TEXT"   # Convert text
 mdfx list                               # List styles
 mdfx process input.md -o output.md     # Process file
 mdfx process --backend svg input.md    # Local SVG files
+mdfx build input.md --all-targets      # Multi-target build
 ```
 
 ## Library
@@ -61,4 +94,4 @@ let output = parser.process("{{mathbold}}TITLE{{/mathbold}}")?;
 
 - [Examples](https://github.com/blackwell-systems/mdfx/tree/main/examples)
 - [GitHub](https://github.com/blackwell-systems/mdfx)
-- [Contributing](https://github.com/blackwell-systems/mdfx/blob/main/CONTRIBUTING.md)
+- [Changelog](https://github.com/blackwell-systems/mdfx/blob/main/CHANGELOG.md)
