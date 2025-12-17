@@ -71,6 +71,23 @@ cargo install mdfx-cli
 
 ---
 
+## {{frame:diamond}}Glyphs{{/frame}}
+
+500+ named Unicode symbols. Use inline or as separators.
+
+| Category | Examples |
+|----------|----------|
+| Stars | {{glyph:star.filled/}} {{glyph:star.empty/}} {{glyph:star.4/}} {{glyph:star.sparkle/}} |
+| Arrows | {{glyph:arrow.right/}} {{glyph:arrow.left/}} {{glyph:arrow.up/}} {{glyph:arrow.down/}} |
+| Shapes | {{glyph:square.filled/}} {{glyph:circle.filled/}} {{glyph:circle.empty/}} {{glyph:square.empty/}} |
+| Cards | {{glyph:card.spade/}} {{glyph:card.heart/}} {{glyph:card.diamond/}} {{glyph:card.club/}} |
+| Chess | {{glyph:chess.king.white/}} {{glyph:chess.queen.white/}} {{glyph:chess.rook.white/}} {{glyph:chess.knight.white/}} |
+| Music | {{glyph:music.eighth/}} {{glyph:music.beamed/}} {{glyph:music.flat/}} {{glyph:music.sharp/}} |
+
+**As separators:** {{mathbold:separator=star}}STARS{{/mathbold}} · {{mathbold:separator=diamond}}DIAMONDS{{/mathbold}} · {{mathbold:separator=card.heart}}HEARTS{{/mathbold}}
+
+---
+
 ## {{frame:diamond}}Components{{/frame}}
 
 ### Progress
