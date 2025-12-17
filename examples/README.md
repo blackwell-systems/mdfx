@@ -329,7 +329,7 @@ Add spaces between characters:
 
 ### Available Styles
 
-**23 styles total:**
+**24 styles total:**
 
 - `mathbold` - Mathematical Bold (𝐀𝐁𝐂)
 - `fullwidth` - Full-Width (ＡＢＣ)

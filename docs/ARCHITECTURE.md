@@ -429,7 +429,7 @@ let output = parser.process(&input)?;
 ```
 
 **Characteristics:**
-- 23 Unicode styles (mathbold, script, fullwidth, etc.)
+- 24 Unicode styles (mathbold, script, fullwidth, etc.)
 - Modifiers: spacing, separators
 - Character-level mapping
 - Composable with other layers
@@ -1296,7 +1296,7 @@ convert_with_separator("TITLE", "mathbold", "·", 1)
 - **Streaming:** Uses `chars().peekable()` to avoid Vec allocation
 - **Preserves unsupported:** Whitespace, punctuation, unsupported chars pass through
 - **O(1) lookup:** HashMap for style resolution
-- **23 styles:** mathbold, fullwidth, script, fraktur, monospace, etc.
+- **24 styles:** mathbold, fullwidth, script, fraktur, monospace, etc.
 
 **Data:**
 - Style definitions in `registry.json` → `styles`
@@ -1539,7 +1539,7 @@ let registry: Registry = serde_json::from_str(data)?;
 | Section | Purpose | Contents |
 |---------|---------|----------|
 | `palette` | Design tokens | 15+ named colors |
-| `styles` | Character mappings | 23 Unicode styles |
+| `styles` | Character mappings | 24 Unicode styles |
 | `separators` | Named separator characters | 12 separators |
 | `shield_styles` | Badge rendering styles | 5 styles (flat-square, flat, etc.) |
 | `renderables.frames` | Prefix/suffix decorations | 27 frames + glyph frames |

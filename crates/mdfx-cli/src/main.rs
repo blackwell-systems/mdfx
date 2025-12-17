@@ -26,7 +26,7 @@ mod lsp;
 #[command(name = "mdfx")]
 #[command(version, about)]
 #[command(
-    long_about = "Transform markdown with Unicode text effects and UI components through template syntax.\n\nSupports 23 styles including mathbold, fullwidth, script, fraktur, and more.\nUse templates: {{mathbold}}TEXT{{/mathbold}}\n\nFor more info: https://github.com/blackwell-systems/mdfx"
+    long_about = "Transform markdown with Unicode text effects and UI components through template syntax.\n\nSupports 24 styles including mathbold, fullwidth, script, fraktur, and more.\nUse templates: {{mathbold}}TEXT{{/mathbold}}\n\nFor more info: https://github.com/blackwell-systems/mdfx"
 )]
 struct Cli {
     #[command(subcommand)]
@@ -37,7 +37,7 @@ struct Cli {
 enum Commands {
     /// Convert text to a Unicode style
     ///
-    /// Transform plain text into styled Unicode characters using one of 23 available styles.
+    /// Transform plain text into styled Unicode characters using one of 24 available styles.
     /// Supports style aliases (e.g., 'mb' for 'mathbold') and character spacing.
     ///
     /// Examples:
@@ -61,7 +61,7 @@ enum Commands {
 
     /// List available styles
     ///
-    /// Display all 23 Unicode styles organized by category: Bold & Impactful,
+    /// Display all 24 Unicode styles organized by category: Bold & Impactful,
     /// Boxed, Technical & Code, and Subtle & Elegant. Each style includes
     /// its ID, aliases, and description.
     ///

@@ -13,7 +13,7 @@ cargo install mdfx-cli
 mdfx = "1.0"
 ```
 
-- **23 Unicode Styles** - mathbold, script, fraktur, subscript, superscript, and more
+- **24 Unicode Styles** - mathbold, script, fraktur, subscript, superscript, and more
 - **Template Syntax** - `{{mathbold}}TEXT{{/mathbold}}` transforms automatically
 - **30+ Frames** - Combos, modifiers, glyph frames with reverse & count
 - **4 UI Components** - Swatches, tech badges, rows, progress bars

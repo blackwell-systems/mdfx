@@ -41,7 +41,7 @@ cargo install mdfx-cli
 
 ## {{frame:diamond}}Typography{{/frame}}
 
-23 Unicode text styles. No fonts required.
+24 Unicode text styles. No fonts required.
 
 | | |
 |---|---|
@@ -160,7 +160,7 @@ Custom: `mdfx process --palette brand.json input.md`
 | [Progress](docs/guides/PROGRESS-GUIDE.md) | Progress bars |
 | [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
-| [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 23 styles |
+| [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
 | [CLI](docs/guides/CLI-GUIDE.md) | Commands |

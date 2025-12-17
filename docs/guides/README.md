@@ -20,7 +20,7 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 
 | Guide | Description |
 |-------|-------------|
-| [Text Styles](TEXT-STYLES-GUIDE.md) | 23 Unicode typography styles (bold, script, gothic, subscript, etc.) |
+| [Text Styles](TEXT-STYLES-GUIDE.md) | 24 Unicode typography styles (bold, script, gothic, subscript, etc.) |
 | [Glyphs](GLYPHS-GUIDE.md) | 493 Unicode symbols organized by category |
 
 ## Editor Integration
