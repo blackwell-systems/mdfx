@@ -15,6 +15,23 @@ use crate::error::{Error, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+/// Variation Selector 15 - forces text presentation for Unicode characters
+/// that have both text and emoji variants (e.g., ★ renders as glyph, not emoji)
+const VS15: char = '\u{FE0E}';
+
+/// Append VS15 to each non-whitespace character to force text-style rendering
+fn text_style(s: &str) -> String {
+    let mut result = String::with_capacity(s.len() * 2);
+    for c in s.chars() {
+        result.push(c);
+        // Only add VS15 to non-whitespace characters (emoji variants)
+        if !c.is_whitespace() {
+            result.push(VS15);
+        }
+    }
+    result
+}
+
 /// Evaluation context for renderables
 ///
 /// Every renderable has a set of allowed contexts, and every expansion site
@@ -400,13 +417,20 @@ impl Registry {
     ///
     /// let registry = Registry::new().unwrap();
     /// let result = registry.apply_frame("Title", "gradient").unwrap();
-    /// assert_eq!(result, "▓▒░ Title ░▒▓");
+    /// // VS15 (U+FE0E) is added after each glyph for text presentation
+    /// assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
     /// ```
     pub fn apply_frame(&self, text: &str, frame_name: &str) -> Result<String> {
         let frame = self
             .frame(frame_name)
             .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
-        Ok(format!("{}{}{}", frame.prefix, text, frame.suffix))
+        // Apply VS15 to prefix/suffix to force text rendering (not emoji)
+        Ok(format!(
+            "{}{}{}",
+            text_style(&frame.prefix),
+            text,
+            text_style(&frame.suffix)
+        ))
     }
 
     // =========================================================================
