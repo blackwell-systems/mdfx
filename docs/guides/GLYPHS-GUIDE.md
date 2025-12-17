@@ -30,6 +30,8 @@
   - [Greek Letters](#greek-letters)
   - [Fractions](#fractions)
   - [Miscellaneous Symbols](#miscellaneous-symbols)
+  - [Keyboard Keys](#keyboard-keys)
+  - [Chess Pieces](#chess-pieces)
 - [Examples](#examples)
 
 ---
