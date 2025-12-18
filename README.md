@@ -207,7 +207,7 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 **Chevron badges** — pointed tab-style badges that overlap:
 
 <p align="center">
-<img alt="" src="assets/mdfx/tech_1a60b131886928dd.svg"><img alt="" src="assets/mdfx/tech_d8962ace30e5e4c3.svg"><img alt="" src="assets/mdfx/tech_f89ed453eca99754.svg"><img alt="" src="assets/mdfx/tech_ec20ec94318a26a2.svg">
+<img alt="" style="margin-right: -10px" src="assets/mdfx/tech_1a60b131886928dd.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_d8962ace30e5e4c3.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_f89ed453eca99754.svg"><img alt="" style="margin-left: -10px" src="assets/mdfx/tech_ec20ec94318a26a2.svg">
 </p>
 
 ```

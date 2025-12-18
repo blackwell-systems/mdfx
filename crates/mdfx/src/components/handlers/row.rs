@@ -4,6 +4,26 @@ use crate::components::{ComponentOutput, PostProcess};
 use crate::error::Result;
 use std::collections::HashMap;
 
+/// Parse style hints from image alt text and convert to CSS
+///
+/// Supported hints:
+/// - `ml-10` → `margin-left: -10px` (negative margin for left overlap)
+/// - `mr-10` → `margin-right: -10px` (negative margin for right overlap)
+///
+/// These are used for chevron badge overlap effects.
+fn parse_style_hints(alt: &str) -> String {
+    let mut styles = Vec::new();
+
+    if alt.contains("ml-10") {
+        styles.push("margin-left: -10px");
+    }
+    if alt.contains("mr-10") {
+        styles.push("margin-right: -10px");
+    }
+
+    styles.join("; ")
+}
+
 /// Handle row component expansion
 pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result<ComponentOutput> {
     // Extract align parameter (default: center)
@@ -61,8 +81,28 @@ pub fn apply_row(content: &str, align: &str) -> String {
                 // Find closing )
                 if let Some(url_end) = after_paren.find(')') {
                     let url = &after_paren[..url_end];
-                    // Convert to HTML img tag
-                    result.push_str(&format!(r#"<img alt="{}" src="{}">"#, alt, url));
+
+                    // Parse style hints from alt text (e.g., "ml-10 mr-10")
+                    let style = parse_style_hints(alt);
+                    let style_attr = if style.is_empty() {
+                        String::new()
+                    } else {
+                        format!(r#" style="{}""#, style)
+                    };
+
+                    // Clean alt (without style hints) for accessibility
+                    let clean_alt = alt
+                        .replace("ml-10", "")
+                        .replace("mr-10", "")
+                        .split_whitespace()
+                        .collect::<Vec<_>>()
+                        .join(" ");
+
+                    // Convert to HTML img tag, with styles if present
+                    result.push_str(&format!(
+                        r#"<img alt="{}"{} src="{}">"#,
+                        clean_alt, style_attr, url
+                    ));
                     remaining = &after_paren[url_end + 1..];
                     continue;
                 }
