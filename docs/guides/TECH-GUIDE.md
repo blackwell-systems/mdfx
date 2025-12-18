@@ -29,12 +29,12 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:tech:rust/}}` | {{ui:tech:rust/}} |
-| `{{ui:tech:python/}}` | {{ui:tech:python/}} |
-| `{{ui:tech:typescript/}}` | {{ui:tech:typescript/}} |
-| `{{ui:tech:docker/}}` | {{ui:tech:docker/}} |
-| `{{ui:tech:postgresql/}}` | {{ui:tech:postgresql/}} |
-| `{{ui:tech:go/}}` | {{ui:tech:go/}} |
+| `{{ui:tech:rust/}}` | ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) |
+| `{{ui:tech:python/}}` | ![](assets/tech-guide/tech_612cae4b1bd8fe91.svg) |
+| `{{ui:tech:typescript/}}` | ![](assets/tech-guide/tech_9fa73146667d5e15.svg) |
+| `{{ui:tech:docker/}}` | ![](assets/tech-guide/tech_c10aebf597ab6c36.svg) |
+| `{{ui:tech:postgresql/}}` | ![](assets/tech-guide/tech_c5447bd8d58564dc.svg) |
+| `{{ui:tech:go/}}` | ![](assets/tech-guide/tech_710a7adb9ff00951.svg) |
 
 ---
 
@@ -105,7 +105,7 @@ Use `bg` to override the brand color:
 
 **Rendered:**
 
-{{ui:tech:rust:bg=000000/}} {{ui:tech:docker:bg=accent/}} {{ui:tech:python:bg=1a1a2e/}}
+![](assets/tech-guide/tech_1237c8aa58e9b89d.svg) ![](assets/tech-guide/tech_34f82a292fc3ed60.svg) ![](assets/tech-guide/tech_bf2629c068b2fdad.svg)
 
 ---
 
@@ -141,9 +141,9 @@ Force a specific logo color with `logo`:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:tech:rust:logo=white/}}` | {{ui:tech:rust:logo=white/}} |
-| `{{ui:tech:docker:logo=000000/}}` | {{ui:tech:docker:logo=000000/}} |
-| `{{ui:tech:go:logo=white/}}` | {{ui:tech:go:logo=white/}} |
+| `{{ui:tech:rust:logo=white/}}` | ![](assets/tech-guide/tech_601628c5ff022a49.svg) |
+| `{{ui:tech:docker:logo=000000/}}` | ![](assets/tech-guide/tech_c10aebf597ab6c36.svg) |
+| `{{ui:tech:go:logo=white/}}` | ![](assets/tech-guide/tech_41ff0df4610702f0.svg) |
 
 ---
 
@@ -162,7 +162,7 @@ Control the label text color with `text_color` (aliases: `text`, `color`):
 
 **Rendered:**
 
-{{ui:tech:rust:text_color=white/}} {{ui:tech:rust:text=FFFFFF/}} {{ui:tech:rust:color=000000/}} {{ui:tech:docker:text_color=accent/}}
+![](assets/tech-guide/tech_26e6cfd450055ea4.svg) ![](assets/tech-guide/tech_26e6cfd450055ea4.svg) ![](assets/tech-guide/tech_baf4bcddc14d2b27.svg) ![](assets/tech-guide/tech_3ee2b5649f7a2368.svg)
 
 Text color also auto-selects based on the right segment luminance if not specified.
 
@@ -179,7 +179,7 @@ Customize the font with `font` (alias: `font_family`):
 
 **Rendered:**
 
-{{ui:tech:rust:font=monospace/}} {{ui:tech:python:font=Monaco,Consolas,monospace/}} {{ui:tech:go:font_family=Arial/}} {{ui:tech:docker:font=Georgia,serif/}}
+![](assets/tech-guide/tech_43f9fd273c8ee379.svg) ![](assets/tech-guide/tech_1f0a070cb2d460e1.svg) ![](assets/tech-guide/tech_faf509df3f7b09aa.svg) ![](assets/tech-guide/tech_b43e28e3b3897212.svg)
 
 ### Combined Text Styling
 
@@ -190,7 +190,7 @@ Customize the font with `font` (alias: `font_family`):
 
 **Rendered:**
 
-{{ui:tech:rust:text_color=white:font=monospace/}} {{ui:tech:postgresql:text=FFFFFF:font=Monaco,monospace/}}
+![](assets/tech-guide/tech_a85573bc3b99b7a1.svg) ![](assets/tech-guide/tech_7cbbeb42ea6baba6.svg)
 
 ---
 
@@ -202,11 +202,11 @@ Use `label` to customize the displayed text:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:tech:typescript:label=TS/}}` | {{ui:tech:typescript:label=TS/}} |
-| `{{ui:tech:javascript:label=JS/}}` | {{ui:tech:javascript:label=JS/}} |
-| `{{ui:tech:rust:label=Rust 1.75/}}` | {{ui:tech:rust:label=Rust 1.75/}} |
-| `{{ui:tech:python:label=Python 3.12/}}` | {{ui:tech:python:label=Python 3.12/}} |
-| `{{ui:tech:docker:label=Container/}}` | {{ui:tech:docker:label=Container/}} |
+| `{{ui:tech:typescript:label=TS/}}` | ![](assets/tech-guide/tech_2831da29465584bd.svg) |
+| `{{ui:tech:javascript:label=JS/}}` | ![](assets/tech-guide/tech_342f9caaad33cd0e.svg) |
+| `{{ui:tech:rust:label=Rust 1.75/}}` | ![](assets/tech-guide/tech_4bbc82163b6c5f5c.svg) |
+| `{{ui:tech:python:label=Python 3.12/}}` | ![](assets/tech-guide/tech_dbb238688c778ef2.svg) |
+| `{{ui:tech:docker:label=Container/}}` | ![](assets/tech-guide/tech_8d8e623f5a96f56e.svg) |
 
 ### Version Badges
 
@@ -218,7 +218,7 @@ Use `label` to customize the displayed text:
 
 **Rendered:**
 
-{{ui:tech:rust:label=v1.75.0/}} {{ui:tech:nodejs:label=v20 LTS/}} {{ui:tech:python:label=3.12/}}
+![](assets/tech-guide/tech_b4741c4c4d129345.svg) ![](assets/tech-guide/tech_5c7840bb8bb06279.svg) ![](assets/tech-guide/tech_e9ff6a5c66251301.svg)
 
 ### Status Labels
 
@@ -230,7 +230,7 @@ Use `label` to customize the displayed text:
 
 **Rendered:**
 
-{{ui:tech:docker:label=Running/}} {{ui:tech:postgresql:label=Connected/}} {{ui:tech:redis:label=Cached/}}
+![](assets/tech-guide/tech_53e24c544590d9f6.svg) ![](assets/tech-guide/tech_a1820d73eb86ed5a.svg) ![](assets/tech-guide/tech_1fdd23a31cc08678.svg)
 
 ---
 
@@ -248,7 +248,7 @@ Use `border` and `border_width` to add borders:
 
 **Rendered:**
 
-{{ui:tech:rust:border=white/}} {{ui:tech:rust:border=FFFFFF:border_width=2/}} {{ui:tech:docker:border=accent:border_width=3/}}
+![](assets/tech-guide/tech_94d18fa5c257ecc2.svg) ![](assets/tech-guide/tech_89a9c434dff5847d.svg) ![](assets/tech-guide/tech_ac2abe3dd36d67a1.svg)
 
 ### Rounded Corners
 
@@ -262,7 +262,7 @@ Use `rx` to add rounded corners:
 
 **Rendered:**
 
-{{ui:tech:rust:rx=3/}} {{ui:tech:rust:rx=6/}} {{ui:tech:rust:rx=10/}}
+![](assets/tech-guide/tech_4c8bd8a78f6a00df.svg) ![](assets/tech-guide/tech_adb52802fdb7c916.svg) ![](assets/tech-guide/tech_282f1d7873bd30e7.svg)
 
 ### Combined Border & Corners
 
@@ -273,7 +273,7 @@ Use `rx` to add rounded corners:
 
 **Rendered:**
 
-{{ui:tech:rust:border=white:border_width=2:rx=4/}} {{ui:tech:docker:border=accent:rx=6/}}
+![](assets/tech-guide/tech_f9fd032de0c9de6f.svg) ![](assets/tech-guide/tech_ffe256817a6fe4c7.svg)
 
 ---
 
@@ -299,7 +299,7 @@ The `style` parameter changes the badge appearance:
 
 **Rendered:**
 
-{{ui:tech:rust:style=flat-square/}} {{ui:tech:rust:style=flat/}} {{ui:tech:rust:style=plastic/}} {{ui:tech:rust:style=for-the-badge/}} {{ui:tech:rust:style=social/}}
+![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_2af318b39ee8334b.svg) ![](assets/tech-guide/tech_c733da3ff65e48b7.svg) ![](assets/tech-guide/tech_3eac9722cea4ae70.svg) ![](assets/tech-guide/tech_bda69193c17addc0.svg)
 
 ---
 
@@ -382,78 +382,208 @@ The `style` parameter changes the badge appearance:
 
 ## Complete Examples
 
-### Tech Stack Display
+### Tech Stack Showcase
+
+Display your project's tech stack with brand colors:
 
 ```markdown
-{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}}
+{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}} {{ui:tech:redis/}}
 ```
 
-**Rendered:** {{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}}
+**Rendered:** ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_9fa73146667d5e15.svg) ![](assets/tech-guide/tech_c10aebf597ab6c36.svg) ![](assets/tech-guide/tech_c5447bd8d58564dc.svg) ![](assets/tech-guide/tech_b21a0f458da62fc6.svg)
 
-### With Versions
+---
 
-| Syntax | Rendered |
-|--------|----------|
-| `{{ui:tech:rust:label=Rust 1.75/}}` | {{ui:tech:rust:label=Rust 1.75/}} |
-| `{{ui:tech:python:label=Python 3.12/}}` | {{ui:tech:python:label=Python 3.12/}} |
-| `{{ui:tech:nodejs:label=Node 20/}}` | {{ui:tech:nodejs:label=Node 20/}} |
+### Neon Cyberpunk Theme
 
-### Monochrome Style
-
-| Syntax | Rendered |
-|--------|----------|
-| `{{ui:tech:rust:bg=000000:logo=white/}}` | {{ui:tech:rust:bg=000000:logo=white/}} |
-| `{{ui:tech:python:bg=000000:logo=white/}}` | {{ui:tech:python:bg=000000:logo=white/}} |
-| `{{ui:tech:docker:bg=000000:logo=white/}}` | {{ui:tech:docker:bg=000000:logo=white/}} |
-
-### Custom Branded
-
-| Syntax | Rendered |
-|--------|----------|
-| `{{ui:tech:rust:bg=1a1a2e:border=F41C80/}}` | {{ui:tech:rust:bg=1a1a2e:border=F41C80/}} |
-| `{{ui:tech:docker:bg=1a1a2e:border=00D4FF/}}` | {{ui:tech:docker:bg=1a1a2e:border=00D4FF/}} |
-
-### Status Dashboard
+Bright logos on dark backgrounds with matching borders:
 
 ```markdown
-| Service | Tech | Status |
-|---------|------|--------|
-| API | {{ui:tech:rust:label=Running/}} | ✅ |
-| Database | {{ui:tech:postgresql:label=Connected/}} | ✅ |
-| Cache | {{ui:tech:redis:label=Healthy/}} | ✅ |
-| Queue | {{ui:tech:docker:label=3 containers/}} | ⚠️ |
+{{ui:tech:react:bg=0D0D0D:logo=61DAFB:border=61DAFB:border_width=1:rx=3/}}
+{{ui:tech:typescript:bg=0D0D0D:logo=3178C6:border=3178C6:border_width=1:rx=3/}}
+{{ui:tech:nodejs:bg=0D0D0D:logo=339933:border=339933:border_width=1:rx=3/}}
+{{ui:tech:mongodb:bg=0D0D0D:logo=47A248:border=47A248:border_width=1:rx=3/}}
 ```
 
 **Rendered:**
 
-| Service | Tech | Status |
-|---------|------|--------|
-| API | {{ui:tech:rust:label=Running/}} | ✅ |
-| Database | {{ui:tech:postgresql:label=Connected/}} | ✅ |
-| Cache | {{ui:tech:redis:label=Healthy/}} | ✅ |
-| Queue | {{ui:tech:docker:label=3 containers/}} | ⚠️ |
+![](assets/tech-guide/tech_7afa33bf244b19ed.svg) ![](assets/tech-guide/tech_9d1e7d272d4a13a1.svg) ![](assets/tech-guide/tech_6eca811359f744ed.svg) ![](assets/tech-guide/tech_876eb0e45096fd40.svg)
 
-### Minimal Dark Theme
+---
+
+### Architecture Layers
+
+Visualize your system architecture:
+
+| Layer | Technologies |
+|-------|-------------|
+| **Frontend** | ![](assets/tech-guide/tech_e5903984b9196dbf.svg) ![](assets/tech-guide/tech_ef9f089a9a7b6fc5.svg) ![](assets/tech-guide/tech_f425834d91556b6b.svg) |
+| **Backend** | ![](assets/tech-guide/tech_620b33b3a6ee192e.svg) ![](assets/tech-guide/tech_b536c8f6f5323486.svg) |
+| **Data** | ![](assets/tech-guide/tech_12086181a8203feb.svg) ![](assets/tech-guide/tech_4cd264c979a63f40.svg) |
+| **Infrastructure** | ![](assets/tech-guide/tech_c10aebf597ab6c36.svg) ![](assets/tech-guide/tech_64052a715031e06b.svg) ![](assets/tech-guide/tech_cad86b5848b423e5.svg) |
+
+---
+
+### Version Requirements
+
+Show minimum version requirements for your project:
+
+| Dependency | Required | Status |
+|------------|----------|--------|
+| ![](assets/tech-guide/tech_dcf122d8ba1567c6.svg) | ≥ 1.75.0 | ![](assets/tech-guide/tech_cb90055fa600ffea.svg) |
+| ![](assets/tech-guide/tech_c3cf2473b757a130.svg) | ≥ 18.0.0 | ![](assets/tech-guide/tech_b027e58fcabf6a5f.svg) |
+| ![](assets/tech-guide/tech_c10aebf597ab6c36.svg) | ≥ 24.0 | ![](assets/tech-guide/tech_a57ab5036ba15cb5.svg) |
+
+---
+
+### Team Roles
+
+Define team responsibilities with tech stacks:
+
+**Frontend Team:**
+![](assets/tech-guide/tech_d1bb60f931b78c66.svg) ![](assets/tech-guide/tech_163074ea544e10ba.svg) ![](assets/tech-guide/tech_79a4e916e6c90e79.svg)
+
+**Backend Team:**
+![](assets/tech-guide/tech_1211b33f6a972f17.svg) ![](assets/tech-guide/tech_8b8d34b0b62efa24.svg) ![](assets/tech-guide/tech_c2cad5fcf07c01c4.svg)
+
+**DevOps Team:**
+![](assets/tech-guide/tech_7bd5f56cb65e9372.svg) ![](assets/tech-guide/tech_841315634c7979ea.svg) ![](assets/tech-guide/tech_23693ec450749563.svg)
+
+---
+
+### Project Status Dashboard
 
 ```markdown
-{{ui:tech:rust:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}}
-{{ui:tech:python:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}}
-{{ui:tech:go:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}}
+| Service | Tech | Status | Uptime |
+|---------|------|--------|--------|
+| API Gateway | {{ui:tech:nginx:label=Running/}} | 🟢 | 99.9% |
+| Auth Service | {{ui:tech:rust:label=Healthy/}} | 🟢 | 99.8% |
+| Database | {{ui:tech:postgresql:label=Primary/}} | 🟢 | 99.99% |
+| Cache | {{ui:tech:redis:label=Cluster/}} | 🟡 | 98.5% |
+| Search | {{ui:tech:elasticsearch:label=Indexing/}} | 🔵 | - |
 ```
 
 **Rendered:**
 
-{{ui:tech:rust:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}} {{ui:tech:python:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}} {{ui:tech:go:bg=292A2D:logo=FFFFFF:text_color=CCCCCC/}}
+| Service | Tech | Status | Uptime |
+|---------|------|--------|--------|
+| API Gateway | ![](assets/tech-guide/tech_e5cec997c1a0265b.svg) | 🟢 | 99.9% |
+| Auth Service | ![](assets/tech-guide/tech_85f45ace8601e1a6.svg) | 🟢 | 99.8% |
+| Database | ![](assets/tech-guide/tech_12086181a8203feb.svg) | 🟢 | 99.99% |
+| Cache | ![](assets/tech-guide/tech_d3d8d37ed36a3db1.svg) | 🟡 | 98.5% |
+| Search | ![](assets/tech-guide/tech_ab192457039fa652.svg) | 🔵 | - |
 
-### Full Customization
+---
+
+### Sleek Monochrome
+
+Professional look with consistent dark styling:
 
 ```markdown
-{{ui:tech:rust:bg=1a1a2e:logo=DEA584:text_color=FFFFFF:font=Monaco,monospace:border=DEA584:border_width=1:rx=4/}}
+{{ui:tech:rust:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}
+{{ui:tech:typescript:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}
+{{ui:tech:docker:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}
+{{ui:tech:postgresql:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}
 ```
 
 **Rendered:**
 
-{{ui:tech:rust:bg=1a1a2e:logo=DEA584:text_color=FFFFFF:font=Monaco,monospace:border=DEA584:border_width=1:rx=4/}}
+![](assets/tech-guide/tech_25ea36b6520cb9e0.svg) ![](assets/tech-guide/tech_86f49608d0cd1455.svg) ![](assets/tech-guide/tech_917e8b9d013e7635.svg) ![](assets/tech-guide/tech_fcf39fcb9607b4c.svg)
+
+---
+
+### Gradient Border Effect
+
+Simulate gradients with colored borders on matching dark backgrounds:
+
+```markdown
+{{ui:tech:rust:bg=1a0a0a:logo=DEA584:border=DEA584:border_width=2:rx=6/}}
+{{ui:tech:python:bg=0a0a1a:logo=3776AB:border=3776AB:border_width=2:rx=6/}}
+{{ui:tech:go:bg=0a1a1a:logo=00ADD8:border=00ADD8:border_width=2:rx=6/}}
+{{ui:tech:ruby:bg=1a0a0a:logo=CC342D:border=CC342D:border_width=2:rx=6/}}
+```
+
+**Rendered:**
+
+![](assets/tech-guide/tech_b98d8fd6327e60cc.svg) ![](assets/tech-guide/tech_454e55bd5f6b01b6.svg) ![](assets/tech-guide/tech_ff06050996c4906c.svg) ![](assets/tech-guide/tech_408300884aadd55e.svg)
+
+---
+
+### Skills Matrix
+
+```markdown
+| Skill | Proficiency | Years |
+|-------|-------------|-------|
+| {{ui:tech:rust/}} | ████████░░ Expert | 5+ |
+| {{ui:tech:typescript/}} | ███████░░░ Advanced | 4 |
+| {{ui:tech:python/}} | ██████░░░░ Intermediate | 3 |
+| {{ui:tech:go/}} | ████░░░░░░ Learning | 1 |
+```
+
+**Rendered:**
+
+| Skill | Proficiency | Years |
+|-------|-------------|-------|
+| ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) | ████████░░ Expert | 5+ |
+| ![](assets/tech-guide/tech_9fa73146667d5e15.svg) | ███████░░░ Advanced | 4 |
+| ![](assets/tech-guide/tech_612cae4b1bd8fe91.svg) | ██████░░░░ Intermediate | 3 |
+| ![](assets/tech-guide/tech_710a7adb9ff00951.svg) | ████░░░░░░ Learning | 1 |
+
+---
+
+### Compact Abbreviations
+
+Space-efficient badges for dense layouts:
+
+```markdown
+{{ui:tech:typescript:label=TS/}} {{ui:tech:javascript:label=JS/}} {{ui:tech:postgresql:label=PG/}} {{ui:tech:kubernetes:label=K8s/}} {{ui:tech:elasticsearch:label=ES/}}
+```
+
+**Rendered:** ![](assets/tech-guide/tech_2831da29465584bd.svg) ![](assets/tech-guide/tech_342f9caaad33cd0e.svg) ![](assets/tech-guide/tech_e4e09f595a9c8901.svg) ![](assets/tech-guide/tech_64052a715031e06b.svg) ![](assets/tech-guide/tech_74573365dbfffc1f.svg)
+
+---
+
+### Inverted Colors
+
+Light backgrounds with dark logos for light-themed docs:
+
+```markdown
+{{ui:tech:rust:bg=FFF5EE:logo=000000:text_color=000000/}}
+{{ui:tech:docker:bg=E6F3FF:logo=000000:text_color=000000/}}
+{{ui:tech:nodejs:bg=E6FFE6:logo=000000:text_color=000000/}}
+```
+
+**Rendered:**
+
+![](assets/tech-guide/tech_e49485130e8d0fb0.svg) ![](assets/tech-guide/tech_64cf72de9fe2d3c4.svg) ![](assets/tech-guide/tech_da6031514b345f33.svg)
+
+---
+
+### For The Badge Style
+
+Large, prominent badges for headers:
+
+```markdown
+{{ui:tech:rust:style=for-the-badge/}} {{ui:tech:typescript:style=for-the-badge/}} {{ui:tech:docker:style=for-the-badge/}}
+```
+
+**Rendered:**
+
+![](assets/tech-guide/tech_3eac9722cea4ae70.svg) ![](assets/tech-guide/tech_9976657f202f84ab.svg) ![](assets/tech-guide/tech_b0c5402df31934d.svg)
+
+---
+
+### Full Customization Showcase
+
+Every parameter in use:
+
+```markdown
+{{ui:tech:rust:bg=1a1a2e:logo=DEA584:label=Rust 1.80:text_color=FFFFFF:font=JetBrains Mono,monospace:border=DEA584:border_width=2:rx=8/}}
+```
+
+**Rendered:**
+
+![](assets/tech-guide/tech_5509811bace5455e.svg)
 
 ---
 
@@ -500,7 +630,7 @@ Let the brand colors do the work - they're already optimized for each technology
 {{ui:tech:go/}}    <!-- Cyan is Go's brand -->
 ```
 
-**Rendered:** {{ui:tech:rust/}} {{ui:tech:go/}}
+**Rendered:** ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_710a7adb9ff00951.svg)
 
 ### 2. Match Logo to Background
 
@@ -514,7 +644,7 @@ When overriding backgrounds, ensure contrast:
 {{ui:tech:rust:bg=000000:logo=white/}}
 ```
 
-**Rendered:** {{ui:tech:docker:bg=FFFFFF:logo=black/}} {{ui:tech:rust:bg=000000:logo=white/}}
+**Rendered:** ![](assets/tech-guide/tech_a24a5597c1f62934.svg) ![](assets/tech-guide/tech_1237c8aa58e9b89d.svg)
 
 ### 3. Short Labels for Compact Displays
 
@@ -524,7 +654,7 @@ When overriding backgrounds, ensure contrast:
 {{ui:tech:postgresql:label=PG/}}
 ```
 
-**Rendered:** {{ui:tech:typescript:label=TS/}} {{ui:tech:javascript:label=JS/}} {{ui:tech:postgresql:label=PG/}}
+**Rendered:** ![](assets/tech-guide/tech_2831da29465584bd.svg) ![](assets/tech-guide/tech_342f9caaad33cd0e.svg) ![](assets/tech-guide/tech_e4e09f595a9c8901.svg)
 
 ### 4. Version Badges in Tables
 
@@ -539,8 +669,8 @@ When overriding backgrounds, ensure contrast:
 
 | Dependency | Version |
 |------------|---------|
-| {{ui:tech:rust:label=rustc/}} | 1.75.0 |
-| {{ui:tech:nodejs:label=node/}} | 20.10.0 |
+| ![](assets/tech-guide/tech_dcf122d8ba1567c6.svg) | 1.75.0 |
+| ![](assets/tech-guide/tech_c3cf2473b757a130.svg) | 20.10.0 |
 
 ### 5. Monochrome for Professional Docs
 
@@ -549,7 +679,7 @@ When overriding backgrounds, ensure contrast:
 {{ui:tech:python:bg=333:logo=white:text_color=white/}}
 ```
 
-**Rendered:** {{ui:tech:rust:bg=333:logo=white:text_color=white/}} {{ui:tech:python:bg=333:logo=white:text_color=white/}}
+**Rendered:** ![](assets/tech-guide/tech_6194845c38af3b48.svg) ![](assets/tech-guide/tech_b59a52b8bd8e85da.svg)
 
 ---
 

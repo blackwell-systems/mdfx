@@ -273,6 +273,21 @@ fn estimate_text_width(text: &str) -> u32 {
 fn darken_color(hex: &str, amount: f32) -> String {
     let hex = hex.trim_start_matches('#');
 
+    // Handle 3-character shorthand (e.g., "333" -> "333333")
+    let hex = if hex.len() == 3 {
+        let chars: Vec<char> = hex.chars().collect();
+        format!(
+            "{}{}{}{}{}{}",
+            chars[0], chars[0], chars[1], chars[1], chars[2], chars[2]
+        )
+    } else {
+        hex.to_string()
+    };
+
+    if hex.len() < 6 {
+        return hex; // Return as-is if still too short
+    }
+
     let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0);
     let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0);
     let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0);

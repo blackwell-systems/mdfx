@@ -371,23 +371,23 @@ Use `thumb_width` to create oval or pill-shaped thumbs:
 
 ## Backend Differences
 
-### Shields Backend (default)
+### SVG Backend (default)
+
+Full control over all parameters including sliders - generates local `.svg` files with tracks, fills, labels, borders, and thumb indicators:
+
+```bash
+mdfx process template.md --assets-dir assets
+```
+
+### Shields Backend (legacy)
 
 Uses shields.io badges. Limited features - shows percentage as text badge:
 
 ```bash
-mdfx process template.md
+mdfx process template.md --backend shields
 ```
 
-### SVG Backend
-
-Full control over all parameters including sliders:
-
-```bash
-mdfx process template.md --backend svg --assets-dir assets
-```
-
-Generates local `.svg` files with tracks, fills, labels, borders, and thumb indicators.
+**Note:** Shields backend doesn't support visual progress bars or sliders.
 
 ---
 
