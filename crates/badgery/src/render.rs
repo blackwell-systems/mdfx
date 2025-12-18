@@ -51,7 +51,8 @@ fn render_with_icon(badge: &TechBadge, metrics: &SvgMetrics, label: &str, icon_p
     // Calculate layout
     let icon_width = (icon_size * 2.5).ceil() as u32 + 1;
     let label_width = estimate_text_width(label) + 16;
-    let total_width = icon_width + if badge.label.is_some() { label_width } else { 0 };
+    let has_label = !label.is_empty();
+    let total_width = icon_width + if has_label { label_width } else { 0 };
     
     let icon_x = (icon_width as f32 - icon_size) / 2.0;
     let icon_y = (height - icon_size) / 2.0;
@@ -116,7 +117,7 @@ fn render_with_icon(badge: &TechBadge, metrics: &SvgMetrics, label: &str, icon_p
         ));
         
         // Right segment (text) if label exists
-        if badge.label.is_some() {
+        if has_label {
             svg.push_str(&format!(
                 r#"<path d="{}" fill="{}"/>"#,
                 rounded_rect_path(icon_width as f32, 0.0, label_width as f32, height, corners),
@@ -145,7 +146,7 @@ fn render_with_icon(badge: &TechBadge, metrics: &SvgMetrics, label: &str, icon_p
     svg.push_str("</g>");
     
     // Text label (if present)
-    if badge.label.is_some() {
+    if has_label {
         svg.push_str(&format!(
             r#"<text x="{}" y="{}" font-family="{}" font-size="{}" fill="{}" text-anchor="middle" dominant-baseline="middle">{}</text>"#,
             text_x,

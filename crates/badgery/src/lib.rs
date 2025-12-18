@@ -84,7 +84,7 @@ mod tests {
     fn test_badge_creation() {
         let svg = badge("rust").render();
         assert!(svg.contains("<svg"));
-        assert!(svg.contains("rust"));
+        assert!(svg.contains("Rust")); // display_label capitalizes
     }
 
     #[test]

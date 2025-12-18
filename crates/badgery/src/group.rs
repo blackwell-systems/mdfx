@@ -126,13 +126,16 @@ pub fn badge_spacing(style: &str, total_badges: usize) -> u32 {
 /// Complete SVG group element containing all positioned badges
 /// 
 /// # Examples
-/// 
+///
 /// ```rust
 /// use badgery::group::group_badges_svg;
-/// 
-/// let badges = vec!["<svg>...</svg>".to_string()]; // Badge SVGs
+///
+/// let badges = vec![
+///     r#"<svg width="50" height="20">badge1</svg>"#.to_string(),
+///     r#"<svg width="60" height="20">badge2</svg>"#.to_string(),
+/// ];
 /// let group_svg = group_badges_svg(badges, "flat", "middle");
-/// assert!(group_svg.contains("<g>"));
+/// assert!(group_svg.contains("badge-group"));
 /// ```
 pub fn group_badges_svg(
     badges: Vec<String>, 
@@ -151,11 +154,15 @@ pub fn group_badges_svg(
     let mut group_svg = String::from(r#"<g class="badge-group">"#);
     let mut current_x = 0u32;
 
-    // Calculate badge dimensions from first badge (assumes uniform height)
-    let first_badge = &badges[0];
-    let (badge_width, badge_height) = extract_badge_dimensions(first_badge);
+    // Get height from first badge (assumes uniform height)
+    let (_, badge_height) = extract_badge_dimensions(&badges[0]);
+    let mut last_badge_width = 0u32;
 
     for (index, badge_svg) in badges.iter().enumerate() {
+        // Extract dimensions for this badge
+        let (badge_width, _) = extract_badge_dimensions(badge_svg);
+        last_badge_width = badge_width;
+
         // Calculate vertical offset based on alignment
         let y_offset = match vertical_align {
             "top" => 0,
@@ -168,7 +175,7 @@ pub fn group_badges_svg(
             r#"<g transform="translate({}, {})">"#,
             current_x, y_offset
         ));
-        
+
         // Extract just the content (remove outer SVG wrapper)
         let badge_content = extract_svg_content(badge_svg);
         group_svg.push_str(&badge_content);
@@ -180,8 +187,8 @@ pub fn group_badges_svg(
         }
     }
 
-    // Calculate total dimensions  
-    let total_width = current_x + badge_width;
+    // Calculate total dimensions
+    let total_width = current_x + last_badge_width;
     let total_height = badge_height;
 
     // Wrap in final SVG container
