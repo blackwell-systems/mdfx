@@ -612,9 +612,12 @@ fn render_tech_badge(
     // Build the badge
     let mut badge = TechBadge::new(name);
 
-    // Set label if provided
+    // Set label only if it differs from the tech name
+    // This allows badgefx's display_label() to auto-capitalize default labels
     if let Some(l) = label {
-        badge.label = Some(l.to_string());
+        if l != name {
+            badge.label = Some(l.to_string());
+        }
     }
 
     // Parse and set style
