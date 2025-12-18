@@ -89,65 +89,86 @@ struct TechOptions<'a> {
     chevron: Option<&'a str>,
 }
 
+/// Arrow depth constant for chevron badges (how far arrows extend)
+const CHEVRON_ARROW_DEPTH: f32 = 10.0;
+
 /// Generate SVG path for a chevron/arrow shaped badge
-/// - "first": flat left edge, pointed right edge
-/// - "middle": indent on left, pointed right edge
-/// - "last": indent on left, flat right edge
-fn chevron_path(x: f32, y: f32, w: f32, h: f32, chevron_type: &str) -> String {
-    let arrow_depth = 10.0_f32; // How far the point extends
+///
+/// Options:
+/// - "left": left-pointing arrow only
+/// - "right": right-pointing arrow only
+/// - "both": arrows on both sides
+///
+/// Returns (path, has_left_arrow, has_right_arrow)
+fn chevron_path_with_overlap(x: f32, y: f32, w: f32, h: f32, chevron_type: &str) -> (String, bool, bool) {
+    let arrow = CHEVRON_ARROW_DEPTH;
     let center_y = h / 2.0;
+    let center = y + center_y;
+    let bottom = y + h;
 
     match chevron_type {
-        "first" => {
-            // Flat left, pointed right
-            format!(
-                "M{x} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{x}Z",
+        // Left-pointing arrow only
+        "left" => {
+            let path = format!(
+                "M{arrow_tip} {center}L{x} {y}H{right}V{bottom}H{x}L{arrow_tip} {center}Z",
+                arrow_tip = x - arrow,
+                center = center,
                 x = x,
-                y = y,
-                right_base = x + w - arrow_depth,
-                right_tip = x + w,
-                center = y + center_y,
-                bottom = y + h
-            )
-        }
-        "middle" => {
-            // Indent left (to receive previous arrow), pointed right
-            format!(
-                "M{left_base} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{left_base}L{left_indent} {center}Z",
-                left_base = x + arrow_depth,
-                y = y,
-                right_base = x + w - arrow_depth,
-                right_tip = x + w,
-                center = y + center_y,
-                bottom = y + h,
-                left_indent = x
-            )
-        }
-        "last" => {
-            // Indent left, flat right
-            format!(
-                "M{left_base} {y}H{right}V{bottom}H{left_base}L{left_indent} {center}Z",
-                left_base = x + arrow_depth,
                 y = y,
                 right = x + w,
-                bottom = y + h,
-                left_indent = x,
-                center = y + center_y
-            )
+                bottom = bottom
+            );
+            (path, true, false)
         }
-        _ => {
-            // Default to "first" style
-            format!(
+        // Right-pointing arrow only
+        "right" => {
+            let path = format!(
                 "M{x} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{x}Z",
                 x = x,
                 y = y,
-                right_base = x + w - arrow_depth,
-                right_tip = x + w,
-                center = y + center_y,
-                bottom = y + h
-            )
+                right_base = x + w,
+                right_tip = x + w + arrow,
+                center = center,
+                bottom = bottom
+            );
+            (path, false, true)
+        }
+        // Both directions
+        "both" => {
+            let path = format!(
+                "M{left_tip} {center}L{x} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{x}L{left_tip} {center}Z",
+                left_tip = x - arrow,
+                center = center,
+                x = x,
+                y = y,
+                right_base = x + w,
+                right_tip = x + w + arrow,
+                bottom = bottom
+            );
+            (path, true, true)
+        }
+        // No chevron - plain rectangle
+        _ => {
+            let path = format!(
+                "M{x} {y}H{right}V{bottom}H{x}Z",
+                x = x,
+                y = y,
+                right = x + w,
+                bottom = bottom
+            );
+            (path, false, false)
         }
     }
+}
+
+/// Legacy wrapper for backward compatibility
+fn chevron_path(x: f32, y: f32, w: f32, h: f32, chevron_type: &str) -> String {
+    chevron_path_with_overlap(x, y, w, h, chevron_type).0
+}
+
+/// Check if chevron type has a left-pointing arrow
+fn has_left_arrow(chevron_type: &str) -> bool {
+    matches!(chevron_type, "left" | "both")
 }
 
 /// Generate SVG path for a rectangle with per-corner radii
@@ -296,22 +317,40 @@ fn render_two_segment(
         String::new()
     };
 
-    // If chevron shape is specified, render as single shape badge
+    // If chevron shape is specified, render as single shape badge with proper overlap
     if let Some(chevron_type) = opts.chevron {
-        let path = chevron_path(0.0, 0.0, total_width as f32, height as f32, chevron_type);
+        let arrow = CHEVRON_ARROW_DEPTH;
+        let (path, has_left, has_right) = chevron_path_with_overlap(
+            if has_left_arrow(chevron_type) { arrow } else { 0.0 },
+            0.0,
+            total_width as f32,
+            height as f32,
+            chevron_type,
+        );
+
+        // Calculate viewBox and SVG dimensions to include arrow overflow
+        let vb_x: f32 = 0.0;
+        let vb_width = total_width as f32
+            + if has_left { arrow } else { 0.0 }
+            + if has_right { arrow } else { 0.0 };
+        let svg_width = vb_width as u32;
+
+        // Offset content if there's a left arrow
+        let content_offset = if has_left { arrow } else { 0.0 };
+
         return format!(
-            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"{} 0 {} {}\">\n\
   <path d=\"{}\" fill=\"#{}\"{}/>  \n\
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
   <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
-            total_width, height, total_width, height,
+            svg_width, height, vb_x, vb_width, height,
             path, bg_color, border_attr,
-            icon_x, icon_y, scale,
+            icon_x + content_offset, icon_y, scale,
             logo_color, icon_path,
-            text_x, text_y, text_color, font_family, font_size, label
+            text_x as f32 + content_offset, text_y, text_color, font_family, font_size, label
         );
     }
 

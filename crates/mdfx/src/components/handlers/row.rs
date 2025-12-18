@@ -61,6 +61,7 @@ pub fn apply_row(content: &str, align: &str) -> String {
                 // Find closing )
                 if let Some(url_end) = after_paren.find(')') {
                     let url = &after_paren[..url_end];
+
                     // Convert to HTML img tag
                     result.push_str(&format!(r#"<img alt="{}" src="{}">"#, alt, url));
                     remaining = &after_paren[url_end + 1..];

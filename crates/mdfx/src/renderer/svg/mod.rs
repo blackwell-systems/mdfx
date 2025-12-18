@@ -548,6 +548,7 @@ impl Renderer for SvgBackend {
             // Output raw SVG directly (works in most markdown renderers that support HTML)
             Ok(RenderedAsset::InlineMarkdown(svg))
         } else {
+            // Generate markdown image reference
             let markdown_ref = format!("![]({})", relative_path);
             Ok(RenderedAsset::File {
                 relative_path,
