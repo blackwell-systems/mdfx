@@ -116,6 +116,7 @@ impl SvgBackend {
                 text_color,
                 font,
                 source,
+                chevron,
             } => {
                 "tech".hash(&mut hasher);
                 name.hash(&mut hasher);
@@ -130,6 +131,7 @@ impl SvgBackend {
                 text_color.hash(&mut hasher);
                 font.hash(&mut hasher);
                 source.hash(&mut hasher);
+                chevron.hash(&mut hasher);
             }
             Primitive::Progress {
                 percent,
@@ -364,6 +366,7 @@ impl Renderer for SvgBackend {
                 text_color,
                 font,
                 source,
+                chevron,
             } => {
                 // If source=shields, use shields.io URL instead of SVG
                 if source.as_deref() == Some("shields") {
@@ -399,6 +402,7 @@ impl Renderer for SvgBackend {
                     *corners,
                     text_color.as_deref(),
                     font.as_deref(),
+                    chevron.as_deref(),
                 )
             }
 
@@ -603,6 +607,7 @@ mod tests {
             text_color: None,
             font: None,
             source: None,
+            chevron: None,
         };
 
         let result = backend.render(&primitive).unwrap();
@@ -630,6 +635,7 @@ mod tests {
             text_color: None,
             font: None,
             source: Some("shields".to_string()),
+            chevron: None,
         };
 
         let result = backend.render(&primitive).unwrap();

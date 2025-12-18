@@ -198,6 +198,16 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 {{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}}
 ```
 
+**Chevron badges** — pointed tab-style badges that overlap:
+
+{{ui:row}}
+{{ui:tech:rust:chevron=first/}}{{ui:tech:typescript:chevron=middle/}}{{ui:tech:docker:chevron=middle/}}{{ui:tech:postgresql:chevron=last/}}
+{{/ui}}
+
+```
+{{ui:tech:rust:chevron=first/}}{{ui:tech:typescript:chevron=middle/}}{{ui:tech:docker:chevron=middle/}}{{ui:tech:postgresql:chevron=last/}}
+```
+
 ---
 
 ## {{mathbold}}Usage{{/mathbold}}

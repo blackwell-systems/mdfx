@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-18T03:13:58.950679866+00:00",
+  "created_at": "2025-12-18T03:23:31.861999946+00:00",
   "backend": "svg",
   "assets_dir": "assets/",
-  "total_assets": 131,
+  "total_assets": 135,
   "assets": [
     {
-      "path": "assets/tech_6f3858abf2f9c480.svg",
+      "path": "assets/tech_2fd5b06753b427ff.svg",
       "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
       "type": "tech",
       "primitive": {
@@ -1319,7 +1319,7 @@
       "size_bytes": 2266
     },
     {
-      "path": "assets/tech_6f3858abf2f9c480.svg",
+      "path": "assets/tech_2fd5b06753b427ff.svg",
       "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
       "type": "tech",
       "primitive": {
@@ -1332,7 +1332,7 @@
       "size_bytes": 2295
     },
     {
-      "path": "assets/tech_bd8b4c8234c32e0f.svg",
+      "path": "assets/tech_f3bce2794fe6ae29.svg",
       "sha256": "b30721c0a0394c2e5e726b03ec8ee1b9ae1fb536aaf17e82858c2dbd2bb214e8",
       "type": "tech",
       "primitive": {
@@ -1345,7 +1345,7 @@
       "size_bytes": 1654
     },
     {
-      "path": "assets/tech_21a8f56737bf5d8b.svg",
+      "path": "assets/tech_6c08a587dad3b4d3.svg",
       "sha256": "c5b0cf28158ee95f1679a5f28cd6254a05d81dff4bbbc4160e9649e73b8a5f60",
       "type": "tech",
       "primitive": {
@@ -1358,7 +1358,7 @@
       "size_bytes": 1895
     },
     {
-      "path": "assets/tech_a09bb68189f49879.svg",
+      "path": "assets/tech_5ac81af210cd3ffe.svg",
       "sha256": "28fd17f211246143185c21bccc6a579a195b319c5ba9b50ccf20303f52eb453d",
       "type": "tech",
       "primitive": {
@@ -1371,7 +1371,7 @@
       "size_bytes": 2014
     },
     {
-      "path": "assets/tech_644d8f5ffa6fc3fc.svg",
+      "path": "assets/tech_7e8636feb8c1ff0f.svg",
       "sha256": "2e32082bb82a757fd2eb9413828d90c69462d1ba3abdf215b7d3e3b9a83e7127",
       "type": "tech",
       "primitive": {
@@ -1384,7 +1384,7 @@
       "size_bytes": 2142
     },
     {
-      "path": "assets/tech_2c8f7acc4c60ddfc.svg",
+      "path": "assets/tech_429de164d996317.svg",
       "sha256": "74b5f3f9b7b9da417f39101b3a4a9449d8d0c03423dc2861eab74eacbd8ba239",
       "type": "tech",
       "primitive": {
@@ -1397,7 +1397,7 @@
       "size_bytes": 3912
     },
     {
-      "path": "assets/tech_17e033ae2a1decb0.svg",
+      "path": "assets/tech_36f3fa820a7891b6.svg",
       "sha256": "2f5f076898e9fbbf3945c9e983349485df4be54c255d8032776df8c0c695128f",
       "type": "tech",
       "primitive": {
@@ -1410,7 +1410,7 @@
       "size_bytes": 2262
     },
     {
-      "path": "assets/tech_a978c4769d4b128d.svg",
+      "path": "assets/tech_324a7898bc5d0754.svg",
       "sha256": "f0acb9330ca5433a702fbf072f6ab7a810cd0989ac2e38106a72c78736577cdb",
       "type": "tech",
       "primitive": {
@@ -1423,7 +1423,7 @@
       "size_bytes": 1613
     },
     {
-      "path": "assets/tech_d979be81598c560f.svg",
+      "path": "assets/tech_dfbae44840561af1.svg",
       "sha256": "7ca282a40e46b0f0867d143911ac91fa498088edcc2b8787bfdc9236a93aabd0",
       "type": "tech",
       "primitive": {
@@ -1436,7 +1436,7 @@
       "size_bytes": 2100
     },
     {
-      "path": "assets/tech_44f33b942a79c329.svg",
+      "path": "assets/tech_2854f3d49806da17.svg",
       "sha256": "e1d3f12fcb5b379740f9d4f4fa9e5820635f3d3bb115407a458d9724c16d403a",
       "type": "tech",
       "primitive": {
@@ -1449,7 +1449,7 @@
       "size_bytes": 3884
     },
     {
-      "path": "assets/tech_dbf2d965f94e2bba.svg",
+      "path": "assets/tech_2e907b2455376b1c.svg",
       "sha256": "4c9dd72a1b62472bb4761a4c93e832d69a70a66b7b87bd9389a7023b3e890fd0",
       "type": "tech",
       "primitive": {
@@ -1462,7 +1462,7 @@
       "size_bytes": 2329
     },
     {
-      "path": "assets/tech_b6e13f26e0f882a0.svg",
+      "path": "assets/tech_af89e52a035e33ac.svg",
       "sha256": "14d5021d5975221aa8768c20c0730141bb1d283b9cc6557862a013fb96db453f",
       "type": "tech",
       "primitive": {
@@ -1475,7 +1475,7 @@
       "size_bytes": 2048
     },
     {
-      "path": "assets/tech_a48592afb0cc6963.svg",
+      "path": "assets/tech_ed8e938db212caa2.svg",
       "sha256": "3926b2b2da7fefd4b489ce2be9a6985f9bdc5b0891a92375fe094389b400a2d5",
       "type": "tech",
       "primitive": {
@@ -1488,7 +1488,7 @@
       "size_bytes": 1929
     },
     {
-      "path": "assets/tech_a11f247fc866fc57.svg",
+      "path": "assets/tech_80b543eed3b221de.svg",
       "sha256": "8452c728ca0ac2ea2f3f532731a7902830a109d9684c39f4b66411b1a59024b3",
       "type": "tech",
       "primitive": {
@@ -1499,6 +1499,58 @@
         "style": "flat-square"
       },
       "size_bytes": 3337
+    },
+    {
+      "path": "assets/tech_1a60b131886928dd.svg",
+      "sha256": "f26ddb8c6f406ca08eb96cdc4dc1d55a96c99aaadf442f33cf6597ef4c7e8dbf",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2175
+    },
+    {
+      "path": "assets/tech_d8962ace30e5e4c3.svg",
+      "sha256": "20e5c3e0b78af9d3177b9a7fb7d5271b7afc5842041be557e164722747952e53",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1542
+    },
+    {
+      "path": "assets/tech_f89ed453eca99754.svg",
+      "sha256": "0ab8e74e24c095c240eb5e75af06f8d59cf47e792d82c1de2a4c0b8508b3b751",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2029
+    },
+    {
+      "path": "assets/tech_ec20ec94318a26a2.svg",
+      "sha256": "5f18ac06cde5e364baaf37b5ce11ec1fe5b32e0f168b6f0d5d4bbf51b278b440",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "postgresql",
+        "bg_color": "4169E1",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3789
     }
   ]
 }

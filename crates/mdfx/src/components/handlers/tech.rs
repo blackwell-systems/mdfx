@@ -101,6 +101,10 @@ pub fn handle(
     // Rendering source: "svg" (default) or "shields" (shields.io URL)
     let source = params.get("source").cloned();
 
+    // Chevron/arrow shape: "first", "middle", "last"
+    // Creates tab-style badges with pointed ends
+    let chevron = params.get("chevron").cloned();
+
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
         bg_color,
@@ -114,5 +118,6 @@ pub fn handle(
         text_color,
         font,
         source,
+        chevron,
     }))
 }

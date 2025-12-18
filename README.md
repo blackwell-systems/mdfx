@@ -1,7 +1,7 @@
 # ▓︎▒︎░︎ 𝐌·𝐃·𝐅·𝐗 ░︎▒︎▓︎
 
 <p align="center">
-<img alt="" src="assets/tech_6f3858abf2f9c480.svg"> <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
+<img alt="" src="assets/tech_2fd5b06753b427ff.svg"> <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
@@ -174,13 +174,13 @@ cargo install mdfx-cli
 Brand-colored badges with Simple Icons. Full customization, no external requests.
 
 <p align="center">
-<img alt="" src="assets/tech_6f3858abf2f9c480.svg"> <img alt="" src="assets/tech_bd8b4c8234c32e0f.svg"> <img alt="" src="assets/tech_21a8f56737bf5d8b.svg"> <img alt="" src="assets/tech_a09bb68189f49879.svg"> <img alt="" src="assets/tech_644d8f5ffa6fc3fc.svg"> <img alt="" src="assets/tech_2c8f7acc4c60ddfc.svg">
+<img alt="" src="assets/tech_2fd5b06753b427ff.svg"> <img alt="" src="assets/tech_f3bce2794fe6ae29.svg"> <img alt="" src="assets/tech_6c08a587dad3b4d3.svg"> <img alt="" src="assets/tech_5ac81af210cd3ffe.svg"> <img alt="" src="assets/tech_7e8636feb8c1ff0f.svg"> <img alt="" src="assets/tech_429de164d996317.svg">
 </p>
 
 **Connected badge groups** with per-corner control:
 
 <p align="center">
-<img alt="" src="assets/tech_17e033ae2a1decb0.svg"><img alt="" src="assets/tech_a978c4769d4b128d.svg"><img alt="" src="assets/tech_d979be81598c560f.svg"><img alt="" src="assets/tech_44f33b942a79c329.svg">
+<img alt="" src="assets/tech_36f3fa820a7891b6.svg"><img alt="" src="assets/tech_324a7898bc5d0754.svg"><img alt="" src="assets/tech_dfbae44840561af1.svg"><img alt="" src="assets/tech_2854f3d49806da17.svg">
 </p>
 
 ```
@@ -190,12 +190,22 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 **Custom styling** — borders, colors, themes:
 
 <p align="center">
-<img alt="" src="assets/tech_dbf2d965f94e2bba.svg"> <img alt="" src="assets/tech_b6e13f26e0f882a0.svg"> <img alt="" src="assets/tech_a48592afb0cc6963.svg"> <img alt="" src="assets/tech_a11f247fc866fc57.svg">
+<img alt="" src="assets/tech_2e907b2455376b1c.svg"> <img alt="" src="assets/tech_af89e52a035e33ac.svg"> <img alt="" src="assets/tech_ed8e938db212caa2.svg"> <img alt="" src="assets/tech_80b543eed3b221de.svg">
 </p>
 
 ```
 {{ui:tech:rust:bg=1a1a2e:border=DEA584:border_width=2/}}
 {{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}}
+```
+
+**Chevron badges** — pointed tab-style badges that overlap:
+
+<p align="center">
+<img alt="" src="assets/tech_1a60b131886928dd.svg"><img alt="" src="assets/tech_d8962ace30e5e4c3.svg"><img alt="" src="assets/tech_f89ed453eca99754.svg"><img alt="" src="assets/tech_ec20ec94318a26a2.svg">
+</p>
+
+```
+{{ui:tech:rust:chevron=first/}}{{ui:tech:typescript:chevron=middle/}}{{ui:tech:docker:chevron=middle/}}{{ui:tech:postgresql:chevron=last/}}
 ```
 
 ---
