@@ -171,11 +171,6 @@ fn has_left_arrow(chevron_type: &str) -> bool {
     matches!(chevron_type, "left" | "both")
 }
 
-/// Check if chevron type has a right-pointing arrow
-fn has_right_arrow(chevron_type: &str) -> bool {
-    matches!(chevron_type, "right" | "both")
-}
-
 /// Generate SVG path for a rectangle with per-corner radii
 /// Order: [top-left, top-right, bottom-right, bottom-left]
 fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> String {

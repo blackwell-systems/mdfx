@@ -207,7 +207,7 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 **Chevron badges** — pointed arrow shapes:
 
 <p align="center">
-<img alt="" style="margin-right: -10px" src="assets/mdfx/tech_d908ee031bc5156.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_345b6406064bfe8b.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_5eb8682d9e2bc5fe.svg"><img alt="" style="margin-left: -10px" src="assets/mdfx/tech_972b1d4a83b10d58.svg">
+<img alt="" src="assets/mdfx/tech_d908ee031bc5156.svg"><img alt="" src="assets/mdfx/tech_345b6406064bfe8b.svg"><img alt="" src="assets/mdfx/tech_5eb8682d9e2bc5fe.svg"><img alt="" src="assets/mdfx/tech_972b1d4a83b10d58.svg">
 </p>
 
 ```

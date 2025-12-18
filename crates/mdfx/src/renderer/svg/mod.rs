@@ -548,24 +548,8 @@ impl Renderer for SvgBackend {
             // Output raw SVG directly (works in most markdown renderers that support HTML)
             Ok(RenderedAsset::InlineMarkdown(svg))
         } else {
-            // Generate markdown reference with overlap hints for chevron badges
-            let markdown_ref = match primitive {
-                Primitive::Tech { chevron: Some(chevron_type), .. } => {
-                    // Add alt-text hints for CSS margins when used in ui:row
-                    // ml-10 = margin-left: -10px, mr-10 = margin-right: -10px
-                    // Note: GitHub strips inline styles, so overlap only works locally
-                    let has_left = matches!(chevron_type.as_str(), "left" | "both");
-                    let has_right = matches!(chevron_type.as_str(), "right" | "both");
-                    let alt = match (has_left, has_right) {
-                        (true, true) => "ml-10 mr-10",
-                        (true, false) => "ml-10",
-                        (false, true) => "mr-10",
-                        (false, false) => "",
-                    };
-                    format!("![{}]({})", alt, relative_path)
-                }
-                _ => format!("![]({})", relative_path),
-            };
+            // Generate markdown image reference
+            let markdown_ref = format!("![]({})", relative_path);
             Ok(RenderedAsset::File {
                 relative_path,
                 bytes: svg.into_bytes(),
