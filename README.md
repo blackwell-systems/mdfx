@@ -4,9 +4,9 @@
 <img alt="" src="assets/tech_1b97443b792bd7e6.svg"> <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
-**Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
+**Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames. A modern shields.io alternative with full offline support.
 
-**Zero runtime dependencies.** Generate self-contained SVG assets that render anywhere—no shields.io, no CDNs, no external requests. Your documentation works offline, forever.
+**Zero runtime dependencies.** Generate self-contained SVG assets that render anywhere—no CDNs, no external requests. Your documentation works offline, forever.
 
 ---
 
@@ -139,11 +139,34 @@ cargo install mdfx-cli
 <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg"> <img alt="" src="assets/swatch_e666c671e27adcb2.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_518ded146f6f965a.svg"> <img alt="" src="assets/swatch_c056f66b5750e2ba.svg"> <img alt="" src="assets/swatch_a9a177f7358a610c.svg">
 </p>
 
-### Tech
+### Tech Badges
+
+Brand-colored badges with Simple Icons. Full customization, no external requests.
 
 <p align="center">
 <img alt="" src="assets/tech_1b97443b792bd7e6.svg"> <img alt="" src="assets/tech_69efe9eff2da4fd7.svg"> <img alt="" src="assets/tech_21484072c3411d76.svg"> <img alt="" src="assets/tech_53a5c31dce78c2bd.svg"> <img alt="" src="assets/tech_43d885144c0e530b.svg"> <img alt="" src="assets/tech_c2dca4dc713a9434.svg">
 </p>
+
+**Connected badge groups** with per-corner control:
+
+<p align="center">
+![](assets/tech_17e033ae2a1decb0.svg)![](assets/tech_a978c4769d4b128d.svg)![](assets/tech_d979be81598c560f.svg)![](assets/tech_44f33b942a79c329.svg)
+</p>
+
+```
+{{ui:tech:rust:corners=left/}}{{ui:tech:typescript:corners=none/}}{{ui:tech:docker:corners=none/}}{{ui:tech:postgresql:corners=right/}}
+```
+
+**Custom styling** — borders, colors, themes:
+
+<p align="center">
+![](assets/tech_dbf2d965f94e2bba.svg) ![](assets/tech_b6e13f26e0f882a0.svg) ![](assets/tech_a48592afb0cc6963.svg) ![](assets/tech_a11f247fc866fc57.svg)
+</p>
+
+```
+{{ui:tech:rust:bg=1a1a2e:border=DEA584:border_width=2/}}
+{{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}}
+```
 
 ---
 
@@ -161,7 +184,7 @@ mdfx build input.md --all-targets
 ```
 
 **Targets:**
-- `github` / `gitlab` → shields.io badges
+- `github` / `gitlab` / `npm` → SVG assets
 - `local` → SVG files
 - `pypi` → Unicode plaintext
 
