@@ -85,8 +85,12 @@ struct TechOptions<'a> {
     corners: Option<[u32; 4]>,
     text_color: Option<&'a str>,
     font: Option<&'a str>,
-    /// Chevron/arrow shape: "first", "middle", "last"
+    /// Chevron/arrow shape: "left", "right", "both"
     chevron: Option<&'a str>,
+    /// Left segment background color (icon area)
+    bg_left: Option<&'a str>,
+    /// Right segment background color (label area)
+    bg_right: Option<&'a str>,
 }
 
 /// Arrow depth constant for chevron badges (how far arrows extend)
@@ -233,6 +237,7 @@ fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> Strin
 /// - Custom corner radius (uniform or per-corner)
 /// - Custom text color and font
 /// - Chevron/arrow shapes for tab-style badges
+/// - Independent segment background colors
 #[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
     name: &str,
@@ -247,6 +252,8 @@ pub fn render_with_options(
     text_color: Option<&str>,
     font: Option<&str>,
     chevron: Option<&str>,
+    bg_left: Option<&str>,
+    bg_right: Option<&str>,
 ) -> String {
     let metrics = super::swatch::SvgMetrics::from_style(style);
     let opts = TechOptions {
@@ -258,6 +265,8 @@ pub fn render_with_options(
         text_color,
         font,
         chevron,
+        bg_left,
+        bg_right,
     };
     let icon_path = get_icon_path(name);
 
@@ -294,8 +303,13 @@ fn render_two_segment(
     let text_y = height / 2 + font_size / 3;
     let rx = opts.rx;
 
-    // Darker shade for right segment
-    let right_bg = darken_color(bg_color, 0.15);
+    // Segment colors: use explicit if provided, otherwise default behavior
+    let left_bg = opts.bg_left.unwrap_or(bg_color);
+    let default_right_bg = darken_color(bg_color, 0.15);
+    let right_bg = opts
+        .bg_right
+        .map(|s| s.to_string())
+        .unwrap_or(default_right_bg);
     let scale = icon_size as f32 / 24.0;
 
     // Text color: use specified, or auto-select based on right segment luminance
@@ -317,37 +331,83 @@ fn render_two_segment(
         String::new()
     };
 
-    // If chevron shape is specified, render as single shape badge with proper overlap
+    // If chevron shape is specified, render as two-segment chevron badge
     if let Some(chevron_type) = opts.chevron {
         let arrow = CHEVRON_ARROW_DEPTH;
-        let (path, has_left, has_right) = chevron_path_with_overlap(
-            if has_left_arrow(chevron_type) { arrow } else { 0.0 },
-            0.0,
-            total_width as f32,
-            height as f32,
-            chevron_type,
-        );
+        let h = height as f32;
+        let center_y = h / 2.0;
 
-        // Calculate viewBox and SVG dimensions to include arrow overflow
-        let vb_x: f32 = 0.0;
+        // Determine arrow directions
+        let has_left_arr = has_left_arrow(chevron_type);
+        let has_right_arr = matches!(chevron_type, "right" | "both");
+
+        // Calculate viewBox dimensions
         let vb_width = total_width as f32
-            + if has_left { arrow } else { 0.0 }
-            + if has_right { arrow } else { 0.0 };
+            + if has_left_arr { arrow } else { 0.0 }
+            + if has_right_arr { arrow } else { 0.0 };
         let svg_width = vb_width as u32;
 
-        // Offset content if there's a left arrow
-        let content_offset = if has_left { arrow } else { 0.0 };
+        // Content offset if there's a left arrow
+        let content_offset = if has_left_arr { arrow } else { 0.0 };
+
+        // Generate two-segment chevron paths
+        let left_x = content_offset;
+        let right_x = content_offset + icon_width as f32;
+
+        // Left segment path (icon area)
+        let left_path = if has_left_arr {
+            // Left arrow shape
+            format!(
+                "M{tip} {cy}L{x} 0H{right}V{h}H{x}L{tip} {cy}Z",
+                tip = 0.0,
+                cy = center_y,
+                x = left_x,
+                right = left_x + icon_width as f32,
+                h = h
+            )
+        } else {
+            // Straight left edge
+            format!(
+                "M{x} 0H{right}V{h}H{x}Z",
+                x = left_x,
+                right = left_x + icon_width as f32,
+                h = h
+            )
+        };
+
+        // Right segment path (label area)
+        let right_path = if has_right_arr {
+            // Right arrow shape
+            format!(
+                "M{x} 0H{base}L{tip} {cy}L{base} {h}H{x}Z",
+                x = right_x,
+                base = right_x + label_width as f32,
+                tip = right_x + label_width as f32 + arrow,
+                cy = center_y,
+                h = h
+            )
+        } else {
+            // Straight right edge
+            format!(
+                "M{x} 0H{right}V{h}H{x}Z",
+                x = right_x,
+                right = right_x + label_width as f32,
+                h = h
+            )
+        };
 
         return format!(
-            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"{} 0 {} {}\">\n\
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
   <path d=\"{}\" fill=\"#{}\"{}/>  \n\
+  <path d=\"{}\" fill=\"#{}\"/>  \n\
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
   <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
-            svg_width, height, vb_x, vb_width, height,
-            path, bg_color, border_attr,
+            svg_width, height, vb_width, height,
+            left_path, left_bg, border_attr,
+            right_path, right_bg,
             icon_x + content_offset, icon_y, scale,
             logo_color, icon_path,
             text_x as f32 + content_offset, text_y, text_color, font_family, font_size, label
@@ -370,7 +430,7 @@ fn render_two_segment(
         (
             format!(
                 "<path d=\"{}\" fill=\"#{}\"{}/>",
-                left_path, bg_color, border_attr
+                left_path, left_bg, border_attr
             ),
             format!("<path d=\"{}\" fill=\"#{}\"/>", right_path, right_bg),
         )
@@ -382,7 +442,7 @@ fn render_two_segment(
   <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"0\"/>",
                 total_width,
                 height,
-                bg_color,
+                left_bg,
                 rx,
                 border_attr,
                 icon_width,
