@@ -16,7 +16,6 @@ The progress bar component is a versatile horizontal bar for displaying percenta
 - [Thumb Shapes](#thumb-shapes)
 - [Thumb Width (Oval/Pill)](#thumb-width-ovalpill)
 - [Complete Examples](#complete-examples)
-- [Backend Differences](#backend-differences)
 - [Tips & Tricks](#tips--tricks)
 
 ---
@@ -366,28 +365,6 @@ Use `thumb_width` to create oval or pill-shaped thumbs:
 | CPU | {{ui:progress:73:width=100:height=12:fill=info:label=true/}} |
 | Memory | {{ui:progress:45:width=100:height=12:fill=success:label=true/}} |
 | Disk | {{ui:progress:88:width=100:height=12:fill=warning:label=true/}} |
-
----
-
-## Backend Differences
-
-### SVG Backend (default)
-
-Full control over all parameters including sliders - generates local `.svg` files with tracks, fills, labels, borders, and thumb indicators:
-
-```bash
-mdfx process template.md --assets-dir assets
-```
-
-### Shields Backend (legacy)
-
-Uses shields.io badges. Limited features - shows percentage as text badge:
-
-```bash
-mdfx process template.md --backend shields
-```
-
-**Note:** Shields backend doesn't support visual progress bars or sliders.
 
 ---
 

@@ -22,7 +22,6 @@ Donut and gauge components are circular visualizations perfect for dashboards, c
   - [Gauge Slider Mode](#gauge-slider-mode)
 - [Thumb Customization](#thumb-customization)
 - [Complete Examples](#complete-examples)
-- [Backend Differences](#backend-differences)
 
 ---
 
@@ -416,28 +415,6 @@ Same data, different visualizations:
 | API | {{ui:donut:85:size=36:thickness=5:fill=success/}} | {{ui:gauge:85:size=60:thickness=6:fill=success/}} | {{ui:progress:85:width=80:fill=success/}} |
 | Tests | {{ui:donut:72:size=36:thickness=5:fill=info/}} | {{ui:gauge:72:size=60:thickness=6:fill=info/}} | {{ui:progress:72:width=80:fill=info/}} |
 | Docs | {{ui:donut:45:size=36:thickness=5:fill=warning/}} | {{ui:gauge:45:size=60:thickness=6:fill=warning/}} | {{ui:progress:45:width=80:fill=warning/}} |
-
----
-
-## Backend Differences
-
-### SVG Backend (default)
-
-Full circular rendering with all features - generates local `.svg` files with arcs, labels, and thumb indicators:
-
-```bash
-mdfx process template.md --assets-dir assets
-```
-
-### Shields Backend (legacy)
-
-Uses shields.io badges. Limited to percentage text:
-
-```bash
-mdfx process template.md --backend shields
-```
-
-**Note:** Shields backend doesn't support circular visuals, only text badges.
 
 ---
 
