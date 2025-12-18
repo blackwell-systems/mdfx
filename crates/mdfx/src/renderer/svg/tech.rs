@@ -85,6 +85,69 @@ struct TechOptions<'a> {
     corners: Option<[u32; 4]>,
     text_color: Option<&'a str>,
     font: Option<&'a str>,
+    /// Chevron/arrow shape: "first", "middle", "last"
+    chevron: Option<&'a str>,
+}
+
+/// Generate SVG path for a chevron/arrow shaped badge
+/// - "first": flat left edge, pointed right edge
+/// - "middle": indent on left, pointed right edge
+/// - "last": indent on left, flat right edge
+fn chevron_path(x: f32, y: f32, w: f32, h: f32, chevron_type: &str) -> String {
+    let arrow_depth = 10.0_f32; // How far the point extends
+    let center_y = h / 2.0;
+
+    match chevron_type {
+        "first" => {
+            // Flat left, pointed right
+            format!(
+                "M{x} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{x}Z",
+                x = x,
+                y = y,
+                right_base = x + w - arrow_depth,
+                right_tip = x + w,
+                center = y + center_y,
+                bottom = y + h
+            )
+        }
+        "middle" => {
+            // Indent left (to receive previous arrow), pointed right
+            format!(
+                "M{left_base} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{left_base}L{left_indent} {center}Z",
+                left_base = x + arrow_depth,
+                y = y,
+                right_base = x + w - arrow_depth,
+                right_tip = x + w,
+                center = y + center_y,
+                bottom = y + h,
+                left_indent = x
+            )
+        }
+        "last" => {
+            // Indent left, flat right
+            format!(
+                "M{left_base} {y}H{right}V{bottom}H{left_base}L{left_indent} {center}Z",
+                left_base = x + arrow_depth,
+                y = y,
+                right = x + w,
+                bottom = y + h,
+                left_indent = x,
+                center = y + center_y
+            )
+        }
+        _ => {
+            // Default to "first" style
+            format!(
+                "M{x} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{x}Z",
+                x = x,
+                y = y,
+                right_base = x + w - arrow_depth,
+                right_tip = x + w,
+                center = y + center_y,
+                bottom = y + h
+            )
+        }
+    }
 }
 
 /// Generate SVG path for a rectangle with per-corner radii
@@ -148,6 +211,7 @@ fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> Strin
 /// - Custom border color and width
 /// - Custom corner radius (uniform or per-corner)
 /// - Custom text color and font
+/// - Chevron/arrow shapes for tab-style badges
 #[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
     name: &str,
@@ -161,6 +225,7 @@ pub fn render_with_options(
     corners: Option<[u32; 4]>,
     text_color: Option<&str>,
     font: Option<&str>,
+    chevron: Option<&str>,
 ) -> String {
     let metrics = super::swatch::SvgMetrics::from_style(style);
     let opts = TechOptions {
@@ -171,6 +236,7 @@ pub fn render_with_options(
         metrics,
         text_color,
         font,
+        chevron,
     };
     let icon_path = get_icon_path(name);
 
@@ -229,6 +295,25 @@ fn render_two_segment(
     } else {
         String::new()
     };
+
+    // If chevron shape is specified, render as single shape badge
+    if let Some(chevron_type) = opts.chevron {
+        let path = chevron_path(0.0, 0.0, total_width as f32, height as f32, chevron_type);
+        return format!(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  <path d=\"{}\" fill=\"#{}\"{}/>  \n\
+  <g transform=\"translate({}, {}) scale({})\">\n\
+    <path fill=\"#{}\" d=\"{}\"/>\n\
+  </g>\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+</svg>",
+            total_width, height, total_width, height,
+            path, bg_color, border_attr,
+            icon_x, icon_y, scale,
+            logo_color, icon_path,
+            text_x, text_y, text_color, font_family, font_size, label
+        );
+    }
 
     // Generate left and right segments based on corners
     let (left_segment, right_segment) = if let Some([tl, tr, br, bl]) = opts.corners {
@@ -295,7 +380,7 @@ fn render_two_segment(
     )
 }
 
-/// Generate background SVG element - rect or path based on corners
+/// Generate background SVG element - rect, path, or chevron based on options
 fn render_bg_element(
     x: f32,
     y: f32,
@@ -304,8 +389,15 @@ fn render_bg_element(
     color: &str,
     rx: u32,
     corners: Option<[u32; 4]>,
+    chevron: Option<&str>,
     extra_attrs: &str,
 ) -> String {
+    // If chevron shape is specified, use that
+    if let Some(chevron_type) = chevron {
+        let path = chevron_path(x, y, width, height, chevron_type);
+        return format!("<path d=\"{}\" fill=\"#{}\"{}/>", path, color, extra_attrs);
+    }
+
     if let Some(c) = corners {
         // Use path for per-corner radii
         let path = rounded_rect_path(x, y, width, height, c);
@@ -372,6 +464,7 @@ fn render_icon_only(
         bg_color,
         opts.rx,
         opts.corners,
+        opts.chevron,
         &border_attr,
     );
 
@@ -416,6 +509,7 @@ fn render_text_only(name: &str, label: Option<&str>, bg_color: &str, opts: &Tech
         bg_color,
         opts.rx,
         opts.corners,
+        opts.chevron,
         &border_attr,
     );
 

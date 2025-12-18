@@ -244,6 +244,7 @@ mod tests {
             text_color: None,
             font: None,
             source: None,
+            chevron: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust]");
@@ -265,6 +266,7 @@ mod tests {
             text_color: None,
             font: None,
             source: None,
+            chevron: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust | v1.80]");

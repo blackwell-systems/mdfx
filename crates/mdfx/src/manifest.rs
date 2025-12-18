@@ -340,6 +340,7 @@ mod tests {
             text_color: None,
             font: None,
             source: None,
+            chevron: None,
         };
 
         let info = PrimitiveInfo::from(&primitive);
