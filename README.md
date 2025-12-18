@@ -204,14 +204,16 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 {{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}}
 ```
 
-**Chevron badges** — pointed tab-style badges that overlap:
+**Chevron badges** — pointed arrow shapes:
 
 <p align="center">
-<img alt="" style="margin-right: -10px" src="assets/mdfx/tech_1a60b131886928dd.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_d8962ace30e5e4c3.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_f89ed453eca99754.svg"><img alt="" style="margin-left: -10px" src="assets/mdfx/tech_ec20ec94318a26a2.svg">
+<img alt="" style="margin-right: -10px" src="assets/mdfx/tech_d908ee031bc5156.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_345b6406064bfe8b.svg"><img alt="" style="margin-left: -10px; margin-right: -10px" src="assets/mdfx/tech_5eb8682d9e2bc5fe.svg"><img alt="" style="margin-left: -10px" src="assets/mdfx/tech_972b1d4a83b10d58.svg">
 </p>
 
 ```
-{{ui:tech:rust:chevron=first/}}{{ui:tech:typescript:chevron=middle/}}{{ui:tech:docker:chevron=middle/}}{{ui:tech:postgresql:chevron=last/}}
+{{ui:tech:rust:chevron=right/}}      <!-- right arrow → -->
+{{ui:tech:typescript:chevron=both/}} <!-- ← both arrows → -->
+{{ui:tech:postgresql:chevron=left/}} <!-- ← left arrow -->
 ```
 
 ---

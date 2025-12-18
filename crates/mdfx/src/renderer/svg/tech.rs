@@ -93,15 +93,13 @@ struct TechOptions<'a> {
 const CHEVRON_ARROW_DEPTH: f32 = 10.0;
 
 /// Generate SVG path for a chevron/arrow shaped badge
-/// - "left": left-pointing arrow that extends backward to overlap previous badge
-/// - "right": right-pointing arrow that extends forward to overlap next badge
-/// - "both": arrows on both sides
-/// - "first": synonym for "right" (starting badge with right arrow)
-/// - "middle": synonym for "both" (middle badge with arrows both directions)
-/// - "last": synonym for "left" (ending badge with left arrow)
 ///
-/// Returns (path, needs_left_overlap, needs_right_overlap) where the booleans
-/// indicate whether negative margins are needed for overlap effect.
+/// Options:
+/// - "left": left-pointing arrow only
+/// - "right": right-pointing arrow only
+/// - "both": arrows on both sides
+///
+/// Returns (path, has_left_arrow, has_right_arrow)
 fn chevron_path_with_overlap(x: f32, y: f32, w: f32, h: f32, chevron_type: &str) -> (String, bool, bool) {
     let arrow = CHEVRON_ARROW_DEPTH;
     let center_y = h / 2.0;
@@ -109,8 +107,8 @@ fn chevron_path_with_overlap(x: f32, y: f32, w: f32, h: f32, chevron_type: &str)
     let bottom = y + h;
 
     match chevron_type {
-        // Left-pointing arrow: overlaps the badge to the left
-        "left" | "last" => {
+        // Left-pointing arrow only
+        "left" => {
             let path = format!(
                 "M{arrow_tip} {center}L{x} {y}H{right}V{bottom}H{x}L{arrow_tip} {center}Z",
                 arrow_tip = x - arrow,
@@ -120,10 +118,10 @@ fn chevron_path_with_overlap(x: f32, y: f32, w: f32, h: f32, chevron_type: &str)
                 right = x + w,
                 bottom = bottom
             );
-            (path, true, false) // needs left overlap margin
+            (path, true, false)
         }
-        // Right-pointing arrow: overlaps the badge to the right
-        "right" | "first" => {
+        // Right-pointing arrow only
+        "right" => {
             let path = format!(
                 "M{x} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{x}Z",
                 x = x,
@@ -133,10 +131,10 @@ fn chevron_path_with_overlap(x: f32, y: f32, w: f32, h: f32, chevron_type: &str)
                 center = center,
                 bottom = bottom
             );
-            (path, false, true) // needs right overlap margin
+            (path, false, true)
         }
-        // Both directions: arrows on left and right
-        "both" | "middle" => {
+        // Both directions
+        "both" => {
             let path = format!(
                 "M{left_tip} {center}L{x} {y}H{right_base}L{right_tip} {center}L{right_base} {bottom}H{x}L{left_tip} {center}Z",
                 left_tip = x - arrow,
@@ -147,7 +145,7 @@ fn chevron_path_with_overlap(x: f32, y: f32, w: f32, h: f32, chevron_type: &str)
                 right_tip = x + w + arrow,
                 bottom = bottom
             );
-            (path, true, true) // needs both overlap margins
+            (path, true, true)
         }
         // No chevron - plain rectangle
         _ => {
@@ -170,12 +168,12 @@ fn chevron_path(x: f32, y: f32, w: f32, h: f32, chevron_type: &str) -> String {
 
 /// Check if chevron type has a left-pointing arrow
 fn has_left_arrow(chevron_type: &str) -> bool {
-    matches!(chevron_type, "left" | "last" | "both" | "middle")
+    matches!(chevron_type, "left" | "both")
 }
 
 /// Check if chevron type has a right-pointing arrow
 fn has_right_arrow(chevron_type: &str) -> bool {
-    matches!(chevron_type, "right" | "first" | "both" | "middle")
+    matches!(chevron_type, "right" | "both")
 }
 
 /// Generate SVG path for a rectangle with per-corner radii

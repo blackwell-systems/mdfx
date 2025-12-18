@@ -204,14 +204,16 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 {{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}}
 ```
 
-**Chevron badges** — pointed tab-style badges that overlap:
+**Chevron badges** — pointed arrow shapes:
 
 {{ui:row}}
-{{ui:tech:rust:chevron=first/}}{{ui:tech:typescript:chevron=middle/}}{{ui:tech:docker:chevron=middle/}}{{ui:tech:postgresql:chevron=last/}}
+{{ui:tech:rust:chevron=right/}}{{ui:tech:typescript:chevron=both/}}{{ui:tech:docker:chevron=both/}}{{ui:tech:postgresql:chevron=left/}}
 {{/ui}}
 
 ```
-{{ui:tech:rust:chevron=first/}}{{ui:tech:typescript:chevron=middle/}}{{ui:tech:docker:chevron=middle/}}{{ui:tech:postgresql:chevron=last/}}
+{{ui:tech:rust:chevron=right/}}      <!-- right arrow → -->
+{{ui:tech:typescript:chevron=both/}} <!-- ← both arrows → -->
+{{ui:tech:postgresql:chevron=left/}} <!-- ← left arrow -->
 ```
 
 ---

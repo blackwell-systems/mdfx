@@ -553,8 +553,9 @@ impl Renderer for SvgBackend {
                 Primitive::Tech { chevron: Some(chevron_type), .. } => {
                     // Add alt-text hints for CSS margins when used in ui:row
                     // ml-10 = margin-left: -10px, mr-10 = margin-right: -10px
-                    let has_left = matches!(chevron_type.as_str(), "left" | "last" | "both" | "middle");
-                    let has_right = matches!(chevron_type.as_str(), "right" | "first" | "both" | "middle");
+                    // Note: GitHub strips inline styles, so overlap only works locally
+                    let has_left = matches!(chevron_type.as_str(), "left" | "both");
+                    let has_right = matches!(chevron_type.as_str(), "right" | "both");
                     let alt = match (has_left, has_right) {
                         (true, true) => "ml-10 mr-10",
                         (true, false) => "ml-10",
