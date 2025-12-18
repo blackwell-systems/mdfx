@@ -262,7 +262,7 @@ fn render_two_segment(
     )
 }
 
-/// Render icon-only badge
+/// Render icon-only badge (matching original mdfx)
 fn render_icon_only(badge: &TechBadge, icon_path: &str, bg_color: &str, logo_color: &str) -> String {
     let metrics = SvgMetrics::from_style(badge.style);
     let height = metrics.height as u32;
@@ -279,7 +279,7 @@ fn render_icon_only(badge: &TechBadge, icon_path: &str, bg_color: &str, logo_col
 
     let border_attr = get_border_attr(badge);
 
-    // Generate background
+    // Generate background using render_bg_element logic (single rect for uniform rx)
     let bg = if let Some(corners) = &badge.corners {
         let c = [
             corners.top_left,
@@ -293,17 +293,23 @@ fn render_icon_only(badge: &TechBadge, icon_path: &str, bg_color: &str, logo_col
             bg_color,
             border_attr
         )
-    } else {
+    } else if rx > 0 {
+        // Single rect with uniform radius (matching original)
         format!(
-            "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
-  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"0\"/>",
-            width, height, bg_color, rx, border_attr, 0, width, height, bg_color
+            "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n",
+            width, height, bg_color, rx, border_attr
+        )
+    } else {
+        // Square corners
+        format!(
+            "<rect width=\"{}\" height=\"{}\" fill=\"#{}\"{}/>\n",
+            width, height, bg_color, border_attr
         )
     };
 
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  {}\n\
+  {}\
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
@@ -312,7 +318,7 @@ fn render_icon_only(badge: &TechBadge, icon_path: &str, bg_color: &str, logo_col
     )
 }
 
-/// Render text-only badge
+/// Render text-only badge (matching original mdfx)
 fn render_text_only(badge: &TechBadge, label: &str, bg_color: &str) -> String {
     let metrics = SvgMetrics::from_style(badge.style);
     let height = metrics.height as u32;
@@ -325,14 +331,9 @@ fn render_text_only(badge: &TechBadge, label: &str, bg_color: &str) -> String {
         .map(|c| c.top_left)
         .unwrap_or(metrics.radius as u32);
 
-    let text_color = badge
-        .text_color
-        .as_deref()
-        .map(|c| c.trim_start_matches('#'))
-        .unwrap_or_else(|| get_logo_color_for_bg(bg_color));
-
     let border_attr = get_border_attr(badge);
 
+    // Generate background using render_bg_element logic
     let bg = if let Some(corners) = &badge.corners {
         let c = [
             corners.top_left,
@@ -346,18 +347,25 @@ fn render_text_only(badge: &TechBadge, label: &str, bg_color: &str) -> String {
             bg_color,
             border_attr
         )
-    } else {
+    } else if rx > 0 {
+        // Single rect with uniform radius (matching original)
         format!(
-            "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
-  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"0\"/>",
-            width, height, bg_color, rx, border_attr, 0, width, height, bg_color
+            "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n",
+            width, height, bg_color, rx, border_attr
+        )
+    } else {
+        // Square corners
+        format!(
+            "<rect width=\"{}\" height=\"{}\" fill=\"#{}\"{}/>\n",
+            width, height, bg_color, border_attr
         )
     };
 
+    // Original uses hardcoded white fill
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  {}\n\
-  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"Verdana,Arial,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+  {}\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Verdana,Arial,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
         width,
         height,
@@ -366,7 +374,6 @@ fn render_text_only(badge: &TechBadge, label: &str, bg_color: &str) -> String {
         bg,
         width / 2,
         text_y,
-        text_color,
         font_size,
         label.to_uppercase()
     )
@@ -575,14 +582,18 @@ fn render_outline_text_only(badge: &TechBadge, label: &str, brand_color: &str) -
     )
 }
 
-/// Estimate text width in pixels (rough approximation)
+/// Estimate text width in pixels (matching original mdfx)
 fn estimate_text_width(text: &str) -> u32 {
-    (text.chars().count() as f32 * 6.5) as u32
+    // Approximate 7px per character for Verdana 11px
+    (text.len() as u32 * 7).max(20)
 }
 
-/// Darken a hex color by the specified amount
+/// Darken a hex color by the specified amount (returns without # prefix)
 fn darken_color(hex: &str, amount: f32) -> String {
+    // mdfx_colors::darken returns with # prefix, but we need without for consistency
     mdfx_colors::darken(hex, amount)
+        .trim_start_matches('#')
+        .to_string()
 }
 
 /// Get the ideal logo color (white or black) for contrast against background
@@ -655,8 +666,9 @@ mod tests {
 
     #[test]
     fn test_estimate_text_width() {
-        assert_eq!(estimate_text_width("Rust"), 26); // 4 chars * 6.5
-        assert_eq!(estimate_text_width("TypeScript"), 65); // 10 chars * 6.5
+        assert_eq!(estimate_text_width("Rust"), 28); // 4 chars * 7
+        assert_eq!(estimate_text_width("TypeScript"), 70); // 10 chars * 7
+        assert_eq!(estimate_text_width("ab"), 20); // min 20
     }
 
     #[test]
