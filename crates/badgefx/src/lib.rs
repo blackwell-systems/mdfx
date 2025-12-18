@@ -6,7 +6,7 @@
 //! ## Quick Start
 //! 
 //! ```rust
-//! use badgery::{badge, BadgeStyle};
+//! use badgefx::{badge, BadgeStyle};
 //! 
 //! // Simple badge with defaults
 //! let svg = badge("rust").render();
@@ -52,7 +52,7 @@ pub use render::{render, render_to_file};
 /// # Examples
 /// 
 /// ```
-/// use badgery::badge;
+/// use badgefx::badge;
 /// 
 /// let svg = badge("rust")
 ///     .label("Rust 1.70")
@@ -67,7 +67,7 @@ pub fn badge(name: &str) -> BadgeBuilder {
 /// # Examples
 /// 
 /// ```
-/// use badgery::simple_badge;
+/// use badgefx::simple_badge;
 /// 
 /// let rust_badge = simple_badge("rust");
 /// let typescript_badge = simple_badge("typescript");

@@ -5,7 +5,7 @@ members = [
     "crates/mdfx-cli",
     "crates/mdfx-colors",
     "crates/mdfx-icons", 
-    "crates/badgery",
+    "crates/badgefx",
 ]
 
 [workspace.package]

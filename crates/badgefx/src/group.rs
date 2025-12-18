@@ -18,7 +18,7 @@
 /// # Examples
 /// 
 /// ```rust
-/// use badgery::group::corner_radii_for_position;
+/// use badgefx::group::corner_radii_for_position;
 /// 
 /// // First badge in a row - rounded left, square right
 /// let radii = corner_radii_for_position("first", 4);
@@ -62,7 +62,7 @@ pub fn corner_radii_for_position(position: &str, base_radius: u32) -> [u32; 4] {
 /// # Examples
 /// 
 /// ```rust
-/// use badgery::group::position_in_group;
+/// use badgefx::group::position_in_group;
 /// 
 /// // Single badge
 /// assert_eq!(position_in_group(0, 1), "single");
@@ -128,7 +128,7 @@ pub fn badge_spacing(style: &str, total_badges: usize) -> u32 {
 /// # Examples
 ///
 /// ```rust
-/// use badgery::group::group_badges_svg;
+/// use badgefx::group::group_badges_svg;
 ///
 /// let badges = vec![
 ///     r#"<svg width="50" height="20">badge1</svg>"#.to_string(),

@@ -7,7 +7,7 @@ Extract badge functionality from mdfx into a standalone crate for independent us
 ## Crate Naming
 
 **Candidates:**
-- `badgery` - memorable, "badge factory" feel
+- `badgefx` - memorable, "badge factory" feel
 - `escutcheon` - heraldic shield term, likely available
 
 ---
@@ -19,12 +19,12 @@ Layered extraction for maximum reuse:
 ```
 mdfx-colors (tiny)     →  color utilities, luminance, hex parsing
 mdfx-icons (medium)    →  Simple Icons SVG paths, brand colors
-badgery (main)         →  tech badges, uses above + optional glyphs
+badgefx (main)         →  tech badges, uses above + optional glyphs
 ```
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      badgery crate                          │
+│                      badgefx crate                          │
 ├─────────────────────────────────────────────────────────────┤
 │  pub mod badge      - TechBadge struct                      │
 │  pub mod style      - SvgMetrics, badge styles              │
@@ -112,14 +112,14 @@ pub fn list_brands() -> &'static [&'static str];
 
 ## Phase 3: Create Badge Crate
 
-**Crate:** `badgery`
+**Crate:** `badgefx`
 **Size:** ~1,200 lines
 **Complexity:** Medium
 
 ### Directory Structure
 
 ```
-crates/badgery/
+crates/badgefx/
 ├── Cargo.toml
 └── src/
     ├── lib.rs           # Public API, re-exports
@@ -133,7 +133,7 @@ crates/badgery/
 
 ### Tasks
 
-- [ ] Create `crates/badgery/Cargo.toml` with features
+- [ ] Create `crates/badgefx/Cargo.toml` with features
 - [ ] Define `TechBadge` struct (extracted from `Primitive::Tech`):
   ```rust
   pub struct TechBadge {
@@ -183,7 +183,7 @@ pub fn render_to_file(badge: &TechBadge, path: &Path) -> io::Result<()>;
 pub fn badge(name: &str) -> BadgeBuilder;
 
 // Example usage:
-let svg = badgery::badge("rust")
+let svg = badgefx::badge("rust")
     .label("v1.80")
     .style(BadgeStyle::FlatSquare)
     .raised(4)
@@ -211,10 +211,10 @@ mdfx-icons = { version = "1.0", path = "../mdfx-icons" }
 
 ### Tasks
 
-- [ ] Add `badgery` as dependency in `mdfx/Cargo.toml`
-- [ ] Update `Primitive::Tech` to use `badgery::TechBadge` internally or convert
+- [ ] Add `badgefx` as dependency in `mdfx/Cargo.toml`
+- [ ] Update `Primitive::Tech` to use `badgefx::TechBadge` internally or convert
 - [ ] Update tech handler to construct `TechBadge`
-- [ ] Update SVG renderer to call `badgery::render()`
+- [ ] Update SVG renderer to call `badgefx::render()`
 - [ ] Ensure backward compatibility for existing mdfx users
 - [ ] Update tests
 - [ ] Update documentation
@@ -222,9 +222,9 @@ mdfx-icons = { version = "1.0", path = "../mdfx-icons" }
 ### Integration Points
 
 1. **Component Dispatch** - route "tech" to handler that builds `TechBadge`
-2. **Primitive Rendering** - dispatch `Tech` variant to `badgery::render()`
+2. **Primitive Rendering** - dispatch `Tech` variant to `badgefx::render()`
 3. **Color Resolution** - pass palette colors through to badge builder
-4. **Glyph Expansion** - mdfx expands `{{glyph:...}}` before passing label to badgery
+4. **Glyph Expansion** - mdfx expands `{{glyph:...}}` before passing label to badgefx
 
 ---
 
@@ -274,13 +274,13 @@ pub mod glyphs {
 
 | Source (mdfx) | Destination | Lines |
 |---------------|-------------|-------|
-| `primitive.rs` (Tech variant) | `badgery/src/badge.rs` | 38 |
-| `handlers/tech.rs` | `badgery/src/badge.rs` (builder) | 147 |
-| `handlers/tech_group.rs` | `badgery/src/group.rs` | 157 |
-| `renderer/svg/tech.rs` | `badgery/src/render.rs` + `shapes.rs` | 934 |
+| `primitive.rs` (Tech variant) | `badgefx/src/badge.rs` | 38 |
+| `handlers/tech.rs` | `badgefx/src/badge.rs` (builder) | 147 |
+| `handlers/tech_group.rs` | `badgefx/src/group.rs` | 157 |
+| `renderer/svg/tech.rs` | `badgefx/src/render.rs` + `shapes.rs` | 934 |
 | `renderer/svg/tech.rs` (colors) | `mdfx-colors/src/lib.rs` | 150 |
 | `renderer/svg/tech.rs` (icons) | `mdfx-icons/src/lib.rs` | 700 |
-| `registry.json` (glyphs) | `badgery/src/glyphs.rs` | 200 |
+| `registry.json` (glyphs) | `badgefx/src/glyphs.rs` | 200 |
 | **Total** | | **~2,300** |
 
 ---
@@ -299,9 +299,9 @@ pub mod glyphs {
 
 ## Success Criteria
 
-- [ ] `badgery` compiles and passes tests independently
+- [ ] `badgefx` compiles and passes tests independently
 - [ ] Can render badges without mdfx dependency
-- [ ] mdfx still works with badges via badgery
+- [ ] mdfx still works with badges via badgefx
 - [ ] All existing tech badge tests pass
 - [ ] Builder API is ergonomic
 - [ ] Documentation with examples
@@ -312,7 +312,7 @@ pub mod glyphs {
 ## Example Usage (Final API)
 
 ```rust
-use badgery::{badge, BadgeStyle};
+use badgefx::{badge, BadgeStyle};
 
 // Simple badge
 let svg = badge("rust").render();
@@ -335,5 +335,5 @@ badge("docker")
 
 // With glyphs (requires "glyphs" feature)
 #[cfg(feature = "glyphs")]
-let label = format!("{} Rust", badgery::glyphs::get("star.filled").unwrap());
+let label = format!("{} Rust", badgefx::glyphs::get("star.filled").unwrap());
 ```
