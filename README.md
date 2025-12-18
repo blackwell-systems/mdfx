@@ -150,7 +150,7 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 **Connected badge groups** with per-corner control:
 
 <p align="center">
-![](assets/tech_17e033ae2a1decb0.svg)![](assets/tech_a978c4769d4b128d.svg)![](assets/tech_d979be81598c560f.svg)![](assets/tech_44f33b942a79c329.svg)
+<img alt="" src="assets/tech_17e033ae2a1decb0.svg"><img alt="" src="assets/tech_a978c4769d4b128d.svg"><img alt="" src="assets/tech_d979be81598c560f.svg"><img alt="" src="assets/tech_44f33b942a79c329.svg">
 </p>
 
 ```
@@ -160,7 +160,7 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 **Custom styling** — borders, colors, themes:
 
 <p align="center">
-![](assets/tech_dbf2d965f94e2bba.svg) ![](assets/tech_b6e13f26e0f882a0.svg) ![](assets/tech_a48592afb0cc6963.svg) ![](assets/tech_a11f247fc866fc57.svg)
+<img alt="" src="assets/tech_dbf2d965f94e2bba.svg"> <img alt="" src="assets/tech_b6e13f26e0f882a0.svg"> <img alt="" src="assets/tech_a48592afb0cc6963.svg"> <img alt="" src="assets/tech_a11f247fc866fc57.svg">
 </p>
 
 ```
