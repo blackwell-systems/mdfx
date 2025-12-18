@@ -306,23 +306,23 @@ Built-in palette colors:
 
 ## Backend Differences
 
-### Shields Backend (default)
+### SVG Backend (default)
+
+Full control over all parameters - generates local `.svg` files with custom dimensions, opacity, borders, labels, and icons:
+
+```bash
+mdfx process template.md --assets-dir assets
+```
+
+### Shields Backend (legacy)
 
 Uses shields.io badges. Limited to basic color and style:
 
 ```bash
-mdfx process template.md
+mdfx process template.md --backend shields
 ```
 
-### SVG Backend
-
-Full control over all parameters:
-
-```bash
-mdfx process template.md --backend svg --assets-dir assets
-```
-
-Generates local `.svg` files with custom dimensions, opacity, borders, labels, and icons.
+**Note:** Shields backend doesn't support custom dimensions, opacity, borders, or labels.
 
 ---
 

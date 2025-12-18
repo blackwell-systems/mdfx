@@ -421,23 +421,23 @@ Same data, different visualizations:
 
 ## Backend Differences
 
-### Shields Backend (default)
+### SVG Backend (default)
+
+Full circular rendering with all features - generates local `.svg` files with arcs, labels, and thumb indicators:
+
+```bash
+mdfx process template.md --assets-dir assets
+```
+
+### Shields Backend (legacy)
 
 Uses shields.io badges. Limited to percentage text:
 
 ```bash
-mdfx process template.md
+mdfx process template.md --backend shields
 ```
 
-### SVG Backend
-
-Full circular rendering with all features:
-
-```bash
-mdfx process template.md --backend svg --assets-dir assets
-```
-
-Generates local `.svg` files with arcs, labels, and thumb indicators.
+**Note:** Shields backend doesn't support circular visuals, only text badges.
 
 ---
 
