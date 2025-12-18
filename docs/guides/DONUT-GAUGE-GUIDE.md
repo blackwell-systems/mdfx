@@ -22,7 +22,6 @@ Donut and gauge components are circular visualizations perfect for dashboards, c
   - [Gauge Slider Mode](#gauge-slider-mode)
 - [Thumb Customization](#thumb-customization)
 - [Complete Examples](#complete-examples)
-- [Backend Differences](#backend-differences)
 
 ---
 
@@ -416,28 +415,6 @@ Same data, different visualizations:
 | API | ![](assets/donut-gauge-guide/donut_f93d19d3265f9216.svg) | ![](assets/donut-gauge-guide/gauge_baca01a9bb105e80.svg) | ![](assets/donut-gauge-guide/progress_e7f5b75bbf0a1a9e.svg) |
 | Tests | ![](assets/donut-gauge-guide/donut_9d69435c4383e4fe.svg) | ![](assets/donut-gauge-guide/gauge_8f94c8a55d793b6e.svg) | ![](assets/donut-gauge-guide/progress_1dcb85164099b0a.svg) |
 | Docs | ![](assets/donut-gauge-guide/donut_faab25effff769cd.svg) | ![](assets/donut-gauge-guide/gauge_96adc6bc8e44a1e7.svg) | ![](assets/donut-gauge-guide/progress_a41686b9cb0a298a.svg) |
-
----
-
-## Backend Differences
-
-### SVG Backend (default)
-
-Full circular rendering with all features - generates local `.svg` files with arcs, labels, and thumb indicators:
-
-```bash
-mdfx process template.md --assets-dir assets
-```
-
-### Shields Backend (legacy)
-
-Uses shields.io badges. Limited to percentage text:
-
-```bash
-mdfx process template.md --backend shields
-```
-
-**Note:** Shields backend doesn't support circular visuals, only text badges.
 
 ---
 
