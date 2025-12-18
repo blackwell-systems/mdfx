@@ -3,6 +3,9 @@ resolver = "2"
 members = [
     "crates/mdfx",
     "crates/mdfx-cli",
+    "crates/mdfx-colors",
+    "crates/mdfx-icons", 
+    "crates/badgery",
 ]
 
 [workspace.package]

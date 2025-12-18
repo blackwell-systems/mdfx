@@ -1,0 +1,14 @@
+[package]
+name = "mdfx-icons"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+repository.workspace = true
+license.workspace = true
+homepage.workspace = true
+description = "Simple Icons library for badge generation - SVG paths and brand colors"
+keywords = ["icons", "svg", "badges", "brands", "simple-icons"]
+categories = ["graphics", "multimedia::images"]
+
+[dependencies]
+mdfx-colors = { version = "1.0", path = "../mdfx-colors" }
