@@ -280,6 +280,19 @@ Comprehensive function-by-function audit of badgefx vs original mdfx tech render
 
 All fixes verified: 33 badgefx tests pass, 71 showcase assets produce identical hashes.
 
+#### Path-Based Rendering Inner Border Fix
+
+Fixed inconsistent behavior where path-based rendering (used when `rx` or `corners` parameters are specified) would incorrectly show an inner border at the segment boundary, while rect-based rendering did not.
+
+**Before:** Using `rx=3` or custom `corners` caused a visible dividing line between icon and label segments (because the stroke was applied to all edges of the left path, including the inner edge).
+
+**After:** Path-based rendering now uses the same 3-layer technique as rect-based rendering:
+1. Full-width background path with border
+2. Right segment overlay hides inner border portion
+3. Corner patch restores rounded corners on right side
+
+This ensures consistent behavior - the inner border only appears when explicitly requested via `divider=true`.
+
 #### Outline/Ghost Style
 
 Border-only badges with transparent fill for a sleek outline appearance:
