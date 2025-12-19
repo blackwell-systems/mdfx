@@ -439,12 +439,30 @@ The `tech-group` component creates seamless badge groups by auto-applying corner
 
 ## Complete Examples
 
-### Tech Stack & Neon Themes
+### Tech Stack Showcase
 
-| Theme | Syntax | Rendered |
-|-------|--------|----------|
-| **Brand Colors** | `{{ui:tech:rust/}} {{ui:tech:typescript/}} ...` | ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_9fa73146667d5e15.svg) ![](assets/tech-guide/tech_c10aebf597ab6c36.svg) ![](assets/tech-guide/tech_c5447bd8d58564dc.svg) ![](assets/tech-guide/tech_b21a0f458da62fc6.svg) |
-| **Neon Cyberpunk** | `{{ui:tech:react:bg=0D0D0D:logo=61DAFB:border=61DAFB:border_width=1:rx=3/}}` | ![](assets/tech-guide/tech_7afa33bf244b19ed.svg) ![](assets/tech-guide/tech_9d1e7d272d4a13a1.svg) ![](assets/tech-guide/tech_6eca811359f744ed.svg) ![](assets/tech-guide/tech_876eb0e45096fd40.svg) |
+Display your project's tech stack with brand colors:
+
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust/}}` | ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) |
+| `{{ui:tech:typescript/}}` | ![](assets/tech-guide/tech_9fa73146667d5e15.svg) |
+| `{{ui:tech:docker/}}` | ![](assets/tech-guide/tech_c10aebf597ab6c36.svg) |
+| `{{ui:tech:postgresql/}}` | ![](assets/tech-guide/tech_c5447bd8d58564dc.svg) |
+| `{{ui:tech:redis/}}` | ![](assets/tech-guide/tech_b21a0f458da62fc6.svg) |
+
+---
+
+### Neon Cyberpunk Theme
+
+Bright logos on dark backgrounds with matching borders:
+
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:react:bg=0D0D0D:logo=61DAFB:border=61DAFB:border_width=1:rx=3/}}` | ![](assets/tech-guide/tech_7afa33bf244b19ed.svg) |
+| `{{ui:tech:typescript:bg=0D0D0D:logo=3178C6:border=3178C6:border_width=1:rx=3/}}` | ![](assets/tech-guide/tech_9d1e7d272d4a13a1.svg) |
+| `{{ui:tech:nodejs:bg=0D0D0D:logo=339933:border=339933:border_width=1:rx=3/}}` | ![](assets/tech-guide/tech_6eca811359f744ed.svg) |
+| `{{ui:tech:mongodb:bg=0D0D0D:logo=47A248:border=47A248:border_width=1:rx=3/}}` | ![](assets/tech-guide/tech_876eb0e45096fd40.svg) |
 
 ---
 
@@ -488,12 +506,29 @@ Define team responsibilities with tech stacks:
 
 ---
 
-### Monochrome & Gradient Themes
+### Sleek Monochrome
 
-| Theme | Syntax | Rendered |
-|-------|--------|----------|
-| **Sleek Monochrome** | `{{ui:tech:rust:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}` | ![](assets/tech-guide/tech_25ea36b6520cb9e0.svg) ![](assets/tech-guide/tech_86f49608d0cd1455.svg) ![](assets/tech-guide/tech_917e8b9d013e7635.svg) ![](assets/tech-guide/tech_fcf39fcb9607b4c.svg) |
-| **Gradient Border** | `{{ui:tech:rust:bg=1a0a0a:logo=DEA584:border=DEA584:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_b98d8fd6327e60cc.svg) ![](assets/tech-guide/tech_454e55bd5f6b01b6.svg) ![](assets/tech-guide/tech_ff06050996c4906c.svg) ![](assets/tech-guide/tech_408300884aadd55e.svg) |
+Professional look with consistent dark styling:
+
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}` | ![](assets/tech-guide/tech_25ea36b6520cb9e0.svg) |
+| `{{ui:tech:typescript:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}` | ![](assets/tech-guide/tech_86f49608d0cd1455.svg) |
+| `{{ui:tech:docker:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}` | ![](assets/tech-guide/tech_917e8b9d013e7635.svg) |
+| `{{ui:tech:postgresql:bg=18181b:logo=a1a1aa:text_color=a1a1aa/}}` | ![](assets/tech-guide/tech_fcf39fcb9607b4c.svg) |
+
+---
+
+### Gradient Border Effect
+
+Simulate gradients with colored borders on matching dark backgrounds:
+
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg=1a0a0a:logo=DEA584:border=DEA584:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_b98d8fd6327e60cc.svg) |
+| `{{ui:tech:python:bg=0a0a1a:logo=3776AB:border=3776AB:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_454e55bd5f6b01b6.svg) |
+| `{{ui:tech:go:bg=0a1a1a:logo=00ADD8:border=00ADD8:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_ff06050996c4906c.svg) |
+| `{{ui:tech:ruby:bg=1a0a0a:logo=CC342D:border=CC342D:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_408300884aadd55e.svg) |
 
 ---
 
