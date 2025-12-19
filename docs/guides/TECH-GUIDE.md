@@ -203,21 +203,24 @@ Use `label` to customize the displayed text:
 
 ### Glyph Syntax in Labels
 
-You can embed glyph templates directly inside label values:
+You can embed glyph templates directly inside label values. This is more readable in source while producing the same Unicode output.
 
-```markdown
-{{ui:tech:rust:label={{glyph:star.filled/}} Rust/}}
-{{ui:tech:docker:label={{glyph:check.yes/}} Running/}}
-{{ui:tech:postgresql:label={{glyph:circle.1/}} Primary/}}
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:label=★ Rust/}}` | ![](assets/tech-guide/tech_f68fef1b32236aa1.svg) |
+| `{{ui:tech:docker:label=✓ Running/}}` | ![](assets/tech-guide/tech_215d099096d962cc.svg) |
+| `{{ui:tech:postgresql:label=① Primary/}}` | ![](assets/tech-guide/tech_ae518ad0610181a0.svg) |
+| `{{ui:tech:redis:label=♥ Cache/}}` | ![](assets/tech-guide/tech_4f6b6e4c5b220845.svg) |
 
-This is more readable in source while producing the same Unicode output.
+Use `{{glyph:name/}}` syntax in templates for readable source: `{{ui:tech:rust:label={{glyph:star.filled/}} Rust/}}`
 
-**Important Notes:**
+**Notes:**
 
-- **Direct Unicode works:** Characters like ★, ①, ♥ render correctly
-- **Glyph syntax works:** `{{glyph:name/}}` templates expand to Unicode in labels
-- **Text styles don't work inline:** Block-style templates like `{{mathbold}}TEXT{{/mathbold}}` aren't supported - use pre-transformed Unicode (𝐑𝐔𝐒𝐓) instead
+| Feature | Support |
+|---------|---------|
+| Direct Unicode (★, ①, ♥) | ✅ Works |
+| Glyph syntax `{{glyph:name/}}` | ✅ Expands to Unicode |
+| Block styles `{{mathbold}}...{{/mathbold}}` | ❌ Use pre-transformed Unicode (𝐑𝐔𝐒𝐓) |
 
 ---
 
@@ -227,67 +230,45 @@ This is more readable in source while producing the same Unicode output.
 
 Use `border` and `border_width` to add borders:
 
-```markdown
-{{ui:tech:rust:border=white/}}
-{{ui:tech:rust:border=FFFFFF:border_width=2/}}
-{{ui:tech:docker:border=accent:border_width=3/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_94d18fa5c257ecc2.svg) ![](assets/tech-guide/tech_89a9c434dff5847d.svg) ![](assets/tech-guide/tech_ac2abe3dd36d67a1.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:border=white/}}` | ![](assets/tech-guide/tech_94d18fa5c257ecc2.svg) |
+| `{{ui:tech:rust:border=FFFFFF:border_width=2/}}` | ![](assets/tech-guide/tech_89a9c434dff5847d.svg) |
+| `{{ui:tech:docker:border=accent:border_width=3/}}` | ![](assets/tech-guide/tech_ac2abe3dd36d67a1.svg) |
 
 ### Border Hierarchy
 
 Tech badges support different border modes for fine-grained control:
 
-| Mode | Perimeter Border | Center Divider | Usage |
-|------|-----------------|----------------|-------|
-| `border=COLOR` | Left segment only | ❌ | Default - borders icon area |
+| Mode | Perimeter | Divider | Description |
+|------|-----------|---------|-------------|
+| `border=COLOR` | Left only | ❌ | Default - borders icon area |
 | `border=COLOR:border_full=true` | ✅ Full | ❌ | Clean outline around badge |
-| `border=COLOR:divider=true` | Left segment only | ✅ | Separator between segments |
+| `border=COLOR:divider=true` | Left only | ✅ | Separator between segments |
 | `border=COLOR:border_full=true:divider=true` | ✅ Full | ✅ | Full outline + separator |
 | `style=outline` | ✅ Full | ✅ | Outline style (auto border + divider) |
-
-**Examples:**
-
-```markdown
-{{ui:tech:react:bg=0D0D0D:border=61DAFB/}}                                   <!-- Icon segment only -->
-{{ui:tech:react:bg=0D0D0D:border=61DAFB:border_full=true/}}                  <!-- Full perimeter -->
-{{ui:tech:react:bg=0D0D0D:border=61DAFB:divider=true/}}                      <!-- Icon + divider -->
-{{ui:tech:react:bg=0D0D0D:border=61DAFB:border_full=true:divider=true/}}     <!-- Full + divider -->
-```
 
 ### Rounded Corners
 
 Use `rx` to add rounded corners:
 
-```markdown
-{{ui:tech:rust:rx=3/}}          <!-- Slightly rounded -->
-{{ui:tech:rust:rx=6/}}          <!-- More rounded -->
-{{ui:tech:rust:rx=10/}}         <!-- Very rounded -->
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_4c8bd8a78f6a00df.svg) ![](assets/tech-guide/tech_adb52802fdb7c916.svg) ![](assets/tech-guide/tech_282f1d7873bd30e7.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:rx=3/}}` | ![](assets/tech-guide/tech_4c8bd8a78f6a00df.svg) |
+| `{{ui:tech:rust:rx=6/}}` | ![](assets/tech-guide/tech_adb52802fdb7c916.svg) |
+| `{{ui:tech:rust:rx=10/}}` | ![](assets/tech-guide/tech_282f1d7873bd30e7.svg) |
 
 ### Combined Border & Corners
 
-```markdown
-{{ui:tech:rust:border=white:border_width=2:rx=4/}}
-{{ui:tech:docker:border=accent:rx=6/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_f9fd032de0c9de6f.svg) ![](assets/tech-guide/tech_ffe256817a6fe4c7.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:border=white:border_width=2:rx=4/}}` | ![](assets/tech-guide/tech_f9fd032de0c9de6f.svg) |
+| `{{ui:tech:docker:border=accent:rx=6/}}` | ![](assets/tech-guide/tech_ffe256817a6fe4c7.svg) |
 
 ### Per-Corner Radius
 
 Control individual corners for connected badge groups using `corners` presets or custom `rx` values:
 
-**Presets:**
 | Preset | Effect | Use Case |
 |--------|--------|----------|
 | `corners=left` | Rounded left, square right | First badge in group |
@@ -295,24 +276,18 @@ Control individual corners for connected badge groups using `corners` presets or
 | `corners=none` | All square | Middle badges |
 | `corners=all` | All rounded | Standalone (default) |
 
-```markdown
-{{ui:tech:rust:corners=left/}}{{ui:tech:docker:corners=none/}}{{ui:tech:python:corners=right/}}
-```
+**Connected badge group:**
 
-**Rendered (connected badge group):**
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:corners=left/}}{{ui:tech:docker:corners=none/}}{{ui:tech:python:corners=right/}}` | ![](assets/tech-guide/tech_17e033ae2a1decb0.svg)![](assets/tech-guide/tech_d979be81598c560f.svg)![](assets/tech-guide/tech_5680ee2214af26ab.svg) |
 
-![](assets/tech-guide/tech_17e033ae2a1decb0.svg)![](assets/tech-guide/tech_d979be81598c560f.svg)![](assets/tech-guide/tech_5680ee2214af26ab.svg)
+**Custom per-corner** (`rx=tl,tr,br,bl`):
 
-**Custom per-corner:** Use `rx=tl,tr,br,bl` (top-left, top-right, bottom-right, bottom-left):
-
-```markdown
-{{ui:tech:rust:rx=8,0,0,8/}}     <!-- Same as corners=left with rx=8 -->
-{{ui:tech:rust:rx=0,8,8,0/}}     <!-- Same as corners=right with rx=8 -->
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_470db33614a9f505.svg) ![](assets/tech-guide/tech_28356f248bb4bf5c.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:rx=8,0,0,8/}}` | ![](assets/tech-guide/tech_470db33614a9f505.svg) |
+| `{{ui:tech:rust:rx=0,8,8,0/}}` | ![](assets/tech-guide/tech_28356f248bb4bf5c.svg) |
 
 ---
 
@@ -365,14 +340,12 @@ Control the left (icon) and right (label) segment colors with `bg_left` and `bg_
 
 Border-only badges with transparent fill. Uses brand color for border, icon, and text.
 
-![](assets/tech-guide/tech_24f5e6e760ca333b.svg) ![](assets/tech-guide/tech_a9004ad74dd1ce01.svg) ![](assets/tech-guide/tech_14e6697439dde7ef.svg) ![](assets/tech-guide/tech_a5ef42e473be143d.svg)
-
-```markdown
-{{ui:tech:rust:style=outline/}}
-{{ui:tech:typescript:style=outline/}}
-{{ui:tech:python:style=outline/}}
-{{ui:tech:docker:style=outline:border_width=3/}}
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:style=outline/}}` | ![](assets/tech-guide/tech_24f5e6e760ca333b.svg) |
+| `{{ui:tech:typescript:style=outline/}}` | ![](assets/tech-guide/tech_a9004ad74dd1ce01.svg) |
+| `{{ui:tech:python:style=outline/}}` | ![](assets/tech-guide/tech_14e6697439dde7ef.svg) |
+| `{{ui:tech:docker:style=outline:border_width=3/}}` | ![](assets/tech-guide/tech_a5ef42e473be143d.svg) |
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
@@ -418,28 +391,15 @@ Custom pixel values also supported: `logo_size=20` for 20px.
 
 The `style` parameter changes the badge appearance:
 
-| Style | Description |
-|-------|-------------|
-| `flat-square` | Sharp corners (default) |
-| `flat` | Slightly rounded corners |
-| `plastic` | Glossy 3D effect |
-| `for-the-badge` | Taller, prominent style |
-| `social` | Pill/capsule shape |
-| `outline` | Border-only with transparent fill |
-| `ghost` | Alias for outline |
-
-```markdown
-{{ui:tech:rust:style=flat-square/}}     <!-- Default -->
-{{ui:tech:rust:style=flat/}}
-{{ui:tech:rust:style=plastic/}}
-{{ui:tech:rust:style=for-the-badge/}}
-{{ui:tech:rust:style=social/}}
-{{ui:tech:rust:style=outline/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_2af318b39ee8334b.svg) ![](assets/tech-guide/tech_c733da3ff65e48b7.svg) ![](assets/tech-guide/tech_3eac9722cea4ae70.svg) ![](assets/tech-guide/tech_bda69193c17addc0.svg)
+| Style | Syntax | Rendered |
+|-------|--------|----------|
+| `flat-square` | `{{ui:tech:rust:style=flat-square/}}` | ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) |
+| `flat` | `{{ui:tech:rust:style=flat/}}` | ![](assets/tech-guide/tech_2af318b39ee8334b.svg) |
+| `plastic` | `{{ui:tech:rust:style=plastic/}}` | ![](assets/tech-guide/tech_c733da3ff65e48b7.svg) |
+| `for-the-badge` | `{{ui:tech:rust:style=for-the-badge/}}` | ![](assets/tech-guide/tech_3eac9722cea4ae70.svg) |
+| `social` | `{{ui:tech:rust:style=social/}}` | ![](assets/tech-guide/tech_bda69193c17addc0.svg) |
+| `outline` | `{{ui:tech:rust:style=outline/}}` | ![](assets/tech-guide/tech_24f5e6e760ca333b.svg) |
+| `ghost` | Alias for `outline` | — |
 
 ---
 
