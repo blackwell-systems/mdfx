@@ -6,16 +6,18 @@ Planned features for future versions.
 
 ## v1.1.0 - Discoverability & Caching
 
-### CLI Discovery Commands
+### CLI Discovery Commands ✅
 
-Expand `mdfx list` to explore all available resources:
+Explore all available resources with `mdfx list`:
 
 ```bash
-mdfx list                    # List styles (current)
+mdfx list                    # List styles (default)
+mdfx list styles --samples   # List styles with samples
 mdfx list components         # List all UI components
 mdfx list glyphs             # List named glyphs
 mdfx list frames             # List frame styles
 mdfx list palette            # List palette colors
+mdfx list glyphs -f star     # Filter by name pattern
 ```
 
 ### Smart Caching

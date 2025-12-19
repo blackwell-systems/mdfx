@@ -7,7 +7,7 @@ use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
 use mdfx::{
     available_targets, detect_target_from_path, get_target, BackendType, Converter, Error,
-    MdfxConfig, StyleCategory, Target, TemplateParser,
+    MdfxConfig, Registry, StyleCategory, Target, TemplateParser,
 };
 use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 use std::fs;
@@ -58,24 +58,34 @@ enum Commands {
         text: String,
     },
 
-    /// List available styles
+    /// List available resources
     ///
-    /// Display all 24 Unicode styles organized by category: Bold & Impactful,
-    /// Boxed, Technical & Code, and Subtle & Elegant. Each style includes
-    /// its ID, aliases, and description.
+    /// Display available styles, components, glyphs, frames, or palette colors.
+    /// Without a resource type, lists all 24 Unicode text styles.
     ///
     /// Examples:
-    ///   mdfx list
-    ///   mdfx list --samples
-    ///   mdfx list --category bold
+    ///   mdfx list                  # List styles (default)
+    ///   mdfx list styles --samples
+    ///   mdfx list components       # List UI components
+    ///   mdfx list glyphs           # List named glyphs
+    ///   mdfx list frames           # List frame styles
+    ///   mdfx list palette          # List palette colors
     List {
-        /// Show only styles in a specific category
+        /// Resource type to list (styles, components, glyphs, frames, palette)
+        #[arg(default_value = "styles")]
+        resource: String,
+
+        /// Show only styles in a specific category (for styles)
         #[arg(short, long)]
         category: Option<String>,
 
-        /// Show sample output for each style
+        /// Show sample output (for styles)
         #[arg(short, long)]
         samples: bool,
+
+        /// Search/filter results by name pattern
+        #[arg(short = 'f', long)]
+        filter: Option<String>,
     },
 
     /// Process markdown file with style templates
@@ -306,8 +316,24 @@ fn run(cli: Cli) -> Result<(), Error> {
             println!("{}", result);
         }
 
-        Commands::List { category, samples } => {
-            list_styles(&converter, category, samples)?;
+        Commands::List {
+            resource,
+            category,
+            samples,
+            filter,
+        } => {
+            let registry = Registry::new()?;
+            match resource.as_str() {
+                "styles" => list_styles(&converter, category, samples)?,
+                "components" => list_components(&registry, filter)?,
+                "glyphs" => list_glyphs(&registry, filter)?,
+                "frames" => list_frames(&registry, filter)?,
+                "palette" => list_palette(&registry, filter)?,
+                _ => return Err(Error::ParseError(format!(
+                    "Unknown resource '{}'. Available: styles, components, glyphs, frames, palette",
+                    resource
+                ))),
+            }
         }
 
         Commands::Process {
@@ -454,6 +480,211 @@ fn list_styles(
 
         println!();
     }
+
+    Ok(())
+}
+
+fn list_components(registry: &Registry, filter: Option<String>) -> Result<(), Error> {
+    println!("{}", "Available UI components:".bold());
+    println!();
+
+    let components = registry.components();
+    let mut entries: Vec<_> = components.iter().collect();
+    entries.sort_by(|a, b| a.0.cmp(b.0));
+
+    // Apply filter if provided
+    let entries: Vec<_> = if let Some(ref pattern) = filter {
+        let pattern = pattern.to_lowercase();
+        entries
+            .into_iter()
+            .filter(|(name, _)| name.to_lowercase().contains(&pattern))
+            .collect()
+    } else {
+        entries
+    };
+
+    for (name, comp) in entries {
+        print!("  {}", name.green());
+        if let Some(ref desc) = comp.description {
+            println!(" - {}", desc.dimmed());
+        } else {
+            println!();
+        }
+        // Show optional params if any
+        if let Some(ref params) = comp.optional_params {
+            let param_names: Vec<_> = params.keys().collect();
+            if !param_names.is_empty() {
+                let mut sorted_names: Vec<_> = param_names.iter().map(|s| s.as_str()).collect();
+                sorted_names.sort();
+                println!("    Params: {}", sorted_names.join(", ").cyan());
+            }
+        }
+    }
+
+    println!();
+    println!(
+        "Total: {} components",
+        components.len().to_string().yellow()
+    );
+
+    Ok(())
+}
+
+fn list_glyphs(registry: &Registry, filter: Option<String>) -> Result<(), Error> {
+    println!("{}", "Available named glyphs:".bold());
+    println!();
+
+    let glyphs = registry.glyphs();
+    let mut entries: Vec<_> = glyphs.iter().collect();
+    entries.sort_by(|a, b| a.0.cmp(b.0));
+
+    // Apply filter if provided
+    let entries: Vec<_> = if let Some(ref pattern) = filter {
+        let pattern = pattern.to_lowercase();
+        entries
+            .into_iter()
+            .filter(|(name, _)| name.to_lowercase().contains(&pattern))
+            .collect()
+    } else {
+        entries
+    };
+
+    // Group by prefix (e.g., block.*, shade.*, etc.)
+    let mut groups: std::collections::BTreeMap<String, Vec<(&String, &String)>> =
+        std::collections::BTreeMap::new();
+
+    for (name, char) in &entries {
+        let prefix = name.split('.').next().unwrap_or("other").to_string();
+        groups.entry(prefix).or_default().push((name, char));
+    }
+
+    for (prefix, glyphs) in groups {
+        println!("{}", format!("{}.*", prefix).yellow().bold());
+        for (name, char) in glyphs {
+            println!("  {} → {}", name.green(), char.cyan());
+        }
+        println!();
+    }
+
+    println!("Total: {} glyphs", entries.len().to_string().yellow());
+    println!();
+    println!(
+        "{}",
+        "Usage: {{glyph:name/}} or {{fr:glyph:name:text/}}".dimmed()
+    );
+
+    Ok(())
+}
+
+fn list_frames(registry: &Registry, filter: Option<String>) -> Result<(), Error> {
+    println!("{}", "Available frame styles:".bold());
+    println!();
+
+    let frames = registry.frames();
+    let mut entries: Vec<_> = frames.iter().collect();
+    entries.sort_by(|a, b| a.0.cmp(b.0));
+
+    // Apply filter if provided
+    let entries: Vec<_> = if let Some(ref pattern) = filter {
+        let pattern = pattern.to_lowercase();
+        entries
+            .into_iter()
+            .filter(|(name, _)| name.to_lowercase().contains(&pattern))
+            .collect()
+    } else {
+        entries
+    };
+
+    for (name, frame) in entries {
+        print!("  {}", name.green());
+        if !frame.aliases.is_empty() {
+            print!(" ({})", frame.aliases.join(", ").dimmed());
+        }
+
+        // Show prefix/suffix preview
+        let preview = format!("{}...{}", frame.prefix, frame.suffix);
+        println!(" → {}", preview.cyan());
+
+        if let Some(ref desc) = frame.description {
+            println!("    {}", desc.dimmed());
+        }
+    }
+
+    println!();
+    println!("Total: {} frames", frames.len().to_string().yellow());
+    println!();
+    println!(
+        "{}",
+        "Usage: {{fr:name}}text{{/}} or {{fr:name:inline text/}}".dimmed()
+    );
+
+    Ok(())
+}
+
+fn list_palette(registry: &Registry, filter: Option<String>) -> Result<(), Error> {
+    println!("{}", "Available palette colors:".bold());
+    println!();
+
+    let palette = registry.palette();
+    let mut entries: Vec<_> = palette.iter().collect();
+    entries.sort_by(|a, b| a.0.cmp(b.0));
+
+    // Apply filter if provided
+    let entries: Vec<_> = if let Some(ref pattern) = filter {
+        let pattern = pattern.to_lowercase();
+        entries
+            .into_iter()
+            .filter(|(name, _)| name.to_lowercase().contains(&pattern))
+            .collect()
+    } else {
+        entries
+    };
+
+    // Group by prefix (e.g., dark*, ui.*, etc.)
+    let mut semantic: Vec<_> = Vec::new();
+    let mut ui: Vec<_> = Vec::new();
+    let mut other: Vec<_> = Vec::new();
+
+    for (name, hex) in &entries {
+        if ["success", "warning", "error", "info", "accent"].contains(&name.as_str()) {
+            semantic.push((name, hex));
+        } else if name.starts_with("ui.") || name.starts_with("dark") {
+            ui.push((name, hex));
+        } else {
+            other.push((name, hex));
+        }
+    }
+
+    if !semantic.is_empty() {
+        println!("{}", "Semantic".yellow().bold());
+        for (name, hex) in semantic {
+            println!("  {} → #{}", name.green(), hex.cyan());
+        }
+        println!();
+    }
+
+    if !ui.is_empty() {
+        println!("{}", "UI / Dark Theme".yellow().bold());
+        for (name, hex) in ui {
+            println!("  {} → #{}", name.green(), hex.cyan());
+        }
+        println!();
+    }
+
+    if !other.is_empty() {
+        println!("{}", "General".yellow().bold());
+        for (name, hex) in other {
+            println!("  {} → #{}", name.green(), hex.cyan());
+        }
+        println!();
+    }
+
+    println!("Total: {} colors", entries.len().to_string().yellow());
+    println!();
+    println!(
+        "{}",
+        "Usage: {{ui:swatch:name/}} or color params like bg=name".dimmed()
+    );
 
     Ok(())
 }

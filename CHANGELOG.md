@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### CLI Discovery Commands
+
+The `mdfx list` command now supports listing all resource types for better discoverability:
+
+```bash
+mdfx list                    # List styles (default)
+mdfx list styles --samples   # List styles with sample output
+mdfx list components         # List all UI components with params
+mdfx list glyphs             # List named glyphs (grouped by prefix)
+mdfx list frames             # List frame styles with previews
+mdfx list palette            # List palette colors (grouped by type)
+mdfx list glyphs -f star     # Filter results by name pattern
+```
+
+Each listing shows relevant details:
+- **Components**: Description and available parameters
+- **Glyphs**: Grouped by prefix (e.g., `star.*`, `arrow.*`) with character preview
+- **Frames**: Aliases, prefix/suffix preview, and description
+- **Palette**: Grouped into Semantic, UI/Dark Theme, and General categories
+
 #### Expanded Tech Icon Library (23 new icons)
 
 The mdfx-icons crate now includes 90+ technology icons, up from 70:

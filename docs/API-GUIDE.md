@@ -1,7 +1,7 @@
 # mdfx API Guide
 
 **Version:** 1.0.0
-**Last Updated:** 2025-12-14
+**Last Updated:** 2025-12-19
 
 Complete API reference for the mdfx **markdown compiler** library.
 
@@ -20,14 +20,19 @@ mdfx is a **markdown compiler** that transforms template syntax into styled outp
 
 ## Workspace Structure
 
-mdfx uses a Cargo workspace with two packages:
+mdfx uses a Cargo workspace:
 
-| Package | Purpose | Dependencies |
-|---------|---------|--------------|
-| **`mdfx`** | Core compiler | 8 deps (serde, serde_json, thiserror, unicode-segmentation, sha2, chrono) |
-| **`mdfx-cli`** | CLI tool | mdfx + CLI deps (clap, colored, serde_json) |
+| Package | Purpose | Description |
+|---------|---------|-------------|
+| **`mdfx`** | Core compiler | Main library - text styling, templates, components, rendering |
+| **`mdfx-cli`** | CLI tool | Command-line interface (requires mdfx + clap, colored) |
+| **`badgefx`** | Badge rendering | SVG tech badge generation with shields.io-style output |
+| **`mdfx-colors`** | Color utilities | Contrast calculation, luminance, color darkening |
+| **`mdfx-icons`** | Icon library | 90+ tech icons with brand colors and SVG paths |
 
 **For library usage**, add only the `mdfx` crate - no CLI dependencies included.
+
+For badge-specific rendering without the full mdfx compiler, use `badgefx` directly.
 
 ---
 
@@ -2097,6 +2102,6 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 
 ---
 
-**Last Updated:** 2025-12-14
+**Last Updated:** 2025-12-19
 
-**Version:** 1.0.0 - Added Target System, Custom Palette Support, Enhanced Swatch Options, Registry API
+**Version:** 1.0.0 - Added Target System, Custom Palette Support, Enhanced Swatch Options, Registry API, CLI Discovery Commands
