@@ -43,6 +43,21 @@ The mdfx-icons crate now includes 90+ technology icons, up from 70:
 - `bun` - All-in-one JavaScript runtime
 - `deno` - Secure JavaScript/TypeScript runtime
 
+#### Full Badge Border (`border_full`)
+
+Tech badges now support `border_full=true` to draw a border around the entire badge perimeter instead of just the icon segment.
+
+**Usage:**
+```markdown
+{{ui:tech:react:bg=0D0D0D:border=61DAFB:border_full=true/}}
+```
+
+**Behavior:**
+- `border` alone → Border only on left (icon) segment (original layered approach)
+- `border` + `border_full=true` → Border around entire badge edge
+
+The full border is rendered as a separate outline rect on top of all segments, creating a clean perimeter without a dividing line between icon and label areas.
+
 ### Changed
 
 #### mdfx Tech Renderer Migration to badgefx

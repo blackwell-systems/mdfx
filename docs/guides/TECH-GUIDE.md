@@ -57,6 +57,7 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `font` | string | Verdana | Font family (alias: `font_family`) |
 | `border` | color | none | Border color |
 | `border_width` | number | none | Border thickness in pixels |
+| `border_full` | boolean | false | Border around entire badge (not just icon segment) |
 | `rx` | number | 0 | Corner radius (uniform or comma-separated per-corner) |
 | `corners` | preset | none | Corner preset: `left`, `right`, `none`, `all` |
 | `chevron` | enum | none | Arrow shape: `left`, `right`, or `both` |
@@ -234,6 +235,13 @@ Use `border` and `border_width` to add borders:
 **Rendered:**
 
 ![](assets/tech-guide/tech_94d18fa5c257ecc2.svg) ![](assets/tech-guide/tech_89a9c434dff5847d.svg) ![](assets/tech-guide/tech_ac2abe3dd36d67a1.svg)
+
+By default, borders only appear on the left (icon) segment due to the layered rect rendering. Use `border_full=true` to border the entire badge:
+
+```markdown
+{{ui:tech:react:bg=0D0D0D:border=61DAFB:border_width=1/}}                    <!-- Icon segment only -->
+{{ui:tech:react:bg=0D0D0D:border=61DAFB:border_width=1:border_full=true/}}   <!-- Full perimeter -->
+```
 
 ### Rounded Corners
 
