@@ -1109,6 +1109,31 @@
             "type": "shield_style",
             "default": "flat-square",
             "description": "Badge style"
+          },
+          "rx": {
+            "type": "number",
+            "default": "0",
+            "description": "Corner radius in pixels (0 = square corners)"
+          },
+          "border": {
+            "type": "color",
+            "default": "",
+            "description": "Border color"
+          },
+          "border_width": {
+            "type": "number",
+            "default": "0",
+            "description": "Border width in pixels"
+          },
+          "icon": {
+            "type": "string",
+            "default": "",
+            "description": "Optional icon name"
+          },
+          "width": {
+            "type": "number",
+            "default": "auto",
+            "description": "Badge width in pixels (auto-calculated from text)"
           }
         }
       },
@@ -1143,6 +1168,31 @@
             "type": "shield_style",
             "default": "flat-square",
             "description": "Badge style"
+          },
+          "rx": {
+            "type": "number",
+            "default": "0",
+            "description": "Corner radius in pixels (0 = square corners)"
+          },
+          "border": {
+            "type": "color",
+            "default": "",
+            "description": "Border color"
+          },
+          "border_width": {
+            "type": "number",
+            "default": "0",
+            "description": "Border width in pixels"
+          },
+          "icon": {
+            "type": "string",
+            "default": "",
+            "description": "Optional icon name"
+          },
+          "width": {
+            "type": "number",
+            "default": "auto",
+            "description": "Badge width in pixels (auto-calculated from text)"
           }
         }
       }

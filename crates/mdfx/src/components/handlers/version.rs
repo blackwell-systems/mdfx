@@ -141,8 +141,8 @@ pub fn handle(
     let border_color = params.get("border").map(|c| resolve_color(c));
     let border_width = params.get("border_width").and_then(|v| v.parse().ok());
 
-    // Corner radius - default to 3 for polished rounded look
-    let rx = params.get("rx").and_then(|v| v.parse().ok()).or(Some(3));
+    // Corner radius - only if explicitly set
+    let rx = params.get("rx").and_then(|v| v.parse().ok());
 
     // URL for clickable links
     let _url = params.get("url").cloned();
