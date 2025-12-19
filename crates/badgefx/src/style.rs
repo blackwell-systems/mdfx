@@ -36,9 +36,9 @@ impl BadgeStyle {
         match self {
             BadgeStyle::Flat => 3,
             BadgeStyle::FlatSquare => 0,
-            BadgeStyle::Plastic => 4,
-            BadgeStyle::ForTheBadge => 10,
-            BadgeStyle::Social => 6,
+            BadgeStyle::Plastic => 3,
+            BadgeStyle::ForTheBadge => 3,
+            BadgeStyle::Social => 10,
         }
     }
 
@@ -299,9 +299,9 @@ mod tests {
     fn test_badge_styles() {
         assert_eq!(BadgeStyle::Flat.default_radius(), 3);
         assert_eq!(BadgeStyle::FlatSquare.default_radius(), 0);
-        assert_eq!(BadgeStyle::Plastic.default_radius(), 4);
-        assert_eq!(BadgeStyle::ForTheBadge.default_radius(), 10);
-        assert_eq!(BadgeStyle::Social.default_radius(), 6);
+        assert_eq!(BadgeStyle::Plastic.default_radius(), 3);
+        assert_eq!(BadgeStyle::ForTheBadge.default_radius(), 3);
+        assert_eq!(BadgeStyle::Social.default_radius(), 10);
     }
 
     #[test]
