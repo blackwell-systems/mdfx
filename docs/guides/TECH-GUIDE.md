@@ -104,33 +104,7 @@ Tech badges automatically use brand colors from Simple Icons. Override with `bg`
 
 ## Logo Colors
 
-### Automatic Selection
-
-Logo colors are automatically selected based on background luminance using ITU-R BT.709:
-
-```
-luminance = 0.2126*R + 0.7152*G + 0.0722*B
-```
-
-| Background Luminance | Logo Color |
-|---------------------|------------|
-| > 0.5 (light) | Black (`#000000`) |
-| ≤ 0.5 (dark) | White (`#FFFFFF`) |
-
-**Examples:**
-
-| Technology | Background | Logo Color |
-|------------|------------|------------|
-| Rust | Orange (light) | Black |
-| Go | Cyan (light) | Black |
-| JavaScript | Yellow (light) | Black |
-| Docker | Blue (dark) | White |
-| PostgreSQL | Blue (dark) | White |
-| GitHub | Black (dark) | White |
-
-### Manual Override
-
-Force a specific logo color with `logo`:
+Logo colors auto-select based on background luminance (white on dark, black on light). Override with `logo`:
 
 | Syntax | Rendered |
 |--------|----------|
@@ -366,65 +340,37 @@ Control the left (icon) and right (label) segment colors with `bg_left` and `bg_
 
 ## Outline Style
 
-Border-only badges with transparent fill, perfect for clean, minimal designs:
+Border-only badges with transparent fill. Uses brand color for border, icon, and text.
+
+![](assets/tech-guide/tech_24f5e6e760ca333b.svg) ![](assets/tech-guide/tech_a9004ad74dd1ce01.svg) ![](assets/tech-guide/tech_14e6697439dde7ef.svg) ![](assets/tech-guide/tech_a5ef42e473be143d.svg)
 
 ```markdown
 {{ui:tech:rust:style=outline/}}
-{{ui:tech:typescript:style=ghost/}}   <!-- "ghost" is an alias -->
+{{ui:tech:typescript:style=outline/}}
+{{ui:tech:python:style=outline/}}
+{{ui:tech:docker:style=outline:border_width=3/}}
 ```
-
-The outline style uses the brand color for:
-- **Border stroke** - Creates the outline
-- **Icon color** - Logo matches the brand color
-- **Text color** - Label text matches the brand color
-
-### Outline Parameters
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
+| `style` | - | `outline` or `ghost` (alias) |
 | `border` | brand color | Custom border color |
 | `border_width` | 2 | Border thickness in pixels |
-| `text_color` | brand color | Custom text color |
-
-### Outline Examples
-
-```markdown
-{{ui:tech:rust:style=outline/}}
-{{ui:tech:typescript:style=outline:border_width=3/}}
-{{ui:tech:python:style=outline:border=FF0000/}}
-```
-
-Outline badges work great in dark mode or on colored backgrounds where you don't want solid fills.
 
 ---
 
 ## Custom Icons
 
-For technologies not included in Simple Icons, you can provide custom SVG path data using the `icon` parameter. The path data should be from a 24x24 viewBox SVG.
+For technologies not in Simple Icons, provide custom SVG path data via the `icon` parameter (from a 24x24 viewBox).
 
-### Syntax
-
-```markdown
-{{ui:tech:mytech:icon=M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5:bg=4A90D9/}}
-```
-
-### Finding Icon Paths
-
-1. Get an SVG icon from a source like [Heroicons](https://heroicons.com), [Feather](https://feathericons.com), or design your own
-2. Open the SVG file and extract the `d` attribute from the `<path>` element
-3. The icon should be designed for a 24x24 viewBox
-
-### Examples
+![](assets/tech-guide/tech_137ce9fa97d45e1d.svg) ![](assets/tech-guide/tech_17c9bee7760f8225.svg)
 
 ```markdown
-<!-- Custom database icon -->
 {{ui:tech:mydb:icon=M12 2C6.48 2 2 4.02 2 6.5v11C2 19.98 6.48 22 12 22s10-2.02 10-4.5v-11C22 4.02 17.52 2 12 2:bg=336791:label=MyDB/}}
-
-<!-- Custom cloud icon -->
-{{ui:tech:cloud:icon=M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96:bg=2196F3/}}
+{{ui:tech:cloud:icon=M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96:bg=2196F3:label=Cloud/}}
 ```
 
-**Note:** When using `icon`, the technology name is only used for the label, not for icon lookup.
+Extract the `d` attribute from any SVG `<path>` element. Sources: [Heroicons](https://heroicons.com), [Feather](https://feathericons.com).
 
 ---
 
