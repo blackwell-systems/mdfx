@@ -171,6 +171,28 @@ macro_rules! test_process_contains {
     }};
 }
 
+/// Test that processing output does NOT contain certain substrings.
+///
+/// # Example
+///
+/// ```rust,ignore
+/// test_process_not_contains!("input" => ["should not appear"]);
+/// ```
+#[macro_export]
+macro_rules! test_process_not_contains {
+    ($input:expr => [$($unexpected:expr),+ $(,)?]) => {{
+        let parser = $crate::TemplateParser::new().expect("Failed to create parser");
+        let result = parser.process($input).expect("Processing failed");
+        $(
+            assert!(
+                !result.contains($unexpected),
+                "Output should NOT contain '{}'\nInput: {}\nGot: {}",
+                $unexpected, $input, result
+            );
+        )+
+    }};
+}
+
 /// Test output starts with prefix and ends with suffix.
 ///
 /// # Example

@@ -2030,7 +2030,7 @@ impl Default for TemplateParser {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{test_process, test_process_bookends, test_process_contains, test_process_err, test_process_unchanged};
+    use crate::{test_process, test_process_bookends, test_process_contains, test_process_err, test_process_not_contains, test_process_unchanged};
 
     #[test]
     fn test_parser_new() {
@@ -2679,11 +2679,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
     #[test]
     fn test_universal_close_all_self_closing_ignored() {
         // Self-closing tags should not be tracked - only the frame should be closed
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{fr:gradient}}{{ui:swatch:pink/}}text{{//}}";
-        let result = parser.process(input).unwrap();
-        assert!(result.contains("▓\u{fe0e}▒\u{fe0e}░\u{fe0e}"));
-        assert!(result.contains("░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"));
+        test_process_contains!(
+            "{{fr:gradient}}{{ui:swatch:pink/}}text{{//}}"
+            => ["▓\u{fe0e}▒\u{fe0e}░\u{fe0e}", "░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"]
+        );
     }
 
     #[test]
