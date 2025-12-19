@@ -27,6 +27,7 @@
   - [Roman Numerals](#roman-numerals)
   - [Stars](#stars)
   - [Currency](#currency)
+  - [Legal Symbols](#legal-symbols)
   - [Greek Letters](#greek-letters)
   - [Fractions](#fractions)
   - [Miscellaneous Symbols](#miscellaneous-symbols)
@@ -411,6 +412,38 @@ Also: `sub.+` ₊, `sub.-` ₋, `sub.=` ₌, `sub.(` ₍, `sub.)` ₎
 | `currency.euro` | € | `currency.won` | ₩ |
 | `currency.rupee` | ₹ | `currency.ruble` | ₽ |
 | `currency.bitcoin` | ₿ | `currency.generic` | ¤ |
+
+### Legal Symbols
+
+Trademark, copyright, and typographic marks for documentation:
+
+| Name | Char | Description |
+|------|------|-------------|
+| `tm` | ™ | Trademark (unregistered) |
+| `reg` | ® | Registered trademark |
+| `copyright` | © | Copyright |
+| `sm` | ℠ | Service mark |
+| `section` | § | Section sign (legal references) |
+| `para` | ¶ | Pilcrow / paragraph mark |
+| `dagger` | † | Dagger (footnotes) |
+| `ddagger` | ‡ | Double dagger (second footnote) |
+
+**Example - Copyright notice:**
+```markdown
+{{copyright}} 2024 Acme Corp. All rights reserved.
+Product Name{{tm}} is a trademark of Acme Corp.
+Brand Name{{reg}} is a registered trademark.
+```
+
+Output: `© 2024 Acme Corp. All rights reserved. Product Name™ is a trademark of Acme Corp. Brand Name® is a registered trademark.`
+
+**Example - Legal document references:**
+```markdown
+See {{section}}4.2{{para}}3 for details.
+{{dagger}} First footnote. {{ddagger}} Second footnote.
+```
+
+Output: `See §4.2¶3 for details. † First footnote. ‡ Second footnote.`
 
 ### Greek Letters
 
