@@ -226,6 +226,29 @@ Benefits:
 - Consistency - Ensures all badges in a group look cohesive
 - Flexibility - Override specific badges when needed
 
+#### Legal Symbol Glyphs
+
+Added 8 new legal/typographic symbol glyphs for documentation and licensing content:
+
+| Glyph | Syntax | Character | Use Case |
+|-------|--------|-----------|----------|
+| Trademark | `{{tm}}` | ™ | Unregistered trademark |
+| Registered | `{{reg}}` | ® | Registered trademark |
+| Copyright | `{{copyright}}` | © | Copyright notice |
+| Service Mark | `{{sm}}` | ℠ | Service mark |
+| Section | `{{section}}` | § | Legal section references |
+| Paragraph | `{{para}}` | ¶ | Paragraph/pilcrow mark |
+| Dagger | `{{dagger}}` | † | Footnotes (first) |
+| Double Dagger | `{{ddagger}}` | ‡ | Footnotes (second) |
+
+Example usage:
+```markdown
+Product Name{{tm}} - unregistered trademark
+Brand Name{{reg}} - registered trademark
+{{copyright}} 2024 Company Name
+See {{section}}4.2 for details
+```
+
 #### Version Badge Component
 
 New `version` component with semver-aware coloring:
