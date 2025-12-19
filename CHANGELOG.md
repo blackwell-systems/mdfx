@@ -198,6 +198,34 @@ Use cases:
 - Link to documentation or download pages
 - Create navigation badges in documentation
 
+#### Tech Group Style Inheritance
+
+The `tech-group` component now supports style inheritance. Set styles on the group and all child badges inherit them automatically. Individual badges can override specific params.
+
+```markdown
+<!-- Dark theme group - all badges inherit bg and border -->
+{{ui:tech-group:bg=1a1a2e:border=333}}
+{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
+{{/ui}}
+
+<!-- Neon border group -->
+{{ui:tech-group:border=00ff00:border_width=2}}
+{{ui:tech:docker/}}{{ui:tech:kubernetes/}}
+{{/ui}}
+
+<!-- Override on specific badge -->
+{{ui:tech-group:bg=1a1a2e}}
+{{ui:tech:rust/}}{{ui:tech:go:bg=00ADD8/}}{{ui:tech:python/}}
+{{/ui}}
+```
+
+**Inheritable params:** `bg`, `border`, `border_width`, `text_color`, `logo`, `style`, `divider`, `logo_size`
+
+Benefits:
+- DRY - Set theme once instead of repeating on every badge
+- Consistency - Ensures all badges in a group look cohesive
+- Flexibility - Override specific badges when needed
+
 #### Version Badge Component
 
 New `version` component with semver-aware coloring:

@@ -5,6 +5,9 @@
 //! - Middle badges: corners=none (square corners)
 //! - Last badge: corners=right (square left, rounded right)
 //!
+//! Style inheritance: params set on the group are inherited by child badges
+//! unless the badge specifies its own value.
+//!
 //! This creates a seamless "pill" group when badges are placed side-by-side.
 
 use crate::components::ComponentOutput;
@@ -12,10 +15,31 @@ use crate::error::Result;
 use regex::Regex;
 use std::collections::HashMap;
 
+/// Parameters that can be inherited from group to child badges
+const INHERITABLE_PARAMS: &[&str] = &[
+    "bg",
+    "border",
+    "border_width",
+    "text_color",
+    "text",
+    "color",
+    "logo",
+    "font",
+    "font_family",
+    "style",
+    "divider",
+    "raised",
+    "logo_size",
+    "icon_size",
+];
+
 /// Handle tech-group component expansion
 ///
 /// Transforms content containing tech badges to automatically apply
 /// appropriate corner presets for a connected badge group.
+///
+/// Style inheritance: Any params on the group (bg, border, text_color, etc.)
+/// are inherited by child badges unless the badge specifies its own value.
 pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result<ComponentOutput> {
     let content = content.unwrap_or("");
 
@@ -36,6 +60,12 @@ pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result
         .get("gap")
         .and_then(|v| v.parse::<u32>().ok())
         .unwrap_or(0);
+
+    // Collect inheritable params from group
+    let inherited: Vec<(&str, &str)> = INHERITABLE_PARAMS
+        .iter()
+        .filter_map(|&key| params.get(key).map(|v| (key, v.as_str())))
+        .collect();
 
     let mut result = content.to_string();
 
@@ -58,24 +88,39 @@ pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result
             Some("none")
         };
 
-        if let Some(preset) = corner_preset {
-            // Check if corners is already specified
-            if !full_match.contains("corners=") {
-                // Insert corners parameter before the closing
-                let modified = if let Some(inner) = full_match.strip_suffix("/}}") {
-                    // Self-closing tag
-                    format!("{}:corners={}/}}}}", inner, preset)
-                } else if let Some(inner) = full_match.strip_suffix("}}") {
-                    // Regular closing tag
-                    format!("{}:corners={}}}}}", inner, preset)
-                } else {
-                    full_match.to_string()
-                };
+        // Build params to inject (inherited + corners)
+        let mut inject_params = String::new();
 
-                let start = m.start();
-                let end = m.end();
-                result.replace_range(start..end, &modified);
+        // Add inherited params if not already specified in the badge
+        for (key, value) in &inherited {
+            let check_key = format!("{}=", key);
+            if !full_match.contains(&check_key) {
+                inject_params.push_str(&format!(":{}={}", key, value));
             }
+        }
+
+        // Add corners if needed
+        if let Some(preset) = corner_preset {
+            if !full_match.contains("corners=") {
+                inject_params.push_str(&format!(":corners={}", preset));
+            }
+        }
+
+        // Apply modifications if we have any params to inject
+        if !inject_params.is_empty() {
+            let modified = if let Some(inner) = full_match.strip_suffix("/}}") {
+                // Self-closing tag
+                format!("{}{}/}}}}", inner, inject_params)
+            } else if let Some(inner) = full_match.strip_suffix("}}") {
+                // Regular closing tag
+                format!("{}{}}}}}", inner, inject_params)
+            } else {
+                full_match.to_string()
+            };
+
+            let start = m.start();
+            let end = m.end();
+            result.replace_range(start..end, &modified);
         }
     }
 
@@ -149,6 +194,65 @@ mod tests {
             // First badge already has corners, should not be modified
             assert!(template.contains("corners=all"));
             assert!(template.contains("corners=right"));
+        } else {
+            panic!("Expected Template output");
+        }
+    }
+
+    #[test]
+    fn test_style_inheritance() {
+        let mut params = HashMap::new();
+        params.insert("bg".to_string(), "1a1a2e".to_string());
+        params.insert("border".to_string(), "00ff00".to_string());
+        let content = "{{ui:tech:rust/}}{{ui:tech:go/}}";
+
+        let result = handle(&params, Some(content)).unwrap();
+
+        if let ComponentOutput::Template(template) = result {
+            // Both badges should inherit bg and border
+            assert!(template.contains("bg=1a1a2e"));
+            assert!(template.contains("border=00ff00"));
+            // Should appear twice (once per badge)
+            assert_eq!(template.matches("bg=1a1a2e").count(), 2);
+            assert_eq!(template.matches("border=00ff00").count(), 2);
+        } else {
+            panic!("Expected Template output");
+        }
+    }
+
+    #[test]
+    fn test_style_inheritance_with_override() {
+        let mut params = HashMap::new();
+        params.insert("bg".to_string(), "1a1a2e".to_string());
+        let content = "{{ui:tech:rust/}}{{ui:tech:go:bg=custom/}}";
+
+        let result = handle(&params, Some(content)).unwrap();
+
+        if let ComponentOutput::Template(template) = result {
+            // First badge inherits bg
+            assert!(template.contains("rust") && template.contains("bg=1a1a2e"));
+            // Second badge keeps its own bg=custom (not overwritten)
+            assert!(template.contains("bg=custom"));
+            // Inherited bg should only appear once (not on the overridden badge)
+            assert_eq!(template.matches("bg=1a1a2e").count(), 1);
+        } else {
+            panic!("Expected Template output");
+        }
+    }
+
+    #[test]
+    fn test_style_inheritance_single_badge() {
+        let mut params = HashMap::new();
+        params.insert("border".to_string(), "ff0000".to_string());
+        let content = "{{ui:tech:rust/}}";
+
+        let result = handle(&params, Some(content)).unwrap();
+
+        if let ComponentOutput::Template(template) = result {
+            // Single badge should still inherit styles
+            assert!(template.contains("border=ff0000"));
+            // But should not have corners modified
+            assert!(!template.contains("corners="));
         } else {
             panic!("Expected Template output");
         }

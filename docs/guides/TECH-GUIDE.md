@@ -463,6 +463,31 @@ The `tech-group` component creates seamless badge groups by auto-applying corner
 
 ![](assets/tech-guide/tech_ec4dda8d6c53178a.svg)![](assets/tech-guide/tech_e65b3824eab484b7.svg) | ![](assets/tech-guide/tech_8856d74e9e5f5137.svg)![](assets/tech-guide/tech_b65657c7069e8137.svg)![](assets/tech-guide/tech_35b10ae14aef1ea4.svg)
 
+### Style Inheritance
+
+Style the group once and all child badges inherit those styles. Individual badges can override specific params.
+
+**Inheritable params:** `bg`, `border`, `border_width`, `text_color`, `logo`, `style`, `divider`, `logo_size`
+
+```markdown
+<!-- Dark theme group - all badges inherit bg and border -->
+{{ui:tech-group:bg=1a1a2e:border=333}}
+{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
+{{/ui}}
+
+<!-- Neon border group -->
+{{ui:tech-group:border=00ff00:border_width=2}}
+{{ui:tech:docker/}}{{ui:tech:kubernetes/}}
+{{/ui}}
+
+<!-- Override on specific badge -->
+{{ui:tech-group:bg=1a1a2e}}
+{{ui:tech:rust/}}{{ui:tech:go:bg=00ADD8/}}{{ui:tech:python/}}
+{{/ui}}
+```
+
+In the last example, `rust` and `python` inherit `bg=1a1a2e`, but `go` uses its own `bg=00ADD8`.
+
 ---
 
 ## Complete Examples

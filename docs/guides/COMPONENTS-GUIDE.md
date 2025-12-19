@@ -517,11 +517,11 @@ Renders an audio-style waveform visualization with bars above/below center.
 
 ### tech-group
 
-Groups multiple tech badges with automatic corner handling for seamless pill-style display.
+Groups multiple tech badges with automatic corner handling for seamless pill-style display. Supports style inheritance - set styles on the group and all child badges inherit them.
 
 **Syntax:**
 ```markdown
-{{ui:tech-group:gap=value}}
+{{ui:tech-group:bg=color:border=color}}
 {{ui:tech:name/}}
 {{ui:tech:name/}}
 {{/ui}}
@@ -532,22 +532,36 @@ Groups multiple tech badges with automatic corner handling for seamless pill-sty
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `gap` | number | 0 | Gap between badges in pixels |
+| `bg` | color | - | Background color inherited by all child badges |
+| `border` | color | - | Border color inherited by all child badges |
+| `border_width` | number | - | Border width inherited by all child badges |
+| `text_color` | color | - | Text color inherited by all child badges |
+| `logo` | color | - | Logo/icon color inherited by all child badges |
+| `style` | string | - | Badge style inherited by all child badges |
+| `divider` | boolean | false | Show divider, inherited by all child badges |
+| `logo_size` | string | - | Logo size inherited by all child badges |
 
 **Examples:**
 ```markdown
+<!-- Basic group with corner handling -->
 {{ui:tech-group}}
-{{ui:tech:rust/}}
-{{ui:tech:typescript/}}
-{{ui:tech:docker/}}
+{{ui:tech:rust/}}{{ui:tech:typescript/}}{{ui:tech:docker/}}
 {{/ui}}
 
-{{ui:tech-group:gap=4}}
-{{ui:tech:python/}}
-{{ui:tech:go/}}
+<!-- Dark theme group - all badges inherit styles -->
+{{ui:tech-group:bg=1a1a2e:border=333}}
+{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
+{{/ui}}
+
+<!-- Override on specific badge -->
+{{ui:tech-group:bg=1a1a2e}}
+{{ui:tech:rust/}}{{ui:tech:go:bg=00ADD8/}}{{ui:tech:python/}}
 {{/ui}}
 ```
 
-**Note:** When gap=0, badges merge into a single pill. When gap>0, they appear as separate rounded badges.
+**Notes:**
+- When gap=0, badges merge into a single pill. When gap>0, they appear as separate rounded badges.
+- Child badges inherit group styles unless they specify their own value (override).
 
 ---
 
