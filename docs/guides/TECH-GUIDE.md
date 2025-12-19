@@ -20,7 +20,6 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Badge Links](#badge-links)
 - [Tech Groups](#tech-groups)
 - [Complete Examples](#complete-examples)
-- [Backend Differences](#backend-differences)
 - [Tips & Tricks](#tips--tricks)
 - [Available Technologies](#available-technologies)
 
@@ -79,7 +78,7 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 
 ## Rendering Source
 
-By default, tech badges render as local SVG files with full customization support. Use `source=shields` to generate shields.io URLs instead (useful when you can't commit asset files).
+By default, tech badges render as local SVG files with full customization. Use `source=shields` for shields.io URLs instead:
 
 ```markdown
 {{ui:tech:rust/}}                    <!-- Default: SVG file -->
@@ -88,10 +87,16 @@ By default, tech badges render as local SVG files with full customization suppor
 
 | Source | Output | Features |
 |--------|--------|----------|
-| `svg` (default) | Local SVG file | Full customization, borders, corners, fonts |
+| `svg` (default) | Local SVG file | Full customization, borders, corners, fonts, offline |
 | `shields` | shields.io URL | No local files, limited features |
 
-**Note:** `source=shields` ignores SVG-only features like `border`, `rx`, `text_color`, and `font`.
+For entire documents, use `--backend shields`:
+
+```bash
+mdfx process template.md --backend shields
+```
+
+**Note:** shields.io ignores `border`, `rx`, `text_color`, `font`, `chevron`, and other SVG-only features.
 
 ---
 
@@ -611,38 +616,6 @@ Every parameter in use:
 **Rendered:**
 
 ![](assets/tech-guide/tech_5509811bace5455e.svg)
-
----
-
-## Backend Differences
-
-### SVG Backend (Default)
-
-Full control over all parameters:
-- Custom fonts, borders, and corner radius
-- Embedded Simple Icons logos
-- Exact color control
-- Works offline
-
-```bash
-mdfx process template.md --assets-dir assets
-```
-
-### shields.io Source
-
-Use `source=shields` for individual badges when you can't commit asset files:
-
-```markdown
-{{ui:tech:rust:source=shields/}}
-```
-
-Or use the legacy shields backend for the entire document:
-
-```bash
-mdfx process template.md --backend shields
-```
-
-**Note:** shields.io doesn't support custom fonts, borders, or corner radius.
 
 ---
 
