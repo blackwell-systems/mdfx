@@ -203,7 +203,19 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None, None, false, false, None, None, None, None, None, None, None, None, None,
+            None,
+            None,
+            false,
+            false,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
         );
 
         assert!(svg.contains("<svg"));
@@ -222,7 +234,15 @@ mod tests {
             Some(2),
             false, // border_full
             false, // divider
-            None, None, None, None, None, None, None, None, None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
         );
 
         assert!(svg.contains("<svg"));
@@ -237,7 +257,19 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "outline",
-            None, None, false, false, None, None, None, None, None, None, None, None, None,
+            None,
+            None,
+            false,
+            false,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
         );
 
         assert!(svg.contains("<svg"));
@@ -253,9 +285,19 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None, None, false, false, None, None, None, None,
+            None,
+            None,
+            false,
+            false,
+            None,
+            None,
+            None,
+            None,
             Some("right"),
-            None, None, None, None,
+            None,
+            None,
+            None,
+            None,
         );
 
         assert!(svg.contains("<svg"));
@@ -271,7 +313,17 @@ mod tests {
             "DEA584",
             "000000",
             "flat",
-            None, None, false, false, None, None, None, None, None, None, None,
+            None,
+            None,
+            false,
+            false,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
             Some(4), // 4px raised
             None,
         );
@@ -289,7 +341,18 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None, None, false, false, None, None, None, None, None, None, None, None,
+            None,
+            None,
+            false,
+            false,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
             Some(18), // 18px logo
         );
 

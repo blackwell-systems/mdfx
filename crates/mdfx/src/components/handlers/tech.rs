@@ -9,16 +9,14 @@ use std::collections::HashMap;
 /// Parse logo_size parameter - supports presets and custom values
 /// Presets: xs (10px), sm (12px), md (14px), lg (16px), xl (18px), xxl (20px)
 fn parse_logo_size(value: Option<&String>) -> Option<u32> {
-    value.and_then(|v| {
-        match v.to_lowercase().as_str() {
-            "xs" => Some(10),
-            "sm" => Some(12),
-            "md" => Some(14),
-            "lg" => Some(16),
-            "xl" => Some(18),
-            "xxl" => Some(20),
-            _ => v.parse().ok(),
-        }
+    value.and_then(|v| match v.to_lowercase().as_str() {
+        "xs" => Some(10),
+        "sm" => Some(12),
+        "md" => Some(14),
+        "lg" => Some(16),
+        "xl" => Some(18),
+        "xxl" => Some(20),
+        _ => v.parse().ok(),
     })
 }
 
