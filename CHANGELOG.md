@@ -200,22 +200,19 @@ Use cases:
 
 #### Tech Group Style Inheritance
 
-The `tech-group` component now supports style inheritance. Set styles on the group and all child badges inherit them automatically. Individual badges can override specific params.
+The `tech-group` component now supports style inheritance and mixed badge types. Set styles on the group and all child badges inherit them automatically. Individual badges can override specific params.
+
+**Supported badge types:** `tech`, `version`, `license`
 
 ```markdown
-<!-- Dark theme group - all badges inherit bg and border -->
+<!-- Mixed badge group with shared styling -->
 {{ui:tech-group:bg=1a1a2e:border=333}}
-{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
+{{ui:version:1.2.0/}}{{ui:tech:rust/}}{{ui:tech:docker/}}{{ui:license:MIT/}}
 {{/ui}}
 
-<!-- Neon border group -->
-{{ui:tech-group:border=00ff00:border_width=2}}
-{{ui:tech:docker/}}{{ui:tech:kubernetes/}}
-{{/ui}}
-
-<!-- Override on specific badge -->
+<!-- Dark theme tech-only group -->
 {{ui:tech-group:bg=1a1a2e}}
-{{ui:tech:rust/}}{{ui:tech:go:bg=00ADD8/}}{{ui:tech:python/}}
+{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
 {{/ui}}
 ```
 
@@ -225,6 +222,7 @@ Benefits:
 - DRY - Set theme once instead of repeating on every badge
 - Consistency - Ensures all badges in a group look cohesive
 - Flexibility - Override specific badges when needed
+- Mix badge types - Combine version, tech, and license in one seamless pill
 
 #### Legal Symbol Glyphs
 

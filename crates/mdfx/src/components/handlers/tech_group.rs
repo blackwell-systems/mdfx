@@ -1,9 +1,11 @@
 //! Tech group component handler
 //!
-//! Automatically applies corner presets to a group of tech badges:
+//! Automatically applies corner presets to a group of badges:
 //! - First badge: corners=left (rounded left, square right)
 //! - Middle badges: corners=none (square corners)
 //! - Last badge: corners=right (square left, rounded right)
+//!
+//! Supports: tech, version, and license badges.
 //!
 //! Style inheritance: params set on the group are inherited by child badges
 //! unless the badge specifies its own value.
@@ -12,8 +14,10 @@
 
 use crate::components::ComponentOutput;
 use crate::error::Result;
-use regex::Regex;
 use std::collections::HashMap;
+
+/// Component types that can participate in badge groups
+const GROUPABLE_COMPONENTS: &[&str] = &["tech", "version", "license"];
 
 /// Parameters that can be inherited from group to child badges
 const INHERITABLE_PARAMS: &[&str] = &[
@@ -33,9 +37,42 @@ const INHERITABLE_PARAMS: &[&str] = &[
     "icon_size",
 ];
 
+/// Find all groupable component invocations in content.
+/// Returns (start, end) positions for each match.
+fn find_groupable_components(content: &str) -> Vec<(usize, usize)> {
+    let mut results = Vec::new();
+    let mut pos = 0;
+
+    while let Some(start_rel) = content[pos..].find("{{ui:") {
+        let start = pos + start_rel;
+
+        // Find the closing }}
+        if let Some(end_rel) = content[start..].find("}}") {
+            let end = start + end_rel + 2;
+
+            // Extract component type (between "{{ui:" and next ":" or "/" or "}")
+            let after_prefix = &content[start + 5..end];
+            let type_end = after_prefix
+                .find(|c| c == ':' || c == '/' || c == '}')
+                .unwrap_or(after_prefix.len());
+            let comp_type = &after_prefix[..type_end];
+
+            if GROUPABLE_COMPONENTS.contains(&comp_type) {
+                results.push((start, end));
+            }
+
+            pos = end;
+        } else {
+            break;
+        }
+    }
+
+    results
+}
+
 /// Handle tech-group component expansion
 ///
-/// Transforms content containing tech badges to automatically apply
+/// Transforms content containing badges to automatically apply
 /// appropriate corner presets for a connected badge group.
 ///
 /// Style inheritance: Any params on the group (bg, border, text_color, etc.)
@@ -43,11 +80,8 @@ const INHERITABLE_PARAMS: &[&str] = &[
 pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result<ComponentOutput> {
     let content = content.unwrap_or("");
 
-    // Find all tech component invocations
-    // Matches: {{ui:tech:name...}} or {{ui:tech:name.../}}
-    let re = Regex::new(r"\{\{ui:tech:([^}]+?)(/?\}\})").unwrap();
-
-    let matches: Vec<_> = re.find_iter(content).collect();
+    // Find all groupable component invocations
+    let matches = find_groupable_components(content);
     let count = matches.len();
 
     if count == 0 {
@@ -70,8 +104,8 @@ pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result
     let mut result = content.to_string();
 
     // Process badges in reverse order to preserve positions
-    for (i, m) in matches.iter().enumerate().rev() {
-        let full_match = m.as_str();
+    for (i, &(start, end)) in matches.iter().enumerate().rev() {
+        let full_match = &content[start..end];
 
         // Determine which corner preset to apply
         let corner_preset = if count == 1 {
@@ -118,8 +152,6 @@ pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result
                 full_match.to_string()
             };
 
-            let start = m.start();
-            let end = m.end();
             result.replace_range(start..end, &modified);
         }
     }
@@ -253,6 +285,61 @@ mod tests {
             assert!(template.contains("border=ff0000"));
             // But should not have corners modified
             assert!(!template.contains("corners="));
+        } else {
+            panic!("Expected Template output");
+        }
+    }
+
+    #[test]
+    fn test_mixed_badge_types() {
+        let params = HashMap::new();
+        let content = "{{ui:version:1.0.0/}}{{ui:tech:rust/}}{{ui:license:MIT/}}";
+
+        let result = handle(&params, Some(content)).unwrap();
+
+        if let ComponentOutput::Template(template) = result {
+            // First (version): left corners
+            assert!(template.contains("version:1.0.0:corners=left"));
+            // Middle (tech): no corners
+            assert!(template.contains("tech:rust:corners=none"));
+            // Last (license): right corners
+            assert!(template.contains("license:MIT:corners=right"));
+        } else {
+            panic!("Expected Template output");
+        }
+    }
+
+    #[test]
+    fn test_mixed_with_style_inheritance() {
+        let mut params = HashMap::new();
+        params.insert("bg".to_string(), "1a1a2e".to_string());
+        let content = "{{ui:version:2.0.0/}}{{ui:tech:docker/}}";
+
+        let result = handle(&params, Some(content)).unwrap();
+
+        if let ComponentOutput::Template(template) = result {
+            // Both should inherit bg
+            assert_eq!(template.matches("bg=1a1a2e").count(), 2);
+            // Corner assignments
+            assert!(template.contains("corners=left"));
+            assert!(template.contains("corners=right"));
+        } else {
+            panic!("Expected Template output");
+        }
+    }
+
+    #[test]
+    fn test_ignores_non_groupable_components() {
+        let params = HashMap::new();
+        let content = "{{ui:swatch:ff0000/}}{{ui:tech:rust/}}";
+
+        let result = handle(&params, Some(content)).unwrap();
+
+        if let ComponentOutput::Template(template) = result {
+            // Only tech badge should be found (single badge = no corners)
+            assert!(!template.contains("corners="));
+            // Swatch should be unchanged
+            assert!(template.contains("{{ui:swatch:ff0000/}}"));
         } else {
             panic!("Expected Template output");
         }
