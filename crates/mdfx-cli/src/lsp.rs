@@ -328,6 +328,7 @@ impl MdfxLanguageServer {
                 "Render source (shields for shields.io)",
                 "source=shields",
             ),
+            ("url", "Make badge a clickable link", "url=https://example.com"),
         ];
 
         params
@@ -342,6 +343,79 @@ impl MdfxLanguageServer {
                     desc, example
                 ))),
                 insert_text: Some(format!("{}=", name)),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                ..Default::default()
+            })
+            .collect()
+    }
+
+    /// Build completion items for live data sources (github, npm, crates, pypi)
+    fn live_source_completions(&self, prefix: &str) -> Vec<CompletionItem> {
+        let sources = vec![
+            ("github", "GitHub repository metrics", "stars, forks, issues, license, language"),
+            ("npm", "npm package metrics", "version, license, next, beta"),
+            ("crates", "crates.io package metrics", "version, downloads, description"),
+            ("pypi", "PyPI package metrics", "version, license, author, python, summary"),
+        ];
+
+        sources
+            .into_iter()
+            .filter(|(name, _, _)| prefix.is_empty() || name.starts_with(prefix))
+            .map(|(name, desc, metrics)| CompletionItem {
+                label: name.to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some(desc.to_string()),
+                documentation: Some(Documentation::String(format!(
+                    "{}\n\nAvailable metrics: {}\n\nExample: {{{{ui:live:{}:query:metric/}}}}",
+                    desc, metrics, name
+                ))),
+                insert_text: Some(format!("{}:", name)),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                ..Default::default()
+            })
+            .collect()
+    }
+
+    /// Build completion items for live source metrics
+    fn live_metric_completions(&self, source: &str, prefix: &str) -> Vec<CompletionItem> {
+        let metrics: Vec<(&str, &str)> = match source {
+            "github" => vec![
+                ("stars", "Repository star count"),
+                ("forks", "Fork count"),
+                ("issues", "Open issue count"),
+                ("watchers", "Watcher count"),
+                ("license", "SPDX license identifier"),
+                ("language", "Primary programming language"),
+            ],
+            "npm" => vec![
+                ("version", "Latest stable version"),
+                ("license", "Package license"),
+                ("next", "Latest @next tag version"),
+                ("beta", "Latest @beta tag version"),
+            ],
+            "crates" => vec![
+                ("version", "Latest version"),
+                ("downloads", "Total download count"),
+                ("description", "Crate description"),
+            ],
+            "pypi" => vec![
+                ("version", "Latest version"),
+                ("license", "Package license"),
+                ("author", "Package author"),
+                ("python", "Required Python version"),
+                ("summary", "Package summary"),
+            ],
+            _ => vec![],
+        };
+
+        metrics
+            .into_iter()
+            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
+            .map(|(name, desc)| CompletionItem {
+                label: name.to_string(),
+                kind: Some(CompletionItemKind::PROPERTY),
+                detail: Some(desc.to_string()),
+                insert_text: Some(format!("{}/}}}}", name)),
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                 ..Default::default()
             })
@@ -431,6 +505,34 @@ impl MdfxLanguageServer {
             // Check for frame: prefix
             if let Some(rest) = after_open.strip_prefix("frame:") {
                 return CompletionContext::Frame(rest.to_string());
+            }
+
+            // Check for live data source context: {{ui:live:...
+            if let Some(rest) = after_open.strip_prefix("ui:live:") {
+                let parts: Vec<&str> = rest.split(':').collect();
+
+                if parts.is_empty() || (parts.len() == 1 && !rest.contains(':')) {
+                    // Just after {{ui:live: - show sources
+                    return CompletionContext::LiveSource(rest.to_string());
+                }
+
+                // We have a source, check if we need metric completion
+                let source = parts[0];
+                if parts.len() >= 2 {
+                    // We have source:query, check for metric
+                    if parts.len() == 2 && rest.ends_with(':') {
+                        // After {{ui:live:source:query: - show metrics
+                        return CompletionContext::LiveMetric(source.to_string(), String::new());
+                    }
+                    if parts.len() >= 3 {
+                        // Completing metric name
+                        let metric_prefix = parts.get(2).unwrap_or(&"");
+                        return CompletionContext::LiveMetric(source.to_string(), metric_prefix.to_string());
+                    }
+                }
+
+                // Still entering source name
+                return CompletionContext::LiveSource(rest.to_string());
             }
 
             // Check for tech badge context: {{ui:tech:...
@@ -534,6 +636,8 @@ enum CompletionContext {
     TechName(String),    // After {{ui:tech: - show tech names (rust, typescript, etc.)
     TechParam(String),   // After {{ui:tech:NAME: - show parameter names
     TechParamValue(String, String), // After {{ui:tech:NAME:param= - show values for param
+    LiveSource(String),  // After {{ui:live: - show live data sources (github, npm, etc.)
+    LiveMetric(String, String), // After {{ui:live:SOURCE:QUERY: - show metrics for source
 }
 
 #[tower_lsp::async_trait]
@@ -639,6 +743,10 @@ impl LanguageServer for MdfxLanguageServer {
             CompletionContext::TechParam(prefix) => self.tech_param_completions(&prefix),
             CompletionContext::TechParamValue(param, prefix) => {
                 self.tech_param_value_completions(&param, &prefix)
+            }
+            CompletionContext::LiveSource(prefix) => self.live_source_completions(&prefix),
+            CompletionContext::LiveMetric(source, prefix) => {
+                self.live_metric_completions(&source, &prefix)
             }
         };
 
