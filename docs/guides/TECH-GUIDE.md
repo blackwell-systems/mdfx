@@ -696,80 +696,122 @@ When overriding backgrounds, ensure contrast:
 ## Available Technologies
 
 <details>
-<summary>Click to expand full list of supported technologies</summary>
+<summary>Click to expand full list of 70+ supported technologies</summary>
 
 ### Languages
 
-| Name | Icon |
-|------|------|
-| `rust` | Rust |
-| `python` | Python |
-| `typescript` | TypeScript |
-| `javascript` | JavaScript |
-| `go` | Go |
-| `java` | Java |
-| `csharp` | C# |
-| `cpp` | C++ |
-| `ruby` | Ruby |
-| `php` | PHP |
-| `swift` | Swift |
-| `kotlin` | Kotlin |
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `rust` | | Rust |
+| `python` | | Python |
+| `typescript` | | TypeScript |
+| `javascript` | | JavaScript |
+| `go` | `golang` | Go |
+| `java` | `openjdk` | Java |
+| `c` | | C |
+| `cpp` | `cplusplus`, `c++` | C++ |
+| `ruby` | | Ruby |
+| `php` | | PHP |
+| `swift` | | Swift |
+| `kotlin` | | Kotlin |
+| `scala` | | Scala |
+| `elixir` | | Elixir |
+| `dart` | | Dart |
+| `zig` | | Zig |
 
-### Frameworks & Libraries
+### Frontend Frameworks
 
-| Name | Icon |
-|------|------|
-| `react` | React |
-| `vue` | Vue.js |
-| `angular` | Angular |
-| `svelte` | Svelte |
-| `nextjs` | Next.js |
-| `nuxt` | Nuxt.js |
-| `express` | Express |
-| `fastapi` | FastAPI |
-| `django` | Django |
-| `flask` | Flask |
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `react` | | React |
+| `vue` | `vuejs`, `vue.js` | Vue.js |
+| `angular` | | Angular |
+| `svelte` | | Svelte |
+| `nextjs` | `next.js` | Next.js |
+| `nuxt` | `nuxtjs` | Nuxt |
+| `astro` | | Astro |
+| `vite` | | Vite |
+| `tailwindcss` | `tailwind` | Tailwind CSS |
+| `sass` | | Sass |
+
+### Backend Frameworks
+
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `nodejs` | `node.js` | Node.js |
+| `express` | | Express |
+| `fastapi` | | FastAPI |
+| `django` | | Django |
+| `flask` | | Flask |
+| `rails` | `rubyonrails` | Ruby on Rails |
+| `spring` | | Spring |
+| `dotnet` | `.net` | .NET |
+| `nestjs` | | NestJS |
 
 ### Databases
 
-| Name | Icon |
-|------|------|
-| `postgresql` | PostgreSQL |
-| `mysql` | MySQL |
-| `mongodb` | MongoDB |
-| `redis` | Redis |
-| `sqlite` | SQLite |
-| `elasticsearch` | Elasticsearch |
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `postgresql` | | PostgreSQL |
+| `mysql` | | MySQL |
+| `mongodb` | | MongoDB |
+| `redis` | | Redis |
+| `sqlite` | | SQLite |
+| `elasticsearch` | | Elasticsearch |
+| `neo4j` | | Neo4j |
+| `supabase` | | Supabase |
+| `firebase` | | Firebase |
 
-### DevOps & Cloud
+### Cloud Providers
 
-| Name | Icon |
-|------|------|
-| `docker` | Docker |
-| `kubernetes` | Kubernetes |
-| `aws` | AWS |
-| `googlecloud` | Google Cloud |
-| `azure` | Azure |
-| `terraform` | Terraform |
-| `github` | GitHub |
-| `gitlab` | GitLab |
-| `jenkins` | Jenkins |
-| `circleci` | CircleCI |
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `amazonaws` | `aws` | Amazon Web Services |
+| `googlecloud` | `gcp` | Google Cloud |
+| `vercel` | | Vercel |
+| `netlify` | | Netlify |
+| `cloudflare` | | Cloudflare |
+| `digitalocean` | | DigitalOcean |
+
+### DevOps & Infrastructure
+
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `docker` | | Docker |
+| `kubernetes` | | Kubernetes |
+| `terraform` | | Terraform |
+| `nginx` | | Nginx |
+| `ansible` | | Ansible |
+| `jenkins` | | Jenkins |
+| `circleci` | | CircleCI |
+| `githubactions` | | GitHub Actions |
+| `prometheus` | | Prometheus |
+| `grafana` | | Grafana |
 
 ### Tools
 
-| Name | Icon |
-|------|------|
-| `git` | Git |
-| `npm` | npm |
-| `yarn` | Yarn |
-| `pnpm` | pnpm |
-| `vscode` | VS Code |
-| `vim` | Vim |
-| `neovim` | Neovim |
-| `linux` | Linux |
-| `macos` | macOS |
-| `windows` | Windows |
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `git` | | Git |
+| `github` | | GitHub |
+| `gitlab` | | GitLab |
+| `bitbucket` | | Bitbucket |
+| `npm` | | npm |
+| `yarn` | | Yarn |
+| `webpack` | | Webpack |
+| `eslint` | | ESLint |
+| `prettier` | | Prettier |
+| `jest` | | Jest |
+
+### Platforms
+
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `linux` | | Linux |
+| `apple` | | Apple/macOS |
+| `android` | | Android |
+| `figma` | | Figma |
+| `discord` | | Discord |
 
 </details>
 
