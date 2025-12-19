@@ -786,6 +786,7 @@ mod tests {
     use super::*;
     use crate::badge::BadgeBuilder;
     use crate::style::BadgeStyle;
+    use insta::assert_snapshot;
     use rstest::rstest;
 
     #[test]
@@ -944,5 +945,102 @@ mod tests {
 
         // Clean up
         let _ = std::fs::remove_file(&temp_path);
+    }
+
+    // ========================================================================
+    // Snapshot Tests for SVG Output Stability
+    // ========================================================================
+    //
+    // These tests capture the exact SVG output to detect any unintended changes.
+    // Run `cargo insta review` to accept changes when intentionally modifying output.
+
+    #[test]
+    fn snapshot_two_segment_badge() {
+        let badge = BadgeBuilder::new("rust").build();
+        assert_snapshot!("two_segment_rust", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_icon_only_badge() {
+        let badge = BadgeBuilder::new("rust").label("").build();
+        assert_snapshot!("icon_only_rust", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_text_only_badge() {
+        let badge = BadgeBuilder::new("unknown-tech").build();
+        assert_snapshot!("text_only_unknown", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_outline_two_segment() {
+        let badge = BadgeBuilder::new("python").outline().build();
+        assert_snapshot!("outline_two_segment_python", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_outline_icon_only() {
+        let badge = BadgeBuilder::new("docker").label("").outline().build();
+        assert_snapshot!("outline_icon_only_docker", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_outline_text_only() {
+        let badge = BadgeBuilder::new("custom-lib").outline().build();
+        assert_snapshot!("outline_text_only_custom", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_raised_badge() {
+        let badge = BadgeBuilder::new("typescript").raised(4).build();
+        assert_snapshot!("raised_typescript", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_badge_with_custom_corners() {
+        let badge = TechBadge {
+            corners: Some(crate::style::Corners {
+                top_left: 0,
+                top_right: 8,
+                bottom_right: 8,
+                bottom_left: 0,
+            }),
+            ..TechBadge::new("go")
+        };
+        assert_snapshot!("custom_corners_go", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_badge_with_border() {
+        let badge = BadgeBuilder::new("kotlin").border("#FF5722", 2).build();
+        assert_snapshot!("bordered_kotlin", render(&badge));
+    }
+
+    #[test]
+    fn snapshot_badge_with_divider() {
+        let badge = BadgeBuilder::new("swift").divider().build();
+        assert_snapshot!("divider_swift", render(&badge));
+    }
+
+    #[rstest]
+    #[case("flat", BadgeStyle::Flat)]
+    #[case("flat_square", BadgeStyle::FlatSquare)]
+    #[case("plastic", BadgeStyle::Plastic)]
+    #[case("social", BadgeStyle::Social)]
+    #[case("for_the_badge", BadgeStyle::ForTheBadge)]
+    fn snapshot_all_styles(#[case] name: &str, #[case] style: BadgeStyle) {
+        let badge = BadgeBuilder::new("javascript").style(style).build();
+        assert_snapshot!(format!("style_{}", name), render(&badge));
+    }
+
+    #[test]
+    fn snapshot_badge_custom_colors() {
+        let badge = BadgeBuilder::new("vue")
+            .bg_left("#42B883")
+            .bg_right("#35495E")
+            .text_color("#FFFFFF")
+            .logo_color("#FFFFFF")
+            .build();
+        assert_snapshot!("custom_colors_vue", render(&badge));
     }
 }

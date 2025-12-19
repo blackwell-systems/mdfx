@@ -342,6 +342,7 @@ impl Renderer for SvgBackend {
 mod tests {
     use super::*;
     use crate::primitive::TechConfig;
+    use insta::assert_snapshot;
     use rstest::rstest;
 
     #[test]
@@ -429,5 +430,123 @@ mod tests {
     #[case(Primitive::simple_donut(75, "E0E0E0", "4CAF50"), "donut")]
     fn test_type_prefix(#[case] primitive: Primitive, #[case] expected: &str) {
         assert_eq!(SvgBackend::type_prefix(&primitive), expected);
+    }
+
+    // ========================================================================
+    // Snapshot Tests for SVG Output Stability
+    // ========================================================================
+    //
+    // These tests capture the exact SVG output for each primitive type.
+    // Run `cargo insta review` to accept changes when intentionally modifying output.
+
+    /// Helper to extract SVG content from inline render
+    fn render_inline_svg(primitive: &Primitive) -> String {
+        let backend = SvgBackend::new_inline();
+        match backend.render(primitive).unwrap() {
+            RenderedAsset::InlineMarkdown(svg) => svg,
+            _ => panic!("Expected InlineMarkdown"),
+        }
+    }
+
+    #[test]
+    fn snapshot_swatch_flat_square() {
+        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
+        assert_snapshot!("swatch_flat_square", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_swatch_pill() {
+        let primitive = Primitive::simple_swatch("2B6CB0", "pill");
+        assert_snapshot!("swatch_pill", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_swatch_circle() {
+        let primitive = Primitive::simple_swatch("4CAF50", "circle");
+        assert_snapshot!("swatch_circle", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_swatch_with_label() {
+        let primitive = Primitive::Swatch {
+            color: "FF5722".to_string(),
+            style: "flat-square".to_string(),
+            opacity: Some(1.0),
+            width: Some(80),
+            height: Some(20),
+            border_color: None,
+            border_width: Some(0),
+            label: Some("Orange".to_string()),
+            label_color: Some("FFFFFF".to_string()),
+            icon: None,
+            icon_color: None,
+            rx: Some(3),
+            ry: Some(3),
+            shadow: None,
+            gradient: None,
+            stroke_dash: None,
+            logo_size: None,
+            border_top: None,
+            border_right: None,
+            border_bottom: None,
+            border_left: None,
+        };
+        assert_snapshot!("swatch_with_label", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_progress_bar() {
+        let primitive = Primitive::simple_progress(65u8, "E0E0E0", "4CAF50");
+        assert_snapshot!("progress_65_percent", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_donut() {
+        let primitive = Primitive::simple_donut(80u8, "E0E0E0", "2196F3");
+        assert_snapshot!("donut_80_percent", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_gauge() {
+        let primitive = Primitive::simple_gauge(45u8, "E0E0E0", "FF9800");
+        assert_snapshot!("gauge_45_percent", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_sparkline() {
+        let primitive =
+            Primitive::simple_sparkline(vec![10.0, 25.0, 45.0, 30.0, 55.0, 40.0, 60.0], "4CAF50");
+        assert_snapshot!("sparkline_line", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_rating() {
+        let primitive = Primitive::simple_rating(3.5, "FFD700");
+        assert_snapshot!("rating_3_5_stars", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_waveform() {
+        let primitive = Primitive::simple_waveform(
+            vec![0.5, -0.3, 0.8, -0.6, 0.2, -0.4, 0.7],
+            "4CAF50",
+            "FF5722",
+        );
+        assert_snapshot!("waveform_audio", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_tech_badge() {
+        let primitive = Primitive::Tech(TechConfig::new("rust"));
+        assert_snapshot!("tech_rust", render_inline_svg(&primitive));
+    }
+
+    #[rstest]
+    #[case(0u8, "progress_0")]
+    #[case(50u8, "progress_50")]
+    #[case(100u8, "progress_100")]
+    fn snapshot_progress_extremes(#[case] percent: u8, #[case] name: &str) {
+        let primitive = Primitive::simple_progress(percent, "E0E0E0", "4CAF50");
+        assert_snapshot!(format!("{}_percent", name), render_inline_svg(&primitive));
     }
 }

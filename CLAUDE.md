@@ -165,6 +165,40 @@ This project uses **rstest** for parameterized testing. When writing or modifyin
 
 4. **Keep verbose tests for edge cases** - Tests that check specific error variants or have complex assertions can remain as individual `#[test]` functions.
 
+### Snapshot Testing
+
+This project uses **insta** for snapshot testing of SVG output. Snapshots ensure rendering stability:
+
+1. **Badge snapshots** - Located in `crates/badgefx/src/snapshots/`
+   - Capture exact SVG output for various badge configurations
+   - Detect any unintended changes to badge rendering
+
+2. **Primitive snapshots** - Located in `crates/mdfx/src/renderer/svg/snapshots/`
+   - Capture SVG output for swatch, progress, donut, gauge, etc.
+   - Ensure consistent primitive rendering
+
+**Working with snapshots:**
+
+```bash
+# Run snapshot tests
+cargo test --package badgefx --release -- snapshot
+cargo test --package mdfx --release -- snapshot
+
+# Review pending snapshots (interactive)
+cargo insta review
+
+# Accept all pending snapshots
+cargo insta accept --all
+
+# Reject all pending snapshots
+cargo insta reject --all
+```
+
+**When to update snapshots:**
+- After intentional changes to SVG rendering
+- Always review changes before accepting (`cargo insta review`)
+- Never blindly accept - verify the diff makes sense
+
 ### Coverage Goals
 
 - Aim for >80% line coverage on core modules
