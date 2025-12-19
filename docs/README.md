@@ -10,7 +10,7 @@ cargo install mdfx-cli
 
 Create `input.md`:
 ```markdown
-# {{frame:gradient}}{{mathbold}}PROJECT{{/mathbold}}{{/frame}}
+# {{fr:gradient}}{{mathbold}}PROJECT{{/mathbold}}{{/fr}}
 
 {{ui:progress:75:width=200/}}
 {{ui:tech:rust/}} {{ui:tech:python/}}
@@ -25,24 +25,26 @@ mdfx process input.md -o output.md --backend svg --assets-dir assets/
 ## Features
 
 - **24 Unicode Styles** - mathbold, script, fraktur, strikethrough, and more
-- **30+ Frames** - Decorative borders, glyph frames, modifiers
-- **739 Glyphs** - Symbols, arrows, chess pieces, keyboard keys
-- **Data Visualization** - Progress bars, donuts, gauges, sparklines
+- **29 Frames** - Decorative borders, glyph frames, modifiers
+- **531 Glyphs** - Symbols, arrows, chess pieces, keyboard keys
+- **10 Components** - Tech badges, progress bars, donuts, sparklines, waveforms
 - **5 Targets** - GitHub, GitLab, npm, PyPI, local docs
-- **LSP Server** - IDE autocompletion for VS Code
+- **LSP Server** - IDE autocompletion with contextual suggestions
 
 ## Guides
 
-### UI Components
+### Visual Components
 
 | Guide | Description |
 |-------|-------------|
-| [Components](guides/COMPONENTS-GUIDE.md) | Overview of all UI components |
+| [Tech Badges](guides/TECH-GUIDE.md) | 90+ technology logos with brand colors |
 | [Swatches](guides/SWATCH-GUIDE.md) | Color blocks for palettes |
 | [Progress](guides/PROGRESS-GUIDE.md) | Progress bars and sliders |
 | [Donut & Gauge](guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
-| [Sparklines](guides/SPARKLINE-GUIDE.md) | Inline data visualization |
-| [Data Viz](guides/DATA-VIZ-GUIDE.md) | Complete data visualization guide |
+| [Sparklines](guides/SPARKLINE-GUIDE.md) | Inline line/bar charts |
+| [Waveforms](guides/WAVEFORM-GUIDE.md) | Audio-style visualizations |
+| [Ratings](guides/DATA-VIZ-GUIDE.md#rating) | Star/heart ratings |
+| [Components](guides/COMPONENTS-GUIDE.md) | Overview of all components |
 
 ### Text & Symbols
 
@@ -50,7 +52,8 @@ mdfx process input.md -o output.md --backend svg --assets-dir assets/
 |-------|-------------|
 | [Text Styles](guides/TEXT-STYLES-GUIDE.md) | 24 Unicode typography styles |
 | [Frames](guides/FRAMES-GUIDE.md) | Decorative Unicode borders |
-| [Glyphs](guides/GLYPHS-GUIDE.md) | 739 Unicode symbols |
+| [Glyphs](guides/GLYPHS-GUIDE.md) | 531 Unicode symbols |
+| [Colors](guides/COLORS-GUIDE.md) | Palette system and theming |
 
 ### Tools & Integration
 
@@ -58,6 +61,7 @@ mdfx process input.md -o output.md --backend svg --assets-dir assets/
 |-------|-------------|
 | [CLI Guide](guides/CLI-GUIDE.md) | Command-line interface |
 | [LSP Guide](guides/LSP-GUIDE.md) | Language server for IDEs |
+| [Asset Management](guides/ASSETS-GUIDE.md) | SVG generation and manifests |
 
 ## Reference
 
@@ -69,11 +73,15 @@ mdfx process input.md -o output.md --backend svg --assets-dir assets/
 ## CLI Commands
 
 ```bash
-mdfx convert --style mathbold "TEXT"   # Convert text
-mdfx list                               # List styles
-mdfx process input.md -o output.md     # Process file
-mdfx process --backend svg input.md    # Local SVG files
-mdfx build input.md --all-targets      # Multi-target build
+mdfx convert --style mathbold "TEXT"      # Convert text
+mdfx list                                  # List styles
+mdfx list components                       # List UI components
+mdfx list glyphs -f star                   # Search glyphs
+mdfx process input.md -o output.md         # Process file
+mdfx process --backend svg input.md        # Local SVG files
+mdfx build input.md --all-targets          # Multi-target build
+mdfx verify assets/manifest.json           # Verify assets
+mdfx clean --scan "*.md" assets            # Clean stale assets
 ```
 
 ## Library

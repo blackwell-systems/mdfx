@@ -1,29 +1,39 @@
-# mdfx <sub>v1.0.0</sub>
+# mdfx
 
-> Markdown compiler with target-aware rendering
+> Beautiful markdown, everywhere it renders
 
-**CLI Tool:**
+Transform plain markdown into rich, styled documentation that works on **GitHub**, **GitLab**, **npm**, **PyPI**, and more—no JavaScript required.
+
+---
+
+**Write once:**
+```markdown
+{{ui:tech:rust/}} {{ui:tech:typescript/}}
+{{ui:progress:85:fill=success/}}
+```
+
+**Render everywhere** as native images—no client-side processing.
+
+---
+
+🎨 **10 Visual Components** — Tech badges, progress bars, donuts, sparklines, waveforms
+
+✨ **24 Unicode Styles** — Bold, script, fraktur, subscript, and more
+
+🖼️ **90+ Tech Icons** — Rust, TypeScript, Docker, AWS, and growing
+
+🎯 **5 Render Targets** — One template, multiple platform outputs
+
+⚡ **IDE Support** — LSP with contextual autocomplete
+
+---
+
 ```bash
 cargo install mdfx-cli
 ```
 
-**Library:**
-```toml
-[dependencies]
-mdfx = "1.0"
-```
-
-- **24 Unicode Styles** - mathbold, script, fraktur, subscript, superscript, and more
-- **Template Syntax** - `{{mathbold}}TEXT{{/mathbold}}` transforms automatically
-- **30+ Frames** - Combos, modifiers, glyph frames with reverse & count
-- **4 UI Components** - Swatches, tech badges, rows, progress bars
-- **5 Targets** - GitHub, GitLab, npm, PyPI, local docs
-- **4 Backends** - shields.io, SVG, plaintext, hybrid (auto-select)
-- **LSP Server** - IDE autocompletion for VS Code and others
-- **Cross-Platform** - macOS • Linux • Windows • WSL2
-
-[Get Started](#quick-start)
-[CLI Guide](guides/CLI-GUIDE.md)
-[VIEW ON GITHUB](https://github.com/blackwell-systems/mdfx)
+[Get Started](/#quick-start)
+[Guides](/guides/README.md)
+[GitHub](https://github.com/blackwell-systems/mdfx)
 
 ![color](#1a1a1a)

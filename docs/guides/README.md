@@ -12,24 +12,23 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 
 | Guide | Description |
 |-------|-------------|
-| [Colors](COLORS-GUIDE.md) | Palette tokens, custom palettes, hex passthrough |
-| [Swatches](SWATCH-GUIDE.md) | Color blocks with 10 parameters, 5 styles, pixel art techniques |
-| [Tech Badges](TECH-GUIDE.md) | Technology logos with brand colors, auto logo colors, text customization |
-| [Components](COMPONENTS-GUIDE.md) | UI elements: swatch, tech, row, progress |
-| [Frames](FRAMES-GUIDE.md) | 30+ decorative frames with combos, modifiers, and glyph frames |
+| [Tech Badges](TECH-GUIDE.md) | 90+ technology logos with brand colors, auto logo colors |
+| [Swatches](SWATCH-GUIDE.md) | Color blocks with styles, borders, labels, icons |
+| [Progress Bars](PROGRESS-GUIDE.md) | Progress bars with thumbs, labels, custom styling |
+| [Donut & Gauge](DONUT-GAUGE-GUIDE.md) | Circular progress charts |
+| [Sparklines](SPARKLINE-GUIDE.md) | Inline line and bar charts |
+| [Waveforms](WAVEFORM-GUIDE.md) | Audio-style bar visualizations |
+| [Data Visualization](DATA-VIZ-GUIDE.md) | Complete data viz guide including ratings |
+| [Components](COMPONENTS-GUIDE.md) | Overview of all 10 UI components |
 
 ## Text & Symbols
 
 | Guide | Description |
 |-------|-------------|
-| [Text Styles](TEXT-STYLES-GUIDE.md) | 24 Unicode typography styles (bold, script, gothic, subscript, etc.) |
+| [Text Styles](TEXT-STYLES-GUIDE.md) | 24 Unicode typography styles (bold, script, gothic, etc.) |
+| [Frames](FRAMES-GUIDE.md) | 29 decorative frames with combos and modifiers |
 | [Glyphs](GLYPHS-GUIDE.md) | 531 Unicode symbols organized by category |
-
-## Data Visualization
-
-| Guide | Description |
-|-------|-------------|
-| [Data Viz](DATA-VIZ-GUIDE.md) | Progress bars, donuts, gauges, sparklines, ratings |
+| [Colors](COLORS-GUIDE.md) | Palette tokens, custom palettes, hex passthrough |
 
 ## Editor Integration
 
@@ -37,6 +36,12 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 |-------|-------------|
 | [LSP Guide](LSP-GUIDE.md) | Language Server Protocol for IDE autocompletion |
 | [VS Code Publishing](VSCODE-PUBLISHING.md) | Publishing the VS Code extension |
+
+## Asset Management
+
+| Guide | Description |
+|-------|-------------|
+| [Assets Guide](ASSETS-GUIDE.md) | SVG generation, manifests, verification, cleanup |
 
 ---
 

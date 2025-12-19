@@ -29,6 +29,7 @@
 - **Reference**
   - [Template Syntax](/TEMPLATE-SYNTAX.md)
   - [API Guide](/API-GUIDE.md)
+  - [Asset Management](/guides/ASSETS-GUIDE.md)
   - [CLI Commands](/#cli-commands)
   - [LSP Server](/guides/LSP-GUIDE.md)
 
