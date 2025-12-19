@@ -1,738 +1,738 @@
 {
   "version": "1.1.0",
-  "created_at": "2025-12-19T09:52:51.190654580+00:00",
+  "created_at": "2025-12-19T10:03:22.794397239+00:00",
   "backend": "svg",
   "assets_dir": "docs/guides/assets/version-license-guide",
   "total_assets": 74,
-  "total_size_bytes": 34656,
+  "total_size_bytes": 35540,
   "generator_version": "1.0.0",
   "assets": [
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg",
-      "sha256": "aabe83ba70a3b3d5a69e12e364bd40299a7bc17f2130da52c159cb4a249add57",
+      "path": "docs/guides/assets/version-license-guide/swatch_d3def3eda904b9f7.svg",
+      "sha256": "d3def3eda904b9f7210e2b1d89da8aa629a669ffd4290c6e50fdd26e3d5bf4f8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.190966623+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.794716872+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_a0a50fd203a24a7e.svg",
-      "sha256": "a0a50fd203a24a7ed77cdad65d9f4cee41d71fd0ed4fa5351eb704144ab8c6db",
+      "path": "docs/guides/assets/version-license-guide/swatch_917e7814b4eedee0.svg",
+      "sha256": "917e7814b4eedee08caec00c1e2d6ae6e1d8a49ede90a02fd9005b3ec4a0a774",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.191207+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.794972455+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_213bfcf59dc38777.svg",
-      "sha256": "213bfcf59dc3877733ee259d9cbebe1e8ddb260641c377aa9579da5166edbfa9",
+      "path": "docs/guides/assets/version-license-guide/swatch_c7184df89fbd256f.svg",
+      "sha256": "c7184df89fbd256f8d33987f33435d2cc5a15c656459c8cb3c5fdd6d3a4d6790",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
-        "style": "flat-square"
-      },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.191466914+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg",
-      "sha256": "aabe83ba70a3b3d5a69e12e364bd40299a7bc17f2130da52c159cb4a249add57",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "22C55E",
-        "style": "flat-square"
-      },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.191544216+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_8d966de58e20061f.svg",
-      "sha256": "8d966de58e20061f747c1339c25f62a67a077927381511fed7db72f6f6cf778f",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "22C55E",
-        "style": "flat-square"
-      },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.191869635+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_4514e2a1f2d21dc2.svg",
-      "sha256": "4514e2a1f2d21dc2b5100e8e4da406ed45a2fad07fa229a903613644d43c9ce0",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "22C55E",
-        "style": "flat-square"
-      },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.192094734+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_ab4c5ed84bef5518.svg",
-      "sha256": "ab4c5ed84bef551844242d5c27bbf1b61acf1099d0bbf325adad7beb6de37f85",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EAB308",
-        "style": "flat-square"
-      },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.192390485+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_b45e3454d750c219.svg",
-      "sha256": "b45e3454d750c219f2f6b936af44ed4700723aa1e213ce4a12580807d0721670",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EAB308",
-        "style": "flat-square"
-      },
-      "size_bytes": 306,
-      "generated_at": "2025-12-19T09:52:51.192773606+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_24739011b62e236f.svg",
-      "sha256": "24739011b62e236fe8a7b2aaa11c4de52fd6a1f0ed077d75e57956de5b7360da",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EAB308",
-        "style": "flat-square"
-      },
-      "size_bytes": 311,
-      "generated_at": "2025-12-19T09:52:51.193025646+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_f38aa364e18633ae.svg",
-      "sha256": "f38aa364e18633ae633eec7a7b7364411bf4d195e7838e5edeb913769713268a",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EAB308",
-        "style": "flat-square"
-      },
-      "size_bytes": 306,
-      "generated_at": "2025-12-19T09:52:51.193249573+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_39f77d895f5b9baf.svg",
-      "sha256": "39f77d895f5b9bafd2617eca790f2b86e603d8d19644cfef45eebb46ef990c6a",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EAB308",
-        "style": "flat-square"
-      },
-      "size_bytes": 312,
-      "generated_at": "2025-12-19T09:52:51.193473633+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_a0b481854d3215cb.svg",
-      "sha256": "a0b481854d3215cba1bc3d1f3b5b1e31c9fa8ed62e5856ccb04cdf009061ef68",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "F97316",
-        "style": "flat-square"
-      },
-      "size_bytes": 310,
-      "generated_at": "2025-12-19T09:52:51.193719891+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_48e1d097bc5fef06.svg",
-      "sha256": "48e1d097bc5fef06c84615a4e57760e68a92ab5d134f2300eb535cc2c0ca2e43",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "F97316",
-        "style": "flat-square"
-      },
-      "size_bytes": 312,
-      "generated_at": "2025-12-19T09:52:51.193961672+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_c2ab2fbb75f229c6.svg",
-      "sha256": "c2ab2fbb75f229c6351b381eb57179166438ff371008d76762947d895a497ab7",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "8B5CF6",
-        "style": "flat-square"
-      },
-      "size_bytes": 305,
-      "generated_at": "2025-12-19T09:52:51.194179502+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_16c330642a77a05d.svg",
-      "sha256": "16c330642a77a05d6731d304051ef489df12118f9d1bcbac9faa0918868c6115",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "8B5CF6",
-        "style": "flat-square"
-      },
-      "size_bytes": 313,
-      "generated_at": "2025-12-19T09:52:51.194422788+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_00391c9381120ac2.svg",
-      "sha256": "00391c9381120ac2e4534ed39334f360fbad0aa914521d92fe869457eaf65c04",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "8B5CF6",
-        "style": "flat-square"
-      },
-      "size_bytes": 312,
-      "generated_at": "2025-12-19T09:52:51.194659641+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_50224d739194a573.svg",
-      "sha256": "50224d739194a573ae87b279d7722ef2f0195a72b9be3bd9bb777dc5f03e9cc8",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EF4444",
         "style": "flat-square"
       },
       "size_bytes": 315,
-      "generated_at": "2025-12-19T09:52:51.194928200+00:00",
+      "generated_at": "2025-12-19T10:03:22.795218673+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_93609e163b299f76.svg",
-      "sha256": "93609e163b299f7688f295ae7d4c7d47fd0db7ba667aa43417f31fc4d4080f29",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "EF4444",
-        "style": "flat-square"
-      },
-      "size_bytes": 305,
-      "generated_at": "2025-12-19T09:52:51.195202743+00:00",
-      "generator_version": "1.0.0"
-    },
-    {
-      "path": "docs/guides/assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg",
-      "sha256": "aabe83ba70a3b3d5a69e12e364bd40299a7bc17f2130da52c159cb4a249add57",
+      "path": "docs/guides/assets/version-license-guide/swatch_d3def3eda904b9f7.svg",
+      "sha256": "d3def3eda904b9f7210e2b1d89da8aa629a669ffd4290c6e50fdd26e3d5bf4f8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.195290470+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.795304679+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_6b8db58e50b077b7.svg",
-      "sha256": "6b8db58e50b077b7b2b060a47232ab853beb2b4b196e0ff137355017db886216",
+      "path": "docs/guides/assets/version-license-guide/swatch_1bc06e5eb7da0260.svg",
+      "sha256": "1bc06e5eb7da02607961b4b230e8902eb6bcfcfff5864b2f444a52591fcc39d9",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.795588251+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_bfd4f536cc724fa2.svg",
+      "sha256": "bfd4f536cc724fa260e8799bd205f83782bb3a90b0340b6cc47ad315f5435591",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.795857443+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_3c6482f977f7ff4c.svg",
+      "sha256": "3c6482f977f7ff4c442d7dbf6c316960341fb32ff8ea134fca17a1417a937b52",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.195557077+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.796109331+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_1e7451b775cc2c12.svg",
-      "sha256": "1e7451b775cc2c1276ada09198c495df31f5b92da7031cb703bc13946a09b921",
+      "path": "docs/guides/assets/version-license-guide/swatch_b916a8cb32408a2e.svg",
+      "sha256": "b916a8cb32408a2ea24c45e593c1eeab42843edaba3eb076368ca32421004838",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 319,
+      "generated_at": "2025-12-19T10:03:22.796361614+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_c8ea17f990f8896f.svg",
+      "sha256": "c8ea17f990f8896f1468f8728e9c16cf3a6f0c09fe09c3a2833bd212722ba814",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 324,
+      "generated_at": "2025-12-19T10:03:22.796632178+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_3e46f9dd4b6279d9.svg",
+      "sha256": "3e46f9dd4b6279d9df9e170471754db1a6c6c692c14950d4817788ae03908ce5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 319,
+      "generated_at": "2025-12-19T10:03:22.796905022+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_4b74263ca0bd16fb.svg",
+      "sha256": "4b74263ca0bd16fbb39bcb5f02779da6614c63c8cb8a83afddec37146710f085",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 325,
+      "generated_at": "2025-12-19T10:03:22.797168827+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_8360a2df6a3a09a9.svg",
+      "sha256": "8360a2df6a3a09a965aff9e1bb85018642a28c32988c293fbc9d39b46b27e655",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F97316",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.195918570+00:00",
+      "size_bytes": 323,
+      "generated_at": "2025-12-19T10:03:22.797401552+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_495ecefcaa5ea923.svg",
-      "sha256": "495ecefcaa5ea92389720d16acaaf3abbb093e602889ec698b07e66d6ed5aae2",
+      "path": "docs/guides/assets/version-license-guide/swatch_f3ed2cbde31d89e3.svg",
+      "sha256": "f3ed2cbde31d89e31e86a01f494c039701bec2fba001daf3e097cdb449d3f689",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F97316",
+        "style": "flat-square"
+      },
+      "size_bytes": 325,
+      "generated_at": "2025-12-19T10:03:22.797707446+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_10934951eb9b45a2.svg",
+      "sha256": "10934951eb9b45a2ce617455a10acc3fc2c604feef130a0fa5b50df42edda2c2",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "8B5CF6",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.196302168+00:00",
+      "size_bytes": 318,
+      "generated_at": "2025-12-19T10:03:22.798019399+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_1f25d8a75e3547c5.svg",
-      "sha256": "1f25d8a75e3547c59b280fff9633363a6b679c1ba31d04ed484bdaf4354572a1",
+      "path": "docs/guides/assets/version-license-guide/swatch_b003e78043030954.svg",
+      "sha256": "b003e780430309547f838be9989a8e8f692b9e32a07013983c719a679d57182d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 326,
+      "generated_at": "2025-12-19T10:03:22.798262656+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_a404e9bf1aa845af.svg",
+      "sha256": "a404e9bf1aa845af82e432966da243ad19ac80c871e336d5fc8bce7ba230038a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 325,
+      "generated_at": "2025-12-19T10:03:22.798528174+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_9669089e3a0febc6.svg",
+      "sha256": "9669089e3a0febc67a10ebfe20e39b5002cd63e9f891d20f98a30e2dedfd1b51",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EF4444",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.196579400+00:00",
+      "size_bytes": 328,
+      "generated_at": "2025-12-19T10:03:22.798757201+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_49ddda9a0211818d.svg",
-      "sha256": "49ddda9a0211818d9e8df6a486a981dfc40b9455e17658bfe70b5573c7ae227d",
+      "path": "docs/guides/assets/version-license-guide/swatch_7aaeaea7287162ee.svg",
+      "sha256": "7aaeaea7287162eeac56cf3406e722c6b2669c6be30dd7d8df7958bf12066c87",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 318,
+      "generated_at": "2025-12-19T10:03:22.799043120+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_d3def3eda904b9f7.svg",
+      "sha256": "d3def3eda904b9f7210e2b1d89da8aa629a669ffd4290c6e50fdd26e3d5bf4f8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 300,
-      "generated_at": "2025-12-19T09:52:51.196862816+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.799125725+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_fe5a232c1e03c3ea.svg",
-      "sha256": "fe5a232c1e03c3ea9286ebc4a3dd15fc39f419c084689b1c4008f6aa1798dae5",
+      "path": "docs/guides/assets/version-license-guide/swatch_9cf2674a1fa00a77.svg",
+      "sha256": "9cf2674a1fa00a77ddb51d37638fc9405652fc6d88ac9aa570e80577f19d58eb",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.799346451+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_4d5a109448317622.svg",
+      "sha256": "4d5a109448317622aaa1b77eb8ec32ac103136e3742007708268fcbb85a79dbd",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F97316",
+        "style": "flat-square"
+      },
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.799706074+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_6e47135ce5eb8926.svg",
+      "sha256": "6e47135ce5eb8926e9bb4a317bff8916f7bf0e0f6ef45be6297e3f616e802f1d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.800048801+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_a74eb32da9fe75a0.svg",
+      "sha256": "a74eb32da9fe75a01a17023839fc074b284ecea20d057e3f6a4054b9166f06e9",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.800306859+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_491303093c8f1c8a.svg",
+      "sha256": "491303093c8f1c8a00141507c28fa0b88c4fc5b11bdcf2150ad43000282f914e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 300,
-      "generated_at": "2025-12-19T09:52:51.197122967+00:00",
+      "size_bytes": 313,
+      "generated_at": "2025-12-19T10:03:22.800555997+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_897e21ef13830271.svg",
-      "sha256": "897e21ef13830271a291166db53c98d1563288b1fd51d9be837efc7c8f6a462c",
+      "path": "docs/guides/assets/version-license-guide/swatch_5d14fd810511fbc1.svg",
+      "sha256": "5d14fd810511fbc130c7b7d53e4663c5e5d5ea947206daed3b7e9b9aacb2242a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 313,
+      "generated_at": "2025-12-19T10:03:22.800792064+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_4cea3692a9161030.svg",
+      "sha256": "4cea3692a9161030a3b8b3cc0ad668c13d9b98a4b644d99270a611e3f85275df",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "2B6CB0",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.197357254+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.801083267+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_e9ee9f827dc58e55.svg",
-      "sha256": "e9ee9f827dc58e5575c07a1375d4c923301fa827d191ac414f17b1dc19c1f8dc",
+      "path": "docs/guides/assets/version-license-guide/swatch_f6c472ffb2214d47.svg",
+      "sha256": "f6c472ffb2214d471a9c84eaafb0db98f3dcf17f10d3408069f97bdf14027422",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "6B46C1",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.197571020+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.801381721+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_fe95d1519b1c7e68.svg",
-      "sha256": "fe95d1519b1c7e6810cdfb93d7a181f3526f643cae13cb5238549f78d3bd8f63",
+      "path": "docs/guides/assets/version-license-guide/swatch_9812d266d09d0a63.svg",
+      "sha256": "9812d266d09d0a63993dde8cb7efdfe5c93ebba5d3233435c06744c8ae935a88",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.197832496+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.801672477+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_68c24257a3406bb8.svg",
-      "sha256": "68c24257a3406bb86feaa209ea7b8414e1cc08231e09a5971cf7cb74b153fb36",
+      "path": "docs/guides/assets/version-license-guide/swatch_d3def3eda904b9f7.svg",
+      "sha256": "d3def3eda904b9f7210e2b1d89da8aa629a669ffd4290c6e50fdd26e3d5bf4f8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.198045132+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.801756114+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_fcdf995283615306.svg",
-      "sha256": "fcdf99528361530610514b15e93efacf78c2d8f6f22d8b6f38aac13b8fd9fc5c",
+      "path": "docs/guides/assets/version-license-guide/swatch_15d0b88a9cd9222a.svg",
+      "sha256": "15d0b88a9cd9222a78f727d20554f7a205292c4544f6a8a8aaec986ebe7e3edc",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "plastic"
       },
-      "size_bytes": 615,
-      "generated_at": "2025-12-19T09:52:51.198287587+00:00",
+      "size_bytes": 628,
+      "generated_at": "2025-12-19T10:03:22.802049463+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_bdc37939443ed823.svg",
-      "sha256": "bdc37939443ed82365144740d4f14191f1dbd37196d790cd8c613409b5a85db6",
+      "path": "docs/guides/assets/version-license-guide/swatch_7829ebd7840d7397.svg",
+      "sha256": "7829ebd7840d7397f072ef602644bd6cdfa816c6b09873093cfb7cbc324daa00",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "for-the-badge"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.198538352+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.802323957+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_85a9fc02551e469b.svg",
-      "sha256": "85a9fc02551e469b6da4fd01d788cdb873d00d6e647ac68f12de1a1f9299516d",
+      "path": "docs/guides/assets/version-license-guide/swatch_00b3009047beb542.svg",
+      "sha256": "00b3009047beb542d68edd4b20c90d218e10e177feb7c3a167a5bedd4db9084c",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.198770237+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.802599662+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_0e50155d41187e8b.svg",
-      "sha256": "0e50155d41187e8bd1e4e196f363099bbff4a167cd8e2d45c22511d122edf494",
+      "path": "docs/guides/assets/version-license-guide/swatch_d40867a144d33145.svg",
+      "sha256": "d40867a144d33145a88e857827510600ae2cdfe9c74b34914b62bf3ca350d469",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 305,
-      "generated_at": "2025-12-19T09:52:51.199009169+00:00",
+      "size_bytes": 318,
+      "generated_at": "2025-12-19T10:03:22.802882247+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_380036f2d9c5a7e2.svg",
-      "sha256": "380036f2d9c5a7e2b46533a1b305b7c4f0711590001ab0494c76566d24be41a0",
+      "path": "docs/guides/assets/version-license-guide/swatch_1d89a9075027cb37.svg",
+      "sha256": "1d89a9075027cb37e318705d65d524e8ecc943bac9f1edb53edce57b58228125",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.199240123+00:00",
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.803194409+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_85a9fc02551e469b.svg",
-      "sha256": "85a9fc02551e469b6da4fd01d788cdb873d00d6e647ac68f12de1a1f9299516d",
+      "path": "docs/guides/assets/version-license-guide/swatch_00b3009047beb542.svg",
+      "sha256": "00b3009047beb542d68edd4b20c90d218e10e177feb7c3a167a5bedd4db9084c",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.199321191+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.803296078+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_0e50155d41187e8b.svg",
-      "sha256": "0e50155d41187e8bd1e4e196f363099bbff4a167cd8e2d45c22511d122edf494",
+      "path": "docs/guides/assets/version-license-guide/swatch_d40867a144d33145.svg",
+      "sha256": "d40867a144d33145a88e857827510600ae2cdfe9c74b34914b62bf3ca350d469",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 305,
-      "generated_at": "2025-12-19T09:52:51.199404822+00:00",
+      "size_bytes": 318,
+      "generated_at": "2025-12-19T10:03:22.803389489+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_8e1f3054d30c236f.svg",
-      "sha256": "8e1f3054d30c236fa46321f78d265e26de28b02bfe41397da34e1ff473e681f0",
+      "path": "docs/guides/assets/version-license-guide/swatch_c270e776b2fd5226.svg",
+      "sha256": "c270e776b2fd5226286da7ddcd791b4d9b8587f6550c9cafc8b2355e074abdfa",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 310,
-      "generated_at": "2025-12-19T09:52:51.199640309+00:00",
+      "size_bytes": 323,
+      "generated_at": "2025-12-19T10:03:22.803744302+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_e77a49b75b71e6ef.svg",
-      "sha256": "e77a49b75b71e6ef380cf5a59b89e5df0b9f87aea6b66eb5a1a1525c0f9f1498",
+      "path": "docs/guides/assets/version-license-guide/swatch_2b7a966e37b9c89f.svg",
+      "sha256": "2b7a966e37b9c89fe5e9645ee5b8b89c232ae1d057837e1f1a1e6e1cc72cad6a",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 310,
-      "generated_at": "2025-12-19T09:52:51.199898841+00:00",
+      "size_bytes": 323,
+      "generated_at": "2025-12-19T10:03:22.804086647+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_248b982c7f3a20b9.svg",
-      "sha256": "248b982c7f3a20b90f3edd66919c1005d361ee5f4f978b8af7324a7b3eed3bed",
+      "path": "docs/guides/assets/version-license-guide/swatch_4ef889f88f2927f1.svg",
+      "sha256": "4ef889f88f2927f1e4fb9115801454bb561b5b123315151f4624ea3f20197f7d",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.200117930+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.804423574+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_68b37f22bceae35c.svg",
-      "sha256": "68b37f22bceae35c4eae88f9de59f3d621f9ac23fd5dae65bace797a5f58eb13",
+      "path": "docs/guides/assets/version-license-guide/swatch_9daf821d1b5d90f9.svg",
+      "sha256": "9daf821d1b5d90f97bb9cf6200f088d20318381b911ae9a9b0ab2955fcaa16d2",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "3B82F6",
         "style": "flat-square"
       },
-      "size_bytes": 303,
-      "generated_at": "2025-12-19T09:52:51.200369956+00:00",
+      "size_bytes": 316,
+      "generated_at": "2025-12-19T10:03:22.804717600+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_680acd57cc7d0352.svg",
-      "sha256": "680acd57cc7d03528489c07fe0c9000101854b58de3b57a2fa38e167e6da2bb7",
+      "path": "docs/guides/assets/version-license-guide/swatch_c4b15d4dd17dbfb8.svg",
+      "sha256": "c4b15d4dd17dbfb8966dfa74bb408048be5f1328d98f25e31c7b8e8a7be3edfe",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "3B82F6",
         "style": "flat-square"
       },
-      "size_bytes": 303,
-      "generated_at": "2025-12-19T09:52:51.200601047+00:00",
+      "size_bytes": 316,
+      "generated_at": "2025-12-19T10:03:22.804952721+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_69e265cf569ea74e.svg",
-      "sha256": "69e265cf569ea74e72a5775b64e2dcf7e77da261c8a4ab67afa1e792a8a10362",
+      "path": "docs/guides/assets/version-license-guide/swatch_7fa9d74778e73b06.svg",
+      "sha256": "7fa9d74778e73b06127142020e19e0db4eb60eb627787328741059d1823e1edf",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "3B82F6",
         "style": "flat-square"
       },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.200840316+00:00",
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.805201778+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_da9f5a73f4d97c9c.svg",
-      "sha256": "da9f5a73f4d97c9cd6fedb66b2e1ce0f1c9b80380be366d9abbb65b59ada3a5a",
+      "path": "docs/guides/assets/version-license-guide/swatch_f8bc6c7584e26d0d.svg",
+      "sha256": "f8bc6c7584e26d0d06b03cb712e0de56d47c78e46c4872a76485290d0784aacc",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "3B82F6",
         "style": "flat-square"
       },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.201074996+00:00",
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.805443800+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_380036f2d9c5a7e2.svg",
-      "sha256": "380036f2d9c5a7e2b46533a1b305b7c4f0711590001ab0494c76566d24be41a0",
+      "path": "docs/guides/assets/version-license-guide/swatch_1d89a9075027cb37.svg",
+      "sha256": "1d89a9075027cb37e318705d65d524e8ecc943bac9f1edb53edce57b58228125",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.201145842+00:00",
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.805514497+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_9237b4fa33d80bfe.svg",
-      "sha256": "9237b4fa33d80bfe9401b2a56088c12fa4a85928bd6d993670dfa8162e3b4adb",
+      "path": "docs/guides/assets/version-license-guide/swatch_c0eb241fc470a537.svg",
+      "sha256": "c0eb241fc470a5377bfd988adc6260878e53250c547a27dd494fc3360309bda5",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.201349841+00:00",
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.805749950+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_d002b9799507979f.svg",
-      "sha256": "d002b9799507979fbef369a872ad8cc8213e5c9b9bf85de452ee219bb8b9bf6c",
+      "path": "docs/guides/assets/version-license-guide/swatch_0009b6c0d1f3b667.svg",
+      "sha256": "0009b6c0d1f3b66787bb061c62846cd878f2f576ce11124479f116f27ec71a56",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 303,
-      "generated_at": "2025-12-19T09:52:51.201631816+00:00",
+      "size_bytes": 316,
+      "generated_at": "2025-12-19T10:03:22.806028311+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_83ce122ae83e6484.svg",
-      "sha256": "83ce122ae83e64844f20b6ce5fac30f73e3ded3ab5f987098f81f042511c94b1",
+      "path": "docs/guides/assets/version-license-guide/swatch_548fb59ac01c8b78.svg",
+      "sha256": "548fb59ac01c8b78e3f16a3f8dc091ba7f6ccc5576479e3d7e6cb9f2c9f82ea3",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "06B6D4",
         "style": "flat-square"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.201902873+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.806289993+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_589c7d76645e9243.svg",
-      "sha256": "589c7d76645e92439c7c26dd8a934e2829de1438af55fde20322d75f5fa64e95",
+      "path": "docs/guides/assets/version-license-guide/swatch_ad6e526b20506398.svg",
+      "sha256": "ad6e526b2050639820d54e7abb4920fe82e39df4eaf59e7c29f7d623a684dd83",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "06B6D4",
         "style": "flat-square"
       },
-      "size_bytes": 304,
-      "generated_at": "2025-12-19T09:52:51.202167350+00:00",
+      "size_bytes": 317,
+      "generated_at": "2025-12-19T10:03:22.806534821+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_30680d4d30855460.svg",
-      "sha256": "30680d4d308554606b7f86a3551ce7fe8cb324649678cc30367fc7b59b397dd8",
+      "path": "docs/guides/assets/version-license-guide/swatch_0ac405a64c3452da.svg",
+      "sha256": "0ac405a64c3452da1a4ee9f3b581ba693262c56aa7b59ce909da93761d0bc7e3",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "6B7280",
         "style": "flat-square"
       },
-      "size_bytes": 306,
-      "generated_at": "2025-12-19T09:52:51.202389440+00:00",
+      "size_bytes": 319,
+      "generated_at": "2025-12-19T10:03:22.806763881+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_9255e7dbab0a43ea.svg",
-      "sha256": "9255e7dbab0a43eaf0a9acf6428410a8f144f7c2c42f9a7e1cd950d194c86c72",
+      "path": "docs/guides/assets/version-license-guide/swatch_974e7ba011456d31.svg",
+      "sha256": "974e7ba011456d31ad373edf48fa32dd7c3ea65c7180db3780fb652cff539e58",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "6B7280",
         "style": "flat-square"
       },
-      "size_bytes": 305,
-      "generated_at": "2025-12-19T09:52:51.202650455+00:00",
+      "size_bytes": 318,
+      "generated_at": "2025-12-19T10:03:22.806997120+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_b5e0e7b3039e8f56.svg",
-      "sha256": "b5e0e7b3039e8f564dc1e1d45fa783af8c3a43a4583c59721bb9f0908c7f906e",
+      "path": "docs/guides/assets/version-license-guide/swatch_b323a1c375b0bb64.svg",
+      "sha256": "b323a1c375b0bb641b4e0dfe62f149c0f4aef85a2c2cb5f3a159d68d849d2a1b",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 306,
-      "generated_at": "2025-12-19T09:52:51.202922716+00:00",
+      "size_bytes": 319,
+      "generated_at": "2025-12-19T10:03:22.807208179+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_c1330940125b4509.svg",
-      "sha256": "c1330940125b450954ba75a3343e01c1e8cb468a8e670dac403dcfee01df12dc",
+      "path": "docs/guides/assets/version-license-guide/swatch_e1f9d2512e0cbba0.svg",
+      "sha256": "e1f9d2512e0cbba0bae31cb02a69d4f0425142da0b870640e60696d606a1d6cd",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.203156489+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.807498272+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_a7e18a850ad12f34.svg",
-      "sha256": "a7e18a850ad12f3449d780d30dc081fe346635564564e4f36075d6292987da1e",
+      "path": "docs/guides/assets/version-license-guide/swatch_ef86f6d0372995bb.svg",
+      "sha256": "ef86f6d0372995bb64c8720a6423765363e8341931f903793cf164116abe373e",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 300,
-      "generated_at": "2025-12-19T09:52:51.203473162+00:00",
+      "size_bytes": 313,
+      "generated_at": "2025-12-19T10:03:22.807762396+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_faa26cdc53a9bcfd.svg",
-      "sha256": "faa26cdc53a9bcfddc969d2fc2be9e703588f84d69fc3794d1f14f8e1c385462",
+      "path": "docs/guides/assets/version-license-guide/swatch_34085aace07002f2.svg",
+      "sha256": "34085aace07002f2deb6b9ecaf77093c502c8f332fe1b3122555fbdddda126f8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "2B6CB0",
         "style": "flat-square"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.203741018+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.808062331+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_4e379cb21a7c794b.svg",
-      "sha256": "4e379cb21a7c794bb8eb74879337a8e79bc6a513a39015fa67bd65ce34223ef5",
+      "path": "docs/guides/assets/version-license-guide/swatch_c2418a4eb8800b19.svg",
+      "sha256": "c2418a4eb8800b1990b1803b984f513cf3a564e42b201478afa05346d670bd61",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "6B46C1",
         "style": "flat-square"
       },
-      "size_bytes": 305,
-      "generated_at": "2025-12-19T09:52:51.204009640+00:00",
+      "size_bytes": 318,
+      "generated_at": "2025-12-19T10:03:22.808330632+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_ddf6ead7897691f8.svg",
-      "sha256": "ddf6ead7897691f87d47874fcc2e17747ad003cadedc0a695e1816f76f396486",
+      "path": "docs/guides/assets/version-license-guide/swatch_a5603170fb078674.svg",
+      "sha256": "a5603170fb078674a2b7a948c1f15cc4598a1a1382e11aae2b4fa3a470fd7a65",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "F41C80",
         "style": "flat-square"
       },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.204217641+00:00",
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.808607961+00:00",
       "generator_version": "1.0.0"
     },
     {
@@ -747,33 +747,33 @@
         "style": "flat-square"
       },
       "size_bytes": 2295,
-      "generated_at": "2025-12-19T09:52:51.204611097+00:00",
+      "generated_at": "2025-12-19T10:03:22.808875471+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg",
-      "sha256": "aabe83ba70a3b3d5a69e12e364bd40299a7bc17f2130da52c159cb4a249add57",
+      "path": "docs/guides/assets/version-license-guide/swatch_d3def3eda904b9f7.svg",
+      "sha256": "d3def3eda904b9f7210e2b1d89da8aa629a669ffd4290c6e50fdd26e3d5bf4f8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.204709437+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.808978329+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_85a9fc02551e469b.svg",
-      "sha256": "85a9fc02551e469b6da4fd01d788cdb873d00d6e647ac68f12de1a1f9299516d",
+      "path": "docs/guides/assets/version-license-guide/swatch_00b3009047beb542.svg",
+      "sha256": "00b3009047beb542d68edd4b20c90d218e10e177feb7c3a167a5bedd4db9084c",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.204785146+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.809069641+00:00",
       "generator_version": "1.0.0"
     },
     {
@@ -788,7 +788,7 @@
         "style": "flat-square"
       },
       "size_bytes": 1654,
-      "generated_at": "2025-12-19T09:52:51.205085357+00:00",
+      "generated_at": "2025-12-19T10:03:22.809386784+00:00",
       "generator_version": "1.0.0"
     },
     {
@@ -803,33 +803,33 @@
         "style": "flat-square"
       },
       "size_bytes": 3303,
-      "generated_at": "2025-12-19T09:52:51.205383285+00:00",
+      "generated_at": "2025-12-19T10:03:22.809732812+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_b981b8418b8fb448.svg",
-      "sha256": "b981b8418b8fb4482b2b39676a62b2b54297a01cc26d514f2cd9d4bfc4c1a57c",
+      "path": "docs/guides/assets/version-license-guide/swatch_103e4f7a79b79310.svg",
+      "sha256": "103e4f7a79b79310d67f5f428fdfdc2701e34f0fb8fdf9fd05f57bf8995c1709",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 306,
-      "generated_at": "2025-12-19T09:52:51.205694274+00:00",
+      "size_bytes": 319,
+      "generated_at": "2025-12-19T10:03:22.810025937+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_0e50155d41187e8b.svg",
-      "sha256": "0e50155d41187e8bd1e4e196f363099bbff4a167cd8e2d45c22511d122edf494",
+      "path": "docs/guides/assets/version-license-guide/swatch_d40867a144d33145.svg",
+      "sha256": "d40867a144d33145a88e857827510600ae2cdfe9c74b34914b62bf3ca350d469",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat-square"
       },
-      "size_bytes": 305,
-      "generated_at": "2025-12-19T09:52:51.205768934+00:00",
+      "size_bytes": 318,
+      "generated_at": "2025-12-19T10:03:22.810100593+00:00",
       "generator_version": "1.0.0"
     },
     {
@@ -844,33 +844,33 @@
         "style": "flat-square"
       },
       "size_bytes": 1895,
-      "generated_at": "2025-12-19T09:52:51.206033054+00:00",
+      "generated_at": "2025-12-19T10:03:22.810348207+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_5a807cf2c2ac9113.svg",
-      "sha256": "5a807cf2c2ac9113c1054fc4a9f8c5b2e37daef5c6511f8efbd6d85dd48af149",
+      "path": "docs/guides/assets/version-license-guide/swatch_989ecfd1926548b5.svg",
+      "sha256": "989ecfd1926548b56016780e1f614d1bc6f1934c044d813428cdff436942141f",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EF4444",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.206264900+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.810602299+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_380036f2d9c5a7e2.svg",
-      "sha256": "380036f2d9c5a7e2b46533a1b305b7c4f0711590001ab0494c76566d24be41a0",
+      "path": "docs/guides/assets/version-license-guide/swatch_1d89a9075027cb37.svg",
+      "sha256": "1d89a9075027cb37e318705d65d524e8ecc943bac9f1edb53edce57b58228125",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "EAB308",
         "style": "flat-square"
       },
-      "size_bytes": 302,
-      "generated_at": "2025-12-19T09:52:51.206367615+00:00",
+      "size_bytes": 315,
+      "generated_at": "2025-12-19T10:03:22.810701967+00:00",
       "generator_version": "1.0.0"
     },
     {
@@ -885,33 +885,33 @@
         "style": "flat"
       },
       "size_bytes": 2295,
-      "generated_at": "2025-12-19T09:52:51.206607938+00:00",
+      "generated_at": "2025-12-19T10:03:22.810924059+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_68c24257a3406bb8.svg",
-      "sha256": "68c24257a3406bb86feaa209ea7b8414e1cc08231e09a5971cf7cb74b153fb36",
+      "path": "docs/guides/assets/version-license-guide/swatch_d3def3eda904b9f7.svg",
+      "sha256": "d3def3eda904b9f7210e2b1d89da8aa629a669ffd4290c6e50fdd26e3d5bf4f8",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.206695049+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.811003498+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_f10311d16e3ed593.svg",
-      "sha256": "f10311d16e3ed5937ae20bc4ab11398181cb9dbc25af5d9d41c0f4d10df1b61e",
+      "path": "docs/guides/assets/version-license-guide/swatch_00b3009047beb542.svg",
+      "sha256": "00b3009047beb542d68edd4b20c90d218e10e177feb7c3a167a5bedd4db9084c",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "flat"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.206947919+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.811081247+00:00",
       "generator_version": "1.0.0"
     },
     {
@@ -926,59 +926,59 @@
         "style": "for-the-badge"
       },
       "size_bytes": 2295,
-      "generated_at": "2025-12-19T09:52:51.207180143+00:00",
+      "generated_at": "2025-12-19T10:03:22.811333351+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_bdc37939443ed823.svg",
-      "sha256": "bdc37939443ed82365144740d4f14191f1dbd37196d790cd8c613409b5a85db6",
+      "path": "docs/guides/assets/version-license-guide/swatch_7829ebd7840d7397.svg",
+      "sha256": "7829ebd7840d7397f072ef602644bd6cdfa816c6b09873093cfb7cbc324daa00",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "for-the-badge"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.207254061+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.811403074+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_39b5ca5536add59f.svg",
-      "sha256": "39b5ca5536add59fbed89a5277c26eff6a032158a7de5ce178cb59d288ea7fcb",
+      "path": "docs/guides/assets/version-license-guide/swatch_c542818011354b9b.svg",
+      "sha256": "c542818011354b9b5f1547d7b96508118591559c7d124df55d1672f4968bcbd6",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "22C55E",
         "style": "for-the-badge"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.207463478+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.811656640+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_adc184be7ad79224.svg",
-      "sha256": "adc184be7ad792245cdcba462d2365bf46ab1c4f0c032c019169243c48dfaf30",
+      "path": "docs/guides/assets/version-license-guide/swatch_e65f929d1a77716c.svg",
+      "sha256": "e65f929d1a77716ce318d5ca5ee48404b1b9fa2f7d7e4cc56df16e6913a1f69d",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "1a1a2e",
         "style": "flat-square"
       },
-      "size_bytes": 301,
-      "generated_at": "2025-12-19T09:52:51.207724693+00:00",
+      "size_bytes": 314,
+      "generated_at": "2025-12-19T10:03:22.811894295+00:00",
       "generator_version": "1.0.0"
     },
     {
-      "path": "docs/guides/assets/version-license-guide/swatch_56418742431319cf.svg",
-      "sha256": "56418742431319cfdda851f621dafbe7ac5346c6f08cfeb46c21fddc6948c4c6",
+      "path": "docs/guides/assets/version-license-guide/swatch_c96def03bf42bb0d.svg",
+      "sha256": "c96def03bf42bb0d4f25ca48505572324d74f5ad151e585d69bb3d90357bfe60",
       "type": "swatch",
       "primitive": {
         "kind": "Swatch",
         "color": "1a1a2e",
         "style": "flat-square"
       },
-      "size_bytes": 298,
-      "generated_at": "2025-12-19T09:52:51.207993917+00:00",
+      "size_bytes": 311,
+      "generated_at": "2025-12-19T10:03:22.812148014+00:00",
       "generator_version": "1.0.0"
     }
   ]

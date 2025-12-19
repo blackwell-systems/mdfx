@@ -164,8 +164,11 @@ pub fn handle(
     let border_color = params.get("border").map(|c| resolve_color(c));
     let border_width = params.get("border_width").and_then(|v| v.parse().ok());
 
-    // Corner radius
-    let rx = params.get("rx").and_then(|v| v.parse().ok());
+    // Corner radius - default to 3 for polished rounded look
+    let rx = params
+        .get("rx")
+        .and_then(|v| v.parse().ok())
+        .or(Some(3));
 
     // URL for linking to license text
     let _url = params.get("url").cloned();
@@ -175,6 +178,9 @@ pub fn handle(
         .get("width")
         .and_then(|w| w.parse().ok())
         .unwrap_or_else(|| (label.len() as u32 * 7 + 16).max(40));
+
+    // Optional subtle shadow for depth
+    let shadow = params.get("shadow").map(|s| s.as_str());
 
     Ok(ComponentOutput::Primitive(Primitive::Swatch {
         color: bg_color,
@@ -190,7 +196,7 @@ pub fn handle(
         icon_color: None,
         rx,
         ry: None,
-        shadow: None,
+        shadow: shadow.map(|s| s.to_string()),
         gradient: None,
         stroke_dash: None,
         logo_size: None,

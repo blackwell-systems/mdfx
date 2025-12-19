@@ -164,13 +164,19 @@ pub fn render(opts: SwatchOptions) -> String {
 
     // Build label element
     let label_color = opts.label_color.unwrap_or("white");
+    // Ensure color has # prefix for SVG
+    let label_color_formatted = if label_color.starts_with('#') || label_color == "white" || label_color == "black" {
+        label_color.to_string()
+    } else {
+        format!("#{}", label_color)
+    };
     let label_elem = if let Some(text) = opts.label {
-        let font_size = if height > 24 { 14 } else { 10 };
+        let font_size = if height > 24 { 14 } else { 11 };
         let y_pos = height / 2 + font_size / 3 + border_offset + shadow_padding / 2;
         let x_pos = width / 2 + border_offset + shadow_padding / 2;
         format!(
-            "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}</text>",
-            x_pos, y_pos, label_color, font_size, text
+            "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"{}\" font-family=\"Verdana,DejaVu Sans,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>",
+            x_pos, y_pos, label_color_formatted, font_size, text
         )
     } else {
         String::new()
