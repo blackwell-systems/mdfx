@@ -17,3 +17,6 @@ glyphs = []  # Include 500+ Unicode glyph mappings
 [dependencies]
 mdfx-colors = { version = "1.0", path = "../mdfx-colors" }
 mdfx-icons = { version = "1.0", path = "../mdfx-icons" }
+
+[dev-dependencies]
+mdfx = { version = "1.0", path = "../mdfx" }
