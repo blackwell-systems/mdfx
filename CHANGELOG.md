@@ -401,6 +401,22 @@ Added `rstest` crate for parameterized testing, significantly reducing test boil
 - **mdfx/components/handlers/github.rs**: Offline mode (4 cases), missing query (4 cases)
 - **mdfx/parser.rs**: Separator types (5 cases), spacing values (3 cases), frame glyph shorthand (2 cases), glyph padding (5 cases), frame pattern separators (3 cases), frame pattern spacing (2 cases), glyph frame spacing (2 cases), badge styles (4 cases)
 
+**Coverage expansion with additional tests:**
+
+- **badgefx/badge.rs**: Builder string setters (5 cases: custom_icon, text_color, logo_color, bg_left, bg_right), border_full, empty label edge case
+- **badgefx/render.rs**: Border full rendering, per-corner radii, bg_left/right, logo color contrast (4 cases), render_to_file, darken_color helper
+- **badgefx/style.rs**: Chevron constructors (3 cases), SvgMetrics coordinate methods, Corners::symmetric
+- **mdfx-fetch/cache.rs**: CacheConfig::default, CacheEntry::time_remaining, remove nonexistent, clear_expired, stats with size
+- **mdfx/manifest.rs**: PrimitiveInfo conversions for all 6 variant types (Progress, Donut, Gauge, Sparkline, Rating, Waveform)
+
+**Coverage improvements:**
+- mdfx-fetch/cache.rs: 79% → 96%
+- mdfx/manifest.rs: 81% → 92%
+- badgefx/badge.rs: 79% → 86%
+- badgefx/render.rs: 69% → 78%
+- badgefx/style.rs: 83% → 95%
+- Overall project: 62.5% → 65%
+
 Example transformation:
 ```rust
 // Before: 10 separate test functions

@@ -115,13 +115,62 @@ The `examples/assets/` directory is tracked in git (NOT ignored). This ensures:
 
 ## Testing
 
+### Running Tests
+
 ```bash
 # Run all tests
 cargo test --release
 
 # Run specific crate tests
-cd crates/badgefx && cargo test --release
+cargo test --package badgefx --release
+
+# Run tests matching a pattern
+cargo test --package mdfx parser:: --release
+
+# Run with coverage (requires cargo-llvm-cov)
+cargo llvm-cov --release
 ```
+
+### Testing Philosophy
+
+This project uses **rstest** for parameterized testing. When writing or modifying tests:
+
+1. **Always use rstest for similar test cases** - If you have multiple tests that differ only by input/output values, consolidate them into a single parameterized test.
+
+2. **Avoid individual test functions for variations** - Instead of:
+   ```rust
+   #[test] fn test_style_flat() { ... }
+   #[test] fn test_style_plastic() { ... }
+   #[test] fn test_style_social() { ... }
+   ```
+
+   Use:
+   ```rust
+   #[rstest]
+   #[case("flat", expected_flat)]
+   #[case("plastic", expected_plastic)]
+   #[case("social", expected_social)]
+   fn test_style(#[case] style: &str, #[case] expected: Value) { ... }
+   ```
+
+3. **Add rstest to test modules**:
+   ```rust
+   #[cfg(test)]
+   mod tests {
+       use super::*;
+       use rstest::rstest;
+       // ...
+   }
+   ```
+
+4. **Keep verbose tests for edge cases** - Tests that check specific error variants or have complex assertions can remain as individual `#[test]` functions.
+
+### Coverage Goals
+
+- Aim for >80% line coverage on core modules
+- Use `cargo llvm-cov --release` to check coverage
+- Focus on testing public APIs and error paths
+- The CLI (`mdfx-cli`) is expected to have low unit test coverage (integration tests are preferred)
 
 ## Common Commands
 
