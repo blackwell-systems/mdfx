@@ -64,7 +64,7 @@ pub fn contrast_color(bg: &str) -> &'static str {
 /// ```
 /// use mdfx_colors::darken;
 ///
-/// assert_eq!(darken("#FFFFFF", 0.5), "#7F7F7F"); // 50% gray
+/// assert_eq!(darken("#FFFFFF", 0.5), "#808080"); // 50% gray (with rounding)
 /// assert_eq!(darken("#FF0000", 0.2), "#CC0000"); // 20% darker red
 /// ```
 pub fn darken(hex: &str, amount: f32) -> String {
@@ -72,9 +72,9 @@ pub fn darken(hex: &str, amount: f32) -> String {
 
     let factor = 1.0 - amount.clamp(0.0, 1.0);
 
-    let new_r = ((r as f32) * factor) as u8;
-    let new_g = ((g as f32) * factor) as u8;
-    let new_b = ((b as f32) * factor) as u8;
+    let new_r = ((r as f32) * factor).round() as u8;
+    let new_g = ((g as f32) * factor).round() as u8;
+    let new_b = ((b as f32) * factor).round() as u8;
 
     format!("#{:02X}{:02X}{:02X}", new_r, new_g, new_b)
 }
@@ -143,7 +143,7 @@ mod tests {
     fn test_darken() {
         assert_eq!(darken("#FFFFFF", 0.0), "#FFFFFF"); // No change
         assert_eq!(darken("#FFFFFF", 1.0), "#000000"); // Complete darkening
-        assert_eq!(darken("#FF0000", 0.5), "#7F0000"); // 50% red darkening (255 * 0.5 = 127 = 0x7F)
+        assert_eq!(darken("#FF0000", 0.5), "#800000"); // 50% red darkening (255 * 0.5 = 127.5 rounds to 128 = 0x80)
     }
 
     #[test]
