@@ -378,6 +378,20 @@ Added `rstest` crate for parameterized testing, significantly reducing test boil
 - **shields.rs**: Color resolution, style existence, and error cases parameterized
 - **registry.rs**: Palette, glyph, style, frame, shield style, and context promotion tests parameterized
 
+**Comprehensive expansion to remaining crates:**
+
+- **mdfx-colors**: Luminance, contrast_color, darken, parse_hex tests parameterized
+- **badgefx/badge.rs**: Display labels (7 cases) and effective_bg_color (3 cases)
+- **badgefx/group.rs**: Corner radii, position (12 cases), spacing (6 cases), dimensions (3 cases)
+- **badgefx/style.rs**: Style properties (5 cases), parsing (7 cases), corners (3 cases), chevron (3 cases)
+- **mdfx-fetch/value.rs**: Number formatting (5 cases), DataValue display (6 cases)
+- **mdfx-fetch/error.rs**: Error recoverability (7 cases)
+- **mdfx-fetch/sources/mod.rs**: 4 registry tests consolidated into 1 parameterized
+- **mdfx-fetch/sources/github.rs**: Query parsing (4 cases), metric colors (9 cases)
+- **mdfx-fetch/sources/npm.rs**: Metric labels (6 cases)
+- **mdfx-fetch/sources/pypi.rs**: Metric labels (6 cases)
+- **mdfx-fetch/sources/crates.rs**: Metric colors (5 cases)
+
 Example transformation:
 ```rust
 // Before: 10 separate test functions
