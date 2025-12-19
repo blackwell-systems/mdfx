@@ -2098,10 +2098,12 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) - System architecture and design
 - [ROADMAP.md](ROADMAP.md) - Development roadmap
+- [ASSETS-GUIDE.md](guides/ASSETS-GUIDE.md) - Asset management and manifest system
+- [COLORS-GUIDE.md](guides/COLORS-GUIDE.md) - Color palette and theming
 - [examples/README.md](../examples/README.md) - Template syntax examples
 
 ---
 
 **Last Updated:** 2025-12-19
 
-**Version:** 1.0.0 - Added Target System, Custom Palette Support, Enhanced Swatch Options, Registry API, CLI Discovery Commands
+**Version:** 1.0.0 - Added Target System, Custom Palette Support, Enhanced Swatch Options, Registry API, CLI Discovery Commands, Enhanced Asset Management

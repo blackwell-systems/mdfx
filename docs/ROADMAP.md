@@ -20,9 +20,17 @@ mdfx list palette            # List palette colors
 mdfx list glyphs -f star     # Filter by name pattern
 ```
 
-### Smart Caching
+### Enhanced Asset Management ✅
 
-Skip writing unchanged SVG files for faster rebuilds.
+Content-addressed filenames, atomic writes, incremental manifests, and provenance tracking:
+
+- **Content-addressed filenames**: SHA-256 based, stable across Rust versions
+- **Atomic manifest writes**: Crash-safe with temp file + rename
+- **Incremental updates**: `manifest.merge()` for efficient rebuilds
+- **Provenance tracking**: Source files, timestamps, generator version
+- **Manifest v1.1.0**: New schema with `total_size_bytes`, `generator_version`, per-asset metadata
+
+See [ASSETS-GUIDE.md](guides/ASSETS-GUIDE.md) for full documentation.
 
 ---
 

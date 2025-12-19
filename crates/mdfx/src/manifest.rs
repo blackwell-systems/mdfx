@@ -1,15 +1,28 @@
+//! Asset manifest system for tracking generated files
+//!
+//! Features:
+//! - SHA-256 content verification
+//! - Atomic manifest writes (prevents corruption)
+//! - Incremental manifest updates (merge capability)
+//! - Provenance tracking (source files, version, timestamp)
+//! - Content-addressed filenames (stable across Rust versions)
+
 use crate::error::Result;
 use crate::primitive::Primitive;
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 use std::fs;
 use std::path::Path;
+
+/// Current manifest schema version
+pub const MANIFEST_VERSION: &str = "1.1.0";
 
 /// Manifest entry for a generated asset
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AssetEntry {
     /// Relative path from project root
     pub path: String,
-    /// SHA-256 hash of file contents
+    /// SHA-256 hash of file contents (for verification)
     pub sha256: String,
     /// Asset type (swatch, tech, progress)
     #[serde(rename = "type")]
@@ -18,6 +31,47 @@ pub struct AssetEntry {
     pub primitive: PrimitiveInfo,
     /// File size in bytes
     pub size_bytes: usize,
+
+    // Provenance tracking fields (v1.1.0)
+    /// Source template files that reference this asset
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub source_files: Vec<String>,
+    /// Timestamp when this asset was generated (RFC3339)
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub generated_at: Option<String>,
+    /// mdfx version that generated this asset
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub generator_version: Option<String>,
+}
+
+impl AssetEntry {
+    /// Create a new asset entry with provenance tracking
+    pub fn new(
+        path: String,
+        bytes: &[u8],
+        primitive: &Primitive,
+        asset_type: String,
+        source_file: Option<String>,
+    ) -> Self {
+        use sha2::{Digest, Sha256};
+
+        let mut hasher = Sha256::new();
+        hasher.update(bytes);
+        let hash = format!("{:x}", hasher.finalize());
+
+        let source_files = source_file.into_iter().collect();
+
+        Self {
+            path,
+            sha256: hash,
+            asset_type,
+            primitive: PrimitiveInfo::from(primitive),
+            size_bytes: bytes.len(),
+            source_files,
+            generated_at: Some(chrono::Utc::now().to_rfc3339()),
+            generator_version: Some(env!("CARGO_PKG_VERSION").to_string()),
+        }
+    }
 }
 
 /// Serializable primitive information
@@ -146,9 +200,9 @@ impl From<&Primitive> for PrimitiveInfo {
 /// Asset manifest for tracking generated files
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetManifest {
-    /// Manifest version
+    /// Manifest schema version (for migrations)
     pub version: String,
-    /// Timestamp of manifest creation
+    /// Timestamp of manifest creation/update
     pub created_at: String,
     /// Backend used for generation
     pub backend: String,
@@ -156,6 +210,12 @@ pub struct AssetManifest {
     pub assets_dir: String,
     /// Total number of assets
     pub total_assets: usize,
+    /// Total size of all assets in bytes
+    #[serde(default)]
+    pub total_size_bytes: usize,
+    /// mdfx version that generated this manifest
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub generator_version: Option<String>,
     /// Asset entries
     pub assets: Vec<AssetEntry>,
 }
@@ -164,16 +224,18 @@ impl AssetManifest {
     /// Create a new manifest
     pub fn new(backend: &str, assets_dir: &str) -> Self {
         Self {
-            version: "1.0.0".to_string(),
+            version: MANIFEST_VERSION.to_string(),
             created_at: chrono::Utc::now().to_rfc3339(),
             backend: backend.to_string(),
             assets_dir: assets_dir.to_string(),
             total_assets: 0,
+            total_size_bytes: 0,
+            generator_version: Some(env!("CARGO_PKG_VERSION").to_string()),
             assets: Vec::new(),
         }
     }
 
-    /// Add an asset entry to the manifest
+    /// Add an asset entry to the manifest (legacy API for backwards compatibility)
     pub fn add_asset(
         &mut self,
         path: String,
@@ -181,40 +243,144 @@ impl AssetManifest {
         primitive: &Primitive,
         asset_type: String,
     ) {
-        use sha2::{Digest, Sha256};
+        self.add_asset_with_source(path, bytes, primitive, asset_type, None);
+    }
 
-        let mut hasher = Sha256::new();
-        hasher.update(bytes);
-        let hash = format!("{:x}", hasher.finalize());
-
-        self.assets.push(AssetEntry {
-            path,
-            sha256: hash,
-            asset_type,
-            primitive: PrimitiveInfo::from(primitive),
-            size_bytes: bytes.len(),
-        });
-
+    /// Add an asset entry with source file tracking
+    pub fn add_asset_with_source(
+        &mut self,
+        path: String,
+        bytes: &[u8],
+        primitive: &Primitive,
+        asset_type: String,
+        source_file: Option<String>,
+    ) {
+        let entry = AssetEntry::new(path, bytes, primitive, asset_type, source_file);
+        self.total_size_bytes += entry.size_bytes;
+        self.assets.push(entry);
         self.total_assets = self.assets.len();
     }
 
-    /// Write manifest to file
+    /// Add a pre-built asset entry
+    pub fn add_entry(&mut self, entry: AssetEntry) {
+        self.total_size_bytes += entry.size_bytes;
+        self.assets.push(entry);
+        self.total_assets = self.assets.len();
+    }
+
+    /// Merge new assets into this manifest (incremental update)
+    ///
+    /// This keeps existing assets that are still valid and adds/updates new ones.
+    /// Assets not in `new_paths` are removed (they're stale).
+    ///
+    /// # Arguments
+    /// * `new_assets` - New asset entries to merge in
+    /// * `new_paths` - Set of paths that should exist after merge (for cleanup)
+    pub fn merge(&mut self, new_assets: Vec<AssetEntry>, new_paths: Option<HashSet<String>>) {
+        // Build a map of new assets by path
+        let new_by_path: std::collections::HashMap<_, _> = new_assets
+            .into_iter()
+            .map(|a| (a.path.clone(), a))
+            .collect();
+
+        // If new_paths provided, filter existing assets to only keep those still needed
+        if let Some(ref keep_paths) = new_paths {
+            self.assets.retain(|a| keep_paths.contains(&a.path));
+        }
+
+        // Update existing or add new
+        for (path, new_entry) in new_by_path {
+            if let Some(existing) = self.assets.iter_mut().find(|a| a.path == path) {
+                // Update existing entry, preserving source_files if new has none
+                let mut merged_sources = existing.source_files.clone();
+                for src in &new_entry.source_files {
+                    if !merged_sources.contains(src) {
+                        merged_sources.push(src.clone());
+                    }
+                }
+                *existing = AssetEntry {
+                    source_files: merged_sources,
+                    ..new_entry
+                };
+            } else {
+                // Add new entry
+                self.assets.push(new_entry);
+            }
+        }
+
+        // Recalculate totals
+        self.total_assets = self.assets.len();
+        self.total_size_bytes = self.assets.iter().map(|a| a.size_bytes).sum();
+        self.created_at = chrono::Utc::now().to_rfc3339();
+    }
+
+    /// Write manifest to file (standard write)
     pub fn write(&self, manifest_path: &Path) -> Result<()> {
         let json = serde_json::to_string_pretty(self)?;
         fs::write(manifest_path, json)?;
         Ok(())
     }
 
-    /// Load manifest from file
+    /// Write manifest atomically (prevents corruption on crash/interrupt)
+    ///
+    /// This writes to a temporary file first, then atomically renames it.
+    /// If the process crashes during write, the original manifest is preserved.
+    pub fn write_atomic(&self, manifest_path: &Path) -> Result<()> {
+        let json = serde_json::to_string_pretty(self)?;
+
+        // Write to temp file in same directory (important for atomic rename)
+        let temp_path = manifest_path.with_extension("json.tmp");
+        fs::write(&temp_path, &json)?;
+
+        // Atomic rename (on most filesystems)
+        fs::rename(&temp_path, manifest_path)?;
+
+        Ok(())
+    }
+
+    /// Load manifest from file with version migration support
     pub fn load(manifest_path: &Path) -> Result<Self> {
         let content = fs::read_to_string(manifest_path)?;
-        let manifest: AssetManifest = serde_json::from_str(&content)?;
+
+        // Parse as generic JSON first to check version
+        let raw: serde_json::Value = serde_json::from_str(&content)?;
+        let version = raw
+            .get("version")
+            .and_then(|v| v.as_str())
+            .unwrap_or("1.0.0");
+
+        // Migrate if needed
+        let manifest: AssetManifest = match version {
+            "1.0.0" => {
+                // v1.0.0 → v1.1.0: Add new fields with defaults
+                let mut m: AssetManifest = serde_json::from_value(raw)?;
+                m.version = MANIFEST_VERSION.to_string();
+                // New fields get defaults via serde
+                m
+            }
+            "1.1.0" => serde_json::from_value(raw)?,
+            _ => {
+                // Unknown version, try to parse anyway
+                serde_json::from_value(raw)?
+            }
+        };
+
         Ok(manifest)
     }
 
     /// Get all asset paths from manifest
     pub fn asset_paths(&self) -> Vec<&str> {
         self.assets.iter().map(|a| a.path.as_str()).collect()
+    }
+
+    /// Get asset by path
+    pub fn get_asset(&self, path: &str) -> Option<&AssetEntry> {
+        self.assets.iter().find(|a| a.path == path)
+    }
+
+    /// Check if an asset with given SHA-256 hash exists
+    pub fn has_content_hash(&self, sha256: &str) -> bool {
+        self.assets.iter().any(|a| a.sha256 == sha256)
     }
 
     /// Verify that all manifest assets exist on disk with correct hashes
@@ -260,6 +426,52 @@ impl AssetManifest {
 
         results
     }
+
+    /// Get summary statistics
+    pub fn stats(&self) -> ManifestStats {
+        let mut by_type: std::collections::HashMap<String, TypeStats> =
+            std::collections::HashMap::new();
+
+        for asset in &self.assets {
+            let stats = by_type
+                .entry(asset.asset_type.clone())
+                .or_insert(TypeStats {
+                    count: 0,
+                    total_bytes: 0,
+                });
+            stats.count += 1;
+            stats.total_bytes += asset.size_bytes;
+        }
+
+        let largest_asset = self
+            .assets
+            .iter()
+            .max_by_key(|a| a.size_bytes)
+            .map(|a| a.path.clone());
+
+        ManifestStats {
+            total_assets: self.total_assets,
+            total_size_bytes: self.total_size_bytes,
+            by_type,
+            largest_asset,
+        }
+    }
+}
+
+/// Statistics about asset types
+#[derive(Debug, Clone)]
+pub struct TypeStats {
+    pub count: usize,
+    pub total_bytes: usize,
+}
+
+/// Summary statistics for manifest
+#[derive(Debug)]
+pub struct ManifestStats {
+    pub total_assets: usize,
+    pub total_size_bytes: usize,
+    pub by_type: std::collections::HashMap<String, TypeStats>,
+    pub largest_asset: Option<String>,
 }
 
 /// Result of verifying a single asset
@@ -282,6 +494,21 @@ pub enum VerificationResult {
     },
 }
 
+/// Generate content-addressed filename from SVG bytes
+///
+/// Uses first 16 characters of SHA-256 hash for stable, unique filenames.
+/// This is deterministic across Rust versions (unlike DefaultHasher).
+pub fn content_addressed_filename(bytes: &[u8], type_prefix: &str) -> String {
+    use sha2::{Digest, Sha256};
+
+    let mut hasher = Sha256::new();
+    hasher.update(bytes);
+    let hash = format!("{:x}", hasher.finalize());
+
+    // Use first 16 chars of SHA-256 (64 bits of entropy, sufficient for dedup)
+    format!("{}_{}.svg", type_prefix, &hash[..16])
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -292,10 +519,11 @@ mod tests {
     #[test]
     fn test_create_manifest() {
         let manifest = AssetManifest::new("svg", "assets/mdfx");
-        assert_eq!(manifest.version, "1.0.0");
+        assert_eq!(manifest.version, MANIFEST_VERSION);
         assert_eq!(manifest.backend, "svg");
         assert_eq!(manifest.assets_dir, "assets/mdfx");
         assert_eq!(manifest.total_assets, 0);
+        assert!(manifest.generator_version.is_some());
     }
 
     #[test]
@@ -317,6 +545,24 @@ mod tests {
         assert_eq!(manifest.assets[0].asset_type, "swatch");
         assert_eq!(manifest.assets[0].size_bytes, svg_bytes.len());
         assert!(!manifest.assets[0].sha256.is_empty());
+    }
+
+    #[test]
+    fn test_add_asset_with_source() {
+        let mut manifest = AssetManifest::new("svg", "assets");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+
+        manifest.add_asset_with_source(
+            "test.svg".to_string(),
+            b"<svg/>",
+            &primitive,
+            "swatch".to_string(),
+            Some("README.md".to_string()),
+        );
+
+        assert_eq!(manifest.assets[0].source_files, vec!["README.md"]);
+        assert!(manifest.assets[0].generated_at.is_some());
+        assert!(manifest.assets[0].generator_version.is_some());
     }
 
     #[test]
@@ -380,10 +626,68 @@ mod tests {
 
         // Load manifest
         let loaded = AssetManifest::load(&manifest_path).unwrap();
-        assert_eq!(loaded.version, "1.0.0");
+        assert_eq!(loaded.version, MANIFEST_VERSION);
         assert_eq!(loaded.backend, "svg");
         assert_eq!(loaded.total_assets, 1);
         assert_eq!(loaded.assets[0].path, "test.svg");
+    }
+
+    #[test]
+    fn test_write_atomic() {
+        let temp_dir = TempDir::new().unwrap();
+        let manifest_path = temp_dir.path().join("manifest.json");
+
+        let mut manifest = AssetManifest::new("svg", "assets");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+        manifest.add_asset(
+            "test.svg".to_string(),
+            b"<svg/>",
+            &primitive,
+            "swatch".to_string(),
+        );
+
+        // Atomic write
+        manifest.write_atomic(&manifest_path).unwrap();
+        assert!(manifest_path.exists());
+
+        // Verify temp file is gone
+        let temp_path = manifest_path.with_extension("json.tmp");
+        assert!(!temp_path.exists());
+
+        // Load and verify
+        let loaded = AssetManifest::load(&manifest_path).unwrap();
+        assert_eq!(loaded.total_assets, 1);
+    }
+
+    #[test]
+    fn test_merge_manifests() {
+        let mut manifest = AssetManifest::new("svg", "assets");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+
+        // Add initial assets
+        manifest.add_asset_with_source(
+            "old.svg".to_string(),
+            b"<svg>old</svg>",
+            &primitive,
+            "swatch".to_string(),
+            Some("file1.md".to_string()),
+        );
+
+        // Create new assets
+        let new_entry = AssetEntry::new(
+            "new.svg".to_string(),
+            b"<svg>new</svg>",
+            &primitive,
+            "swatch".to_string(),
+            Some("file2.md".to_string()),
+        );
+
+        // Merge with new paths (old.svg not in new_paths, so it's removed)
+        let new_paths: HashSet<String> = ["new.svg".to_string()].into_iter().collect();
+        manifest.merge(vec![new_entry], Some(new_paths));
+
+        assert_eq!(manifest.total_assets, 1);
+        assert_eq!(manifest.assets[0].path, "new.svg");
     }
 
     #[test]
@@ -461,5 +765,50 @@ mod tests {
             VerificationResult::HashMismatch { path, .. } => assert_eq!(path, "test.svg"),
             _ => panic!("Expected HashMismatch result"),
         }
+    }
+
+    #[test]
+    fn test_content_addressed_filename() {
+        let svg1 = b"<svg>content1</svg>";
+        let svg2 = b"<svg>content2</svg>";
+
+        let name1 = content_addressed_filename(svg1, "swatch");
+        let name2 = content_addressed_filename(svg2, "swatch");
+
+        // Same content = same filename
+        assert_eq!(name1, content_addressed_filename(svg1, "swatch"));
+
+        // Different content = different filename
+        assert_ne!(name1, name2);
+
+        // Correct format
+        assert!(name1.starts_with("swatch_"));
+        assert!(name1.ends_with(".svg"));
+        assert_eq!(name1.len(), "swatch_".len() + 16 + ".svg".len());
+    }
+
+    #[test]
+    fn test_stats() {
+        let mut manifest = AssetManifest::new("svg", "assets");
+        let primitive = Primitive::simple_swatch("FF0000", "flat");
+
+        manifest.add_asset(
+            "swatch1.svg".to_string(),
+            b"<svg>1</svg>",
+            &primitive,
+            "swatch".to_string(),
+        );
+        manifest.add_asset(
+            "swatch2.svg".to_string(),
+            b"<svg>22</svg>",
+            &primitive,
+            "swatch".to_string(),
+        );
+
+        let stats = manifest.stats();
+        assert_eq!(stats.total_assets, 2);
+        assert!(stats.total_size_bytes > 0);
+        assert!(stats.by_type.contains_key("swatch"));
+        assert_eq!(stats.by_type["swatch"].count, 2);
     }
 }

@@ -9,6 +9,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Enhanced Asset Management System
+
+Major improvements to asset generation and tracking (manifest v1.1.0):
+
+**Content-Addressed Filenames**
+- Filenames now use SHA-256 content hashing instead of Rust's `DefaultHasher`
+- Stable across Rust versions (no CI cache invalidation on toolchain updates)
+- True deduplication: identical content always produces identical filenames
+- Format: `{type}_{sha256-prefix}.svg` (e.g., `swatch_a3f8e2d1c4b5a6f7.svg`)
+
+> **⚠️ Migration Note:** Asset filenames will change on first re-render after upgrading.
+> The old `DefaultHasher`-based names were unstable across Rust versions. The new
+> SHA-256-based names are stable forever. Run `mdfx clean` after re-rendering to
+> remove old assets, or simply delete your assets directory and regenerate.
+
+**Atomic Manifest Writes**
+- Manifests are now written atomically using temp file + rename
+- Prevents corruption on crash/interrupt during write
+- Use `manifest.write_atomic(&path)` for safe writes
+
+**Incremental Manifest Updates**
+- New `manifest.merge(new_assets, keep_paths)` method
+- Updates existing manifests without full regeneration
+- Preserves provenance tracking across builds
+
+**Provenance Tracking**
+- Each asset now tracks:
+  - `source_files`: Template files that reference this asset
+  - `generated_at`: RFC3339 timestamp of generation
+  - `generator_version`: mdfx version that created the asset
+- Manifest includes `total_size_bytes` and `generator_version`
+
+**API Additions**
+```rust
+// Content-addressed filename generation
+use mdfx::manifest::content_addressed_filename;
+let filename = content_addressed_filename(svg_bytes, "swatch");
+
+// Atomic writes
+manifest.write_atomic(&path)?;
+
+// Incremental updates
+manifest.merge(new_assets, Some(keep_paths));
+
+// Asset lookup
+manifest.get_asset("path/to/asset.svg");
+manifest.has_content_hash("abc123...");
+
+// Statistics
+let stats = manifest.stats();
+println!("Total: {} bytes", stats.total_size_bytes);
+```
+
 #### CLI Discovery Commands
 
 The `mdfx list` command now supports listing all resource types for better discoverability:

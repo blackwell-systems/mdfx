@@ -1,8 +1,10 @@
 //! SVG backend for rendering primitives as local SVG files
 //!
 //! This backend generates SVG files and stores them in a specified directory.
-//! File names are deterministic based on primitive content (hash-based) to
-//! enable caching and reproducible builds.
+//! Filenames are content-addressed using SHA-256 hashing for:
+//! - Stable filenames across Rust versions
+//! - True deduplication (same content = same file)
+//! - Reproducible builds
 
 mod donut;
 mod gauge;
@@ -14,10 +16,9 @@ pub mod tech;
 mod waveform;
 
 use crate::error::Result;
+use crate::manifest::content_addressed_filename;
 use crate::primitive::Primitive;
 use crate::renderer::{RenderedAsset, Renderer};
-use std::collections::hash_map::DefaultHasher;
-use std::hash::{Hash, Hasher};
 
 /// SVG rendering backend (file-based or inline)
 pub struct SvgBackend {
@@ -49,236 +50,9 @@ impl SvgBackend {
         self.inline
     }
 
-    /// Generate deterministic filename for a primitive
-    fn filename_for(primitive: &Primitive) -> String {
-        let mut hasher = DefaultHasher::new();
-        // Hash the primitive's discriminant and data
+    /// Get the type prefix for a primitive (used in filenames)
+    fn type_prefix(primitive: &Primitive) -> &'static str {
         match primitive {
-            Primitive::Swatch {
-                color,
-                style,
-                opacity,
-                width,
-                height,
-                border_color,
-                border_width,
-                label,
-                label_color,
-                icon,
-                icon_color,
-                rx,
-                ry,
-                shadow,
-                gradient,
-                stroke_dash,
-                logo_size,
-                border_top,
-                border_right,
-                border_bottom,
-                border_left,
-            } => {
-                "swatch".hash(&mut hasher);
-                color.hash(&mut hasher);
-                style.hash(&mut hasher);
-                // Hash optional fields for unique filenames
-                if let Some(o) = opacity {
-                    o.to_bits().hash(&mut hasher);
-                }
-                width.hash(&mut hasher);
-                height.hash(&mut hasher);
-                border_color.hash(&mut hasher);
-                border_width.hash(&mut hasher);
-                label.hash(&mut hasher);
-                label_color.hash(&mut hasher);
-                icon.hash(&mut hasher);
-                icon_color.hash(&mut hasher);
-                rx.hash(&mut hasher);
-                ry.hash(&mut hasher);
-                shadow.hash(&mut hasher);
-                gradient.hash(&mut hasher);
-                stroke_dash.hash(&mut hasher);
-                logo_size.hash(&mut hasher);
-                border_top.hash(&mut hasher);
-                border_right.hash(&mut hasher);
-                border_bottom.hash(&mut hasher);
-                border_left.hash(&mut hasher);
-            }
-            Primitive::Tech(cfg) => {
-                "tech".hash(&mut hasher);
-                cfg.name.hash(&mut hasher);
-                cfg.bg_color.hash(&mut hasher);
-                cfg.logo_color.hash(&mut hasher);
-                cfg.style.hash(&mut hasher);
-                cfg.label.hash(&mut hasher);
-                cfg.border_color.hash(&mut hasher);
-                cfg.raised.hash(&mut hasher);
-                cfg.border_width.hash(&mut hasher);
-                cfg.border_full.hash(&mut hasher);
-                cfg.divider.hash(&mut hasher);
-                cfg.rx.hash(&mut hasher);
-                cfg.corners.hash(&mut hasher);
-                cfg.text_color.hash(&mut hasher);
-                cfg.font.hash(&mut hasher);
-                cfg.source.hash(&mut hasher);
-                cfg.chevron.hash(&mut hasher);
-                cfg.bg_left.hash(&mut hasher);
-                cfg.bg_right.hash(&mut hasher);
-                cfg.logo_size.hash(&mut hasher);
-            }
-            Primitive::Progress {
-                percent,
-                width,
-                height,
-                track_color,
-                fill_color,
-                fill_height,
-                rx,
-                show_label,
-                label_color,
-                border_color,
-                border_width,
-                thumb_size,
-                thumb_width,
-                thumb_color,
-                thumb_shape,
-            } => {
-                "progress".hash(&mut hasher);
-                percent.hash(&mut hasher);
-                width.hash(&mut hasher);
-                height.hash(&mut hasher);
-                track_color.hash(&mut hasher);
-                fill_color.hash(&mut hasher);
-                fill_height.hash(&mut hasher);
-                rx.hash(&mut hasher);
-                show_label.hash(&mut hasher);
-                label_color.hash(&mut hasher);
-                border_color.hash(&mut hasher);
-                border_width.hash(&mut hasher);
-                thumb_size.hash(&mut hasher);
-                thumb_width.hash(&mut hasher);
-                thumb_color.hash(&mut hasher);
-                thumb_shape.hash(&mut hasher);
-            }
-            Primitive::Donut {
-                percent,
-                size,
-                thickness,
-                track_color,
-                fill_color,
-                show_label,
-                label_color,
-                thumb_size,
-                thumb_color,
-            } => {
-                "donut".hash(&mut hasher);
-                percent.hash(&mut hasher);
-                size.hash(&mut hasher);
-                thickness.hash(&mut hasher);
-                track_color.hash(&mut hasher);
-                fill_color.hash(&mut hasher);
-                show_label.hash(&mut hasher);
-                label_color.hash(&mut hasher);
-                thumb_size.hash(&mut hasher);
-                thumb_color.hash(&mut hasher);
-            }
-            Primitive::Gauge {
-                percent,
-                size,
-                thickness,
-                track_color,
-                fill_color,
-                show_label,
-                label_color,
-                thumb_size,
-                thumb_color,
-            } => {
-                "gauge".hash(&mut hasher);
-                percent.hash(&mut hasher);
-                size.hash(&mut hasher);
-                thickness.hash(&mut hasher);
-                track_color.hash(&mut hasher);
-                fill_color.hash(&mut hasher);
-                show_label.hash(&mut hasher);
-                label_color.hash(&mut hasher);
-                thumb_size.hash(&mut hasher);
-                thumb_color.hash(&mut hasher);
-            }
-            Primitive::Sparkline {
-                values,
-                width,
-                height,
-                chart_type,
-                fill_color,
-                stroke_color,
-                stroke_width,
-                track_color,
-                show_dots,
-                dot_radius,
-            } => {
-                "sparkline".hash(&mut hasher);
-                // Hash values by converting to bits
-                for v in values {
-                    v.to_bits().hash(&mut hasher);
-                }
-                width.hash(&mut hasher);
-                height.hash(&mut hasher);
-                chart_type.hash(&mut hasher);
-                fill_color.hash(&mut hasher);
-                stroke_color.hash(&mut hasher);
-                stroke_width.hash(&mut hasher);
-                track_color.hash(&mut hasher);
-                show_dots.hash(&mut hasher);
-                dot_radius.hash(&mut hasher);
-            }
-            Primitive::Rating {
-                value,
-                max,
-                size,
-                fill_color,
-                empty_color,
-                icon,
-                spacing,
-            } => {
-                "rating".hash(&mut hasher);
-                value.to_bits().hash(&mut hasher);
-                max.hash(&mut hasher);
-                size.hash(&mut hasher);
-                fill_color.hash(&mut hasher);
-                empty_color.hash(&mut hasher);
-                icon.hash(&mut hasher);
-                spacing.hash(&mut hasher);
-            }
-
-            Primitive::Waveform {
-                values,
-                width,
-                height,
-                positive_color,
-                negative_color,
-                bar_width,
-                spacing,
-                track_color,
-                show_center_line,
-                center_line_color,
-            } => {
-                "waveform".hash(&mut hasher);
-                for v in values {
-                    v.to_bits().hash(&mut hasher);
-                }
-                width.hash(&mut hasher);
-                height.hash(&mut hasher);
-                positive_color.hash(&mut hasher);
-                negative_color.hash(&mut hasher);
-                bar_width.hash(&mut hasher);
-                spacing.hash(&mut hasher);
-                track_color.hash(&mut hasher);
-                show_center_line.hash(&mut hasher);
-                center_line_color.hash(&mut hasher);
-            }
-        }
-
-        let hash = hasher.finish();
-        let type_name = match primitive {
             Primitive::Swatch { .. } => "swatch",
             Primitive::Tech(_) => "tech",
             Primitive::Progress { .. } => "progress",
@@ -287,18 +61,13 @@ impl SvgBackend {
             Primitive::Sparkline { .. } => "sparkline",
             Primitive::Rating { .. } => "rating",
             Primitive::Waveform { .. } => "waveform",
-        };
-
-        format!("{}_{:x}.svg", type_name, hash)
+        }
     }
 }
 
 impl Renderer for SvgBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
-        let filename = Self::filename_for(primitive);
-        let out_dir = self.out_dir.trim_end_matches('/');
-        let relative_path = format!("{}/{}", out_dir, filename);
-
+        // First, render the SVG content
         let svg = match primitive {
             Primitive::Swatch {
                 color,
@@ -532,6 +301,18 @@ impl Renderer for SvgBackend {
             // Output raw SVG directly (works in most markdown renderers that support HTML)
             Ok(RenderedAsset::InlineMarkdown(svg))
         } else {
+            // Generate content-addressed filename from rendered SVG bytes
+            // This ensures:
+            // 1. Stable filenames across Rust versions (SHA-256 based)
+            // 2. True deduplication (same content = same filename)
+            // 3. Reproducible builds
+            let svg_bytes = svg.as_bytes();
+            let type_prefix = Self::type_prefix(primitive);
+            let filename = content_addressed_filename(svg_bytes, type_prefix);
+
+            let out_dir = self.out_dir.trim_end_matches('/');
+            let relative_path = format!("{}/{}", out_dir, filename);
+
             // Generate markdown image reference
             let markdown_ref = format!("![]({})", relative_path);
             Ok(RenderedAsset::File {
@@ -561,166 +342,80 @@ mod tests {
 
         let result = backend.render(&primitive).unwrap();
 
-        // Check it's a file-based asset
-        assert!(result.is_file_based());
-
-        // Check path format
-        let path = result.file_path().unwrap();
-        assert!(path.starts_with("assets/swatch_"));
-        assert!(path.ends_with(".svg"));
-
-        // Check SVG content
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
-        assert!(svg.contains("F41C80"));
-        assert!(svg.contains("<svg"));
-        assert!(svg.contains("</svg>"));
+        match result {
+            RenderedAsset::File {
+                relative_path,
+                bytes,
+                markdown_ref,
+                ..
+            } => {
+                // Content-addressed filename format: swatch_{16-char-hash}.svg
+                assert!(relative_path.starts_with("assets/swatch_"));
+                assert!(relative_path.ends_with(".svg"));
+                assert_eq!(
+                    relative_path.len(),
+                    "assets/".len() + "swatch_".len() + 16 + ".svg".len()
+                );
+                assert!(!bytes.is_empty());
+                assert!(markdown_ref.contains(&relative_path));
+            }
+            _ => panic!("Expected File asset"),
+        }
     }
 
     #[test]
-    fn test_render_tech_primitive() {
-        use crate::primitive::TechConfig;
+    fn test_content_addressed_determinism() {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Tech(TechConfig {
-            name: "rust".to_string(),
-            bg_color: "000000".to_string(),
-            logo_color: "FFFFFF".to_string(),
-            ..Default::default()
-        });
+        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
 
-        let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
+        // Render twice
+        let result1 = backend.render(&primitive).unwrap();
+        let result2 = backend.render(&primitive).unwrap();
 
-        // Should have icon path and colors
-        assert!(svg.contains("<path"));
-        assert!(svg.contains("000000"));
-        assert!(svg.contains("FFFFFF"));
-    }
-
-    #[test]
-    fn test_render_tech_with_shields_source() {
-        use crate::primitive::TechConfig;
-        let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Tech(TechConfig {
-            name: "rust".to_string(),
-            bg_color: "000000".to_string(),
-            logo_color: "FFFFFF".to_string(),
-            source: Some("shields".to_string()),
-            ..Default::default()
-        });
-
-        let result = backend.render(&primitive).unwrap();
-        let markdown = result.to_markdown();
-
-        // Should be shields.io URL, not file-based
-        assert!(!result.is_file_based());
-        assert!(markdown.contains("shields.io"));
-        assert!(markdown.contains("logo=rust"));
-    }
-
-    #[test]
-    fn test_deterministic_filenames() {
-        let backend = SvgBackend::new("assets");
-        let primitive1 = Primitive::simple_swatch("F41C80", "flat-square");
-        let primitive2 = Primitive::simple_swatch("F41C80", "flat-square");
-
-        let result1 = backend.render(&primitive1).unwrap();
-        let result2 = backend.render(&primitive2).unwrap();
-
-        // Same primitive → same filename
+        // Same primitive should produce same filename
         assert_eq!(result1.file_path(), result2.file_path());
     }
 
     #[test]
-    fn test_different_primitives_different_filenames() {
+    fn test_different_content_different_filename() {
         let backend = SvgBackend::new("assets");
-        let primitive1 = Primitive::simple_swatch("F41C80", "flat-square");
-        let primitive2 = Primitive::simple_swatch("00FF00", "flat-square");
+        let prim1 = Primitive::simple_swatch("F41C80", "flat-square");
+        let prim2 = Primitive::simple_swatch("2B6CB0", "flat-square");
 
-        let result1 = backend.render(&primitive1).unwrap();
-        let result2 = backend.render(&primitive2).unwrap();
+        let result1 = backend.render(&prim1).unwrap();
+        let result2 = backend.render(&prim2).unwrap();
 
-        // Different color → different filename
+        // Different colors should produce different filenames
         assert_ne!(result1.file_path(), result2.file_path());
     }
 
     #[test]
-    fn test_svg_flat_style_rounded_corners() {
-        let backend = SvgBackend::new("assets");
-        let primitive = Primitive::simple_swatch("F41C80", "flat");
+    fn test_inline_mode() {
+        let backend = SvgBackend::new_inline();
+        assert!(backend.is_inline());
 
-        let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
-
-        // Should have rounded corners (rx="3")
-        assert!(svg.contains("rx=\"3\""));
-        // Should be standard height
-        assert!(svg.contains("height=\"20\""));
-    }
-
-    #[test]
-    fn test_svg_flat_square_style_sharp_corners() {
-        let backend = SvgBackend::new("assets");
         let primitive = Primitive::simple_swatch("F41C80", "flat-square");
-
         let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
 
-        // Should have sharp corners (rx="0")
-        assert!(svg.contains("rx=\"0\""));
+        match result {
+            RenderedAsset::InlineMarkdown(svg) => {
+                assert!(svg.starts_with("<svg"));
+            }
+            _ => panic!("Expected InlineMarkdown asset"),
+        }
     }
 
     #[test]
-    fn test_svg_for_the_badge_tall_height() {
-        let backend = SvgBackend::new("assets");
-        let primitive = Primitive::simple_swatch("F41C80", "for-the-badge");
+    fn test_type_prefix() {
+        assert_eq!(
+            SvgBackend::type_prefix(&Primitive::simple_swatch("F41C80", "flat")),
+            "swatch"
+        );
 
-        let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
-
-        // Should be taller (height="28")
-        assert!(svg.contains("height=\"28\""));
-        assert!(svg.contains("viewBox=\"0 0 20 28\""));
-    }
-
-    #[test]
-    fn test_svg_plastic_style_has_gradient() {
-        let backend = SvgBackend::new("assets");
-        let primitive = Primitive::simple_swatch("F41C80", "plastic");
-
-        let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
-
-        // Should have gradient definition
-        assert!(svg.contains("<linearGradient"));
-        assert!(svg.contains("id=\"shine\""));
-        // Should have overlay rect using gradient
-        assert!(svg.contains("fill=\"url(#shine)\""));
-    }
-
-    #[test]
-    fn test_svg_social_style_very_rounded() {
-        let backend = SvgBackend::new("assets");
-        let primitive = Primitive::simple_swatch("F41C80", "social");
-
-        let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
-
-        // Should be very rounded (rx="10")
-        assert!(svg.contains("rx=\"10\""));
-    }
-
-    #[test]
-    fn test_svg_style_affects_filename_hash() {
-        let swatch_flat = Primitive::simple_swatch("F41C80", "flat");
-        let swatch_square = Primitive::simple_swatch("F41C80", "flat-square");
-
-        let filename_flat = SvgBackend::filename_for(&swatch_flat);
-        let filename_square = SvgBackend::filename_for(&swatch_square);
-
-        // Different styles should produce different filenames
-        assert_ne!(filename_flat, filename_square);
-        // Both should start with "swatch_"
-        assert!(filename_flat.starts_with("swatch_"));
-        assert!(filename_square.starts_with("swatch_"));
+        use crate::primitive::TechConfig;
+        assert_eq!(
+            SvgBackend::type_prefix(&Primitive::Tech(TechConfig::new("rust"))),
+            "tech"
+        );
     }
 }

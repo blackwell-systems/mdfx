@@ -329,10 +329,12 @@ fn run(cli: Cli) -> Result<(), Error> {
                 "glyphs" => list_glyphs(&registry, filter)?,
                 "frames" => list_frames(&registry, filter)?,
                 "palette" => list_palette(&registry, filter)?,
-                _ => return Err(Error::ParseError(format!(
+                _ => {
+                    return Err(Error::ParseError(format!(
                     "Unknown resource '{}'. Available: styles, components, glyphs, frames, palette",
                     resource
-                ))),
+                )))
+                }
             }
         }
 
@@ -1258,12 +1260,15 @@ fn update_manifest_after_clean(
         .collect();
 
     // Create updated manifest
+    let total_size: usize = kept_assets.iter().map(|a| a.size_bytes).sum();
     let updated = AssetManifest {
         version: manifest.version,
         created_at: chrono::Utc::now().to_rfc3339(),
         backend: manifest.backend,
         assets_dir: manifest.assets_dir,
         total_assets: kept_assets.len(),
+        total_size_bytes: total_size,
+        generator_version: Some(env!("CARGO_PKG_VERSION").to_string()),
         assets: kept_assets,
     };
 
