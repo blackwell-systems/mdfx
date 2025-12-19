@@ -452,13 +452,26 @@ impl Primitive {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_primitive_swatch() {
-        let swatch = Primitive::simple_swatch("ff6b35", "flat-square");
-        if let Primitive::Swatch { color, style, .. } = swatch {
-            assert_eq!(color, "ff6b35");
-            assert_eq!(style, "flat-square");
+    // ========================================================================
+    // Simple Swatch (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("ff6b35", "flat-square")]
+    #[case("F41C80", "flat")]
+    #[case("22C55E", "for-the-badge")]
+    fn test_primitive_swatch(#[case] color: &str, #[case] style: &str) {
+        let swatch = Primitive::simple_swatch(color, style);
+        if let Primitive::Swatch {
+            color: c,
+            style: s,
+            ..
+        } = swatch
+        {
+            assert_eq!(c, color);
+            assert_eq!(s, style);
         } else {
             panic!("Expected Swatch primitive");
         }
@@ -514,81 +527,75 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_primitive_tech() {
-        let tech = Primitive::Tech(TechConfig::new("rust"));
+    // ========================================================================
+    // Tech Config (Parameterized)
+    // ========================================================================
 
-        if let Primitive::Tech(cfg) = tech {
-            assert_eq!(cfg.name, "rust");
-        } else {
-            panic!("Expected Tech primitive");
-        }
-    }
-
-    #[test]
-    fn test_primitive_tech_with_label() {
+    #[rstest]
+    #[case("rust", None, None, None, None)]
+    #[case("python", Some("v3.12"), None, None, None)]
+    #[case("docker", Some("latest"), Some("F41C80"), Some(2), Some(8))]
+    fn test_primitive_tech(
+        #[case] name: &str,
+        #[case] label: Option<&str>,
+        #[case] border_color: Option<&str>,
+        #[case] border_width: Option<u32>,
+        #[case] rx: Option<u32>,
+    ) {
         let tech = Primitive::Tech(TechConfig {
-            name: "rust".to_string(),
-            label: Some("v1.80".to_string()),
+            name: name.to_string(),
+            label: label.map(|s| s.to_string()),
+            border_color: border_color.map(|s| s.to_string()),
+            border_width,
+            rx,
             ..Default::default()
         });
 
         if let Primitive::Tech(cfg) = tech {
-            assert_eq!(cfg.name, "rust");
-            assert_eq!(cfg.label, Some("v1.80".to_string()));
+            assert_eq!(cfg.name, name);
+            assert_eq!(cfg.label, label.map(|s| s.to_string()));
+            assert_eq!(cfg.border_color, border_color.map(|s| s.to_string()));
+            assert_eq!(cfg.border_width, border_width);
+            assert_eq!(cfg.rx, rx);
         } else {
             panic!("Expected Tech primitive");
         }
     }
 
-    #[test]
-    fn test_primitive_tech_with_border() {
-        let tech = Primitive::Tech(TechConfig {
-            name: "rust".to_string(),
-            label: Some("v1.80".to_string()),
-            border_color: Some("F41C80".to_string()),
-            border_width: Some(2),
-            rx: Some(8),
-            ..Default::default()
-        });
+    // ========================================================================
+    // Progress Primitives (Parameterized)
+    // ========================================================================
 
-        if let Primitive::Tech(cfg) = tech {
-            assert_eq!(cfg.name, "rust");
-            assert_eq!(cfg.border_color, Some("F41C80".to_string()));
-            assert_eq!(cfg.border_width, Some(2));
-            assert_eq!(cfg.rx, Some(8));
-        } else {
-            panic!("Expected Tech primitive");
-        }
-    }
+    #[rstest]
+    #[case(0, 0)]
+    #[case(50, 50)]
+    #[case(75, 75)]
+    #[case(100, 100)]
+    #[case(150, 100)] // clamped
+    fn test_primitive_progress(#[case] input: u8, #[case] expected: u8) {
+        let progress = Primitive::simple_progress(input, "gray", "pink");
 
-    #[test]
-    fn test_primitive_progress() {
-        let progress = Primitive::simple_progress(75, "gray", "pink");
-
-        if let Primitive::Progress {
-            percent,
-            width,
-            height,
-            fill_height,
-            ..
-        } = progress
-        {
-            assert_eq!(percent, 75);
-            assert_eq!(width, 100);
-            assert_eq!(height, 10);
-            assert_eq!(fill_height, 10);
+        if let Primitive::Progress { percent, .. } = progress {
+            assert_eq!(percent, expected);
         } else {
             panic!("Expected Progress primitive");
         }
     }
 
     #[test]
-    fn test_primitive_progress_clamped() {
-        let progress = Primitive::simple_progress(150, "gray", "pink");
+    fn test_progress_defaults() {
+        let progress = Primitive::simple_progress(75, "gray", "pink");
 
-        if let Primitive::Progress { percent, .. } = progress {
-            assert_eq!(percent, 100); // Clamped to 100
+        if let Primitive::Progress {
+            width,
+            height,
+            fill_height,
+            ..
+        } = progress
+        {
+            assert_eq!(width, 100);
+            assert_eq!(height, 10);
+            assert_eq!(fill_height, 10);
         } else {
             panic!("Expected Progress primitive");
         }

@@ -513,15 +513,23 @@ pub fn content_addressed_filename(bytes: &[u8], type_prefix: &str) -> String {
 mod tests {
     use super::*;
     use crate::primitive::Primitive;
+    use rstest::rstest;
     use std::io::Write;
     use tempfile::TempDir;
 
-    #[test]
-    fn test_create_manifest() {
-        let manifest = AssetManifest::new("svg", "assets/mdfx");
+    // ========================================================================
+    // Manifest Creation (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("svg", "assets/mdfx")]
+    #[case("shields", "assets")]
+    #[case("png", "images/generated")]
+    fn test_create_manifest(#[case] backend: &str, #[case] assets_dir: &str) {
+        let manifest = AssetManifest::new(backend, assets_dir);
         assert_eq!(manifest.version, MANIFEST_VERSION);
-        assert_eq!(manifest.backend, "svg");
-        assert_eq!(manifest.assets_dir, "assets/mdfx");
+        assert_eq!(manifest.backend, backend);
+        assert_eq!(manifest.assets_dir, assets_dir);
         assert_eq!(manifest.total_assets, 0);
         assert!(manifest.generator_version.is_some());
     }
@@ -767,24 +775,36 @@ mod tests {
         }
     }
 
+    // ========================================================================
+    // Content-Addressed Filename (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(b"<svg>content1</svg>", "swatch")]
+    #[case(b"<svg>content2</svg>", "tech")]
+    #[case(b"<svg>progress</svg>", "progress")]
+    fn test_content_addressed_filename(#[case] content: &[u8], #[case] prefix: &str) {
+        let name = content_addressed_filename(content, prefix);
+
+        // Correct format
+        assert!(name.starts_with(&format!("{}_", prefix)));
+        assert!(name.ends_with(".svg"));
+        assert_eq!(name.len(), prefix.len() + 1 + 16 + 4); // prefix + "_" + hash + ".svg"
+
+        // Same content = same filename (deterministic)
+        assert_eq!(name, content_addressed_filename(content, prefix));
+    }
+
     #[test]
-    fn test_content_addressed_filename() {
+    fn test_content_addressed_different_content() {
         let svg1 = b"<svg>content1</svg>";
         let svg2 = b"<svg>content2</svg>";
 
         let name1 = content_addressed_filename(svg1, "swatch");
         let name2 = content_addressed_filename(svg2, "swatch");
 
-        // Same content = same filename
-        assert_eq!(name1, content_addressed_filename(svg1, "swatch"));
-
         // Different content = different filename
         assert_ne!(name1, name2);
-
-        // Correct format
-        assert!(name1.starts_with("swatch_"));
-        assert!(name1.ends_with(".svg"));
-        assert_eq!(name1.len(), "swatch_".len() + 16 + ".svg".len());
     }
 
     #[test]

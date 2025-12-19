@@ -184,49 +184,44 @@ pub fn handle(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_detect_stable() {
-        assert_eq!(detect_status("1.0.0"), VersionStatus::Stable);
-        assert_eq!(detect_status("2.5.3"), VersionStatus::Stable);
-        assert_eq!(detect_status("10.0.0"), VersionStatus::Stable);
+    // ========================================================================
+    // Version Status Detection (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("1.0.0", VersionStatus::Stable)]
+    #[case("2.5.3", VersionStatus::Stable)]
+    #[case("10.0.0", VersionStatus::Stable)]
+    #[case("1.0.0-beta", VersionStatus::Beta)]
+    #[case("2.0.0-beta.1", VersionStatus::Beta)]
+    #[case("1.0.0-rc.1", VersionStatus::Beta)]
+    #[case("1.0.0-preview", VersionStatus::Beta)]
+    #[case("0.5.0", VersionStatus::Beta)] // 0.x versions
+    #[case("1.0.0-alpha", VersionStatus::Alpha)]
+    #[case("1.0.0-alpha.2", VersionStatus::Alpha)]
+    #[case("1.0.0-deprecated", VersionStatus::Deprecated)]
+    #[case("1.0.0-eol", VersionStatus::Deprecated)]
+    #[case("1.0.0-dev", VersionStatus::Dev)]
+    #[case("1.0.0-snapshot", VersionStatus::Dev)]
+    #[case("1.0.0-nightly", VersionStatus::Dev)]
+    fn test_detect_status(#[case] version: &str, #[case] expected: VersionStatus) {
+        assert_eq!(detect_status(version), expected);
     }
 
-    #[test]
-    fn test_detect_beta() {
-        assert_eq!(detect_status("1.0.0-beta"), VersionStatus::Beta);
-        assert_eq!(detect_status("2.0.0-beta.1"), VersionStatus::Beta);
-        assert_eq!(detect_status("1.0.0-rc.1"), VersionStatus::Beta);
-        assert_eq!(detect_status("1.0.0-preview"), VersionStatus::Beta);
-        assert_eq!(detect_status("0.5.0"), VersionStatus::Beta); // 0.x
-    }
+    // ========================================================================
+    // Status String Parsing (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_detect_alpha() {
-        assert_eq!(detect_status("1.0.0-alpha"), VersionStatus::Alpha);
-        assert_eq!(detect_status("1.0.0-alpha.2"), VersionStatus::Alpha);
-    }
-
-    #[test]
-    fn test_detect_deprecated() {
-        assert_eq!(detect_status("1.0.0-deprecated"), VersionStatus::Deprecated);
-        assert_eq!(detect_status("1.0.0-eol"), VersionStatus::Deprecated);
-    }
-
-    #[test]
-    fn test_detect_dev() {
-        assert_eq!(detect_status("1.0.0-dev"), VersionStatus::Dev);
-        assert_eq!(detect_status("1.0.0-snapshot"), VersionStatus::Dev);
-        assert_eq!(detect_status("1.0.0-nightly"), VersionStatus::Dev);
-    }
-
-    #[test]
-    fn test_parse_status() {
-        assert_eq!(parse_status("stable"), Some(VersionStatus::Stable));
-        assert_eq!(parse_status("beta"), Some(VersionStatus::Beta));
-        assert_eq!(parse_status("alpha"), Some(VersionStatus::Alpha));
-        assert_eq!(parse_status("deprecated"), Some(VersionStatus::Deprecated));
-        assert_eq!(parse_status("dev"), Some(VersionStatus::Dev));
-        assert_eq!(parse_status("unknown"), None);
+    #[rstest]
+    #[case("stable", Some(VersionStatus::Stable))]
+    #[case("beta", Some(VersionStatus::Beta))]
+    #[case("alpha", Some(VersionStatus::Alpha))]
+    #[case("deprecated", Some(VersionStatus::Deprecated))]
+    #[case("dev", Some(VersionStatus::Dev))]
+    #[case("unknown", None)]
+    fn test_parse_status(#[case] status: &str, #[case] expected: Option<VersionStatus>) {
+        assert_eq!(parse_status(status), expected);
     }
 }

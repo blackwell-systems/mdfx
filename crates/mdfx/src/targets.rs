@@ -425,69 +425,52 @@ pub fn detect_target_from_path(path: &std::path::Path) -> Option<&'static str> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+    use std::path::Path;
 
-    #[test]
-    fn test_github_target() {
-        let target = GitHubTarget;
-        assert_eq!(target.name(), "github");
-        assert!(!target.supports_html());
-        assert!(target.supports_svg_embed());
-        assert!(target.supports_external_images());
-        assert!(target.supports_unicode_styling());
-        assert_eq!(target.preferred_backend(), BackendType::Svg);
+    // ========================================================================
+    // Target Properties (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("github", false, true, true, true, BackendType::Svg, None)]
+    #[case("local", true, true, false, true, BackendType::Svg, None)]
+    #[case("npm", false, true, true, true, BackendType::Svg, None)]
+    #[case("gitlab", true, true, true, true, BackendType::Svg, None)]
+    #[case("pypi", false, false, true, false, BackendType::PlainText, Some(80))]
+    fn test_target_properties(
+        #[case] name: &str,
+        #[case] html: bool,
+        #[case] svg_embed: bool,
+        #[case] external_images: bool,
+        #[case] unicode: bool,
+        #[case] backend: BackendType,
+        #[case] max_line: Option<usize>,
+    ) {
+        let target = get_target(name).expect("target should exist");
+        assert_eq!(target.name(), name);
+        assert_eq!(target.supports_html(), html);
+        assert_eq!(target.supports_svg_embed(), svg_embed);
+        assert_eq!(target.supports_external_images(), external_images);
+        assert_eq!(target.supports_unicode_styling(), unicode);
+        assert_eq!(target.preferred_backend(), backend);
+        assert_eq!(target.max_line_length(), max_line);
     }
 
-    #[test]
-    fn test_local_target() {
-        let target = LocalDocsTarget;
-        assert_eq!(target.name(), "local");
-        assert!(target.supports_html());
-        assert!(target.supports_svg_embed());
-        assert!(!target.supports_external_images()); // Offline-first
-        assert_eq!(target.preferred_backend(), BackendType::Svg);
-    }
+    // ========================================================================
+    // Target Resolution (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_npm_target() {
-        let target = NpmTarget;
-        assert_eq!(target.name(), "npm");
-        assert!(!target.supports_html());
-        assert!(target.supports_external_images());
-        assert_eq!(target.preferred_backend(), BackendType::Svg);
-    }
-
-    #[test]
-    fn test_gitlab_target() {
-        let target = GitLabTarget;
-        assert_eq!(target.name(), "gitlab");
-        assert!(target.supports_html()); // GitLab allows more HTML
-        assert!(target.supports_svg_embed());
-        assert!(target.supports_external_images());
-        assert!(target.supports_unicode_styling());
-        assert_eq!(target.preferred_backend(), BackendType::Svg);
-    }
-
-    #[test]
-    fn test_pypi_target() {
-        let target = PyPITarget;
-        assert_eq!(target.name(), "pypi");
-        assert!(!target.supports_html());
-        assert!(!target.supports_svg_embed()); // No SVG embed
-        assert!(target.supports_external_images());
-        assert!(!target.supports_unicode_styling()); // ASCII-safe
-        assert_eq!(target.preferred_backend(), BackendType::PlainText);
-        assert_eq!(target.max_line_length(), Some(80));
-    }
-
-    #[test]
-    fn test_get_target() {
-        assert!(get_target("github").is_some());
-        assert!(get_target("GitHub").is_some()); // Case insensitive
-        assert!(get_target("local").is_some());
-        assert!(get_target("npm").is_some());
-        assert!(get_target("gitlab").is_some());
-        assert!(get_target("pypi").is_some());
-        assert!(get_target("unknown").is_none());
+    #[rstest]
+    #[case("github", true)]
+    #[case("GitHub", true)] // case insensitive
+    #[case("local", true)]
+    #[case("npm", true)]
+    #[case("gitlab", true)]
+    #[case("pypi", true)]
+    #[case("unknown", false)]
+    fn test_get_target(#[case] name: &str, #[case] exists: bool) {
+        assert_eq!(get_target(name).is_some(), exists);
     }
 
     #[test]
@@ -501,39 +484,40 @@ mod tests {
     }
 
     #[test]
-    fn test_detect_target_from_path() {
-        use std::path::Path;
-
-        assert_eq!(
-            detect_target_from_path(Path::new("README.md")),
-            Some("github")
-        );
-        assert_eq!(
-            detect_target_from_path(Path::new("/project/README.md")),
-            Some("github")
-        );
-        assert_eq!(
-            detect_target_from_path(Path::new("/project/docs/index.md")),
-            Some("local")
-        );
-        assert_eq!(detect_target_from_path(Path::new("PKG-INFO")), Some("pypi"));
-        assert_eq!(detect_target_from_path(Path::new("random.md")), None);
+    fn test_default_target() {
+        let target = default_target();
+        assert_eq!(target.name(), "github");
     }
 
-    #[test]
-    fn test_github_post_process() {
-        let target = GitHubTarget;
-        let input = "> 🟢 **Note**\n> This is a note";
-        let output = target.post_process(input).unwrap();
-        assert!(output.contains("[!NOTE]"));
+    // ========================================================================
+    // Path Detection (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("README.md", Some("github"))]
+    #[case("/project/README.md", Some("github"))]
+    #[case("/project/docs/index.md", Some("local"))]
+    #[case("PKG-INFO", Some("pypi"))]
+    #[case("random.md", None)]
+    fn test_detect_target_from_path(#[case] path: &str, #[case] expected: Option<&str>) {
+        assert_eq!(detect_target_from_path(Path::new(path)), expected);
     }
 
-    #[test]
-    fn test_gitlab_post_process() {
-        let target = GitLabTarget;
-        let input = "> 🔴 **Error**\n> This is an error";
+    // ========================================================================
+    // Post-Processing (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("github", "> 🟢 **Note**\n> This is a note", "[!NOTE]")]
+    #[case("gitlab", "> 🔴 **Error**\n> This is an error", "**Danger**")]
+    fn test_post_process_alerts(
+        #[case] target_name: &str,
+        #[case] input: &str,
+        #[case] expected_contains: &str,
+    ) {
+        let target = get_target(target_name).unwrap();
         let output = target.post_process(input).unwrap();
-        assert!(output.contains("**Danger**"));
+        assert!(output.contains(expected_contains));
     }
 
     #[test]
@@ -546,19 +530,13 @@ mod tests {
         assert!(!output.contains("→"));
     }
 
-    #[test]
-    fn test_pypi_emoji_conversion() {
+    #[rstest]
+    #[case("🟢 Success", "[OK]")]
+    #[case("🟡 Warning", "[WARN]")]
+    #[case("🔴 Error", "[ERR]")]
+    fn test_pypi_emoji_conversion(#[case] input: &str, #[case] expected: &str) {
         let target = PyPITarget;
-        let input = "🟢 Success 🟡 Warning 🔴 Error";
         let output = target.post_process(input).unwrap();
-        assert!(output.contains("[OK]"));
-        assert!(output.contains("[WARN]"));
-        assert!(output.contains("[ERR]"));
-    }
-
-    #[test]
-    fn test_default_target() {
-        let target = default_target();
-        assert_eq!(target.name(), "github");
+        assert!(output.contains(expected));
     }
 }

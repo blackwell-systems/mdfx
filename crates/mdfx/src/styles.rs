@@ -135,6 +135,7 @@ impl StylesData {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[test]
     fn test_load_styles() {
@@ -143,41 +144,53 @@ mod tests {
         assert_eq!(data.styles.len(), 24);
     }
 
-    #[test]
-    fn test_find_style_by_id() {
+    // ========================================================================
+    // Style Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("mathbold", true, "Mathematical Bold")]
+    #[case("mb", true, "Mathematical Bold")] // alias
+    #[case("italic", true, "Italic")]
+    #[case("nonexistent", false, "")]
+    fn test_find_style(#[case] query: &str, #[case] should_exist: bool, #[case] expected_name: &str) {
         let data = StylesData::load().unwrap();
-        let style = data.find_style("mathbold");
-        assert!(style.is_some());
-        assert_eq!(style.unwrap().name, "Mathematical Bold");
+        let style = data.find_style(query);
+        assert_eq!(style.is_some(), should_exist);
+        if should_exist {
+            assert_eq!(style.unwrap().name, expected_name);
+        }
     }
 
-    #[test]
-    fn test_find_style_by_alias() {
-        let data = StylesData::load().unwrap();
-        let style = data.find_style("mb");
-        assert!(style.is_some());
-        assert_eq!(style.unwrap().id, "mathbold");
-    }
+    // ========================================================================
+    // Character Support (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_style_supports_char() {
+    #[rstest]
+    #[case('A', true)]
+    #[case('a', true)]
+    #[case('0', true)]
+    #[case('!', false)]
+    #[case('@', false)]
+    fn test_style_supports_char(#[case] c: char, #[case] supported: bool) {
         let data = StylesData::load().unwrap();
         let mathbold = data.find_style("mathbold").unwrap();
-
-        assert!(mathbold.supports_char('A'));
-        assert!(mathbold.supports_char('a'));
-        assert!(mathbold.supports_char('0'));
-        assert!(!mathbold.supports_char('!'));
+        assert_eq!(mathbold.supports_char(c), supported);
     }
 
-    #[test]
-    fn test_convert_char() {
+    // ========================================================================
+    // Character Conversion (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case('A', '𝐀')]
+    #[case('B', '𝐁')]
+    #[case('Z', '𝐙')]
+    #[case('!', '!')] // unchanged - no mapping
+    fn test_convert_char(#[case] input: char, #[case] expected: char) {
         let data = StylesData::load().unwrap();
         let mathbold = data.find_style("mathbold").unwrap();
-
-        assert_eq!(mathbold.convert_char('A'), '𝐀');
-        assert_eq!(mathbold.convert_char('B'), '𝐁');
-        assert_eq!(mathbold.convert_char('!'), '!'); // unchanged
+        assert_eq!(mathbold.convert_char(input), expected);
     }
 
     #[test]

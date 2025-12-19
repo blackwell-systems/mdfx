@@ -229,64 +229,41 @@ pub fn handle(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_categorize_permissive() {
-        assert_eq!(categorize_license("MIT"), LicenseCategory::Permissive);
-        assert_eq!(
-            categorize_license("Apache-2.0"),
-            LicenseCategory::Permissive
-        );
-        assert_eq!(
-            categorize_license("BSD-3-Clause"),
-            LicenseCategory::Permissive
-        );
-        assert_eq!(categorize_license("ISC"), LicenseCategory::Permissive);
+    // ========================================================================
+    // License Categorization (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("MIT", LicenseCategory::Permissive)]
+    #[case("Apache-2.0", LicenseCategory::Permissive)]
+    #[case("BSD-3-Clause", LicenseCategory::Permissive)]
+    #[case("ISC", LicenseCategory::Permissive)]
+    #[case("LGPL-3.0", LicenseCategory::WeakCopyleft)]
+    #[case("MPL-2.0", LicenseCategory::WeakCopyleft)]
+    #[case("EPL-2.0", LicenseCategory::WeakCopyleft)]
+    #[case("GPL-3.0", LicenseCategory::Copyleft)]
+    #[case("AGPL-3.0", LicenseCategory::Copyleft)]
+    #[case("GPL-2.0", LicenseCategory::Copyleft)]
+    #[case("CC0", LicenseCategory::PublicDomain)]
+    #[case("Unlicense", LicenseCategory::PublicDomain)]
+    #[case("Proprietary", LicenseCategory::Proprietary)]
+    #[case("Commercial", LicenseCategory::Proprietary)]
+    fn test_categorize_license(#[case] license: &str, #[case] expected: LicenseCategory) {
+        assert_eq!(categorize_license(license), expected);
     }
 
-    #[test]
-    fn test_categorize_weak_copyleft() {
-        assert_eq!(
-            categorize_license("LGPL-3.0"),
-            LicenseCategory::WeakCopyleft
-        );
-        assert_eq!(categorize_license("MPL-2.0"), LicenseCategory::WeakCopyleft);
-        assert_eq!(categorize_license("EPL-2.0"), LicenseCategory::WeakCopyleft);
-    }
+    // ========================================================================
+    // License Name Formatting (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_categorize_copyleft() {
-        assert_eq!(categorize_license("GPL-3.0"), LicenseCategory::Copyleft);
-        assert_eq!(categorize_license("AGPL-3.0"), LicenseCategory::Copyleft);
-        assert_eq!(categorize_license("GPL-2.0"), LicenseCategory::Copyleft);
-    }
-
-    #[test]
-    fn test_categorize_public_domain() {
-        assert_eq!(categorize_license("CC0"), LicenseCategory::PublicDomain);
-        assert_eq!(
-            categorize_license("Unlicense"),
-            LicenseCategory::PublicDomain
-        );
-    }
-
-    #[test]
-    fn test_categorize_proprietary() {
-        assert_eq!(
-            categorize_license("Proprietary"),
-            LicenseCategory::Proprietary
-        );
-        assert_eq!(
-            categorize_license("Commercial"),
-            LicenseCategory::Proprietary
-        );
-    }
-
-    #[test]
-    fn test_format_license_name() {
-        assert_eq!(format_license_name("MIT"), "MIT");
-        assert_eq!(format_license_name("apache-2.0"), "Apache 2.0");
-        assert_eq!(format_license_name("GPL-3.0"), "GPL 3.0");
-        assert_eq!(format_license_name("BSD-3-Clause"), "BSD 3-Clause");
+    #[rstest]
+    #[case("MIT", "MIT")]
+    #[case("apache-2.0", "Apache 2.0")]
+    #[case("GPL-3.0", "GPL 3.0")]
+    #[case("BSD-3-Clause", "BSD 3-Clause")]
+    fn test_format_license_name(#[case] input: &str, #[case] expected: &str) {
+        assert_eq!(format_license_name(input), expected);
     }
 }

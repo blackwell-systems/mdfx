@@ -118,6 +118,7 @@ pub fn expand_partial(template: &str, content: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
     use std::io::Write;
     use tempfile::TempDir;
 
@@ -152,15 +153,18 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_expand_partial() {
-        let template = "{{fr:gradient}}$1{{/}}";
-        let result = expand_partial(template, "HELLO");
-        assert_eq!(result, "{{fr:gradient}}HELLO{{/}}");
+    // ========================================================================
+    // Partial Expansion (Parameterized)
+    // ========================================================================
 
-        let template2 = "PREFIX $content SUFFIX";
-        let result2 = expand_partial(template2, "MIDDLE");
-        assert_eq!(result2, "PREFIX MIDDLE SUFFIX");
+    #[rstest]
+    #[case("{{fr:gradient}}$1{{/}}", "HELLO", "{{fr:gradient}}HELLO{{/}}")]
+    #[case("PREFIX $content SUFFIX", "MIDDLE", "PREFIX MIDDLE SUFFIX")]
+    #[case("$content and $1", "VALUE", "VALUE and VALUE")]
+    #[case("no placeholders here", "unused", "no placeholders here")]
+    #[case("start $1 middle $content end", "X", "start X middle X end")]
+    fn test_expand_partial(#[case] template: &str, #[case] content: &str, #[case] expected: &str) {
+        assert_eq!(expand_partial(template, content), expected);
     }
 
     #[test]
@@ -227,11 +231,17 @@ mod tests {
         assert!(names.iter().any(|n| *n == "beta"));
     }
 
-    #[test]
-    fn test_get_partial_not_found() {
+    // ========================================================================
+    // Partial Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("nonexistent", false)]
+    #[case("also_missing", false)]
+    fn test_get_partial_not_found(#[case] name: &str, #[case] exists: bool) {
         let config = MdfxConfig::new();
-        assert!(config.get_partial("nonexistent").is_none());
-        assert!(!config.has_partial("nonexistent"));
+        assert_eq!(config.get_partial(name).is_some(), exists);
+        assert_eq!(config.has_partial(name), exists);
     }
 
     #[test]
@@ -290,19 +300,5 @@ mod tests {
 
         config1.merge(config2);
         assert_eq!(config1.palette.get("color"), Some(&"00FF00".to_string()));
-    }
-
-    #[test]
-    fn test_expand_partial_both_placeholders() {
-        let template = "$content and $1";
-        let result = expand_partial(template, "VALUE");
-        assert_eq!(result, "VALUE and VALUE");
-    }
-
-    #[test]
-    fn test_expand_partial_no_placeholder() {
-        let template = "no placeholders here";
-        let result = expand_partial(template, "unused");
-        assert_eq!(result, "no placeholders here");
     }
 }
