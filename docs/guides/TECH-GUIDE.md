@@ -323,75 +323,43 @@ Control individual corners for connected badge groups using `corners` presets or
 
 Create tab-style badges with pointed arrow shapes using the `chevron` parameter:
 
-| Value | Description | Shape |
-|-------|-------------|-------|
-| `chevron=left` | Left-pointing arrow | ◁ badge |
-| `chevron=right` | Right-pointing arrow | badge ▷ |
-| `chevron=both` | Both arrows | ◁ badge ▷ |
+| Value | Syntax | Result |
+|-------|--------|--------|
+| Right arrow | `{{ui:tech:rust:chevron=right/}}` | ![](assets/tech-guide/tech_4c5f16d733e3653.svg) |
+| Left arrow | `{{ui:tech:rust:chevron=left/}}` | ![](assets/tech-guide/tech_adc8b3d2d9c0299d.svg) |
+| Both arrows | `{{ui:tech:rust:chevron=both/}}` | ![](assets/tech-guide/tech_beee4d4eef0fc1fd.svg) |
 
-### Basic Chevron Examples
+### Chained Pipeline
 
-```markdown
-{{ui:tech:rust:chevron=right/}}      <!-- First in chain -->
-{{ui:tech:typescript:chevron=both/}} <!-- Middle badges -->
-{{ui:tech:docker:chevron=both/}}     <!-- Middle badges -->
-{{ui:tech:postgresql:chevron=left/}} <!-- Last in chain -->
-```
+Chain chevrons for a connected tab-bar effect:
 
-Chain chevrons together for a connected tab-bar effect:
+![](assets/tech-guide/tech_4c5f16d733e3653.svg)![](assets/tech-guide/tech_3e14e5521023bef8.svg)![](assets/tech-guide/tech_5a747462b1e82e92.svg)![](assets/tech-guide/tech_fa7ca15a0812d6cb.svg)
 
 ```markdown
 {{ui:tech:rust:chevron=right/}}{{ui:tech:typescript:chevron=both/}}{{ui:tech:docker:chevron=both/}}{{ui:tech:postgresql:chevron=left/}}
-```
-
-### Chevron with Custom Colors
-
-Combine chevrons with custom background colors:
-
-```markdown
-{{ui:tech:rust:chevron=right:bg=1a1a2e/}}
-{{ui:tech:typescript:chevron=both:bg=2a2a3e/}}
-{{ui:tech:postgresql:chevron=left:bg=3a3a4e/}}
 ```
 
 ---
 
 ## Independent Segment Colors
 
-Control the left (icon) and right (label) segment colors independently using `bg_left` and `bg_right`:
-
-### Default Behavior
-
-By default, tech badges use:
-- **Left segment**: Brand color (or `bg` override)
-- **Right segment**: Darkened brand color (15% darker)
+Control the left (icon) and right (label) segment colors with `bg_left` and `bg_right`. By default, the right segment is 15% darker than the left.
 
 ### Custom Segment Colors
 
-Override individual segments:
-
 ```markdown
 {{ui:tech:rust:bg_left=DEA584:bg_right=B8856E/}}
-{{ui:tech:typescript:bg_left=3178C6:bg_right=2967A9/}}
-{{ui:tech:docker:bg_left=2496ED:bg_right=1E7DC9/}}
-```
-
-### Creative Color Combinations
-
-Use contrasting colors for visual impact:
-
-```markdown
-{{ui:tech:rust:bg_left=FF6B6B:bg_right=4ECDC4/}}
 {{ui:tech:python:bg_left=3776AB:bg_right=FFD43B/}}
 ```
 
+![](assets/tech-guide/tech_77cb0965d56f00bd.svg) ![](assets/tech-guide/tech_24fa14755759825f.svg)
+
 ### With Chevrons
 
-Combine segment colors with chevron shapes:
+![](assets/tech-guide/tech_fe00a167f32d408f.svg)![](assets/tech-guide/tech_299ba9ffc141a779.svg)
 
 ```markdown
-{{ui:tech:rust:chevron=right:bg_left=DEA584:bg_right=B8856E/}}
-{{ui:tech:typescript:chevron=both:bg_left=3178C6:bg_right=2967A9/}}
+{{ui:tech:rust:chevron=right:bg_left=DEA584:bg_right=B8856E/}}{{ui:tech:typescript:chevron=left:bg_left=3178C6:bg_right=2967A9/}}
 ```
 
 ---
