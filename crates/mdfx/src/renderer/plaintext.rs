@@ -159,29 +159,36 @@ impl Renderer for PlainTextBackend {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::primitive::TechConfig;
+    use rstest::rstest;
 
-    #[test]
-    fn test_plaintext_swatch() {
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[#F41C80]");
-    }
+    // ========================================================================
+    // Swatch Rendering (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_plaintext_swatch_with_label() {
+    #[rstest]
+    #[case("F41C80", None, None, "[#F41C80]")] // simple swatch
+    #[case("FF6B35", Some("v1.0"), None, "[#FF6B35 v1.0]")] // with label
+    #[case("F41C80", None, Some("rust"), "[#F41C80 rust]")] // with icon
+    #[case("ABC123", Some("label"), Some("icon"), "[#ABC123 icon]")] // icon takes precedence
+    fn test_plaintext_swatch(
+        #[case] color: &str,
+        #[case] label: Option<&str>,
+        #[case] icon: Option<&str>,
+        #[case] expected: &str,
+    ) {
         let backend = PlainTextBackend::new();
         let primitive = Primitive::Swatch {
-            color: "FF6B35".to_string(),
+            color: color.to_string(),
             style: "flat-square".to_string(),
             opacity: None,
             width: None,
             height: None,
             border_color: None,
             border_width: None,
-            label: Some("v1.0".to_string()),
+            label: label.map(String::from),
             label_color: None,
-            icon: None,
+            icon: icon.map(String::from),
             icon_color: None,
             rx: None,
             ry: None,
@@ -195,58 +202,29 @@ mod tests {
             border_left: None,
         };
         let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[#FF6B35 v1.0]");
+        assert_eq!(asset.to_markdown(), expected);
     }
 
-    #[test]
-    fn test_plaintext_swatch_with_icon() {
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::Swatch {
-            color: "F41C80".to_string(),
-            style: "flat-square".to_string(),
-            opacity: None,
-            width: None,
-            height: None,
-            border_color: None,
-            border_width: None,
-            label: None,
-            label_color: None,
-            icon: Some("rust".to_string()),
-            icon_color: None,
-            rx: None,
-            ry: None,
-            shadow: None,
-            gradient: None,
-            stroke_dash: None,
-            logo_size: None,
-            border_top: None,
-            border_right: None,
-            border_bottom: None,
-            border_left: None,
-        };
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[#F41C80 rust]");
-    }
+    // ========================================================================
+    // Tech Badge Rendering (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_plaintext_tech() {
-        use crate::primitive::TechConfig;
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::Tech(TechConfig::new("rust"));
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[rust]");
-    }
-
-    #[test]
-    fn test_plaintext_tech_with_label() {
-        use crate::primitive::TechConfig;
+    #[rstest]
+    #[case("rust", None, "[rust]")] // name only
+    #[case("rust", Some("v1.80"), "[rust | v1.80]")] // with label
+    #[case("python", Some("3.12"), "[python | 3.12]")] // different tech
+    fn test_plaintext_tech(
+        #[case] name: &str,
+        #[case] label: Option<&str>,
+        #[case] expected: &str,
+    ) {
         let backend = PlainTextBackend::new();
         let primitive = Primitive::Tech(TechConfig {
-            name: "rust".to_string(),
-            label: Some("v1.80".to_string()),
+            name: name.to_string(),
+            label: label.map(String::from),
             ..Default::default()
         });
         let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "[rust | v1.80]");
+        assert_eq!(asset.to_markdown(), expected);
     }
 }

@@ -78,6 +78,40 @@ impl Renderer for HybridBackend {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+
+    // Helper to create a swatch with optional advanced features
+    fn swatch_with_features(
+        gradient: Option<&str>,
+        shadow: Option<&str>,
+        rx: Option<u32>,
+        stroke_dash: Option<&str>,
+        border_top: Option<&str>,
+    ) -> Primitive {
+        Primitive::Swatch {
+            color: "FF0000".to_string(),
+            style: "flat-square".to_string(),
+            opacity: None,
+            width: Some(100),
+            height: Some(50),
+            border_color: None,
+            border_width: None,
+            label: None,
+            label_color: None,
+            icon: None,
+            icon_color: None,
+            rx,
+            ry: None,
+            shadow: shadow.map(String::from),
+            gradient: gradient.map(String::from),
+            stroke_dash: stroke_dash.map(String::from),
+            logo_size: None,
+            border_top: border_top.map(String::from),
+            border_right: None,
+            border_bottom: None,
+            border_left: None,
+        }
+    }
 
     #[test]
     fn test_simple_swatch_uses_shields() {
@@ -91,102 +125,30 @@ mod tests {
         assert!(result.to_markdown().contains("shields.io"));
     }
 
-    #[test]
-    fn test_gradient_swatch_uses_svg() {
+    // ========================================================================
+    // SVG Feature Detection (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(Some("horizontal/FF0000/0000FF"), None, None, None, None, true)] // gradient
+    #[case(None, Some("000000/5/2/2"), Some(10), None, None, true)] // shadow + rx
+    #[case(None, None, Some(10), None, None, true)] // rx alone
+    #[case(None, None, None, Some("5,5"), None, true)] // stroke dash
+    #[case(None, None, None, None, Some("0000FF/3"), true)] // border_top
+    #[case(None, None, None, None, None, false)] // none (shields)
+    fn test_svg_feature_detection(
+        #[case] gradient: Option<&str>,
+        #[case] shadow: Option<&str>,
+        #[case] rx: Option<u32>,
+        #[case] stroke_dash: Option<&str>,
+        #[case] border_top: Option<&str>,
+        #[case] expects_svg: bool,
+    ) {
         let backend = HybridBackend::new("assets").unwrap();
-        let primitive = Primitive::Swatch {
-            color: "000000".to_string(),
-            style: "flat-square".to_string(),
-            opacity: None,
-            width: Some(100),
-            height: Some(50),
-            border_color: None,
-            border_width: None,
-            label: None,
-            label_color: None,
-            icon: None,
-            icon_color: None,
-            rx: None,
-            ry: None,
-            shadow: None,
-            gradient: Some("horizontal/FF0000/0000FF".to_string()),
-            stroke_dash: None,
-            logo_size: None,
-            border_top: None,
-            border_right: None,
-            border_bottom: None,
-            border_left: None,
-        };
+        let primitive = swatch_with_features(gradient, shadow, rx, stroke_dash, border_top);
 
         let result = backend.render(&primitive).unwrap();
 
-        // Should be file-based (SVG)
-        assert!(result.is_file_based());
-    }
-
-    #[test]
-    fn test_shadow_swatch_uses_svg() {
-        let backend = HybridBackend::new("assets").unwrap();
-        let primitive = Primitive::Swatch {
-            color: "FF0000".to_string(),
-            style: "flat-square".to_string(),
-            opacity: None,
-            width: Some(100),
-            height: Some(50),
-            border_color: None,
-            border_width: None,
-            label: None,
-            label_color: None,
-            icon: None,
-            icon_color: None,
-            rx: Some(10),
-            ry: None,
-            shadow: Some("000000/5/2/2".to_string()),
-            gradient: None,
-            stroke_dash: None,
-            logo_size: None,
-            border_top: None,
-            border_right: None,
-            border_bottom: None,
-            border_left: None,
-        };
-
-        let result = backend.render(&primitive).unwrap();
-
-        // Should be file-based (SVG)
-        assert!(result.is_file_based());
-    }
-
-    #[test]
-    fn test_per_side_border_uses_svg() {
-        let backend = HybridBackend::new("assets").unwrap();
-        let primitive = Primitive::Swatch {
-            color: "FF0000".to_string(),
-            style: "flat-square".to_string(),
-            opacity: None,
-            width: Some(100),
-            height: Some(50),
-            border_color: None,
-            border_width: None,
-            label: None,
-            label_color: None,
-            icon: None,
-            icon_color: None,
-            rx: None,
-            ry: None,
-            shadow: None,
-            gradient: None,
-            stroke_dash: None,
-            logo_size: None,
-            border_top: Some("0000FF/3".to_string()),
-            border_right: None,
-            border_bottom: Some("00FF00/3".to_string()),
-            border_left: None,
-        };
-
-        let result = backend.render(&primitive).unwrap();
-
-        // Should be file-based (SVG) because per-side borders need SVG
-        assert!(result.is_file_based());
+        assert_eq!(result.is_file_based(), expects_svg);
     }
 }

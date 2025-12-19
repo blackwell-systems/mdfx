@@ -438,46 +438,53 @@ pub fn brand_contrast_color(name: &str) -> Option<&'static str> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_icon_paths() {
-        assert!(icon_path("rust").is_some());
-        assert!(icon_path("typescript").is_some());
-        assert!(icon_path("javascript").is_some());
-        assert!(icon_path("unknown").is_none());
+    // ========================================================================
+    // Icon Path Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("rust", true)]
+    #[case("typescript", true)]
+    #[case("javascript", true)]
+    #[case("python", true)]
+    #[case("RUST", true)] // case insensitive
+    #[case("TypeScript", true)] // case insensitive
+    #[case("unknown", false)]
+    #[case("nonexistent", false)]
+    fn test_icon_path_lookup(#[case] name: &str, #[case] should_exist: bool) {
+        assert_eq!(icon_path(name).is_some(), should_exist);
     }
 
-    #[test]
-    fn test_brand_colors() {
-        assert_eq!(brand_color("rust"), Some("DEA584"));
-        assert_eq!(brand_color("typescript"), Some("3178C6"));
-        assert_eq!(brand_color("javascript"), Some("F7DF1E"));
-        assert_eq!(brand_color("unknown"), None);
+    // ========================================================================
+    // Brand Color Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("rust", Some("DEA584"))]
+    #[case("typescript", Some("3178C6"))]
+    #[case("javascript", Some("F7DF1E"))]
+    #[case("python", Some("3776AB"))]
+    #[case("TypeScript", Some("3178C6"))] // case insensitive
+    #[case("unknown", None)]
+    fn test_brand_color_lookup(#[case] name: &str, #[case] expected: Option<&str>) {
+        assert_eq!(brand_color(name), expected);
     }
 
-    #[test]
-    fn test_case_insensitive() {
-        assert!(icon_path("RUST").is_some());
-        assert!(brand_color("TypeScript").is_some());
-        assert!(icon_path("JavaScript").is_some());
-    }
+    // ========================================================================
+    // Alias Resolution (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_aliases() {
-        // Go aliases
-        assert!(icon_path("go").is_some());
-        assert!(icon_path("golang").is_some());
-        assert_eq!(brand_color("go"), brand_color("golang"));
-
-        // Node.js aliases
-        assert!(icon_path("nodejs").is_some());
-        assert!(icon_path("node.js").is_some());
-        assert_eq!(brand_color("nodejs"), brand_color("node.js"));
-
-        // Vue aliases
-        assert!(icon_path("vue").is_some());
-        assert!(icon_path("vuejs").is_some());
-        assert!(icon_path("vue.js").is_some());
+    #[rstest]
+    #[case("go", "golang")]
+    #[case("nodejs", "node.js")]
+    #[case("vue", "vuejs")]
+    #[case("vue", "vue.js")]
+    fn test_aliases_resolve_same(#[case] name1: &str, #[case] name2: &str) {
+        assert!(icon_path(name1).is_some());
+        assert!(icon_path(name2).is_some());
+        assert_eq!(brand_color(name1), brand_color(name2));
     }
 
     #[test]
@@ -491,16 +498,17 @@ mod tests {
         assert!(icons.contains(&"typescript"));
     }
 
-    #[test]
-    fn test_brand_contrast_color() {
-        // Rust orange should use black text
-        assert_eq!(brand_contrast_color("rust"), Some("#000000"));
+    // ========================================================================
+    // Brand Contrast Color (Parameterized)
+    // ========================================================================
 
-        // TypeScript blue should use white text
-        assert_eq!(brand_contrast_color("typescript"), Some("#FFFFFF"));
-
-        // Unknown brand should return None
-        assert_eq!(brand_contrast_color("unknown"), None);
+    #[rstest]
+    #[case("rust", Some("#000000"))] // orange -> black text
+    #[case("typescript", Some("#FFFFFF"))] // blue -> white text
+    #[case("javascript", Some("#000000"))] // yellow -> black text
+    #[case("unknown", None)]
+    fn test_brand_contrast_color(#[case] name: &str, #[case] expected: Option<&str>) {
+        assert_eq!(brand_contrast_color(name), expected);
     }
 
     #[test]

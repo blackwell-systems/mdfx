@@ -12,3 +12,6 @@ categories = ["graphics", "multimedia::images"]
 
 [dependencies]
 mdfx-colors = { version = "1.0", path = "../mdfx-colors" }
+
+[dev-dependencies]
+rstest = "0.23"

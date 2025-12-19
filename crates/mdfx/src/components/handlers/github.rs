@@ -281,6 +281,7 @@ pub fn handle_pypi(
 #[cfg(all(test, feature = "fetch"))]
 mod tests {
     use super::*;
+    use rstest::rstest;
     use tempfile::TempDir;
 
     fn temp_fetch_ctx(offline: bool) -> (FetchContext, TempDir) {
@@ -295,71 +296,60 @@ mod tests {
         (ctx, dir)
     }
 
-    #[test]
-    fn test_github_offline_no_cache() {
+    // ========================================================================
+    // Offline Mode Without Cache (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("github", "rust-lang/rust")]
+    #[case("npm", "react")]
+    #[case("crates", "serde")]
+    #[case("pypi", "requests")]
+    fn test_source_offline_no_cache(#[case] source: &str, #[case] query: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
-        let result = handle_github(
-            &["rust-lang/rust".to_string()],
-            &params,
-            "flat",
-            |c| c.to_string(),
-            &ctx,
+        let args = vec![query.to_string()];
+
+        let result = match source {
+            "github" => handle_github(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "npm" => handle_npm(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "crates" => handle_crates(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "pypi" => handle_pypi(&args, &params, "flat", |c| c.to_string(), &ctx),
+            _ => panic!("Unknown source"),
+        };
+
+        assert!(
+            result.is_err(),
+            "{} should fail in offline mode without cache",
+            source
         );
-        assert!(result.is_err());
     }
 
-    #[test]
-    fn test_npm_offline_no_cache() {
+    // ========================================================================
+    // Missing Query Argument (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("github")]
+    #[case("npm")]
+    #[case("crates")]
+    #[case("pypi")]
+    fn test_missing_query(#[case] source: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
-        let result = handle_npm(
-            &["react".to_string()],
-            &params,
-            "flat",
-            |c| c.to_string(),
-            &ctx,
+
+        let result = match source {
+            "github" => handle_github(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "npm" => handle_npm(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "crates" => handle_crates(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "pypi" => handle_pypi(&[], &params, "flat", |c| c.to_string(), &ctx),
+            _ => panic!("Unknown source"),
+        };
+
+        assert!(
+            result.is_err(),
+            "{} should error with missing query",
+            source
         );
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_crates_offline_no_cache() {
-        let (ctx, _dir) = temp_fetch_ctx(true);
-        let params = HashMap::new();
-        let result = handle_crates(
-            &["serde".to_string()],
-            &params,
-            "flat",
-            |c| c.to_string(),
-            &ctx,
-        );
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_pypi_offline_no_cache() {
-        let (ctx, _dir) = temp_fetch_ctx(true);
-        let params = HashMap::new();
-        let result = handle_pypi(
-            &["requests".to_string()],
-            &params,
-            "flat",
-            |c| c.to_string(),
-            &ctx,
-        );
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_missing_query() {
-        let (ctx, _dir) = temp_fetch_ctx(true);
-        let params = HashMap::new();
-
-        // All handlers should error with empty args
-        assert!(handle_github(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
-        assert!(handle_npm(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
-        assert!(handle_crates(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
-        assert!(handle_pypi(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
     }
 }

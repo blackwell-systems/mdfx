@@ -241,6 +241,7 @@ pub struct CacheStats {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
     use tempfile::TempDir;
 
     fn temp_cache() -> (Cache, TempDir) {
@@ -343,22 +344,34 @@ mod tests {
         assert_eq!(stats.total_entries, 0);
     }
 
-    #[test]
-    fn test_cache_key_sanitization() {
+    // ========================================================================
+    // Cache Key Sanitization (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("npm", "@scope/package", "version", "1.0")] // scoped package
+    #[case("github", "user/repo", "stars", "100")] // slash in query
+    #[case("npm", "pkg:alias", "version", "2.0")] // colon in query
+    #[case("github", "user\\repo", "forks", "50")] // backslash in query
+    fn test_cache_key_sanitization(
+        #[case] source: &str,
+        #[case] query: &str,
+        #[case] metric: &str,
+        #[case] value: &str,
+    ) {
         let (cache, _dir) = temp_cache();
 
-        // Query with special characters
         cache
             .set(
-                "npm",
-                "@scope/package",
-                "version",
-                DataValue::String("1.0".to_string()),
+                source,
+                query,
+                metric,
+                DataValue::String(value.to_string()),
                 None,
             )
             .unwrap();
 
-        let entry = cache.get("npm", "@scope/package", "version").unwrap();
-        assert_eq!(entry.value, DataValue::String("1.0".to_string()));
+        let entry = cache.get(source, query, metric).unwrap();
+        assert_eq!(entry.value, DataValue::String(value.to_string()));
     }
 }

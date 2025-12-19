@@ -341,6 +341,8 @@ impl Renderer for SvgBackend {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::primitive::TechConfig;
+    use rstest::rstest;
 
     #[test]
     fn test_svg_backend_creation() {
@@ -376,30 +378,28 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_content_addressed_determinism() {
+    // ========================================================================
+    // Content-Addressed Filename Determinism (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("F41C80", "F41C80", true)] // same color -> same filename
+    #[case("F41C80", "2B6CB0", false)] // different colors -> different filenames
+    #[case("FFFFFF", "FFFFFF", true)] // same color -> same filename
+    #[case("000000", "FFFFFF", false)] // black vs white -> different filenames
+    fn test_content_addressed_filenames(
+        #[case] color1: &str,
+        #[case] color2: &str,
+        #[case] should_match: bool,
+    ) {
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::simple_swatch("F41C80", "flat-square");
-
-        // Render twice
-        let result1 = backend.render(&primitive).unwrap();
-        let result2 = backend.render(&primitive).unwrap();
-
-        // Same primitive should produce same filename
-        assert_eq!(result1.file_path(), result2.file_path());
-    }
-
-    #[test]
-    fn test_different_content_different_filename() {
-        let backend = SvgBackend::new("assets");
-        let prim1 = Primitive::simple_swatch("F41C80", "flat-square");
-        let prim2 = Primitive::simple_swatch("2B6CB0", "flat-square");
+        let prim1 = Primitive::simple_swatch(color1, "flat-square");
+        let prim2 = Primitive::simple_swatch(color2, "flat-square");
 
         let result1 = backend.render(&prim1).unwrap();
         let result2 = backend.render(&prim2).unwrap();
 
-        // Different colors should produce different filenames
-        assert_ne!(result1.file_path(), result2.file_path());
+        assert_eq!(result1.file_path() == result2.file_path(), should_match);
     }
 
     #[test]
@@ -418,17 +418,16 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_type_prefix() {
-        assert_eq!(
-            SvgBackend::type_prefix(&Primitive::simple_swatch("F41C80", "flat")),
-            "swatch"
-        );
+    // ========================================================================
+    // Type Prefix Detection (Parameterized)
+    // ========================================================================
 
-        use crate::primitive::TechConfig;
-        assert_eq!(
-            SvgBackend::type_prefix(&Primitive::Tech(TechConfig::new("rust"))),
-            "tech"
-        );
+    #[rstest]
+    #[case(Primitive::simple_swatch("F41C80", "flat"), "swatch")]
+    #[case(Primitive::Tech(TechConfig::new("rust")), "tech")]
+    #[case(Primitive::simple_progress(50, "E0E0E0", "4CAF50"), "progress")]
+    #[case(Primitive::simple_donut(75, "E0E0E0", "4CAF50"), "donut")]
+    fn test_type_prefix(#[case] primitive: Primitive, #[case] expected: &str) {
+        assert_eq!(SvgBackend::type_prefix(&primitive), expected);
     }
 }

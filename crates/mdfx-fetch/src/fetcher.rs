@@ -170,6 +170,7 @@ pub struct MetricInfo {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
     use tempfile::TempDir;
 
     fn temp_fetcher(offline: bool, refresh: bool) -> (Fetcher, TempDir) {
@@ -184,18 +185,26 @@ mod tests {
         (fetcher, dir)
     }
 
+    // ========================================================================
+    // Source Availability (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("github", true)]
+    #[case("npm", true)]
+    #[case("pypi", true)]
+    #[case("crates", true)]
+    #[case("nonexistent", false)]
+    fn test_fetcher_has_source(#[case] source: &str, #[case] expected: bool) {
+        let (fetcher, _dir) = temp_fetcher(false, false);
+        assert_eq!(fetcher.has_source(source), expected);
+    }
+
     #[test]
     fn test_fetcher_list_sources() {
         let (fetcher, _dir) = temp_fetcher(false, false);
         let sources = fetcher.list_sources();
         assert!(sources.contains(&"github"));
-    }
-
-    #[test]
-    fn test_fetcher_has_source() {
-        let (fetcher, _dir) = temp_fetcher(false, false);
-        assert!(fetcher.has_source("github"));
-        assert!(!fetcher.has_source("nonexistent"));
     }
 
     #[test]

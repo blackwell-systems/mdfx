@@ -128,45 +128,44 @@ pub fn chevron_path_with_overlap(
 mod tests {
     use super::*;
     use crate::style::ChevronDirection;
+    use rstest::rstest;
 
-    #[test]
-    fn test_rounded_rect_path() {
-        let path = rounded_rect_path(0.0, 0.0, 100.0, 20.0, [3, 3, 3, 3]);
-        assert!(path.contains("M3 0"));
-        assert!(path.contains("H97"));
+    // ========================================================================
+    // Rounded Rectangle Paths (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case([3, 3, 3, 3], "M3 0", "H97")] // uniform corners
+    #[case([0, 0, 0, 0], "M0 0", "H100")] // no corners (simple rect)
+    #[case([5, 10, 15, 20], "M5 0", "H90")] // different radii (clamped)
+    fn test_rounded_rect_path(
+        #[case] corners: [u32; 4],
+        #[case] expected_start: &str,
+        #[case] expected_h: &str,
+    ) {
+        let path = rounded_rect_path(0.0, 0.0, 100.0, 20.0, corners);
+        assert!(path.contains(expected_start));
+        assert!(path.contains(expected_h));
     }
 
-    #[test]
-    fn test_simple_rect_path() {
-        let path = rounded_rect_path(0.0, 0.0, 100.0, 20.0, [0, 0, 0, 0]);
-        assert!(path.contains("M0 0"));
-        assert!(path.contains("H100"));
-    }
+    // ========================================================================
+    // Chevron Paths (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_different_corner_radii() {
-        let path = rounded_rect_path(0.0, 0.0, 100.0, 20.0, [5, 10, 15, 20]);
-        assert!(path.contains("M5 0")); // Start after top-left radius
-        assert!(path.contains("H90")); // Top edge to before top-right radius
-    }
-
-    #[test]
-    fn test_chevron_paths() {
+    #[rstest]
+    #[case(ChevronDirection::Left, true, false, "M-10 10")] // left arrow
+    #[case(ChevronDirection::Right, false, true, "L110 10")] // right arrow
+    #[case(ChevronDirection::Both, true, true, "M-10 10")] // both arrows
+    fn test_chevron_paths(
+        #[case] direction: ChevronDirection,
+        #[case] expected_has_left: bool,
+        #[case] expected_has_right: bool,
+        #[case] expected_path_fragment: &str,
+    ) {
         let (path, has_left, has_right) =
-            chevron_path_with_overlap(0.0, 0.0, 100.0, 20.0, ChevronDirection::Left, 10.0);
-        assert!(has_left);
-        assert!(!has_right);
-        assert!(path.contains("M-10 10")); // Arrow tip
-
-        let (path, has_left, has_right) =
-            chevron_path_with_overlap(0.0, 0.0, 100.0, 20.0, ChevronDirection::Right, 10.0);
-        assert!(!has_left);
-        assert!(has_right);
-        assert!(path.contains("L110 10")); // Arrow tip
-
-        let (_path, has_left, has_right) =
-            chevron_path_with_overlap(0.0, 0.0, 100.0, 20.0, ChevronDirection::Both, 10.0);
-        assert!(has_left);
-        assert!(has_right);
+            chevron_path_with_overlap(0.0, 0.0, 100.0, 20.0, direction, 10.0);
+        assert_eq!(has_left, expected_has_left);
+        assert_eq!(has_right, expected_has_right);
+        assert!(path.contains(expected_path_fragment));
     }
 }

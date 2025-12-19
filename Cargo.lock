@@ -1043,6 +1043,7 @@ name = "mdfx-icons"
 version = "1.0.0"
 dependencies = [
  "mdfx-colors",
+ "rstest",
 ]
 
 [[package]]
