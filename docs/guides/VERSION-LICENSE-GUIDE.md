@@ -32,9 +32,9 @@ The version component automatically detects stability from the version string an
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0/}}` | ![](assets/version-license-guide/swatch_b5903e6df93de08a.svg) |
-| `{{ui:version:2.5.3/}}` | ![](assets/version-license-guide/swatch_e73d6eb731346322.svg) |
-| `{{ui:version:10.0.0/}}` | ![](assets/version-license-guide/swatch_c050bdbfa66fd35a.svg) |
+| `{{ui:version:1.0.0/}}` | ![](assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg) |
+| `{{ui:version:2.5.3/}}` | ![](assets/version-license-guide/swatch_a0a50fd203a24a7e.svg) |
+| `{{ui:version:10.0.0/}}` | ![](assets/version-license-guide/swatch_213bfcf59dc38777.svg) |
 
 ---
 
@@ -48,9 +48,9 @@ Released production versions (1.x.x and higher):
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0/}}` | ![](assets/version-license-guide/swatch_b5903e6df93de08a.svg) |
-| `{{ui:version:3.2.1/}}` | ![](assets/version-license-guide/swatch_29f24d9cb5c465e6.svg) |
-| `{{ui:version:12.0.0/}}` | ![](assets/version-license-guide/swatch_cf1da21a9e2df1cc.svg) |
+| `{{ui:version:1.0.0/}}` | ![](assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg) |
+| `{{ui:version:3.2.1/}}` | ![](assets/version-license-guide/swatch_8d966de58e20061f.svg) |
+| `{{ui:version:12.0.0/}}` | ![](assets/version-license-guide/swatch_4514e2a1f2d21dc2.svg) |
 
 #### Beta Versions (Yellow)
 
@@ -58,11 +58,11 @@ Pre-release testing versions (0.x.x or -beta/-rc suffix):
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:0.9.0/}}` | ![](assets/version-license-guide/swatch_5d4b1bd6a66fbd84.svg) |
-| `{{ui:version:2.0.0-beta/}}` | ![](assets/version-license-guide/swatch_9acccc5c652cccc7.svg) |
-| `{{ui:version:1.5.0-beta.2/}}` | ![](assets/version-license-guide/swatch_cf68c743712ab6bc.svg) |
-| `{{ui:version:3.0.0-rc.1/}}` | ![](assets/version-license-guide/swatch_05ff18b1f7e52759.svg) |
-| `{{ui:version:2.0.0-preview/}}` | ![](assets/version-license-guide/swatch_46eda57bd94ecbdb.svg) |
+| `{{ui:version:0.9.0/}}` | ![](assets/version-license-guide/swatch_ab4c5ed84bef5518.svg) |
+| `{{ui:version:2.0.0-beta/}}` | ![](assets/version-license-guide/swatch_b45e3454d750c219.svg) |
+| `{{ui:version:1.5.0-beta.2/}}` | ![](assets/version-license-guide/swatch_24739011b62e236f.svg) |
+| `{{ui:version:3.0.0-rc.1/}}` | ![](assets/version-license-guide/swatch_f38aa364e18633ae.svg) |
+| `{{ui:version:2.0.0-preview/}}` | ![](assets/version-license-guide/swatch_39f77d895f5b9baf.svg) |
 
 #### Alpha Versions (Orange)
 
@@ -70,8 +70,8 @@ Early development versions:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0-alpha/}}` | ![](assets/version-license-guide/swatch_cfa17153a02f3d97.svg) |
-| `{{ui:version:2.0.0-alpha.3/}}` | ![](assets/version-license-guide/swatch_7b1a809527fe1f13.svg) |
+| `{{ui:version:1.0.0-alpha/}}` | ![](assets/version-license-guide/swatch_a0b481854d3215cb.svg) |
+| `{{ui:version:2.0.0-alpha.3/}}` | ![](assets/version-license-guide/swatch_48e1d097bc5fef06.svg) |
 
 #### Development Versions (Purple)
 
@@ -79,9 +79,9 @@ Unstable development builds:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0-dev/}}` | ![](assets/version-license-guide/swatch_57142a90f2fcbbb3.svg) |
-| `{{ui:version:2.0.0-snapshot/}}` | ![](assets/version-license-guide/swatch_9aac1c5b025104e0.svg) |
-| `{{ui:version:3.0.0-nightly/}}` | ![](assets/version-license-guide/swatch_227e34b9124b0f22.svg) |
+| `{{ui:version:1.0.0-dev/}}` | ![](assets/version-license-guide/swatch_c2ab2fbb75f229c6.svg) |
+| `{{ui:version:2.0.0-snapshot/}}` | ![](assets/version-license-guide/swatch_16c330642a77a05d.svg) |
+| `{{ui:version:3.0.0-nightly/}}` | ![](assets/version-license-guide/swatch_00391c9381120ac2.svg) |
 
 #### Deprecated Versions (Red)
 
@@ -89,8 +89,8 @@ End-of-life or unsupported versions:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0-deprecated/}}` | ![](assets/version-license-guide/swatch_cbedb484a8a8d855.svg) |
-| `{{ui:version:0.5.0-eol/}}` | ![](assets/version-license-guide/swatch_e6c77cb498fb19bd.svg) |
+| `{{ui:version:1.0.0-deprecated/}}` | ![](assets/version-license-guide/swatch_50224d739194a573.svg) |
+| `{{ui:version:0.5.0-eol/}}` | ![](assets/version-license-guide/swatch_93609e163b299f76.svg) |
 
 ---
 
@@ -100,11 +100,11 @@ Override auto-detection with the `status` parameter:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0:status=stable/}}` | ![](assets/version-license-guide/swatch_b5903e6df93de08a.svg) |
-| `{{ui:version:1.0.0:status=beta/}}` | ![](assets/version-license-guide/swatch_41161b7cd5883f9a.svg) |
-| `{{ui:version:1.0.0:status=alpha/}}` | ![](assets/version-license-guide/swatch_b893506546ea2c6e.svg) |
-| `{{ui:version:1.0.0:status=dev/}}` | ![](assets/version-license-guide/swatch_492057cb996cb78e.svg) |
-| `{{ui:version:1.0.0:status=deprecated/}}` | ![](assets/version-license-guide/swatch_f929bac19030b184.svg) |
+| `{{ui:version:1.0.0:status=stable/}}` | ![](assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg) |
+| `{{ui:version:1.0.0:status=beta/}}` | ![](assets/version-license-guide/swatch_6b8db58e50b077b7.svg) |
+| `{{ui:version:1.0.0:status=alpha/}}` | ![](assets/version-license-guide/swatch_1e7451b775cc2c12.svg) |
+| `{{ui:version:1.0.0:status=dev/}}` | ![](assets/version-license-guide/swatch_495ecefcaa5ea923.svg) |
+| `{{ui:version:1.0.0:status=deprecated/}}` | ![](assets/version-license-guide/swatch_1f25d8a75e3547c5.svg) |
 
 ---
 
@@ -127,24 +127,24 @@ Override auto-detection with the `status` parameter:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0:prefix=/}}` | ![](assets/version-license-guide/swatch_fd35f14f01731225.svg) |
-| `{{ui:version:2.5.0:prefix=/}}` | ![](assets/version-license-guide/swatch_10cf270530d35e71.svg) |
+| `{{ui:version:1.0.0:prefix=/}}` | ![](assets/version-license-guide/swatch_49ddda9a0211818d.svg) |
+| `{{ui:version:2.5.0:prefix=/}}` | ![](assets/version-license-guide/swatch_fe5a232c1e03c3ea.svg) |
 
 #### Custom Colors
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0:bg=cobalt/}}` | ![](assets/version-license-guide/swatch_3b18a92c6c73492c.svg) |
-| `{{ui:version:2.0.0:bg=plum/}}` | ![](assets/version-license-guide/swatch_817027d3d5769d55.svg) |
-| `{{ui:version:3.0.0:bg=accent/}}` | ![](assets/version-license-guide/swatch_3291a46b616028da.svg) |
+| `{{ui:version:1.0.0:bg=cobalt/}}` | ![](assets/version-license-guide/swatch_897e21ef13830271.svg) |
+| `{{ui:version:2.0.0:bg=plum/}}` | ![](assets/version-license-guide/swatch_e9ee9f827dc58e55.svg) |
+| `{{ui:version:3.0.0:bg=accent/}}` | ![](assets/version-license-guide/swatch_fe95d1519b1c7e68.svg) |
 
 #### Badge Styles
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0:style=flat/}}` | ![](assets/version-license-guide/swatch_a295dcc06519763d.svg) |
-| `{{ui:version:1.0.0:style=plastic/}}` | ![](assets/version-license-guide/swatch_cc76a4c888a4babb.svg) |
-| `{{ui:version:1.0.0:style=for-the-badge/}}` | ![](assets/version-license-guide/swatch_d551cf1f41ecb2fd.svg) |
+| `{{ui:version:1.0.0:style=flat/}}` | ![](assets/version-license-guide/swatch_68c24257a3406bb8.svg) |
+| `{{ui:version:1.0.0:style=plastic/}}` | ![](assets/version-license-guide/swatch_fcdf995283615306.svg) |
+| `{{ui:version:1.0.0:style=for-the-badge/}}` | ![](assets/version-license-guide/swatch_bdc37939443ed823.svg) |
 
 ---
 
@@ -160,9 +160,9 @@ The license component categorizes licenses and applies semantic coloring.
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:MIT/}}` | ![](assets/version-license-guide/swatch_786cabc60dc7e642.svg) |
-| `{{ui:license:Apache-2.0/}}` | ![](assets/version-license-guide/swatch_e952000834310ef7.svg) |
-| `{{ui:license:GPL-3.0/}}` | ![](assets/version-license-guide/swatch_ee28fc71dbacec07.svg) |
+| `{{ui:license:MIT/}}` | ![](assets/version-license-guide/swatch_85a9fc02551e469b.svg) |
+| `{{ui:license:Apache-2.0/}}` | ![](assets/version-license-guide/swatch_0e50155d41187e8b.svg) |
+| `{{ui:license:GPL-3.0/}}` | ![](assets/version-license-guide/swatch_380036f2d9c5a7e2.svg) |
 
 ---
 
@@ -174,11 +174,11 @@ Open-source friendly, minimal restrictions:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:MIT/}}` | ![](assets/version-license-guide/swatch_786cabc60dc7e642.svg) |
-| `{{ui:license:Apache-2.0/}}` | ![](assets/version-license-guide/swatch_e952000834310ef7.svg) |
-| `{{ui:license:BSD-3-Clause/}}` | ![](assets/version-license-guide/swatch_d0a378d8ea916e02.svg) |
-| `{{ui:license:BSD-2-Clause/}}` | ![](assets/version-license-guide/swatch_fff70b4f7b675b06.svg) |
-| `{{ui:license:ISC/}}` | ![](assets/version-license-guide/swatch_41b2c943f98b19aa.svg) |
+| `{{ui:license:MIT/}}` | ![](assets/version-license-guide/swatch_85a9fc02551e469b.svg) |
+| `{{ui:license:Apache-2.0/}}` | ![](assets/version-license-guide/swatch_0e50155d41187e8b.svg) |
+| `{{ui:license:BSD-3-Clause/}}` | ![](assets/version-license-guide/swatch_8e1f3054d30c236f.svg) |
+| `{{ui:license:BSD-2-Clause/}}` | ![](assets/version-license-guide/swatch_e77a49b75b71e6ef.svg) |
+| `{{ui:license:ISC/}}` | ![](assets/version-license-guide/swatch_248b982c7f3a20b9.svg) |
 
 #### Weak Copyleft (Blue)
 
@@ -186,10 +186,10 @@ File-level copyleft requirements:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:LGPL-3.0/}}` | ![](assets/version-license-guide/swatch_01b1b9c2138a54b7.svg) |
-| `{{ui:license:LGPL-2.1/}}` | ![](assets/version-license-guide/swatch_871c20e9a2b63c99.svg) |
-| `{{ui:license:MPL-2.0/}}` | ![](assets/version-license-guide/swatch_a67fd56bd32027c7.svg) |
-| `{{ui:license:EPL-2.0/}}` | ![](assets/version-license-guide/swatch_27e016de60e384bf.svg) |
+| `{{ui:license:LGPL-3.0/}}` | ![](assets/version-license-guide/swatch_68b37f22bceae35c.svg) |
+| `{{ui:license:LGPL-2.1/}}` | ![](assets/version-license-guide/swatch_680acd57cc7d0352.svg) |
+| `{{ui:license:MPL-2.0/}}` | ![](assets/version-license-guide/swatch_69e265cf569ea74e.svg) |
+| `{{ui:license:EPL-2.0/}}` | ![](assets/version-license-guide/swatch_da9f5a73f4d97c9c.svg) |
 
 #### Copyleft (Yellow)
 
@@ -197,9 +197,9 @@ Strong copyleft requirements:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:GPL-3.0/}}` | ![](assets/version-license-guide/swatch_ee28fc71dbacec07.svg) |
-| `{{ui:license:GPL-2.0/}}` | ![](assets/version-license-guide/swatch_45ace2cc3a42af34.svg) |
-| `{{ui:license:AGPL-3.0/}}` | ![](assets/version-license-guide/swatch_8f0eb3bc91a53810.svg) |
+| `{{ui:license:GPL-3.0/}}` | ![](assets/version-license-guide/swatch_380036f2d9c5a7e2.svg) |
+| `{{ui:license:GPL-2.0/}}` | ![](assets/version-license-guide/swatch_9237b4fa33d80bfe.svg) |
+| `{{ui:license:AGPL-3.0/}}` | ![](assets/version-license-guide/swatch_d002b9799507979f.svg) |
 
 #### Public Domain (Cyan)
 
@@ -207,8 +207,8 @@ No restrictions:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:CC0/}}` | ![](assets/version-license-guide/swatch_79332b3955a66d15.svg) |
-| `{{ui:license:Unlicense/}}` | ![](assets/version-license-guide/swatch_9095adfff894e5ba.svg) |
+| `{{ui:license:CC0/}}` | ![](assets/version-license-guide/swatch_83ce122ae83e6484.svg) |
+| `{{ui:license:Unlicense/}}` | ![](assets/version-license-guide/swatch_589c7d76645e9243.svg) |
 
 #### Proprietary (Gray)
 
@@ -216,8 +216,8 @@ Closed source:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:Proprietary/}}` | ![](assets/version-license-guide/swatch_5758d3e0b9270255.svg) |
-| `{{ui:license:Commercial/}}` | ![](assets/version-license-guide/swatch_88b39d90e396f395.svg) |
+| `{{ui:license:Proprietary/}}` | ![](assets/version-license-guide/swatch_30680d4d30855460.svg) |
+| `{{ui:license:Commercial/}}` | ![](assets/version-license-guide/swatch_9255e7dbab0a43ea.svg) |
 
 ---
 
@@ -254,17 +254,17 @@ Quick reference for popular licenses:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:MIT:label=MIT License/}}` | ![](assets/version-license-guide/swatch_742f30635622e632.svg) |
-| `{{ui:license:Apache-2.0:label=Apache/}}` | ![](assets/version-license-guide/swatch_8b5ccf4c765de518.svg) |
-| `{{ui:license:GPL-3.0:label=GPLv3/}}` | ![](assets/version-license-guide/swatch_1a1b7b375ed4f32a.svg) |
+| `{{ui:license:MIT:label=MIT License/}}` | ![](assets/version-license-guide/swatch_b5e0e7b3039e8f56.svg) |
+| `{{ui:license:Apache-2.0:label=Apache/}}` | ![](assets/version-license-guide/swatch_c1330940125b4509.svg) |
+| `{{ui:license:GPL-3.0:label=GPLv3/}}` | ![](assets/version-license-guide/swatch_a7e18a850ad12f34.svg) |
 
 ### Custom Colors
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:license:MIT:bg=cobalt/}}` | ![](assets/version-license-guide/swatch_e7e91268834a3ebe.svg) |
-| `{{ui:license:Apache-2.0:bg=plum/}}` | ![](assets/version-license-guide/swatch_af8fbd563deb78fe.svg) |
-| `{{ui:license:GPL-3.0:bg=accent/}}` | ![](assets/version-license-guide/swatch_43f1a9a1995737b3.svg) |
+| `{{ui:license:MIT:bg=cobalt/}}` | ![](assets/version-license-guide/swatch_faa26cdc53a9bcfd.svg) |
+| `{{ui:license:Apache-2.0:bg=plum/}}` | ![](assets/version-license-guide/swatch_4e379cb21a7c794b.svg) |
+| `{{ui:license:GPL-3.0:bg=accent/}}` | ![](assets/version-license-guide/swatch_ddf6ead7897691f8.svg) |
 
 ---
 
@@ -278,7 +278,7 @@ Create comprehensive project headers with tech, version, and license badges:
 {{ui:tech:rust/}} {{ui:version:1.0.0/}} {{ui:license:MIT/}}
 ```
 
-![](assets/version-license-guide/tech_9b07f32e2323dccd.svg) ![](assets/version-license-guide/swatch_b5903e6df93de08a.svg) ![](assets/version-license-guide/swatch_786cabc60dc7e642.svg)
+![](assets/version-license-guide/tech_9b07f32e2323dccd.svg) ![](assets/version-license-guide/swatch_aabe83ba70a3b3d5.svg) ![](assets/version-license-guide/swatch_85a9fc02551e469b.svg)
 
 ### Full Stack Example
 
@@ -286,7 +286,7 @@ Create comprehensive project headers with tech, version, and license badges:
 {{ui:tech:typescript/}} {{ui:tech:react/}} {{ui:version:2.5.0-beta/}} {{ui:license:Apache-2.0/}}
 ```
 
-![](assets/version-license-guide/tech_b30721c0a0394c2e.svg) ![](assets/version-license-guide/tech_fa93a6b13b34f67b.svg) ![](assets/version-license-guide/swatch_40b0441ea2d03487.svg) ![](assets/version-license-guide/swatch_e952000834310ef7.svg)
+![](assets/version-license-guide/tech_b30721c0a0394c2e.svg) ![](assets/version-license-guide/tech_fa93a6b13b34f67b.svg) ![](assets/version-license-guide/swatch_b981b8418b8fb448.svg) ![](assets/version-license-guide/swatch_0e50155d41187e8b.svg)
 
 ### Deprecated Project
 
@@ -294,7 +294,7 @@ Create comprehensive project headers with tech, version, and license badges:
 {{ui:tech:python/}} {{ui:version:0.5.0:status=deprecated/}} {{ui:license:GPL-3.0/}}
 ```
 
-![](assets/version-license-guide/tech_c5b0cf28158ee95f.svg) ![](assets/version-license-guide/swatch_55a14df18ee1628a.svg) ![](assets/version-license-guide/swatch_ee28fc71dbacec07.svg)
+![](assets/version-license-guide/tech_c5b0cf28158ee95f.svg) ![](assets/version-license-guide/swatch_5a807cf2c2ac9113.svg) ![](assets/version-license-guide/swatch_380036f2d9c5a7e2.svg)
 
 ---
 
@@ -326,7 +326,7 @@ Use the same style across all badges for visual consistency:
 
 | Consistent Flat | Consistent For-The-Badge |
 |-----------------|-------------------------|
-| ![](assets/version-license-guide/tech_837edd35922729ee.svg) ![](assets/version-license-guide/swatch_a295dcc06519763d.svg) ![](assets/version-license-guide/swatch_49e5d538189e98d3.svg) | ![](assets/version-license-guide/tech_cd9cdaecb20390d2.svg) ![](assets/version-license-guide/swatch_d551cf1f41ecb2fd.svg) ![](assets/version-license-guide/swatch_92bc676149ce35ad.svg) |
+| ![](assets/version-license-guide/tech_837edd35922729ee.svg) ![](assets/version-license-guide/swatch_68c24257a3406bb8.svg) ![](assets/version-license-guide/swatch_f10311d16e3ed593.svg) | ![](assets/version-license-guide/tech_cd9cdaecb20390d2.svg) ![](assets/version-license-guide/swatch_bdc37939443ed823.svg) ![](assets/version-license-guide/swatch_39b5ca5536add59f.svg) |
 
 ### 4. Custom Colors for Branding
 
@@ -334,8 +334,8 @@ Override default colors to match your project theme:
 
 | Syntax | Rendered |
 |--------|----------|
-| `{{ui:version:1.0.0:bg=1a1a2e:text=FFFFFF/}}` | ![](assets/version-license-guide/swatch_b75fc7e1e39c6a9c.svg) |
-| `{{ui:license:MIT:bg=1a1a2e:text=FFFFFF/}}` | ![](assets/version-license-guide/swatch_2ced75446266bc56.svg) |
+| `{{ui:version:1.0.0:bg=1a1a2e:text=FFFFFF/}}` | ![](assets/version-license-guide/swatch_adc184be7ad79224.svg) |
+| `{{ui:license:MIT:bg=1a1a2e:text=FFFFFF/}}` | ![](assets/version-license-guide/swatch_56418742431319cf.svg) |
 
 ---
 

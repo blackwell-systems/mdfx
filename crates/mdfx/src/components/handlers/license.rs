@@ -170,11 +170,17 @@ pub fn handle(
     // URL for linking to license text
     let _url = params.get("url").cloned();
 
+    // Calculate width based on label text (approx 7px per char + 16px padding)
+    let estimated_width = params
+        .get("width")
+        .and_then(|w| w.parse().ok())
+        .unwrap_or_else(|| (label.len() as u32 * 7 + 16).max(40));
+
     Ok(ComponentOutput::Primitive(Primitive::Swatch {
         color: bg_color,
         style: style.to_string(),
         opacity: None,
-        width: None,
+        width: Some(estimated_width),
         height: None,
         border_color,
         border_width,
