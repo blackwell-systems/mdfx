@@ -357,12 +357,78 @@ impl ShieldsRenderer {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+
+    // ========================================================================
+    // Basic Setup Tests
+    // ========================================================================
 
     #[test]
     fn test_shields_renderer_new() {
         let renderer = ShieldsRenderer::new();
         assert!(renderer.is_ok());
     }
+
+    #[test]
+    fn test_list_styles() {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let styles = renderer.list_styles();
+        assert!(!styles.is_empty());
+    }
+
+    #[test]
+    fn test_list_palette() {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let colors = renderer.list_palette();
+        assert!(!colors.is_empty());
+        assert!(colors.iter().any(|(name, _)| *name == "cobalt"));
+    }
+
+    // ========================================================================
+    // Color Resolution (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("cobalt", "2B6CB0")]
+    #[case("pink", "F41C80")]
+    #[case("abc123", "ABC123")]
+    #[case("FFFFFF", "FFFFFF")]
+    #[case("000000", "000000")]
+    fn test_resolve_color(#[case] input: &str, #[case] expected: &str) {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let result = renderer.resolve_color(input).unwrap();
+        assert_eq!(result, expected);
+    }
+
+    #[rstest]
+    #[case("invalid")]
+    #[case("not-a-color")]
+    #[case("GGGGGG")]
+    #[case("12345")]
+    fn test_resolve_color_invalid(#[case] input: &str) {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let result = renderer.resolve_color(input);
+        assert!(result.is_err());
+    }
+
+    // ========================================================================
+    // Style Existence (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("flat-square", true)]
+    #[case("flat", true)]
+    #[case("square", true)] // alias
+    #[case("for-the-badge", true)]
+    #[case("nonexistent", false)]
+    fn test_has_style(#[case] style: &str, #[case] expected: bool) {
+        let renderer = ShieldsRenderer::new().unwrap();
+        assert_eq!(renderer.has_style(style), expected);
+    }
+
+    // ========================================================================
+    // Render Block Tests
+    // ========================================================================
 
     #[test]
     fn test_render_block() {
@@ -381,14 +447,32 @@ mod tests {
     }
 
     #[test]
+    fn test_style_alias() {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let result = renderer.render_block("cobalt", "square").unwrap();
+        assert!(result.contains("style=flat-square"));
+
+        let result_flat = renderer.render_block("cobalt", "flat").unwrap();
+        assert!(result_flat.contains("style=flat"));
+    }
+
+    // ========================================================================
+    // Render Twotone Tests
+    // ========================================================================
+
+    #[test]
     fn test_render_twotone() {
         let renderer = ShieldsRenderer::new().unwrap();
         let result = renderer
             .render_twotone("111111", "2B6CB0", "flat-square")
             .unwrap();
         assert!(result.contains("labelColor=111111"));
-        assert!(result.contains("-2B6CB0?")); // Right color appears in badge path
+        assert!(result.contains("-2B6CB0?"));
     }
+
+    // ========================================================================
+    // Render Bar Tests
+    // ========================================================================
 
     #[test]
     fn test_render_bar() {
@@ -402,9 +486,34 @@ mod tests {
         assert!(result.contains("22C55E"));
         assert!(result.contains("F59E0B"));
         assert!(result.contains("334155"));
-        // Should contain 3 separate badges
         assert_eq!(result.matches("![](").count(), 3);
     }
+
+    #[test]
+    fn test_render_bar_with_separator() {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let colors = vec!["FF0000".to_string(), "00FF00".to_string()];
+        let result = renderer
+            .render_bar_with_separator(&colors, "flat-square", Some(" "))
+            .unwrap();
+        assert!(result.contains("FF0000"));
+        assert!(result.contains("00FF00"));
+        assert!(result.contains(") ![]("));
+    }
+
+    #[test]
+    fn test_render_bar_with_separator_none() {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let colors = vec!["FF0000".to_string(), "00FF00".to_string()];
+        let result = renderer
+            .render_bar_with_separator(&colors, "flat-square", None)
+            .unwrap();
+        assert!(result.contains(")![]("));
+    }
+
+    // ========================================================================
+    // Render Icon Tests
+    // ========================================================================
 
     #[test]
     fn test_render_icon() {
@@ -415,62 +524,6 @@ mod tests {
         assert!(result.contains("logo=rust"));
         assert!(result.contains("logoColor=FFFFFF"));
         assert!(result.contains("000000"));
-    }
-
-    #[test]
-    fn test_resolve_color_palette() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let result = renderer.resolve_color("cobalt").unwrap();
-        assert_eq!(result, "2B6CB0");
-    }
-
-    #[test]
-    fn test_resolve_color_hex() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let result = renderer.resolve_color("abc123").unwrap();
-        assert_eq!(result, "ABC123");
-    }
-
-    #[test]
-    fn test_resolve_color_invalid() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let result = renderer.resolve_color("invalid");
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_style_alias() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        // Test that "square" alias resolves to "flat-square"
-        let result = renderer.render_block("cobalt", "square").unwrap();
-        assert!(result.contains("style=flat-square"));
-
-        // Test that "flat" is now its own style (not alias)
-        let result_flat = renderer.render_block("cobalt", "flat").unwrap();
-        assert!(result_flat.contains("style=flat"));
-    }
-
-    #[test]
-    fn test_has_style() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        assert!(renderer.has_style("flat-square"));
-        assert!(renderer.has_style("flat"));
-        assert!(!renderer.has_style("nonexistent"));
-    }
-
-    #[test]
-    fn test_list_styles() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let styles = renderer.list_styles();
-        assert!(!styles.is_empty());
-    }
-
-    #[test]
-    fn test_list_palette() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let colors = renderer.list_palette();
-        assert!(!colors.is_empty());
-        assert!(colors.iter().any(|(name, _)| *name == "cobalt"));
     }
 
     #[test]
@@ -494,51 +547,6 @@ mod tests {
     }
 
     #[test]
-    fn test_render_labeled_block() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let result = renderer
-            .render_labeled_block("2B6CB0", "Hello World", "flat-square")
-            .unwrap();
-        assert!(result.contains("https://img.shields.io/badge/"));
-        assert!(result.contains("Hello%20World"));
-        assert!(result.contains("2B6CB0"));
-    }
-
-    #[test]
-    fn test_render_labeled_block_special_chars() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        // Test dash and underscore encoding
-        let result = renderer
-            .render_labeled_block("FF0000", "test-value_here", "flat-square")
-            .unwrap();
-        assert!(result.contains("test--value__here"));
-    }
-
-    #[test]
-    fn test_render_bar_with_separator() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let colors = vec!["FF0000".to_string(), "00FF00".to_string()];
-        let result = renderer
-            .render_bar_with_separator(&colors, "flat-square", Some(" "))
-            .unwrap();
-        assert!(result.contains("FF0000"));
-        assert!(result.contains("00FF00"));
-        // Should have space separator between badges
-        assert!(result.contains(") ![]("));
-    }
-
-    #[test]
-    fn test_render_bar_with_separator_none() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        let colors = vec!["FF0000".to_string(), "00FF00".to_string()];
-        let result = renderer
-            .render_bar_with_separator(&colors, "flat-square", None)
-            .unwrap();
-        // No separator means badges are directly adjacent
-        assert!(result.contains(")![]("));
-    }
-
-    #[test]
     fn test_render_icon_with_label() {
         let renderer = ShieldsRenderer::new().unwrap();
         let result = renderer
@@ -559,17 +567,40 @@ mod tests {
         assert!(result.contains("Python%203"));
     }
 
+    // ========================================================================
+    // Render Labeled Block Tests
+    // ========================================================================
+
     #[test]
-    fn test_render_block_invalid_style() {
+    fn test_render_labeled_block() {
         let renderer = ShieldsRenderer::new().unwrap();
-        let result = renderer.render_block("FF0000", "nonexistent-style");
-        assert!(result.is_err());
+        let result = renderer
+            .render_labeled_block("2B6CB0", "Hello World", "flat-square")
+            .unwrap();
+        assert!(result.contains("https://img.shields.io/badge/"));
+        assert!(result.contains("Hello%20World"));
+        assert!(result.contains("2B6CB0"));
     }
 
     #[test]
-    fn test_render_block_invalid_color() {
+    fn test_render_labeled_block_special_chars() {
         let renderer = ShieldsRenderer::new().unwrap();
-        let result = renderer.render_block("not-a-color", "flat-square");
+        let result = renderer
+            .render_labeled_block("FF0000", "test-value_here", "flat-square")
+            .unwrap();
+        assert!(result.contains("test--value__here"));
+    }
+
+    // ========================================================================
+    // Error Cases (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("FF0000", "nonexistent-style")]
+    #[case("not-a-color", "flat-square")]
+    fn test_render_block_errors(#[case] color: &str, #[case] style: &str) {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let result = renderer.render_block(color, style);
         assert!(result.is_err());
     }
 
@@ -616,12 +647,5 @@ mod tests {
         let colors = vec!["FF0000".to_string()];
         let result = renderer.render_bar_with_separator(&colors, "invalid", None);
         assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_resolve_style_by_alias() {
-        let renderer = ShieldsRenderer::new().unwrap();
-        // "square" is an alias for "flat-square"
-        assert!(renderer.has_style("square"));
     }
 }

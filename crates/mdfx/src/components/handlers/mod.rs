@@ -107,6 +107,7 @@ pub fn resolve_color_opt(
 /// let icon: Option<String> = get_string_opt(&params, "icon");
 /// ```
 #[inline]
+#[allow(dead_code)] // API symmetry with get_string
 pub fn get_string_opt(params: &HashMap<String, String>, key: &str) -> Option<String> {
     params.get(key).cloned()
 }

@@ -208,6 +208,11 @@ impl Default for Converter {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+
+    // ========================================================================
+    // Basic Converter Tests
+    // ========================================================================
 
     #[test]
     fn test_converter_new() {
@@ -216,59 +221,10 @@ mod tests {
     }
 
     #[test]
-    fn test_convert_mathbold() {
+    fn test_list_styles() {
         let converter = Converter::new().unwrap();
-        let result = converter.convert("ABC", "mathbold").unwrap();
-        assert_eq!(result, "𝐀𝐁𝐂");
-    }
-
-    #[test]
-    fn test_convert_mathbold_lowercase() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("abc", "mathbold").unwrap();
-        assert_eq!(result, "𝐚𝐛𝐜");
-    }
-
-    #[test]
-    fn test_convert_mathbold_numbers() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("123", "mathbold").unwrap();
-        assert_eq!(result, "𝟏𝟐𝟑");
-    }
-
-    #[test]
-    fn test_convert_mathbold_mixed() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("Hello World 123!", "mathbold").unwrap();
-        assert_eq!(result, "𝐇𝐞𝐥𝐥𝐨 𝐖𝐨𝐫𝐥𝐝 𝟏𝟐𝟑!");
-    }
-
-    #[test]
-    fn test_convert_fullwidth() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("ABC", "fullwidth").unwrap();
-        assert_eq!(result, "ＡＢＣ");
-    }
-
-    #[test]
-    fn test_convert_negative_squared() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("WARNING", "negative-squared").unwrap();
-        assert_eq!(result, "🆆🅰🆁🅽🅸🅽🅶");
-    }
-
-    #[test]
-    fn test_convert_small_caps() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("hello", "small-caps").unwrap();
-        assert_eq!(result, "ʜᴇʟʟᴏ");
-    }
-
-    #[test]
-    fn test_convert_with_alias() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("TEST", "mb").unwrap();
-        assert_eq!(result, "𝐓𝐄𝐒𝐓");
+        let styles = converter.list_styles();
+        assert_eq!(styles.len(), 24);
     }
 
     #[test]
@@ -282,189 +238,108 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_list_styles() {
+    // ========================================================================
+    // Parameterized Style Conversion Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("ABC", "mathbold", "𝐀𝐁𝐂")]
+    #[case("abc", "mathbold", "𝐚𝐛𝐜")]
+    #[case("123", "mathbold", "𝟏𝟐𝟑")]
+    #[case("Hello World 123!", "mathbold", "𝐇𝐞𝐥𝐥𝐨 𝐖𝐨𝐫𝐥𝐝 𝟏𝟐𝟑!")]
+    #[case("ABC", "fullwidth", "ＡＢＣ")]
+    #[case("WARNING", "negative-squared", "🆆🅰🆁🅽🅸🅽🅶")]
+    #[case("hello", "small-caps", "ʜᴇʟʟᴏ")]
+    #[case("TEST", "mb", "𝐓𝐄𝐒𝐓")] // alias test
+    #[case("A B  C", "mathbold", "𝐀 𝐁  𝐂")] // preserves whitespace
+    #[case("Hello, World!", "mathbold", "𝐇𝐞𝐥𝐥𝐨, 𝐖𝐨𝐫𝐥𝐝!")] // preserves punctuation
+    fn test_convert(#[case] input: &str, #[case] style: &str, #[case] expected: &str) {
         let converter = Converter::new().unwrap();
-        let styles = converter.list_styles();
-        assert_eq!(styles.len(), 24);
+        let result = converter.convert(input, style).unwrap();
+        assert_eq!(result, expected);
     }
 
-    #[test]
-    fn test_has_style() {
+    #[rstest]
+    #[case("Hello", "strikethrough", "H\u{0336}e\u{0336}l\u{0336}l\u{0336}o\u{0336}")]
+    #[case("Hi there", "strikethrough", "H\u{0336}i\u{0336} t\u{0336}h\u{0336}e\u{0336}r\u{0336}e\u{0336}")]
+    fn test_strikethrough(#[case] input: &str, #[case] style: &str, #[case] expected: &str) {
         let converter = Converter::new().unwrap();
-        assert!(converter.has_style("mathbold"));
-        assert!(converter.has_style("mb"));
-        assert!(!converter.has_style("fakestyle"));
+        let result = converter.convert(input, style).unwrap();
+        assert_eq!(result, expected);
     }
 
-    #[test]
-    fn test_preserves_whitespace() {
+    // ========================================================================
+    // Style Existence Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("mathbold", true)]
+    #[case("mb", true)]
+    #[case("fullwidth", true)]
+    #[case("negative-squared", true)]
+    #[case("negative-circled", true)]
+    #[case("squared-latin", true)]
+    #[case("small-caps", true)]
+    #[case("monospace", true)]
+    #[case("double-struck", true)]
+    #[case("sans-serif-bold", true)]
+    #[case("italic", true)]
+    #[case("bold-italic", true)]
+    #[case("strike", true)]
+    #[case("st", true)]
+    #[case("crossed", true)]
+    #[case("fakestyle", false)]
+    fn test_has_style(#[case] style: &str, #[case] expected: bool) {
         let converter = Converter::new().unwrap();
-        let result = converter.convert("A B  C", "mathbold").unwrap();
-        assert_eq!(result, "𝐀 𝐁  𝐂");
+        assert_eq!(converter.has_style(style), expected);
     }
 
-    #[test]
-    fn test_preserves_punctuation() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("Hello, World!", "mathbold").unwrap();
-        assert_eq!(result, "𝐇𝐞𝐥𝐥𝐨, 𝐖𝐨𝐫𝐥𝐝!");
-    }
+    // ========================================================================
+    // Spacing Tests (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_all_styles_loadable() {
-        let converter = Converter::new().unwrap();
-        let style_ids = vec![
-            "mathbold",
-            "fullwidth",
-            "negative-squared",
-            "negative-circled",
-            "squared-latin",
-            "small-caps",
-            "monospace",
-            "double-struck",
-            "sans-serif-bold",
-            "italic",
-            "bold-italic",
-        ];
-
-        for id in style_ids {
-            assert!(
-                converter.has_style(id),
-                "Style '{}' should be available",
-                id
-            );
-            let result = converter.convert("TEST", id);
-            assert!(result.is_ok(), "Style '{}' should convert successfully", id);
-        }
-    }
-
-    #[test]
-    fn test_strikethrough() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("Hello", "strikethrough").unwrap();
-        // Each character gets U+0336 appended, spaces are preserved
-        assert_eq!(result, "H\u{0336}e\u{0336}l\u{0336}l\u{0336}o\u{0336}");
-    }
-
-    #[test]
-    fn test_strikethrough_with_spaces() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert("Hi there", "strikethrough").unwrap();
-        // Spaces should NOT get strikethrough
-        assert_eq!(
-            result,
-            "H\u{0336}i\u{0336} t\u{0336}h\u{0336}e\u{0336}r\u{0336}e\u{0336}"
-        );
-    }
-
-    #[test]
-    fn test_strikethrough_alias() {
-        let converter = Converter::new().unwrap();
-        assert!(converter.has_style("strike"));
-        assert!(converter.has_style("st"));
-        assert!(converter.has_style("crossed"));
-    }
-
-    #[test]
-    fn test_spacing_zero() {
+    #[rstest]
+    #[case("HELLO", "mathbold", 0, "𝐇𝐄𝐋𝐋𝐎")]
+    #[case("HELLO", "mathbold", 1, "𝐇 𝐄 𝐋 𝐋 𝐎")]
+    #[case("ABC", "script", 2, "𝒜  ℬ  𝒞")]
+    #[case("GO", "fraktur", 3, "𝔊   𝔒")]
+    #[case("hello", "mathbold", 1, "𝐡 𝐞 𝐥 𝐥 𝐨")]
+    #[case("A", "mathbold", 2, "𝐀")] // single char - no spacing added
+    fn test_spacing(
+        #[case] input: &str,
+        #[case] style: &str,
+        #[case] spacing: usize,
+        #[case] expected: &str,
+    ) {
         let converter = Converter::new().unwrap();
         let result = converter
-            .convert_with_spacing("HELLO", "mathbold", 0)
+            .convert_with_spacing(input, style, spacing)
             .unwrap();
-        assert_eq!(result, "𝐇𝐄𝐋𝐋𝐎");
+        assert_eq!(result, expected);
     }
 
-    #[test]
-    fn test_spacing_one() {
+    // ========================================================================
+    // Separator Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("HELLO", "mathbold", "·", 1, "𝐇·𝐄·𝐋·𝐋·𝐎")]
+    #[case("ABC", "mathbold", "─", 1, "𝐀─𝐁─𝐂")]
+    #[case("HI", "mathbold", "━", 1, "𝐇━𝐈")]
+    #[case("ABC", "mathbold", "→", 1, "𝐀→𝐁→𝐂")]
+    #[case("AB", "mathbold", "·", 3, "𝐀···𝐁")] // multiple count
+    #[case("X", "mathbold", "·", 1, "𝐗")] // single char - no separator
+    fn test_separator(
+        #[case] input: &str,
+        #[case] style: &str,
+        #[case] separator: &str,
+        #[case] count: usize,
+        #[case] expected: &str,
+    ) {
         let converter = Converter::new().unwrap();
         let result = converter
-            .convert_with_spacing("HELLO", "mathbold", 1)
+            .convert_with_separator(input, style, separator, count)
             .unwrap();
-        assert_eq!(result, "𝐇 𝐄 𝐋 𝐋 𝐎");
-    }
-
-    #[test]
-    fn test_spacing_two() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert_with_spacing("ABC", "script", 2).unwrap();
-        assert_eq!(result, "𝒜  ℬ  𝒞");
-    }
-
-    #[test]
-    fn test_spacing_three() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert_with_spacing("GO", "fraktur", 3).unwrap();
-        assert_eq!(result, "𝔊   𝔒");
-    }
-
-    #[test]
-    fn test_separator_dot() {
-        let converter = Converter::new().unwrap();
-        let result = converter
-            .convert_with_separator("HELLO", "mathbold", "·", 1)
-            .unwrap();
-        assert_eq!(result, "𝐇·𝐄·𝐋·𝐋·𝐎");
-    }
-
-    #[test]
-    fn test_separator_dash() {
-        let converter = Converter::new().unwrap();
-        let result = converter
-            .convert_with_separator("ABC", "mathbold", "─", 1)
-            .unwrap();
-        assert_eq!(result, "𝐀─𝐁─𝐂");
-    }
-
-    #[test]
-    fn test_separator_bold_dash() {
-        let converter = Converter::new().unwrap();
-        let result = converter
-            .convert_with_separator("HI", "mathbold", "━", 1)
-            .unwrap();
-        assert_eq!(result, "𝐇━𝐈");
-    }
-
-    #[test]
-    fn test_separator_arrow() {
-        let converter = Converter::new().unwrap();
-        let result = converter
-            .convert_with_separator("ABC", "mathbold", "→", 1)
-            .unwrap();
-        assert_eq!(result, "𝐀→𝐁→𝐂");
-    }
-
-    #[test]
-    fn test_separator_multiple_count() {
-        let converter = Converter::new().unwrap();
-        let result = converter
-            .convert_with_separator("AB", "mathbold", "·", 3)
-            .unwrap();
-        assert_eq!(result, "𝐀···𝐁");
-    }
-
-    #[test]
-    fn test_separator_single_char() {
-        let converter = Converter::new().unwrap();
-        let result = converter
-            .convert_with_separator("X", "mathbold", "·", 1)
-            .unwrap();
-        assert_eq!(result, "𝐗");
-    }
-
-    #[test]
-    fn test_spacing_with_lowercase() {
-        let converter = Converter::new().unwrap();
-        let result = converter
-            .convert_with_spacing("hello", "mathbold", 1)
-            .unwrap();
-        assert_eq!(result, "𝐡 𝐞 𝐥 𝐥 𝐨");
-    }
-
-    #[test]
-    fn test_spacing_single_char() {
-        let converter = Converter::new().unwrap();
-        let result = converter.convert_with_spacing("A", "mathbold", 2).unwrap();
-        assert_eq!(result, "𝐀");
+        assert_eq!(result, expected);
     }
 }

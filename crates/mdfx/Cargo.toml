@@ -36,6 +36,7 @@ mdfx-fetch = { path = "../mdfx-fetch", optional = true }
 criterion = "0.5"
 tempfile = "3.8"
 insta = { version = "1.40", features = ["json", "redactions"] }
+rstest = "0.23"
 
 [lib]
 name = "mdfx"

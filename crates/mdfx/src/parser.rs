@@ -2030,7 +2030,7 @@ impl Default for TemplateParser {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{test_process, test_process_bookends, test_process_contains, test_process_err, test_process_not_contains, test_process_unchanged};
+    use crate::{test_process, test_process_bookends, test_process_contains, test_process_err, test_process_unchanged};
 
     #[test]
     fn test_parser_new() {

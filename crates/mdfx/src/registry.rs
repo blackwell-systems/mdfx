@@ -525,6 +525,11 @@ pub enum ResolvedRenderable {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+
+    // ========================================================================
+    // Basic Registry Tests
+    // ========================================================================
 
     #[test]
     fn test_registry_loads() {
@@ -533,233 +538,263 @@ mod tests {
     }
 
     #[test]
-    fn test_palette_resolution() {
+    fn test_schema_version() {
         let registry = Registry::new().unwrap();
-        assert_eq!(registry.resolve_color("pink"), Some("F41C80"));
-        assert_eq!(registry.resolve_color("success"), Some("22C55E"));
-        assert_eq!(registry.resolve_color("nonexistent"), None);
-    }
-
-    #[test]
-    fn test_separator_lookup() {
-        let registry = Registry::new().unwrap();
-
-        // Valid separator
-        let result = registry.separator("dot");
-        assert!(result.is_some());
-        assert_eq!(result.unwrap(), "·");
-
-        // Unknown separator
-        let result = registry.separator("nonexistent");
-        assert!(result.is_none());
-    }
-
-    #[test]
-    fn test_style_lookup() {
-        let registry = Registry::new().unwrap();
-
-        // Direct lookup
-        let style = registry.style("mathbold");
-        assert!(style.is_some());
-        assert_eq!(style.unwrap().name, "Mathematical Bold");
-
-        // Alias lookup
-        let style = registry.style("mb");
-        assert!(style.is_some());
-        assert_eq!(style.unwrap().id, "mathbold");
-    }
-
-    #[test]
-    fn test_frame_lookup() {
-        let registry = Registry::new().unwrap();
-
-        // Direct lookup
-        let frame = registry.frame("gradient");
-        assert!(frame.is_some());
-        assert_eq!(frame.unwrap().prefix, "▓▒░ ");
-
-        // Alias lookup
-        let frame = registry.frame("grad");
-        assert!(frame.is_some());
-        assert_eq!(frame.unwrap().prefix, "▓▒░ ");
-    }
-
-    #[test]
-    fn test_frame_alternate_mode() {
-        let registry = Registry::new().unwrap();
-
-        // Alternate mode: suffix is pattern rotated by 1 (▓▒░ → ▒░▓)
-        let frame = registry.frame("gradient-wave").unwrap();
-        assert_eq!(frame.prefix, "▓▒░ ");
-        assert_eq!(frame.suffix, " ▒░▓");
-    }
-
-    #[test]
-    fn test_component_contexts() {
-        let registry = Registry::new().unwrap();
-
-        // Swatch works in both inline and block
-        let component = registry.component("swatch").unwrap();
-        assert!(component.contexts.contains(&EvalContext::Block));
-        assert!(component.contexts.contains(&EvalContext::Inline));
-
-        // Tech works in both inline and block
-        let component = registry.component("tech").unwrap();
-        assert!(component.contexts.contains(&EvalContext::Block));
-        assert!(component.contexts.contains(&EvalContext::Inline));
-    }
-
-    #[test]
-    fn test_unified_resolution() {
-        let registry = Registry::new().unwrap();
-
-        // Component resolution
-        match registry.resolve("swatch", EvalContext::Block) {
-            ResolvedRenderable::Component(c) => assert_eq!(c.component_type, "native"),
-            _ => panic!("Expected component"),
-        }
-
-        // Literal fallback
-        match registry.resolve("→", EvalContext::Inline) {
-            ResolvedRenderable::Literal(s) => assert_eq!(s, "→"),
-            _ => panic!("Expected literal"),
-        }
-    }
-
-    #[test]
-    fn test_context_promotion() {
-        // Inline can promote to anything
-        assert!(EvalContext::Inline.can_promote_to(EvalContext::Block));
-        assert!(EvalContext::Inline.can_promote_to(EvalContext::FrameChrome));
-
-        // FrameChrome can promote to anything
-        assert!(EvalContext::FrameChrome.can_promote_to(EvalContext::Inline));
-        assert!(EvalContext::FrameChrome.can_promote_to(EvalContext::Block));
-
-        // Block cannot promote to more restrictive
-        assert!(!EvalContext::Block.can_promote_to(EvalContext::Inline));
-        assert!(!EvalContext::Block.can_promote_to(EvalContext::FrameChrome));
-    }
-
-    #[test]
-    fn test_shield_styles() {
-        let registry = Registry::new().unwrap();
-
-        let style = registry.shield_style("flat-square").unwrap();
-        assert!(style.default);
-
-        let style = registry.shield_style("square").unwrap(); // alias
-        assert_eq!(style.id, "flat-square");
-
-        assert_eq!(registry.default_shield_style(), "flat-square");
+        let schema = registry.schema_version();
+        assert!(!schema.is_empty());
     }
 
     #[test]
     fn test_metadata() {
         let registry = Registry::new().unwrap();
         let meta = registry.metadata();
-
         assert!(meta.total_glyphs > 0);
         assert!(meta.total_styles > 0);
         assert!(meta.total_frames > 0);
     }
 
-    #[test]
-    fn test_schema_version() {
+    // ========================================================================
+    // Palette Resolution (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("pink", Some("F41C80"))]
+    #[case("success", Some("22C55E"))]
+    #[case("cobalt", Some("2B6CB0"))]
+    #[case("nonexistent", None)]
+    fn test_resolve_color(#[case] name: &str, #[case] expected: Option<&str>) {
         let registry = Registry::new().unwrap();
-        let schema = registry.schema_version();
-        // Should have a valid schema version string
-        assert!(!schema.is_empty());
+        assert_eq!(registry.resolve_color(name), expected);
     }
 
     #[test]
     fn test_palette() {
         let registry = Registry::new().unwrap();
         let palette = registry.palette();
-
-        // Should have palette colors
         assert!(!palette.is_empty());
-        // Should contain known colors
         assert!(palette.contains_key("pink"));
+    }
+
+    // ========================================================================
+    // Glyph/Separator Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("dot", Some("·"))]
+    #[case("arrow", Some("→"))]
+    #[case("nonexistent", None)]
+    fn test_glyph_lookup(#[case] name: &str, #[case] expected: Option<&str>) {
+        let registry = Registry::new().unwrap();
+        assert_eq!(registry.glyph(name), expected);
+    }
+
+    #[test]
+    fn test_separator_alias() {
+        let registry = Registry::new().unwrap();
+        // separator() is an alias for glyph()
+        assert_eq!(registry.separator("dot"), registry.glyph("dot"));
     }
 
     #[test]
     fn test_glyphs() {
         let registry = Registry::new().unwrap();
         let glyphs = registry.glyphs();
-
-        // Should have glyphs
         assert!(!glyphs.is_empty());
     }
 
-    #[test]
-    fn test_glyph() {
+    // ========================================================================
+    // Style Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("mathbold", true)]
+    #[case("mb", true)] // alias
+    #[case("fullwidth", true)]
+    #[case("nonexistent", false)]
+    fn test_style_exists(#[case] name: &str, #[case] exists: bool) {
         let registry = Registry::new().unwrap();
-
-        // Test getting a known glyph
-        let dot = registry.glyph("dot");
-        assert!(dot.is_some());
-
-        // Test getting unknown glyph returns None
-        let unknown = registry.glyph("nonexistent_glyph_xyz");
-        assert!(unknown.is_none());
+        assert_eq!(registry.style(name).is_some(), exists);
     }
 
     #[test]
-    fn test_components() {
+    fn test_style_lookup_details() {
         let registry = Registry::new().unwrap();
-        let components = registry.components();
+        let style = registry.style("mathbold").unwrap();
+        assert_eq!(style.name, "Mathematical Bold");
 
-        // Should have components
-        assert!(!components.is_empty());
-    }
-
-    #[test]
-    fn test_frames() {
-        let registry = Registry::new().unwrap();
-        let frames = registry.frames();
-
-        // Should have frames
-        assert!(!frames.is_empty());
+        // Alias lookup returns same style
+        let style_alias = registry.style("mb").unwrap();
+        assert_eq!(style_alias.id, "mathbold");
     }
 
     #[test]
     fn test_styles() {
         let registry = Registry::new().unwrap();
         let styles = registry.styles();
-
-        // Should have styles
         assert!(!styles.is_empty());
+    }
+
+    // ========================================================================
+    // Frame Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("gradient", true)]
+    #[case("grad", true)] // alias
+    #[case("solid", true)]
+    #[case("nonexistent", false)]
+    fn test_frame_exists(#[case] name: &str, #[case] exists: bool) {
+        let registry = Registry::new().unwrap();
+        assert_eq!(registry.frame(name).is_some(), exists);
+    }
+
+    #[test]
+    fn test_frame_lookup_details() {
+        let registry = Registry::new().unwrap();
+        let frame = registry.frame("gradient").unwrap();
+        assert_eq!(frame.prefix, "▓▒░ ");
+
+        let frame_alias = registry.frame("grad").unwrap();
+        assert_eq!(frame_alias.prefix, "▓▒░ ");
+    }
+
+    #[test]
+    fn test_frame_alternate_mode() {
+        let registry = Registry::new().unwrap();
+        let frame = registry.frame("gradient-wave").unwrap();
+        assert_eq!(frame.prefix, "▓▒░ ");
+        assert_eq!(frame.suffix, " ▒░▓");
+    }
+
+    #[test]
+    fn test_frames() {
+        let registry = Registry::new().unwrap();
+        let frames = registry.frames();
+        assert!(!frames.is_empty());
+    }
+
+    // ========================================================================
+    // Component Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("swatch")]
+    #[case("tech")]
+    #[case("progress")]
+    fn test_component_exists(#[case] name: &str) {
+        let registry = Registry::new().unwrap();
+        assert!(registry.component(name).is_some());
+    }
+
+    #[test]
+    fn test_component_contexts() {
+        let registry = Registry::new().unwrap();
+
+        let swatch = registry.component("swatch").unwrap();
+        assert!(swatch.contexts.contains(&EvalContext::Block));
+        assert!(swatch.contexts.contains(&EvalContext::Inline));
+
+        let tech = registry.component("tech").unwrap();
+        assert!(tech.contexts.contains(&EvalContext::Block));
+        assert!(tech.contexts.contains(&EvalContext::Inline));
+    }
+
+    #[test]
+    fn test_components() {
+        let registry = Registry::new().unwrap();
+        let components = registry.components();
+        assert!(!components.is_empty());
+    }
+
+    // ========================================================================
+    // Shield Style Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("flat-square", true)]
+    #[case("square", true)] // alias
+    #[case("flat", true)]
+    #[case("nonexistent", false)]
+    fn test_shield_style_exists(#[case] name: &str, #[case] exists: bool) {
+        let registry = Registry::new().unwrap();
+        assert_eq!(registry.shield_style(name).is_some(), exists);
+    }
+
+    #[test]
+    fn test_shield_styles_details() {
+        let registry = Registry::new().unwrap();
+
+        let style = registry.shield_style("flat-square").unwrap();
+        assert!(style.default);
+
+        let style_alias = registry.shield_style("square").unwrap();
+        assert_eq!(style_alias.id, "flat-square");
+
+        assert_eq!(registry.default_shield_style(), "flat-square");
     }
 
     #[test]
     fn test_shield_styles_collection() {
         let registry = Registry::new().unwrap();
         let shield_styles = registry.shield_styles();
-
-        // Should have shield styles
         assert!(!shield_styles.is_empty());
-        // Should contain flat-square (default)
         assert!(shield_styles.contains_key("flat-square"));
     }
 
+    // ========================================================================
+    // Context Promotion (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(EvalContext::Inline, EvalContext::Block, true)]
+    #[case(EvalContext::Inline, EvalContext::FrameChrome, true)]
+    #[case(EvalContext::FrameChrome, EvalContext::Inline, true)]
+    #[case(EvalContext::FrameChrome, EvalContext::Block, true)]
+    #[case(EvalContext::Block, EvalContext::Inline, false)]
+    #[case(EvalContext::Block, EvalContext::FrameChrome, false)]
+    fn test_context_promotion(
+        #[case] from: EvalContext,
+        #[case] to: EvalContext,
+        #[case] can_promote: bool,
+    ) {
+        assert_eq!(from.can_promote_to(to), can_promote);
+    }
+
+    // ========================================================================
+    // Unified Resolution
+    // ========================================================================
+
+    #[test]
+    fn test_unified_resolution() {
+        let registry = Registry::new().unwrap();
+
+        match registry.resolve("swatch", EvalContext::Block) {
+            ResolvedRenderable::Component(c) => assert_eq!(c.component_type, "native"),
+            _ => panic!("Expected component"),
+        }
+
+        match registry.resolve("→", EvalContext::Inline) {
+            ResolvedRenderable::Literal(s) => assert_eq!(s, "→"),
+            _ => panic!("Expected literal"),
+        }
+    }
+
+    // ========================================================================
+    // JSON Loading
+    // ========================================================================
+
     #[test]
     fn test_from_json_valid() {
-        // Get the embedded JSON and verify it loads
         let json_data = include_str!("../data/registry.json");
         let registry = Registry::from_json(json_data);
         assert!(registry.is_ok());
     }
 
-    #[test]
-    fn test_from_json_invalid() {
-        let result = Registry::from_json("{ invalid json }");
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn test_from_json_empty() {
-        let result = Registry::from_json("");
+    #[rstest]
+    #[case("{ invalid json }")]
+    #[case("")]
+    fn test_from_json_invalid(#[case] json: &str) {
+        let result = Registry::from_json(json);
         assert!(result.is_err());
     }
 }
