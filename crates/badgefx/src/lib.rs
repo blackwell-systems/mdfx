@@ -11,12 +11,11 @@
 //! // Simple badge with defaults
 //! let svg = badge("rust").render();
 //!
-//! // Customized badge  
+//! // Customized badge
 //! let svg = badge("typescript")
 //!     .label("TypeScript v5.0")
 //!     .style(BadgeStyle::FlatSquare)
 //!     .bg_color("#3178C6")
-//!     .logo_size_lg()
 //!     .render();
 //! ```
 //!
@@ -25,7 +24,6 @@
 //! - **20+ Built-in Icons**: Popular tech icons from Simple Icons
 //! - **Multiple Styles**: Flat, plastic, rounded, and more
 //! - **Custom Colors**: Override brand colors or use custom palettes
-//! - **Flexible Sizing**: From extra-small to extra-large logos
 //! - **Chevron Shapes**: Directional arrows and custom badge shapes
 //! - **Typography**: Custom fonts and text styling
 //! - **Glyphs**: 500+ Unicode decorative characters (with "glyphs" feature)
@@ -40,7 +38,7 @@ pub mod style;
 pub mod glyphs;
 
 // Re-export main public API
-pub use badge::{BadgeBuilder, LogoSize, TechBadge};
+pub use badge::{BadgeBuilder, TechBadge};
 pub use render::{render, render_to_file};
 pub use style::{BadgeStyle, Border, Chevron, Corners, SvgMetrics};
 
@@ -100,7 +98,6 @@ mod tests {
             .label("Python 3.11")
             .style(BadgeStyle::FlatSquare)
             .bg_color("#3776AB")
-            .logo_size_lg()
             .render();
 
         assert!(svg.contains("<svg"));

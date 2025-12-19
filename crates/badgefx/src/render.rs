@@ -4,7 +4,7 @@
 use std::io;
 use std::path::Path;
 
-use crate::badge::{LogoSize, TechBadge};
+use crate::badge::TechBadge;
 use crate::shapes::rounded_rect_path;
 use crate::style::SvgMetrics;
 
@@ -81,13 +81,9 @@ fn render_two_segment(
         .map(|c| c.top_left)
         .unwrap_or(metrics.radius as u32);
 
-    // Use hardcoded values for default logo size (matching original mdfx)
-    let (icon_width, icon_size): (u32, u32) = if badge.logo_size == LogoSize::Md {
-        (36, 14)
-    } else {
-        let size = badge.logo_size.to_pixels();
-        ((size as f32 * 2.5).ceil() as u32 + 1, size)
-    };
+    // Hardcoded values matching original mdfx tech.rs
+    let icon_width: u32 = 36;
+    let icon_size: u32 = 14;
 
     let label_width = estimate_text_width(label) + 16;
     let total_width = icon_width + label_width;
@@ -597,24 +593,11 @@ fn darken_color(hex: &str, amount: f32) -> String {
 }
 
 /// Get the ideal logo color (white or black) for contrast against background
+/// Uses mdfx_colors for luminance calculation, strips # prefix for consistency
 fn get_logo_color_for_bg(bg_hex: &str) -> &'static str {
-    let hex = bg_hex.trim_start_matches('#');
-    if hex.len() < 6 {
-        return "FFFFFF";
-    }
-
-    let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0) as f32 / 255.0;
-    let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0) as f32 / 255.0;
-    let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0) as f32 / 255.0;
-
-    // Calculate relative luminance
-    let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-
-    if luminance > 0.5 {
-        "000000"
-    } else {
-        "FFFFFF"
-    }
+    // mdfx_colors::contrast_color returns "#FFFFFF" or "#000000"
+    // We need "FFFFFF" or "000000" to match original mdfx format
+    mdfx_colors::contrast_color(bg_hex).trim_start_matches('#')
 }
 
 /// Render badge to file

@@ -2,54 +2,6 @@
 
 use crate::style::{BadgeStyle, Border, Chevron, Corners};
 
-/// Logo size presets for technology badges
-#[derive(Debug, Clone, Copy, PartialEq, Default)]
-pub enum LogoSize {
-    /// Extra small (10px)
-    Xs,
-    /// Small (12px)
-    Sm,
-    /// Medium (14px) - default
-    #[default]
-    Md,
-    /// Large (16px)
-    Lg,
-    /// Extra large (18px)
-    Xl,
-    /// Extra extra large (20px)
-    Xxl,
-    /// Custom pixel size
-    Custom(u32),
-}
-
-impl LogoSize {
-    /// Convert to pixel value
-    pub fn to_pixels(&self) -> u32 {
-        match self {
-            LogoSize::Xs => 10,
-            LogoSize::Sm => 12,
-            LogoSize::Md => 14,
-            LogoSize::Lg => 16,
-            LogoSize::Xl => 18,
-            LogoSize::Xxl => 20,
-            LogoSize::Custom(px) => *px,
-        }
-    }
-
-    /// Parse from string (supports "xs", "small", "lg", numeric values, etc.)
-    pub fn parse(s: &str) -> Self {
-        match s.to_lowercase().as_str() {
-            "xs" | "extra-small" => LogoSize::Xs,
-            "sm" | "small" => LogoSize::Sm,
-            "md" | "medium" => LogoSize::Md,
-            "lg" | "large" => LogoSize::Lg,
-            "xl" | "extra-large" => LogoSize::Xl,
-            "xxl" => LogoSize::Xxl,
-            s => s.parse().map(LogoSize::Custom).unwrap_or(LogoSize::Md),
-        }
-    }
-}
-
 /// Complete specification for a technology badge
 #[derive(Debug, Clone)]
 pub struct TechBadge {
@@ -73,8 +25,6 @@ pub struct TechBadge {
     pub border: Option<Border>,
     /// Custom corner radii
     pub corners: Option<Corners>,
-    /// Logo size
-    pub logo_size: LogoSize,
     /// Chevron/arrow configuration
     pub chevron: Option<Chevron>,
     /// Raised icon effect (pixels above/below label)
@@ -101,7 +51,6 @@ impl TechBadge {
             text_color: None,
             border: None,
             corners: None,
-            logo_size: LogoSize::default(),
             chevron: None,
             raised: None,
             outline: false,
@@ -220,52 +169,6 @@ impl BadgeBuilder {
         self
     }
 
-    /// Set logo size
-    pub fn logo_size(mut self, size: LogoSize) -> Self {
-        self.badge.logo_size = size;
-        self
-    }
-
-    /// Set logo size to extra small
-    pub fn logo_size_xs(self) -> Self {
-        self.logo_size(LogoSize::Xs)
-    }
-
-    /// Set logo size to small
-    pub fn logo_size_sm(self) -> Self {
-        self.logo_size(LogoSize::Sm)
-    }
-
-    /// Set logo size to medium (default)
-    pub fn logo_size_md(self) -> Self {
-        self.logo_size(LogoSize::Md)
-    }
-
-    /// Set logo size to large
-    pub fn logo_size_lg(self) -> Self {
-        self.logo_size(LogoSize::Lg)
-    }
-
-    /// Set logo size to extra large
-    pub fn logo_size_xl(self) -> Self {
-        self.logo_size(LogoSize::Xl)
-    }
-
-    /// Set logo size to extra extra large
-    pub fn logo_size_xxl(self) -> Self {
-        self.logo_size(LogoSize::Xxl)
-    }
-
-    /// Set custom logo size in pixels
-    pub fn logo_size_custom(self, pixels: u32) -> Self {
-        self.logo_size(LogoSize::Custom(pixels))
-    }
-
-    /// Set logo size from string ("xs", "small", "lg", "18", etc.)
-    pub fn logo_size_str(self, size: &str) -> Self {
-        self.logo_size(LogoSize::parse(size))
-    }
-
     /// Add chevron/arrow styling
     pub fn chevron(mut self, chevron: Chevron) -> Self {
         self.badge.chevron = Some(chevron);
@@ -337,29 +240,16 @@ mod tests {
     }
 
     #[test]
-    fn test_logo_sizes() {
-        assert_eq!(LogoSize::Xs.to_pixels(), 10);
-        assert_eq!(LogoSize::Sm.to_pixels(), 12);
-        assert_eq!(LogoSize::Md.to_pixels(), 14);
-        assert_eq!(LogoSize::Lg.to_pixels(), 16);
-        assert_eq!(LogoSize::Xl.to_pixels(), 18);
-        assert_eq!(LogoSize::Xxl.to_pixels(), 20);
-        assert_eq!(LogoSize::Custom(24).to_pixels(), 24);
-    }
-
-    #[test]
     fn test_builder_pattern() {
         let builder = BadgeBuilder::new("typescript")
             .label("TypeScript v5.0")
             .bg_color("#3178C6")
-            .logo_size_lg()
             .outline();
 
         let badge = builder.build();
         assert_eq!(badge.name, "typescript");
         assert_eq!(badge.label, Some("TypeScript v5.0".to_string()));
         assert_eq!(badge.bg_color, Some("#3178C6".to_string()));
-        assert_eq!(badge.logo_size, LogoSize::Lg);
         assert!(badge.outline);
     }
 
