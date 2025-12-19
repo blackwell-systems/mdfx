@@ -57,9 +57,9 @@ pub mod targets;
 pub mod test_utils;
 
 // Re-export main types for convenience
-pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
 #[cfg(feature = "fetch")]
 pub use components::FetchContext;
+pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
 pub use config::{expand_partial, MdfxConfig, PartialDef};
 pub use converter::Converter;
 pub use error::{Error, Result};

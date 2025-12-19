@@ -328,7 +328,11 @@ impl MdfxLanguageServer {
                 "Render source (shields for shields.io)",
                 "source=shields",
             ),
-            ("url", "Make badge a clickable link", "url=https://example.com"),
+            (
+                "url",
+                "Make badge a clickable link",
+                "url=https://example.com",
+            ),
         ];
 
         params
@@ -352,10 +356,22 @@ impl MdfxLanguageServer {
     /// Build completion items for live data sources (github, npm, crates, pypi)
     fn live_source_completions(&self, prefix: &str) -> Vec<CompletionItem> {
         let sources = vec![
-            ("github", "GitHub repository metrics", "stars, forks, issues, license, language"),
+            (
+                "github",
+                "GitHub repository metrics",
+                "stars, forks, issues, license, language",
+            ),
             ("npm", "npm package metrics", "version, license, next, beta"),
-            ("crates", "crates.io package metrics", "version, downloads, description"),
-            ("pypi", "PyPI package metrics", "version, license, author, python, summary"),
+            (
+                "crates",
+                "crates.io package metrics",
+                "version, downloads, description",
+            ),
+            (
+                "pypi",
+                "PyPI package metrics",
+                "version, license, author, python, summary",
+            ),
         ];
 
         sources
@@ -527,7 +543,10 @@ impl MdfxLanguageServer {
                     if parts.len() >= 3 {
                         // Completing metric name
                         let metric_prefix = parts.get(2).unwrap_or(&"");
-                        return CompletionContext::LiveMetric(source.to_string(), metric_prefix.to_string());
+                        return CompletionContext::LiveMetric(
+                            source.to_string(),
+                            metric_prefix.to_string(),
+                        );
                     }
                 }
 

@@ -8,6 +8,7 @@
 use badgefx::{badge, BadgeStyle, Chevron};
 
 /// Helper to generate a badge using mdfx's tech renderer with all options
+#[allow(clippy::too_many_arguments)]
 fn mdfx_render_full(
     name: &str,
     label: Option<&str>,

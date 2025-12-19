@@ -36,6 +36,7 @@ impl FetchContext {
 /// This is the core function that handles fetching data from any source
 /// and rendering it as a badge.
 #[cfg(feature = "fetch")]
+#[allow(clippy::too_many_arguments)]
 pub fn handle_source(
     source_id: &str,
     args: &[String],
@@ -76,12 +77,15 @@ pub fn handle_source(
         .unwrap_or_else(|| metric.to_string());
 
     // Determine color
-    let bg_color = params.get("bg").map(|c| resolve_color(c)).unwrap_or_else(|| {
-        fetch_ctx
-            .fetcher
-            .metric_color(source_id, metric, &value)
-            .unwrap_or_else(|| default_color.to_string())
-    });
+    let bg_color = params
+        .get("bg")
+        .map(|c| resolve_color(c))
+        .unwrap_or_else(|| {
+            fetch_ctx
+                .fetcher
+                .metric_color(source_id, metric, &value)
+                .unwrap_or_else(|| default_color.to_string())
+        });
 
     // Text color (default white for most colors, black for yellow/bright)
     let text_color = params
@@ -164,7 +168,16 @@ pub fn handle_github(
     resolve_color: impl Fn(&str) -> String,
     fetch_ctx: &FetchContext,
 ) -> Result<ComponentOutput> {
-    handle_source("github", args, params, style, resolve_color, fetch_ctx, "stars", "3B82F6")
+    handle_source(
+        "github",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "stars",
+        "3B82F6",
+    )
 }
 
 /// Handle npm source for live component
@@ -188,7 +201,16 @@ pub fn handle_npm(
     resolve_color: impl Fn(&str) -> String,
     fetch_ctx: &FetchContext,
 ) -> Result<ComponentOutput> {
-    handle_source("npm", args, params, style, resolve_color, fetch_ctx, "version", "CB3837")
+    handle_source(
+        "npm",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "version",
+        "CB3837",
+    )
 }
 
 /// Handle crates source for live component
@@ -211,7 +233,16 @@ pub fn handle_crates(
     resolve_color: impl Fn(&str) -> String,
     fetch_ctx: &FetchContext,
 ) -> Result<ComponentOutput> {
-    handle_source("crates", args, params, style, resolve_color, fetch_ctx, "version", "E57300")
+    handle_source(
+        "crates",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "version",
+        "E57300",
+    )
 }
 
 /// Handle pypi source for live component
@@ -235,7 +266,16 @@ pub fn handle_pypi(
     resolve_color: impl Fn(&str) -> String,
     fetch_ctx: &FetchContext,
 ) -> Result<ComponentOutput> {
-    handle_source("pypi", args, params, style, resolve_color, fetch_ctx, "version", "3776AB")
+    handle_source(
+        "pypi",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "version",
+        "3776AB",
+    )
 }
 
 #[cfg(all(test, feature = "fetch"))]

@@ -96,8 +96,7 @@ impl DataSource for PyPISource {
                 data.author.unwrap_or_else(|| "Unknown".to_string()),
             )),
             "python" => Ok(DataValue::String(
-                data.requires_python
-                    .unwrap_or_else(|| "Any".to_string()),
+                data.requires_python.unwrap_or_else(|| "Any".to_string()),
             )),
             _ => Err(FetchError::UnknownMetric {
                 metric: metric.to_string(),

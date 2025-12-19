@@ -51,7 +51,10 @@ impl CratesSource {
 
         let response = ureq::get(&url)
             .set("Accept", "application/json")
-            .set("User-Agent", "mdfx-fetch/1.0 (https://github.com/blackwell-systems/mdfx)")
+            .set(
+                "User-Agent",
+                "mdfx-fetch/1.0 (https://github.com/blackwell-systems/mdfx)",
+            )
             .call();
 
         match response {

@@ -292,10 +292,26 @@ impl ComponentsRenderer {
                 let remaining_args: Vec<String> = positional[1..].to_vec();
 
                 match source {
-                    "github" => handlers::handle_github(&remaining_args, &params, &style, resolve, fetch_ctx),
-                    "npm" => handlers::handle_npm(&remaining_args, &params, &style, resolve, fetch_ctx),
-                    "crates" => handlers::handle_crates(&remaining_args, &params, &style, resolve, fetch_ctx),
-                    "pypi" => handlers::handle_pypi(&remaining_args, &params, &style, resolve, fetch_ctx),
+                    "github" => handlers::handle_github(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
+                    "npm" => {
+                        handlers::handle_npm(&remaining_args, &params, &style, resolve, fetch_ctx)
+                    }
+                    "crates" => handlers::handle_crates(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
+                    "pypi" => {
+                        handlers::handle_pypi(&remaining_args, &params, &style, resolve, fetch_ctx)
+                    }
                     _ => Err(Error::ParseError(format!(
                         "Unknown live source '{}'. Available: github, npm, crates, pypi",
                         source

@@ -465,9 +465,7 @@ mod tests {
     fn test_primitive_swatch(#[case] color: &str, #[case] style: &str) {
         let swatch = Primitive::simple_swatch(color, style);
         if let Primitive::Swatch {
-            color: c,
-            style: s,
-            ..
+            color: c, style: s, ..
         } = swatch
         {
             assert_eq!(c, color);

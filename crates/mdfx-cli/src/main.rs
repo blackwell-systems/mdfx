@@ -860,9 +860,15 @@ fn process_file(
         match mdfx::FetchContext::new(config) {
             Ok(ctx) => {
                 if !ctx.fetcher().config().offline {
-                    eprintln!("{} Dynamic badges enabled (use --offline to disable)", "Info:".cyan());
+                    eprintln!(
+                        "{} Dynamic badges enabled (use --offline to disable)",
+                        "Info:".cyan()
+                    );
                 } else {
-                    eprintln!("{} Dynamic badges in offline mode (cache only)", "Info:".cyan());
+                    eprintln!(
+                        "{} Dynamic badges in offline mode (cache only)",
+                        "Info:".cyan()
+                    );
                 }
                 parser.set_fetch_context(ctx);
             }

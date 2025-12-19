@@ -2030,7 +2030,10 @@ impl Default for TemplateParser {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{test_process, test_process_bookends, test_process_contains, test_process_err, test_process_unchanged};
+    use crate::{
+        test_process, test_process_bookends, test_process_contains, test_process_err,
+        test_process_unchanged,
+    };
 
     #[test]
     fn test_parser_new() {
@@ -2646,7 +2649,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         let input = "{{mathbold}}{{italic}}TEXT{{//}}";
         let expanded = parser.expand_close_all(input);
         // Should expand to close both styles in reverse order
-        assert_eq!(expanded, "{{mathbold}}{{italic}}TEXT{{/italic}}{{/mathbold}}");
+        assert_eq!(
+            expanded,
+            "{{mathbold}}{{italic}}TEXT{{/italic}}{{/mathbold}}"
+        );
     }
 
     #[test]
@@ -2655,7 +2661,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         let input = "{{fr:gradient}}{{mathbold}}TEXT{{//}}";
         let expanded = parser.expand_close_all(input);
         // Should expand to close style first, then frame
-        assert_eq!(expanded, "{{fr:gradient}}{{mathbold}}TEXT{{/mathbold}}{{/}}");
+        assert_eq!(
+            expanded,
+            "{{fr:gradient}}{{mathbold}}TEXT{{/mathbold}}{{/}}"
+        );
     }
 
     #[test]
@@ -2791,7 +2800,10 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#
         let parser = TemplateParser::new().unwrap();
         let result = parser.process("{{ui:nonexistent/}}");
         assert!(result.is_err());
-        assert!(result.unwrap_err().to_string().contains("Unknown component"));
+        assert!(result
+            .unwrap_err()
+            .to_string()
+            .contains("Unknown component"));
     }
 
     #[test]
@@ -2864,7 +2876,9 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#
     fn test_shields_primitive_bar() {
         // Should render 3 inline badges - keep verbose for count check
         let parser = TemplateParser::new().unwrap();
-        let result = parser.process("{{shields:bar:colors=success,warning,error:style=flat-square/}}").unwrap();
+        let result = parser
+            .process("{{shields:bar:colors=success,warning,error:style=flat-square/}}")
+            .unwrap();
         assert_eq!(result.matches("![](").count(), 3);
     }
 
@@ -2992,7 +3006,9 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#
     fn test_component_with_trailing_newline() {
         // Should preserve trailing newline - keep verbose for ends_with check
         let parser = TemplateParser::new().unwrap();
-        let result = parser.process("Text before\n{{ui:swatch:pink/}}\n").unwrap();
+        let result = parser
+            .process("Text before\n{{ui:swatch:pink/}}\n")
+            .unwrap();
         assert!(result.ends_with('\n'), "Trailing newline was lost");
     }
 

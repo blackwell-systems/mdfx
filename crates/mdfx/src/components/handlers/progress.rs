@@ -35,13 +35,18 @@ pub fn handle(
     let fill_height: u32 = parse_param(params, "fill_height", height);
     let rx: u32 = parse_param(params, "rx", 3);
 
-    let track_color = resolve_color_with_fallback(params, &["track", "color"], "gray", &resolve_color);
+    let track_color =
+        resolve_color_with_fallback(params, &["track", "color"], "gray", &resolve_color);
     let fill_color = resolve_color_with_default(params, "fill", "pink", &resolve_color);
 
     let show_label = parse_bool(params, "label", false);
     let label_color = resolve_color_opt(params, "label_color", &resolve_color);
     let border_color = resolve_color_opt(params, "border", &resolve_color);
-    let border_width: u32 = parse_param(params, "border_width", if border_color.is_some() { 1 } else { 0 });
+    let border_width: u32 = parse_param(
+        params,
+        "border_width",
+        if border_color.is_some() { 1 } else { 0 },
+    );
 
     // Slider/thumb mode params
     let thumb_size: Option<u32> = parse_param_opt(params, "thumb");

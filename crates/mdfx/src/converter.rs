@@ -24,7 +24,10 @@ impl Converter {
             .styles
             .iter()
             .flat_map(|(id, style)| {
-                style.aliases.iter().map(move |alias| (alias.clone(), id.clone()))
+                style
+                    .aliases
+                    .iter()
+                    .map(move |alias| (alias.clone(), id.clone()))
             })
             .collect();
 
@@ -260,8 +263,16 @@ mod tests {
     }
 
     #[rstest]
-    #[case("Hello", "strikethrough", "H\u{0336}e\u{0336}l\u{0336}l\u{0336}o\u{0336}")]
-    #[case("Hi there", "strikethrough", "H\u{0336}i\u{0336} t\u{0336}h\u{0336}e\u{0336}r\u{0336}e\u{0336}")]
+    #[case(
+        "Hello",
+        "strikethrough",
+        "H\u{0336}e\u{0336}l\u{0336}l\u{0336}o\u{0336}"
+    )]
+    #[case(
+        "Hi there",
+        "strikethrough",
+        "H\u{0336}i\u{0336} t\u{0336}h\u{0336}e\u{0336}r\u{0336}e\u{0336}"
+    )]
     fn test_strikethrough(#[case] input: &str, #[case] style: &str, #[case] expected: &str) {
         let converter = Converter::new().unwrap();
         let result = converter.convert(input, style).unwrap();

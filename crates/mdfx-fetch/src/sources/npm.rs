@@ -134,7 +134,7 @@ impl DataSource for NpmSource {
 
     fn metric_color(&self, metric: &str, _value: &DataValue) -> Option<&str> {
         match metric {
-            "version" => Some("CB3837"), // npm red
+            "version" => Some("CB3837"),       // npm red
             "next" | "beta" => Some("EAB308"), // Yellow for pre-release
             "license" => Some("22C55E"),       // Green
             _ => None,

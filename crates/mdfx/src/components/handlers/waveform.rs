@@ -1,8 +1,6 @@
 //! Waveform visualization component handler
 
-use super::{
-    parse_bool, parse_param, resolve_color_opt, resolve_color_with_fallback,
-};
+use super::{parse_bool, parse_param, resolve_color_opt, resolve_color_with_fallback};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -43,8 +41,10 @@ pub fn handle(
         .and_then(|v| v.parse().ok())
         .unwrap_or(3);
 
-    let positive_color = resolve_color_with_fallback(params, &["positive", "up"], "success", &resolve_color);
-    let negative_color = resolve_color_with_fallback(params, &["negative", "down"], "error", &resolve_color);
+    let positive_color =
+        resolve_color_with_fallback(params, &["positive", "up"], "success", &resolve_color);
+    let negative_color =
+        resolve_color_with_fallback(params, &["negative", "down"], "error", &resolve_color);
     let track_color = resolve_color_opt(params, "track", &resolve_color);
 
     let show_center_line = parse_bool(params, "center", false);

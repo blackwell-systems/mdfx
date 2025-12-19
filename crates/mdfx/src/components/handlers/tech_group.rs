@@ -35,7 +35,7 @@ fn find_groupable_components(content: &str) -> Vec<(usize, usize)> {
             // Extract component type (between "{{ui:" and next ":" or "/" or "}")
             let after_prefix = &content[start + 5..end];
             let type_end = after_prefix
-                .find(|c| c == ':' || c == '/' || c == '}')
+                .find([':', '/', '}'])
                 .unwrap_or(after_prefix.len());
             let comp_type = &after_prefix[..type_end];
 

@@ -123,7 +123,7 @@ mod tests {
     fn test_data_value_display() {
         assert_eq!(DataValue::Number(42).format(), "42");
         assert_eq!(DataValue::Number(1500).format(), "1.5k");
-        assert_eq!(DataValue::Float(3.14).format(), "3.1");
+        assert_eq!(DataValue::Float(2.75).format(), "2.8");
         assert_eq!(DataValue::String("MIT".to_string()).format(), "MIT");
         assert_eq!(DataValue::Bool(true).format(), "yes");
         assert_eq!(DataValue::Bool(false).format(), "no");

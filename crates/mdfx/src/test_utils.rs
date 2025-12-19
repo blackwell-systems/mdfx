@@ -258,7 +258,9 @@ macro_rules! test_process_bookends {
 macro_rules! test_convert {
     ($style:expr, $input:expr => $expected:expr) => {{
         let converter = $crate::Converter::new().expect("Failed to create converter");
-        let result = converter.convert($input, $style).expect("Conversion failed");
+        let result = converter
+            .convert($input, $style)
+            .expect("Conversion failed");
         assert_eq!(result, $expected, "Style: {}, Input: {}", $style, $input);
     }};
 }
@@ -433,7 +435,9 @@ macro_rules! test_shields_contains {
 macro_rules! test_shields_color {
     ($input:expr => $expected:expr) => {{
         let renderer = $crate::ShieldsRenderer::new().expect("Failed to create shields renderer");
-        let result = renderer.resolve_color($input).expect("Color resolution failed");
+        let result = renderer
+            .resolve_color($input)
+            .expect("Color resolution failed");
         assert_eq!(
             result, $expected,
             "Color '{}' should resolve to '{}'",

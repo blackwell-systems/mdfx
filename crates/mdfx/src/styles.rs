@@ -153,7 +153,11 @@ mod tests {
     #[case("mb", true, "Mathematical Bold")] // alias
     #[case("italic", true, "Italic")]
     #[case("nonexistent", false, "")]
-    fn test_find_style(#[case] query: &str, #[case] should_exist: bool, #[case] expected_name: &str) {
+    fn test_find_style(
+        #[case] query: &str,
+        #[case] should_exist: bool,
+        #[case] expected_name: &str,
+    ) {
         let data = StylesData::load().unwrap();
         let style = data.find_style(query);
         assert_eq!(style.is_some(), should_exist);
