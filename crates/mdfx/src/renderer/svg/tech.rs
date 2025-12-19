@@ -15,25 +15,12 @@ pub fn get_brand_color(name: &str) -> Option<&'static str> {
 
 /// Get the ideal logo color (white or black) for contrast against background
 /// Uses relative luminance calculation for accessibility
+///
+/// This is a thin wrapper around mdfx-colors for API compatibility.
+/// Returns color without # prefix (e.g., "FFFFFF" or "000000").
 pub fn get_logo_color_for_bg(bg_hex: &str) -> &'static str {
-    let hex = bg_hex.trim_start_matches('#');
-    if hex.len() < 6 {
-        return "FFFFFF";
-    }
-
-    let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0) as f32 / 255.0;
-    let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0) as f32 / 255.0;
-    let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0) as f32 / 255.0;
-
-    // Calculate relative luminance (ITU-R BT.709)
-    let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-
-    // Use black text on light backgrounds, white on dark
-    if luminance > 0.5 {
-        "000000"
-    } else {
-        "FFFFFF"
-    }
+    // mdfx_colors::contrast_color returns with # prefix, strip it for our API
+    mdfx_colors::contrast_color(bg_hex).trim_start_matches('#')
 }
 
 /// Render a tech badge with full options

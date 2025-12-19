@@ -4,8 +4,7 @@
 # Backup files
 *.backup
 
-# Generated example outputs
-examples/assets/
+# Generated example outputs (tech-badges assets are committed)
 examples/*-showcase.md
 examples/*-showcase-rendered.md
 examples/*-rendered.md
