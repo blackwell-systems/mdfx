@@ -2161,7 +2161,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         #[case] expected: &str,
     ) {
         let parser = TemplateParser::new().unwrap();
-        let input = format!("{{{{{}:spacing={}}}}}{}{{{{/{}}}}}", style, spacing, text, style);
+        let input = format!(
+            "{{{{{}:spacing={}}}}}{}{{{{/{}}}}}",
+            style, spacing, text, style
+        );
         let result = parser.process(&input).unwrap();
         assert_eq!(result, expected);
     }
@@ -2195,7 +2198,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         #[case] expected: &str,
     ) {
         let parser = TemplateParser::new().unwrap();
-        let input = format!("{{{{mathbold:separator={}}}}}{}{{{{/mathbold}}}}", separator, text);
+        let input = format!(
+            "{{{{mathbold:separator={}}}}}{}{{{{/mathbold}}}}",
+            separator, text
+        );
         let result = parser.process(&input).unwrap();
         assert_eq!(result, expected);
     }
@@ -2326,11 +2332,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
     #[rstest]
     #[case("star", "Title", "★\u{fe0e} Title ★\u{fe0e}")]
     #[case("diamond", "Gem", "◆\u{fe0e} Gem ◆\u{fe0e}")]
-    fn test_frame_glyph_shorthand(
-        #[case] glyph: &str,
-        #[case] text: &str,
-        #[case] expected: &str,
-    ) {
+    fn test_frame_glyph_shorthand(#[case] glyph: &str, #[case] text: &str, #[case] expected: &str) {
         let parser = TemplateParser::new().unwrap();
         let input = format!("{{{{frame:glyph:{}}}}}{}{{{{/frame}}}}", glyph, text);
         let result = parser.process(&input).unwrap();
@@ -2364,9 +2366,24 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
     // ========================================================================
 
     #[rstest]
-    #[case("star*3", "0", "Title", "★\u{fe0e}★\u{fe0e}★\u{fe0e}Title★\u{fe0e}★\u{fe0e}★\u{fe0e}")]
-    #[case("star*2", "3", "Title", "★\u{fe0e}★\u{fe0e}   Title   ★\u{fe0e}★\u{fe0e}")]
-    #[case("diamond*2", "-", "Title", "◆\u{fe0e}◆\u{fe0e}-Title-◆\u{fe0e}◆\u{fe0e}")]
+    #[case(
+        "star*3",
+        "0",
+        "Title",
+        "★\u{fe0e}★\u{fe0e}★\u{fe0e}Title★\u{fe0e}★\u{fe0e}★\u{fe0e}"
+    )]
+    #[case(
+        "star*2",
+        "3",
+        "Title",
+        "★\u{fe0e}★\u{fe0e}   Title   ★\u{fe0e}★\u{fe0e}"
+    )]
+    #[case(
+        "diamond*2",
+        "-",
+        "Title",
+        "◆\u{fe0e}◆\u{fe0e}-Title-◆\u{fe0e}◆\u{fe0e}"
+    )]
     #[case("star*2", "·", "Title", "★\u{fe0e}★\u{fe0e}·Title·★\u{fe0e}★\u{fe0e}")]
     #[case("star", "--", "Title", "★\u{fe0e}--Title--★\u{fe0e}")]
     fn test_frame_glyph_with_padding(
@@ -2376,7 +2393,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         #[case] expected: &str,
     ) {
         let parser = TemplateParser::new().unwrap();
-        let input = format!("{{{{frame:glyph:{}/pad={}}}}}{}{{{{/frame}}}}", glyph_spec, pad, text);
+        let input = format!(
+            "{{{{frame:glyph:{}/pad={}}}}}{}{{{{/frame}}}}",
+            glyph_spec, pad, text
+        );
         let result = parser.process(&input).unwrap();
         assert_eq!(result, expected);
     }
@@ -2444,9 +2464,24 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
     // ========================================================================
 
     #[rstest]
-    #[case("gradient", "dot", "Title", "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Title ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}")]
-    #[case("gradient", "dash", "TEXT", "▓\u{fe0e}─▒\u{fe0e}─░\u{fe0e} TEXT ░\u{fe0e}─▒\u{fe0e}─▓\u{fe0e}")]
-    #[case("line-double", " ", "Title", "═\u{fe0e} ═\u{fe0e} ═\u{fe0e} Title ═\u{fe0e} ═\u{fe0e} ═\u{fe0e}")]
+    #[case(
+        "gradient",
+        "dot",
+        "Title",
+        "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Title ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}"
+    )]
+    #[case(
+        "gradient",
+        "dash",
+        "TEXT",
+        "▓\u{fe0e}─▒\u{fe0e}─░\u{fe0e} TEXT ░\u{fe0e}─▒\u{fe0e}─▓\u{fe0e}"
+    )]
+    #[case(
+        "line-double",
+        " ",
+        "Title",
+        "═\u{fe0e} ═\u{fe0e} ═\u{fe0e} Title ═\u{fe0e} ═\u{fe0e} ═\u{fe0e}"
+    )]
     fn test_frame_pattern_with_separator(
         #[case] pattern: &str,
         #[case] separator: &str,
@@ -2454,7 +2489,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         #[case] expected: &str,
     ) {
         let parser = TemplateParser::new().unwrap();
-        let input = format!("{{{{fr:{}/separator={}}}}}{}{{{{/}}}}", pattern, separator, text);
+        let input = format!(
+            "{{{{fr:{}/separator={}}}}}{}{{{{/}}}}",
+            pattern, separator, text
+        );
         let result = parser.process(&input).unwrap();
         assert_eq!(result, expected);
     }
@@ -2464,8 +2502,18 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
     // ========================================================================
 
     #[rstest]
-    #[case("gradient", 1, "TITLE", "▓\u{fe0e} ▒\u{fe0e} ░\u{fe0e} TITLE ░\u{fe0e} ▒\u{fe0e} ▓\u{fe0e}")]
-    #[case("gradient", 2, "X", "▓\u{fe0e}  ▒\u{fe0e}  ░\u{fe0e} X ░\u{fe0e}  ▒\u{fe0e}  ▓\u{fe0e}")]
+    #[case(
+        "gradient",
+        1,
+        "TITLE",
+        "▓\u{fe0e} ▒\u{fe0e} ░\u{fe0e} TITLE ░\u{fe0e} ▒\u{fe0e} ▓\u{fe0e}"
+    )]
+    #[case(
+        "gradient",
+        2,
+        "X",
+        "▓\u{fe0e}  ▒\u{fe0e}  ░\u{fe0e} X ░\u{fe0e}  ▒\u{fe0e}  ▓\u{fe0e}"
+    )]
     fn test_frame_pattern_with_spacing(
         #[case] pattern: &str,
         #[case] spacing: usize,
@@ -2473,7 +2521,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         #[case] expected: &str,
     ) {
         let parser = TemplateParser::new().unwrap();
-        let input = format!("{{{{fr:{}/spacing={}}}}}{}{{{{/}}}}", pattern, spacing, text);
+        let input = format!(
+            "{{{{fr:{}/spacing={}}}}}{}{{{{/}}}}",
+            pattern, spacing, text
+        );
         let result = parser.process(&input).unwrap();
         assert_eq!(result, expected);
     }
@@ -2483,7 +2534,12 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
     // ========================================================================
 
     #[rstest]
-    #[case("star*3", 1, "Text", "★\u{fe0e} ★\u{fe0e} ★\u{fe0e} Text ★\u{fe0e} ★\u{fe0e} ★\u{fe0e}")]
+    #[case(
+        "star*3",
+        1,
+        "Text",
+        "★\u{fe0e} ★\u{fe0e} ★\u{fe0e} Text ★\u{fe0e} ★\u{fe0e} ★\u{fe0e}"
+    )]
     #[case("diamond*2", 2, "Gem", "◆\u{fe0e}  ◆\u{fe0e} Gem ◆\u{fe0e}  ◆\u{fe0e}")]
     fn test_glyph_frame_with_spacing(
         #[case] glyph_spec: &str,
@@ -2492,7 +2548,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         #[case] expected: &str,
     ) {
         let parser = TemplateParser::new().unwrap();
-        let input = format!("{{{{fr:glyph:{}/spacing={}}}}}{}{{{{/}}}}", glyph_spec, spacing, text);
+        let input = format!(
+            "{{{{fr:glyph:{}/spacing={}}}}}{}{{{{/}}}}",
+            glyph_spec, spacing, text
+        );
         let result = parser.process(&input).unwrap();
         assert_eq!(result, expected);
     }
