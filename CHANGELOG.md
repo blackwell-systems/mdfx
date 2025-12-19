@@ -417,6 +417,24 @@ Added `rstest` crate for parameterized testing, significantly reducing test boil
 - badgefx/style.rs: 83% → 95%
 - Overall project: 62.5% → 65%
 
+#### Snapshot Testing with insta
+
+Added comprehensive snapshot testing using the `insta` crate for SVG output stability:
+
+**Badge snapshots (16 tests in badgefx):**
+- Two-segment, icon-only, text-only badge variants
+- All 5 badge styles (flat, flat-square, plastic, social, for-the-badge)
+- Outline mode, raised mode, custom corners
+- Border, divider, and custom color configurations
+
+**Primitive snapshots (14 tests in mdfx):**
+- Swatch variants (flat-square, pill, circle, with label)
+- Progress bar extremes (0%, 50%, 65%, 100%)
+- Donut, gauge, sparkline, rating, waveform primitives
+- Tech badge rendering
+
+Snapshots detect unintended changes to SVG rendering during development. Use `cargo insta review` to interactively accept or reject changes.
+
 Example transformation:
 ```rust
 // Before: 10 separate test functions
