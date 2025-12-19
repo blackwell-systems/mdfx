@@ -404,14 +404,60 @@ mod tests {
         assert_eq!(direction.has_right(), has_right);
     }
 
-    #[test]
-    fn test_chevron_constructors() {
-        let left = Chevron::left(10.0);
-        assert_eq!(left.direction, ChevronDirection::Left);
-        assert_eq!(left.depth, 10.0);
+    #[rstest]
+    #[case(ChevronDirection::Left, 10.0)]
+    #[case(ChevronDirection::Right, 8.0)]
+    #[case(ChevronDirection::Both, 12.0)]
+    fn test_chevron_constructors(#[case] direction: ChevronDirection, #[case] depth: f32) {
+        let chevron = match direction {
+            ChevronDirection::Left => Chevron::left(depth),
+            ChevronDirection::Right => Chevron::right(depth),
+            ChevronDirection::Both => Chevron::both(depth),
+        };
+        assert_eq!(chevron.direction, direction);
+        assert!((chevron.depth - depth).abs() < f32::EPSILON);
+    }
 
-        let both = Chevron::both(8.0);
-        assert_eq!(both.direction, ChevronDirection::Both);
-        assert_eq!(both.depth, 8.0);
+    // ========================================================================
+    // SvgMetrics Methods (Parameterized)
+    // ========================================================================
+
+    #[test]
+    fn test_svg_metrics_without_icon() {
+        let metrics = SvgMetrics::calculate("Text Only", 50.0, 11.0, BadgeStyle::Flat, false);
+
+        assert!(metrics.width > 0.0);
+        assert_eq!(metrics.icon_width, 0.0);
+        assert!(metrics.text_width > 0.0);
+    }
+
+    #[test]
+    fn test_svg_metrics_coordinate_methods() {
+        let metrics = SvgMetrics::calculate("Rust", 14.0, 11.0, BadgeStyle::Flat, true);
+
+        // text_x should equal icon_width
+        assert!((metrics.text_x() - metrics.icon_width).abs() < f32::EPSILON);
+
+        // center_y should be half the height
+        assert!((metrics.center_y() - metrics.height / 2.0).abs() < f32::EPSILON);
+
+        // icon_center_x should be half the icon width
+        assert!((metrics.icon_center_x() - metrics.icon_width / 2.0).abs() < f32::EPSILON);
+
+        // text_center_x should be icon_width + half text_width
+        assert!(
+            (metrics.text_center_x() - (metrics.icon_width + metrics.text_width / 2.0)).abs()
+                < f32::EPSILON
+        );
+    }
+
+    #[test]
+    fn test_corners_symmetric() {
+        let corners = Corners::symmetric(5, 10);
+        // symmetric creates: horizontal for top_left, vertical for top_right, etc.
+        assert_eq!(corners.top_left, 5);
+        assert_eq!(corners.top_right, 10);
+        assert_eq!(corners.bottom_right, 5);
+        assert_eq!(corners.bottom_left, 10);
     }
 }
