@@ -1,5 +1,8 @@
 //! Waveform visualization component handler
 
+use super::{
+    parse_bool, parse_param, resolve_color_opt, resolve_color_with_fallback,
+};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -29,47 +32,23 @@ pub fn handle(
         ));
     }
 
-    let width: u32 = params
-        .get("width")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(100);
+    let width: u32 = parse_param(params, "width", 100);
+    let height: u32 = parse_param(params, "height", 40);
+    let spacing: u32 = parse_param(params, "spacing", 1);
 
-    let height: u32 = params
-        .get("height")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(40);
-
-    let positive_color = params
-        .get("positive")
-        .or_else(|| params.get("up"))
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("success"));
-
-    let negative_color = params
-        .get("negative")
-        .or_else(|| params.get("down"))
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("error"));
-
+    // bar_width with "bar" alias
     let bar_width: u32 = params
         .get("bar_width")
         .or_else(|| params.get("bar"))
         .and_then(|v| v.parse().ok())
         .unwrap_or(3);
 
-    let spacing: u32 = params
-        .get("spacing")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(1);
+    let positive_color = resolve_color_with_fallback(params, &["positive", "up"], "success", &resolve_color);
+    let negative_color = resolve_color_with_fallback(params, &["negative", "down"], "error", &resolve_color);
+    let track_color = resolve_color_opt(params, "track", &resolve_color);
 
-    let track_color = params.get("track").map(|c| resolve_color(c));
-
-    let show_center_line = params
-        .get("center")
-        .map(|v| v == "true" || v == "1")
-        .unwrap_or(false);
-
-    let center_line_color = params.get("center_color").map(|c| resolve_color(c));
+    let show_center_line = parse_bool(params, "center", false);
+    let center_line_color = resolve_color_opt(params, "center_color", &resolve_color);
 
     Ok(ComponentOutput::Primitive(Primitive::Waveform {
         values,

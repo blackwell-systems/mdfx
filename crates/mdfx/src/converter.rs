@@ -10,14 +10,27 @@ lazy_static! {
 /// Main converter for Unicode text styling
 pub struct Converter {
     styles: HashMap<String, Style>,
+    /// Map from alias -> style ID for O(1) lookup
+    alias_map: HashMap<String, String>,
 }
 
 impl Converter {
     /// Create a new converter with all available styles loaded
     pub fn new() -> Result<Self> {
         let styles_data = &*STYLES;
+
+        // Build alias map for O(1) alias lookup
+        let alias_map: HashMap<String, String> = styles_data
+            .styles
+            .iter()
+            .flat_map(|(id, style)| {
+                style.aliases.iter().map(move |alias| (alias.clone(), id.clone()))
+            })
+            .collect();
+
         Ok(Self {
             styles: styles_data.styles.clone(),
+            alias_map,
         })
     }
 
@@ -149,18 +162,21 @@ impl Converter {
         self.convert_with_char_between(text, style, separator, count)
     }
 
-    /// Get a style by ID or alias
+    /// Get a style by ID or alias (O(1) lookup)
     pub fn get_style(&self, name: &str) -> Result<&Style> {
-        // First try direct lookup
+        // First try direct lookup by ID
         if let Some(style) = self.styles.get(name) {
             return Ok(style);
         }
 
-        // Then try aliases
-        self.styles
-            .values()
-            .find(|s| s.matches(name))
-            .ok_or_else(|| Error::UnknownStyle(name.to_string()))
+        // Then try alias lookup via pre-built map (O(1) instead of O(n))
+        if let Some(id) = self.alias_map.get(name) {
+            if let Some(style) = self.styles.get(id) {
+                return Ok(style);
+            }
+        }
+
+        Err(Error::UnknownStyle(name.to_string()))
     }
 
     /// List all available styles

@@ -1,5 +1,6 @@
 //! Rating component handler (stars, hearts, etc.)
 
+use super::{get_string, parse_param, resolve_color_with_default};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -25,32 +26,14 @@ pub fn handle(
         ))
     })?;
 
-    let max: u32 = params.get("max").and_then(|v| v.parse().ok()).unwrap_or(5);
+    let max: u32 = parse_param(params, "max", 5);
+    let size: u32 = parse_param(params, "size", 20);
+    let spacing: u32 = parse_param(params, "spacing", 2);
 
-    let size: u32 = params
-        .get("size")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(20);
+    let fill_color = resolve_color_with_default(params, "fill", "warning", &resolve_color);
+    let empty_color = resolve_color_with_default(params, "empty", "gray", &resolve_color);
 
-    let fill_color = params
-        .get("fill")
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("warning")); // gold/yellow default
-
-    let empty_color = params
-        .get("empty")
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("gray"));
-
-    let icon = params
-        .get("icon")
-        .cloned()
-        .unwrap_or_else(|| "star".to_string());
-
-    let spacing: u32 = params
-        .get("spacing")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(2);
+    let icon = get_string(params, "icon", "star");
 
     Ok(ComponentOutput::Primitive(Primitive::Rating {
         value,

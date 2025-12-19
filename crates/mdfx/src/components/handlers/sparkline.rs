@@ -1,5 +1,6 @@
 //! Sparkline chart component handler
 
+use super::{get_string, parse_bool, parse_param, resolve_color_opt, resolve_color_with_default};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -29,44 +30,17 @@ pub fn handle(
         ));
     }
 
-    let width: u32 = params
-        .get("width")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(100);
+    let width: u32 = parse_param(params, "width", 100);
+    let height: u32 = parse_param(params, "height", 20);
+    let stroke_width: u32 = parse_param(params, "stroke_width", 2);
+    let dot_radius: u32 = parse_param(params, "dot_radius", 2);
 
-    let height: u32 = params
-        .get("height")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(20);
+    let chart_type = get_string(params, "type", "line");
+    let fill_color = resolve_color_with_default(params, "fill", "pink", &resolve_color);
+    let stroke_color = resolve_color_opt(params, "stroke", &resolve_color);
+    let track_color = resolve_color_opt(params, "track", &resolve_color);
 
-    let chart_type = params
-        .get("type")
-        .cloned()
-        .unwrap_or_else(|| "line".to_string());
-
-    let fill_color = params
-        .get("fill")
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("pink"));
-
-    let stroke_color = params.get("stroke").map(|c| resolve_color(c));
-
-    let stroke_width: u32 = params
-        .get("stroke_width")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(2);
-
-    let track_color = params.get("track").map(|c| resolve_color(c));
-
-    let show_dots = params
-        .get("dots")
-        .map(|v| v == "true" || v == "1")
-        .unwrap_or(false);
-
-    let dot_radius: u32 = params
-        .get("dot_radius")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(2);
+    let show_dots = parse_bool(params, "dots", false);
 
     Ok(ComponentOutput::Primitive(Primitive::Sparkline {
         values,

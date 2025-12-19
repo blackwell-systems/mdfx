@@ -1,5 +1,9 @@
 //! Progress bar component handler
 
+use super::{
+    get_string, parse_bool, parse_param, parse_param_opt, resolve_color_opt,
+    resolve_color_with_default, resolve_color_with_fallback,
+};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -26,56 +30,24 @@ pub fn handle(
     })?;
     let percent = percent.min(100);
 
-    let width: u32 = params
-        .get("width")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(100);
+    let width: u32 = parse_param(params, "width", 100);
+    let height: u32 = parse_param(params, "height", 10);
+    let fill_height: u32 = parse_param(params, "fill_height", height);
+    let rx: u32 = parse_param(params, "rx", 3);
 
-    let height: u32 = params
-        .get("height")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(10);
+    let track_color = resolve_color_with_fallback(params, &["track", "color"], "gray", &resolve_color);
+    let fill_color = resolve_color_with_default(params, "fill", "pink", &resolve_color);
 
-    let fill_height: u32 = params
-        .get("fill_height")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(height);
-
-    let track_color = params
-        .get("track")
-        .or(params.get("color"))
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("gray"));
-
-    let fill_color = params
-        .get("fill")
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("pink"));
-
-    let rx: u32 = params.get("rx").and_then(|v| v.parse().ok()).unwrap_or(3);
-
-    let show_label = params
-        .get("label")
-        .map(|v| v == "true" || v == "1")
-        .unwrap_or(false);
-
-    let label_color = params.get("label_color").map(|c| resolve_color(c));
-
-    let border_color = params.get("border").map(|c| resolve_color(c));
-
-    let border_width: u32 = params
-        .get("border_width")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(if border_color.is_some() { 1 } else { 0 });
+    let show_label = parse_bool(params, "label", false);
+    let label_color = resolve_color_opt(params, "label_color", &resolve_color);
+    let border_color = resolve_color_opt(params, "border", &resolve_color);
+    let border_width: u32 = parse_param(params, "border_width", if border_color.is_some() { 1 } else { 0 });
 
     // Slider/thumb mode params
-    let thumb_size: Option<u32> = params.get("thumb").and_then(|v| v.parse().ok());
-    let thumb_width: Option<u32> = params.get("thumb_width").and_then(|v| v.parse().ok());
-    let thumb_color = params.get("thumb_color").map(|c| resolve_color(c));
-    let thumb_shape = params
-        .get("thumb_shape")
-        .cloned()
-        .unwrap_or_else(|| "circle".to_string());
+    let thumb_size: Option<u32> = parse_param_opt(params, "thumb");
+    let thumb_width: Option<u32> = parse_param_opt(params, "thumb_width");
+    let thumb_color = resolve_color_opt(params, "thumb_color", &resolve_color);
+    let thumb_shape = get_string(params, "thumb_shape", "circle");
 
     Ok(ComponentOutput::Primitive(Primitive::Progress {
         percent,
