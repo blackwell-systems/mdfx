@@ -48,25 +48,47 @@ impl LicenseCategory {
 /// Categorize a license by its SPDX identifier or common name
 fn categorize_license(license: &str) -> LicenseCategory {
     let upper = license.to_uppercase();
-    let normalized = upper.replace('-', "").replace(' ', "");
+    let normalized = upper.replace(['-', ' '], "");
 
     // Permissive licenses
     if matches!(
         normalized.as_str(),
-        "MIT" | "APACHE" | "APACHE2" | "APACHE20" | "APACHE2.0"
-            | "BSD" | "BSD2" | "BSD2CLAUSE" | "BSD3" | "BSD3CLAUSE"
-            | "ISC" | "ZLIB" | "WTFPL" | "BOOST" | "BSL" | "BSL1" | "BSL10" | "BSL1.0"
+        "MIT"
+            | "APACHE"
+            | "APACHE2"
+            | "APACHE20"
+            | "APACHE2.0"
+            | "BSD"
+            | "BSD2"
+            | "BSD2CLAUSE"
+            | "BSD3"
+            | "BSD3CLAUSE"
+            | "ISC"
+            | "ZLIB"
+            | "WTFPL"
+            | "BOOST"
+            | "BSL"
+            | "BSL1"
+            | "BSL10"
+            | "BSL1.0"
     ) {
         return LicenseCategory::Permissive;
     }
 
     // Weak copyleft licenses
-    if normalized.starts_with("LGPL") || normalized.starts_with("MPL") || normalized.starts_with("EPL") || normalized.starts_with("CDDL") {
+    if normalized.starts_with("LGPL")
+        || normalized.starts_with("MPL")
+        || normalized.starts_with("EPL")
+        || normalized.starts_with("CDDL")
+    {
         return LicenseCategory::WeakCopyleft;
     }
 
     // Strong copyleft licenses
-    if normalized.starts_with("GPL") || normalized.starts_with("AGPL") || normalized.starts_with("SSPL") {
+    if normalized.starts_with("GPL")
+        || normalized.starts_with("AGPL")
+        || normalized.starts_with("SSPL")
+    {
         return LicenseCategory::Copyleft;
     }
 
@@ -165,10 +187,7 @@ pub fn handle(
     let border_width = params.get("border_width").and_then(|v| v.parse().ok());
 
     // Corner radius - default to 3 for polished rounded look
-    let rx = params
-        .get("rx")
-        .and_then(|v| v.parse().ok())
-        .or(Some(3));
+    let rx = params.get("rx").and_then(|v| v.parse().ok()).or(Some(3));
 
     // URL for linking to license text
     let _url = params.get("url").cloned();
@@ -214,14 +233,23 @@ mod tests {
     #[test]
     fn test_categorize_permissive() {
         assert_eq!(categorize_license("MIT"), LicenseCategory::Permissive);
-        assert_eq!(categorize_license("Apache-2.0"), LicenseCategory::Permissive);
-        assert_eq!(categorize_license("BSD-3-Clause"), LicenseCategory::Permissive);
+        assert_eq!(
+            categorize_license("Apache-2.0"),
+            LicenseCategory::Permissive
+        );
+        assert_eq!(
+            categorize_license("BSD-3-Clause"),
+            LicenseCategory::Permissive
+        );
         assert_eq!(categorize_license("ISC"), LicenseCategory::Permissive);
     }
 
     #[test]
     fn test_categorize_weak_copyleft() {
-        assert_eq!(categorize_license("LGPL-3.0"), LicenseCategory::WeakCopyleft);
+        assert_eq!(
+            categorize_license("LGPL-3.0"),
+            LicenseCategory::WeakCopyleft
+        );
         assert_eq!(categorize_license("MPL-2.0"), LicenseCategory::WeakCopyleft);
         assert_eq!(categorize_license("EPL-2.0"), LicenseCategory::WeakCopyleft);
     }
@@ -236,13 +264,22 @@ mod tests {
     #[test]
     fn test_categorize_public_domain() {
         assert_eq!(categorize_license("CC0"), LicenseCategory::PublicDomain);
-        assert_eq!(categorize_license("Unlicense"), LicenseCategory::PublicDomain);
+        assert_eq!(
+            categorize_license("Unlicense"),
+            LicenseCategory::PublicDomain
+        );
     }
 
     #[test]
     fn test_categorize_proprietary() {
-        assert_eq!(categorize_license("Proprietary"), LicenseCategory::Proprietary);
-        assert_eq!(categorize_license("Commercial"), LicenseCategory::Proprietary);
+        assert_eq!(
+            categorize_license("Proprietary"),
+            LicenseCategory::Proprietary
+        );
+        assert_eq!(
+            categorize_license("Commercial"),
+            LicenseCategory::Proprietary
+        );
     }
 
     #[test]

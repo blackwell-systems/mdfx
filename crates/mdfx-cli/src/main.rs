@@ -1567,7 +1567,11 @@ fn install_vscode_extension() -> Result<(), Error> {
     let extensions_dir = get_vscode_extensions_dir()?;
     let extension_path = extensions_dir.join("mdfx-lsp");
 
-    println!("  {} {}", "Extension path:".cyan(), extension_path.display());
+    println!(
+        "  {} {}",
+        "Extension path:".cyan(),
+        extension_path.display()
+    );
     println!("  {} {}", "mdfx binary:".cyan(), mdfx_path);
     println!();
 
@@ -1635,17 +1639,15 @@ fn install_vscode_extension() -> Result<(), Error> {
 fn get_vscode_extensions_dir() -> Result<PathBuf, Error> {
     let home = std::env::var("HOME")
         .or_else(|_| std::env::var("USERPROFILE"))
-        .map_err(|_| {
-            Error::ParseError("Could not determine home directory".to_string())
-        })?;
+        .map_err(|_| Error::ParseError("Could not determine home directory".to_string()))?;
 
     let home_path = PathBuf::from(home);
 
     // Try different VS Code extension locations
     let candidates = [
-        home_path.join(".vscode/extensions"),           // Standard VS Code
-        home_path.join(".vscode-server/extensions"),    // VS Code Remote
-        home_path.join(".vscode-insiders/extensions"),  // VS Code Insiders
+        home_path.join(".vscode/extensions"),        // Standard VS Code
+        home_path.join(".vscode-server/extensions"), // VS Code Remote
+        home_path.join(".vscode-insiders/extensions"), // VS Code Insiders
     ];
 
     for candidate in &candidates {

@@ -11,11 +11,11 @@ use std::collections::HashMap;
 /// Status categories for version coloring
 #[derive(Debug, Clone, Copy, PartialEq)]
 enum VersionStatus {
-    Stable,      // Green - production ready
-    Beta,        // Yellow - testing/preview
-    Alpha,       // Orange - early development
-    Deprecated,  // Red - no longer supported
-    Dev,         // Purple - development only
+    Stable,     // Green - production ready
+    Beta,       // Yellow - testing/preview
+    Alpha,      // Orange - early development
+    Deprecated, // Red - no longer supported
+    Dev,        // Purple - development only
 }
 
 impl VersionStatus {
@@ -53,7 +53,11 @@ fn detect_status(version: &str) -> VersionStatus {
     if lower.contains("-alpha") || lower.contains("-a.") {
         return VersionStatus::Alpha;
     }
-    if lower.contains("-beta") || lower.contains("-b.") || lower.contains("-rc") || lower.contains("-preview") {
+    if lower.contains("-beta")
+        || lower.contains("-b.")
+        || lower.contains("-rc")
+        || lower.contains("-preview")
+    {
         return VersionStatus::Beta;
     }
     if lower.contains("-dev") || lower.contains("-snapshot") || lower.contains("-nightly") {
@@ -138,10 +142,7 @@ pub fn handle(
     let border_width = params.get("border_width").and_then(|v| v.parse().ok());
 
     // Corner radius - default to 3 for polished rounded look
-    let rx = params
-        .get("rx")
-        .and_then(|v| v.parse().ok())
-        .or(Some(3));
+    let rx = params.get("rx").and_then(|v| v.parse().ok()).or(Some(3));
 
     // URL for clickable links
     let _url = params.get("url").cloned();

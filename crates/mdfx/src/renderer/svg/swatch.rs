@@ -165,11 +165,12 @@ pub fn render(opts: SwatchOptions) -> String {
     // Build label element
     let label_color = opts.label_color.unwrap_or("white");
     // Ensure color has # prefix for SVG
-    let label_color_formatted = if label_color.starts_with('#') || label_color == "white" || label_color == "black" {
-        label_color.to_string()
-    } else {
-        format!("#{}", label_color)
-    };
+    let label_color_formatted =
+        if label_color.starts_with('#') || label_color == "white" || label_color == "black" {
+            label_color.to_string()
+        } else {
+            format!("#{}", label_color)
+        };
     let label_elem = if let Some(text) = opts.label {
         let font_size = if height > 24 { 14 } else { 11 };
         let y_pos = height / 2 + font_size / 3 + border_offset + shadow_padding / 2;
