@@ -370,6 +370,50 @@ Added test utility macros in `test_utils.rs` to reduce test boilerplate:
 
 Converted ~90 tests in parser.rs to use macros. Net reduction of ~325 lines of test code while maintaining full test coverage.
 
+#### Parameterized Tests with rstest
+
+Added `rstest` crate for parameterized testing, significantly reducing test boilerplate:
+
+- **converter.rs**: ~30 individual tests consolidated into 6 parameterized test functions
+- **shields.rs**: Color resolution, style existence, and error cases parameterized
+- **registry.rs**: Palette, glyph, style, frame, shield style, and context promotion tests parameterized
+
+Example transformation:
+```rust
+// Before: 10 separate test functions
+#[test] fn test_mathbold() { ... }
+#[test] fn test_fullwidth() { ... }
+// ... 8 more tests
+
+// After: 1 parameterized test
+#[rstest]
+#[case("ABC", "mathbold", "...")]
+#[case("ABC", "fullwidth", "...")]
+fn test_convert(#[case] input: &str, #[case] style: &str, #[case] expected: &str) { ... }
+```
+
+#### Lazy Static Test Fixtures
+
+Added shared test fixtures in `test_utils.rs` to avoid repeated initialization:
+
+```rust
+lazy_static! {
+    pub static ref TEST_CONVERTER: Converter = Converter::new().unwrap();
+    pub static ref TEST_REGISTRY: Registry = Registry::new().unwrap();
+    pub static ref TEST_SHIELDS: ShieldsRenderer = ShieldsRenderer::new().unwrap();
+}
+```
+
+Note: `TemplateParser` and `ComponentsRenderer` contain `Box<dyn Renderer>` which is not `Sync`, so they cannot be shared via `lazy_static`.
+
+#### Extended Test Macros for Registry and Shields
+
+Added new macros for registry and shields testing:
+
+- `test_registry_some!` / `test_registry_none!` - Registry lookup assertions
+- `test_shields_contains!` - Shields render output validation
+- `test_shields_color!` / `test_shields_color_err!` - Color resolution tests
+
 #### TechConfig Struct Refactor (Test Maintainability)
 
 Refactored `Primitive::Tech` from a struct variant to a tuple variant wrapping the new `TechConfig` struct. This enables `..Default::default()` syntax in tests, making them resilient to new field additions.
