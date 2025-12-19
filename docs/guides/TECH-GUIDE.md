@@ -168,27 +168,19 @@ Use `label` to customize the displayed text:
 
 ### Version Badges
 
-```markdown
-{{ui:tech:rust:label=v1.75.0/}}
-{{ui:tech:nodejs:label=v20 LTS/}}
-{{ui:tech:python:label=3.12/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_b4741c4c4d129345.svg) ![](assets/tech-guide/tech_5c7840bb8bb06279.svg) ![](assets/tech-guide/tech_e9ff6a5c66251301.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:label=v1.75.0/}}` | ![](assets/tech-guide/tech_b4741c4c4d129345.svg) |
+| `{{ui:tech:nodejs:label=v20 LTS/}}` | ![](assets/tech-guide/tech_5c7840bb8bb06279.svg) |
+| `{{ui:tech:python:label=3.12/}}` | ![](assets/tech-guide/tech_e9ff6a5c66251301.svg) |
 
 ### Status Labels
 
-```markdown
-{{ui:tech:docker:label=Running/}}
-{{ui:tech:postgresql:label=Connected/}}
-{{ui:tech:redis:label=Cached/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_53e24c544590d9f6.svg) ![](assets/tech-guide/tech_a1820d73eb86ed5a.svg) ![](assets/tech-guide/tech_1fdd23a31cc08678.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:docker:label=Running/}}` | ![](assets/tech-guide/tech_53e24c544590d9f6.svg) |
+| `{{ui:tech:postgresql:label=Connected/}}` | ![](assets/tech-guide/tech_a1820d73eb86ed5a.svg) |
+| `{{ui:tech:redis:label=Cached/}}` | ![](assets/tech-guide/tech_1fdd23a31cc08678.svg) |
 
 ### Glyph Syntax in Labels
 
@@ -310,20 +302,17 @@ Control the left (icon) and right (label) segment colors with `bg_left` and `bg_
 
 ### Custom Segment Colors
 
-```markdown
-{{ui:tech:rust:bg_left=DEA584:bg_right=B8856E/}}
-{{ui:tech:python:bg_left=3776AB:bg_right=FFD43B/}}
-```
-
-![](assets/tech-guide/tech_77cb0965d56f00bd.svg) ![](assets/tech-guide/tech_24fa14755759825f.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg_left=DEA584:bg_right=B8856E/}}` | ![](assets/tech-guide/tech_77cb0965d56f00bd.svg) |
+| `{{ui:tech:python:bg_left=3776AB:bg_right=FFD43B/}}` | ![](assets/tech-guide/tech_24fa14755759825f.svg) |
 
 ### With Chevrons
 
-![](assets/tech-guide/tech_fe00a167f32d408f.svg)![](assets/tech-guide/tech_299ba9ffc141a779.svg)
-
-```markdown
-{{ui:tech:rust:chevron=right:bg_left=DEA584:bg_right=B8856E/}}{{ui:tech:typescript:chevron=left:bg_left=3178C6:bg_right=2967A9/}}
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:chevron=right:bg_left=DEA584:bg_right=B8856E/}}` | ![](assets/tech-guide/tech_fe00a167f32d408f.svg) |
+| `{{ui:tech:typescript:chevron=left:bg_left=3178C6:bg_right=2967A9/}}` | ![](assets/tech-guide/tech_299ba9ffc141a779.svg) |
 
 ---
 
@@ -607,45 +596,34 @@ mdfx process template.md --backend shields
 
 Let the brand colors do the work - they're already optimized for each technology:
 
-```markdown
-{{ui:tech:rust/}}  <!-- Orange is Rust's brand -->
-{{ui:tech:go/}}    <!-- Cyan is Go's brand -->
-```
-
-**Rendered:** ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_710a7adb9ff00951.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust/}}` | ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) |
+| `{{ui:tech:go/}}` | ![](assets/tech-guide/tech_710a7adb9ff00951.svg) |
 
 ### 2. Match Logo to Background
 
 When overriding backgrounds, ensure contrast:
 
-```markdown
-<!-- Light background → black logo -->
-{{ui:tech:docker:bg=FFFFFF:logo=black/}}
-
-<!-- Dark background → white logo -->
-{{ui:tech:rust:bg=000000:logo=white/}}
-```
-
-**Rendered:** ![](assets/tech-guide/tech_a24a5597c1f62934.svg) ![](assets/tech-guide/tech_1237c8aa58e9b89d.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:docker:bg=FFFFFF:logo=black/}}` | ![](assets/tech-guide/tech_a24a5597c1f62934.svg) |
+| `{{ui:tech:rust:bg=000000:logo=white/}}` | ![](assets/tech-guide/tech_1237c8aa58e9b89d.svg) |
 
 ### 3. Short Labels for Compact Displays
 
-```markdown
-{{ui:tech:typescript:label=TS/}}
-{{ui:tech:javascript:label=JS/}}
-{{ui:tech:postgresql:label=PG/}}
-```
-
-**Rendered:** ![](assets/tech-guide/tech_2831da29465584bd.svg) ![](assets/tech-guide/tech_342f9caaad33cd0e.svg) ![](assets/tech-guide/tech_e4e09f595a9c8901.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:typescript:label=TS/}}` | ![](assets/tech-guide/tech_2831da29465584bd.svg) |
+| `{{ui:tech:javascript:label=JS/}}` | ![](assets/tech-guide/tech_342f9caaad33cd0e.svg) |
+| `{{ui:tech:postgresql:label=PG/}}` | ![](assets/tech-guide/tech_e4e09f595a9c8901.svg) |
 
 ### 4. Monochrome for Professional Docs
 
-```markdown
-{{ui:tech:rust:bg=333:logo=white:text_color=white/}}
-{{ui:tech:python:bg=333:logo=white:text_color=white/}}
-```
-
-**Rendered:** ![](assets/tech-guide/tech_6194845c38af3b48.svg) ![](assets/tech-guide/tech_b59a52b8bd8e85da.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg=333:logo=white:text_color=white/}}` | ![](assets/tech-guide/tech_6194845c38af3b48.svg) |
+| `{{ui:tech:python:bg=333:logo=white:text_color=white/}}` | ![](assets/tech-guide/tech_b59a52b8bd8e85da.svg) |
 
 ---
 
