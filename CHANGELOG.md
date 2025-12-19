@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Expanded Tech Icon Library (23 new icons)
+
+The mdfx-icons crate now includes 90+ technology icons, up from 70:
+
+**DevOps Extended (10 icons):**
+- `pulumi` - Infrastructure as code
+- `vagrant` - Development environments
+- `helm` - Kubernetes package manager
+- `argo` / `argocd` - GitOps continuous delivery
+- `consul` - Service mesh and discovery
+- `vault` - Secrets management
+- `datadog` - Monitoring and analytics
+- `sentry` - Error tracking
+- `newrelic` - Observability platform
+
+**Testing (4 icons):**
+- `vitest` - Vite-native testing framework
+- `cypress` - E2E testing
+- `selenium` - Browser automation
+- `mocha` - JavaScript test framework
+
+**AI/ML (6 icons):**
+- `tensorflow` - Machine learning framework
+- `pytorch` - Deep learning library
+- `huggingface` - AI model hub
+- `jupyter` - Interactive notebooks
+- `pandas` - Data analysis
+- `numpy` - Numerical computing
+
+**Runtime/Package Managers (3 icons):**
+- `pnpm` - Fast, disk-efficient package manager
+- `bun` - All-in-one JavaScript runtime
+- `deno` - Secure JavaScript/TypeScript runtime
+
 ### Changed
 
 #### mdfx Tech Renderer Migration to badgefx

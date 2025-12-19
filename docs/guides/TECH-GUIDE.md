@@ -696,7 +696,7 @@ When overriding backgrounds, ensure contrast:
 ## Available Technologies
 
 <details>
-<summary>Click to expand full list of 70+ supported technologies</summary>
+<summary>Click to expand full list of 90+ supported technologies</summary>
 
 ### Languages
 
@@ -787,6 +787,48 @@ When overriding backgrounds, ensure contrast:
 | `githubactions` | | GitHub Actions |
 | `prometheus` | | Prometheus |
 | `grafana` | | Grafana |
+
+### DevOps Extended
+
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `pulumi` | | Pulumi (IaC) |
+| `vagrant` | | Vagrant |
+| `helm` | | Helm |
+| `argo` | `argocd` | Argo CD |
+| `consul` | | HashiCorp Consul |
+| `vault` | | HashiCorp Vault |
+| `datadog` | | Datadog |
+| `sentry` | | Sentry |
+| `newrelic` | | New Relic |
+
+### Testing
+
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `vitest` | | Vitest |
+| `cypress` | | Cypress |
+| `selenium` | | Selenium |
+| `mocha` | | Mocha |
+
+### AI/ML
+
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `tensorflow` | | TensorFlow |
+| `pytorch` | | PyTorch |
+| `huggingface` | | Hugging Face |
+| `jupyter` | | Jupyter |
+| `pandas` | | pandas |
+| `numpy` | | NumPy |
+
+### Runtime/Package Managers
+
+| Name | Aliases | Description |
+|------|---------|-------------|
+| `pnpm` | | pnpm |
+| `bun` | | Bun |
+| `deno` | | Deno |
 
 ### Tools
 
