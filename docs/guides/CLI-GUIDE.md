@@ -580,13 +580,30 @@ Scan mode is useful after refactoring when you've removed components from your m
 
 ### `mdfx lsp`
 
-Start the Language Server Protocol server (for editor integration).
-
-```bash
-mdfx lsp
-```
+Language Server Protocol commands for editor integration.
 
 Requires: `cargo install mdfx-cli --features lsp`
+
+#### `mdfx lsp install`
+
+Install the VS Code extension automatically:
+
+```bash
+mdfx lsp install                  # Install for VS Code (default)
+mdfx lsp install --editor vscode  # Explicit editor flag
+```
+
+This creates the extension at `~/.vscode/extensions/mdfx-lsp/` and runs `npm install`.
+
+#### `mdfx lsp run`
+
+Start the LSP server (used by editors, not typically run manually):
+
+```bash
+mdfx lsp run
+```
+
+The server communicates over stdio. See [LSP Guide](LSP-GUIDE.md) for editor configuration.
 
 ---
 
