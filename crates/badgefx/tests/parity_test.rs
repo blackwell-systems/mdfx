@@ -37,6 +37,7 @@ fn mdfx_render_full(
         bg_left,
         bg_right,
         None, // raised
+        None, // logo_size
     )
 }
 

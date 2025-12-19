@@ -97,7 +97,7 @@ fn render_two_segment(
 
     // Hardcoded values matching original mdfx tech.rs
     let icon_width: u32 = 36;
-    let icon_size: u32 = 14;
+    let icon_size: u32 = badge.logo_size.unwrap_or(14);
 
     let label_width = estimate_text_width(label) + 16;
     let total_width = icon_width + label_width;
@@ -306,8 +306,8 @@ fn render_raised_badge(
     let label_width = estimate_text_width(label) + 16;
     let total_width = icon_width + label_width;
 
-    // Icon sizing and positioning
-    let icon_size: u32 = 16; // Slightly larger icon for raised badges
+    // Icon sizing and positioning (default 16 for raised badges)
+    let icon_size: u32 = badge.logo_size.unwrap_or(16);
     let icon_x = (icon_width as f32 - icon_size as f32) / 2.0;
     let icon_y = (icon_height as f32 - icon_size as f32) / 2.0;
     let scale = icon_size as f32 / 24.0;
@@ -372,7 +372,7 @@ fn render_icon_only(
     let metrics = SvgMetrics::from_style(badge.style);
     let height = metrics.height as u32;
     let width: u32 = 40;
-    let icon_size: u32 = 16;
+    let icon_size: u32 = badge.logo_size.unwrap_or(16);
     let icon_x = (width as f32 - icon_size as f32) / 2.0;
     let icon_y = (height as f32 - icon_size as f32) / 2.0;
     let scale = icon_size as f32 / 24.0;
@@ -503,7 +503,7 @@ fn render_outline_two_segment(
     let icon_width: u32 = 36;
     let label_width = estimate_text_width(label) + 16;
     let total_width = icon_width + label_width;
-    let icon_size: u32 = 14;
+    let icon_size: u32 = badge.logo_size.unwrap_or(14);
     let icon_x = (icon_width as f32 - icon_size as f32) / 2.0;
     let icon_y = (height as f32 - icon_size as f32) / 2.0;
     let font_size = if height > 24 { 11 } else { 10 };
@@ -577,7 +577,7 @@ fn render_outline_icon_only(badge: &TechBadge, icon_path: &str, brand_color: &st
     let metrics = SvgMetrics::from_style(BadgeStyle::FlatSquare);
     let height = metrics.height as u32;
     let width: u32 = 40;
-    let icon_size: u32 = 16;
+    let icon_size: u32 = badge.logo_size.unwrap_or(16);
     let icon_x = (width as f32 - icon_size as f32) / 2.0;
     let icon_y = (height as f32 - icon_size as f32) / 2.0;
     let scale = icon_size as f32 / 24.0;

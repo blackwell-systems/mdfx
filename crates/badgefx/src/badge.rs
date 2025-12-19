@@ -29,6 +29,8 @@ pub struct TechBadge {
     pub chevron: Option<Chevron>,
     /// Raised icon effect (pixels above/below label)
     pub raised: Option<u32>,
+    /// Logo/icon size in pixels (default: 14)
+    pub logo_size: Option<u32>,
     /// Outline mode
     pub outline: bool,
     /// Custom font family
@@ -53,6 +55,7 @@ impl TechBadge {
             corners: None,
             chevron: None,
             raised: None,
+            logo_size: None,
             outline: false,
             font: None,
             custom_icon: None,
@@ -178,6 +181,12 @@ impl BadgeBuilder {
     /// Add raised icon effect
     pub fn raised(mut self, pixels: u32) -> Self {
         self.badge.raised = Some(pixels);
+        self
+    }
+
+    /// Set logo/icon size in pixels
+    pub fn logo_size(mut self, size: u32) -> Self {
+        self.badge.logo_size = Some(size);
         self
     }
 

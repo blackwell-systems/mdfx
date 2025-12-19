@@ -46,6 +46,7 @@ pub fn get_logo_color_for_bg(bg_hex: &str) -> &'static str {
 /// - Chevron/arrow shapes for tab-style badges
 /// - Independent segment background colors
 /// - Outline/ghost style (transparent fill with border)
+/// - Custom logo/icon size
 #[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
     name: &str,
@@ -63,6 +64,7 @@ pub fn render_with_options(
     bg_left: Option<&str>,
     bg_right: Option<&str>,
     raised: Option<u32>,
+    logo_size: Option<u32>,
 ) -> String {
     // Build badge using badgefx
     let mut builder = BadgeBuilder::new(name);
@@ -141,6 +143,11 @@ pub fn render_with_options(
         builder = builder.raised(px);
     }
 
+    // Set logo size if specified
+    if let Some(size) = logo_size {
+        builder = builder.logo_size(size);
+    }
+
     // Handle outline/ghost style
     if matches!(style.to_lowercase().as_str(), "outline" | "ghost") {
         builder = builder.outline();
@@ -197,16 +204,7 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
+            None, None, None, None, None, None, None, None, None, None, None,
         );
 
         assert!(svg.contains("<svg"));
@@ -223,14 +221,7 @@ mod tests {
             "flat-square",
             Some("FF0000"),
             Some(2),
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
+            None, None, None, None, None, None, None, None, None,
         );
 
         assert!(svg.contains("<svg"));
@@ -245,16 +236,7 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "outline",
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
+            None, None, None, None, None, None, None, None, None, None, None,
         );
 
         assert!(svg.contains("<svg"));
@@ -270,16 +252,9 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
+            None, None, None, None, None, None,
             Some("right"),
-            None,
-            None,
-            None,
+            None, None, None, None,
         );
 
         assert!(svg.contains("<svg"));
@@ -295,20 +270,30 @@ mod tests {
             "DEA584",
             "000000",
             "flat",
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
+            None, None, None, None, None, None, None, None, None,
             Some(4), // 4px raised
+            None,
         );
 
         assert!(svg.contains("<svg"));
         // Raised badge should have increased height (20 + 4*2 = 28)
         assert!(svg.contains("height=\"28\""));
+    }
+
+    #[test]
+    fn test_render_with_logo_size() {
+        let svg = render_with_options(
+            "rust",
+            Some("rust"),
+            "DEA584",
+            "FFFFFF",
+            "flat-square",
+            None, None, None, None, None, None, None, None, None, None,
+            Some(18), // 18px logo
+        );
+
+        assert!(svg.contains("<svg"));
+        // Larger logo should have different scale
+        assert!(svg.contains("scale(0.75)")); // 18/24 = 0.75
     }
 }

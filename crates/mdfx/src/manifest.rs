@@ -344,6 +344,7 @@ mod tests {
             bg_left: None,
             bg_right: None,
             raised: None,
+            logo_size: None,
         };
 
         let info = PrimitiveInfo::from(&primitive);

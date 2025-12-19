@@ -93,6 +93,8 @@ pub enum Primitive {
         bg_right: Option<String>,
         /// Raised icon effect: pixels the icon extends above/below the label section.
         raised: Option<u32>,
+        /// Logo/icon size in pixels (default: 14 for two-segment, 16 for icon-only).
+        logo_size: Option<u32>,
     },
 
     /// Progress bar with customizable track and fill
@@ -470,6 +472,7 @@ mod tests {
             bg_left: None,
             bg_right: None,
             raised: None,
+            logo_size: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -498,6 +501,7 @@ mod tests {
             bg_left: None,
             bg_right: None,
             raised: None,
+            logo_size: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
@@ -527,6 +531,7 @@ mod tests {
             bg_left: None,
             bg_right: None,
             raised: None,
+            logo_size: None,
         };
 
         if let Primitive::Tech {

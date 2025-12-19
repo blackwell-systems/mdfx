@@ -6,6 +6,22 @@ use crate::primitive::Primitive;
 use crate::renderer::svg::tech::{get_brand_color, get_logo_color_for_bg};
 use std::collections::HashMap;
 
+/// Parse logo_size parameter - supports presets and custom values
+/// Presets: xs (10px), sm (12px), md (14px), lg (16px), xl (18px), xxl (20px)
+fn parse_logo_size(value: Option<&String>) -> Option<u32> {
+    value.and_then(|v| {
+        match v.to_lowercase().as_str() {
+            "xs" => Some(10),
+            "sm" => Some(12),
+            "md" => Some(14),
+            "lg" => Some(16),
+            "xl" => Some(18),
+            "xxl" => Some(20),
+            _ => v.parse().ok(),
+        }
+    })
+}
+
 /// Parse corners parameter - supports presets and custom values
 /// Returns (uniform_rx, per_corner_radii)
 fn parse_corners(
@@ -112,6 +128,9 @@ pub fn handle(
     // Raised icon effect: icon section extends above/below label
     let raised = params.get("raised").and_then(|v| v.parse().ok());
 
+    // Logo/icon size - supports presets (xs, sm, md, lg, xl, xxl) or custom px values
+    let logo_size = parse_logo_size(params.get("logo_size").or_else(|| params.get("icon_size")));
+
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
         bg_color,
@@ -129,5 +148,6 @@ pub fn handle(
         bg_left,
         bg_right,
         raised,
+        logo_size,
     }))
 }
