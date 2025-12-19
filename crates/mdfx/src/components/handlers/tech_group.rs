@@ -19,24 +19,6 @@ use std::collections::HashMap;
 /// Component types that can participate in badge groups
 const GROUPABLE_COMPONENTS: &[&str] = &["tech", "version", "license"];
 
-/// Parameters that can be inherited from group to child badges
-const INHERITABLE_PARAMS: &[&str] = &[
-    "bg",
-    "border",
-    "border_width",
-    "text_color",
-    "text",
-    "color",
-    "logo",
-    "font",
-    "font_family",
-    "style",
-    "divider",
-    "raised",
-    "logo_size",
-    "icon_size",
-];
-
 /// Find all groupable component invocations in content.
 /// Returns (start, end) positions for each match.
 fn find_groupable_components(content: &str) -> Vec<(usize, usize)> {
@@ -95,10 +77,11 @@ pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result
         .and_then(|v| v.parse::<u32>().ok())
         .unwrap_or(0);
 
-    // Collect inheritable params from group
-    let inherited: Vec<(&str, &str)> = INHERITABLE_PARAMS
+    // Collect all params from group (except group-only params like "gap")
+    let inherited: Vec<(&str, &str)> = params
         .iter()
-        .filter_map(|&key| params.get(key).map(|v| (key, v.as_str())))
+        .filter(|(k, _)| *k != "gap")
+        .map(|(k, v)| (k.as_str(), v.as_str()))
         .collect();
 
     let mut result = content.to_string();

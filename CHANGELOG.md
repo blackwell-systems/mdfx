@@ -216,7 +216,7 @@ The `tech-group` component now supports style inheritance and mixed badge types.
 {{/ui}}
 ```
 
-**Inheritable params:** `bg`, `border`, `border_width`, `text_color`, `logo`, `style`, `divider`, `logo_size`
+**All params are inheritable** - any param set on the group passes to children (unless overridden)
 
 Benefits:
 - DRY - Set theme once instead of repeating on every badge
