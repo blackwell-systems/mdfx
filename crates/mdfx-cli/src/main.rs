@@ -792,13 +792,15 @@ fn process_file(
 
         if let Some(name) = detected {
             eprintln!("{} Auto-detected target: {}", "Info:".cyan(), name.green());
-            get_target(name).unwrap()
+            // Safe: detect_target_from_path only returns known target names
+            get_target(name).expect("detected target should be valid")
         } else {
             eprintln!(
                 "{} Could not auto-detect target, using github",
                 "Info:".cyan()
             );
-            get_target("github").unwrap()
+            // Safe: "github" is a builtin target
+            get_target("github").expect("github target should exist")
         }
     } else {
         get_target(target_name).ok_or_else(|| {
@@ -1215,7 +1217,11 @@ fn clean_assets(assets_dir: &str, dry_run: bool, scan_pattern: Option<&str>) -> 
             continue;
         }
 
-        let relative_path = path.to_str().unwrap().to_string();
+        // Skip paths that aren't valid UTF-8 (rare but possible)
+        let Some(relative_path) = path.to_str() else {
+            continue;
+        };
+        let relative_path = relative_path.to_string();
 
         // Also check just the filename (some refs may use different paths)
         let filename = path
@@ -1465,7 +1471,8 @@ fn build_multi_target(
     let mut success_count = 0;
 
     for target_name in &target_names {
-        let target = get_target(target_name).unwrap();
+        // Safe: target_names are validated above
+        let target = get_target(target_name).expect("target was validated");
 
         print!("  {} {} ", "Building:".cyan(), target_name);
 
