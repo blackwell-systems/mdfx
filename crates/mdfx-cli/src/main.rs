@@ -323,7 +323,11 @@ enum LspCommands {
     ///
     /// The server communicates over stdio using the LSP protocol.
     /// This is typically called by your editor, not manually.
-    Run,
+    Run {
+        /// Use stdio for communication (default, accepted for compatibility)
+        #[arg(long, default_value = "true")]
+        stdio: bool,
+    },
 
     /// Install editor extension for LSP support
     ///
@@ -484,8 +488,9 @@ fn run(cli: Cli) -> Result<(), Error> {
 
         #[cfg(feature = "lsp")]
         Commands::Lsp(lsp_cmd) => match lsp_cmd {
-            LspCommands::Run => {
+            LspCommands::Run { stdio: _ } => {
                 // Run the LSP server using tokio runtime
+                // stdio is always true (only mode supported)
                 tokio::runtime::Runtime::new()
                     .expect("Failed to create tokio runtime")
                     .block_on(lsp::run_lsp_server());
