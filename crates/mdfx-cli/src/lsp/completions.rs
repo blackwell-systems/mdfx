@@ -66,13 +66,14 @@ impl CachedCompletions {
                     char,
                     char.chars().next().unwrap_or(' ') as u32
                 ))),
-                insert_text: Some(format!("{}/ }}}}", name)),
+                insert_text: Some(format!("{}/", name)),
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                 ..Default::default()
             })
             .collect();
 
         // Build style completions (includes aliases)
+        // Note: insert_text is just the name; closing }} comes from editor auto-pair
         let styles: Vec<CompletionItem> = registry
             .styles()
             .iter()
@@ -82,8 +83,8 @@ impl CachedCompletions {
                     kind: Some(CompletionItemKind::FUNCTION),
                     detail: Some(style.name.clone()),
                     documentation: style.description.clone().map(Documentation::String),
-                    insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", name, name)),
-                    insert_text_format: Some(InsertTextFormat::SNIPPET),
+                    insert_text: Some(name.clone()),
+                    insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                     ..Default::default()
                 }];
                 for alias in &style.aliases {
@@ -92,8 +93,8 @@ impl CachedCompletions {
                         kind: Some(CompletionItemKind::FUNCTION),
                         detail: Some(format!("{} (alias for {})", style.name, name)),
                         documentation: style.description.clone().map(Documentation::String),
-                        insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", alias, alias)),
-                        insert_text_format: Some(InsertTextFormat::SNIPPET),
+                        insert_text: Some(alias.clone()),
+                        insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                         ..Default::default()
                     });
                 }
@@ -102,6 +103,7 @@ impl CachedCompletions {
             .collect();
 
         // Build frame completions (includes aliases)
+        // Note: insert_text is just the name; closing }} comes from editor auto-pair
         let frames: Vec<CompletionItem> = registry
             .frames()
             .iter()
@@ -115,8 +117,8 @@ impl CachedCompletions {
                         frame.suffix.trim()
                     )),
                     documentation: frame.description.clone().map(Documentation::String),
-                    insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", name, name)),
-                    insert_text_format: Some(InsertTextFormat::SNIPPET),
+                    insert_text: Some(name.clone()),
+                    insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                     ..Default::default()
                 }];
                 for alias in &frame.aliases {
@@ -130,8 +132,8 @@ impl CachedCompletions {
                             name
                         )),
                         documentation: frame.description.clone().map(Documentation::String),
-                        insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", alias, alias)),
-                        insert_text_format: Some(InsertTextFormat::SNIPPET),
+                        insert_text: Some(alias.clone()),
+                        insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                         ..Default::default()
                     });
                 }
@@ -334,8 +336,8 @@ impl CachedCompletions {
                 Example: {{ui:row}}{{ui:tech:rust/}}{{ui:tech:go/}}{{/ui}}\n\
                 Example: {{ui:row:align=left}}...{{/ui}}".to_string()
             )),
-            insert_text: Some("ui:row}}$1{{/ui}}".to_string()),
-            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            insert_text: Some("ui:row".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
             ..Default::default()
         });
 
@@ -354,8 +356,8 @@ impl CachedCompletions {
                 Example: {{ui:tech-group}}{{ui:tech:rust/}}{{ui:tech:go/}}{{/ui}}\n\
                 Example: {{ui:tech-group:style=flat:gap=2}}...{{/ui}}".to_string()
             )),
-            insert_text: Some("ui:tech-group}}$1{{/ui}}".to_string()),
-            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            insert_text: Some("ui:tech-group".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
             ..Default::default()
         });
 
@@ -376,7 +378,7 @@ impl CachedCompletions {
                 Example: {{ui:sparkline:1,3,2,5,4/}}\n\
                 Example: {{ui:sparkline:1,2,3:type=bar:fill=accent/}}".to_string()
             )),
-            insert_text: Some("ui:sparkline:${1:values}/}}".to_string()),
+            insert_text: Some("ui:sparkline:${1:values}/".to_string()),
             insert_text_format: Some(InsertTextFormat::SNIPPET),
             ..Default::default()
         });
@@ -397,7 +399,7 @@ impl CachedCompletions {
                 Example: {{ui:rating:4.5/}}\n\
                 Example: {{ui:rating:3:max=5:icon=heart:fill=error/}}".to_string()
             )),
-            insert_text: Some("ui:rating:${1:value}/}}".to_string()),
+            insert_text: Some("ui:rating:${1:value}/".to_string()),
             insert_text_format: Some(InsertTextFormat::SNIPPET),
             ..Default::default()
         });
@@ -419,7 +421,7 @@ impl CachedCompletions {
                 Example: {{ui:waveform:0.5,-0.3,0.8,-0.6/}}\n\
                 Example: {{ui:waveform:1,-1,0.5:positive=accent:negative=pink/}}".to_string()
             )),
-            insert_text: Some("ui:waveform:${1:values}/}}".to_string()),
+            insert_text: Some("ui:waveform:${1:values}/".to_string()),
             insert_text_format: Some(InsertTextFormat::SNIPPET),
             ..Default::default()
         });
@@ -429,6 +431,7 @@ impl CachedCompletions {
         top_level.extend(components.clone());
 
         // Build UI namespace completions (shown after {{ui:)
+        // Note: insert_text does NOT include closing }} since many editors auto-pair brackets
         let ui_namespace = vec![
             CompletionItem {
                 label: "tech:".to_string(),
@@ -450,7 +453,7 @@ impl CachedCompletions {
                     "Render version badges with auto-detected status coloring.\n\n\
                     Example: {{ui:version:1.0.0/}}, {{ui:version:2.0.0-beta.1/}}".to_string()
                 )),
-                insert_text: Some("version:${1:version}/}}".to_string()),
+                insert_text: Some("version:${1:version}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
@@ -462,7 +465,7 @@ impl CachedCompletions {
                     "Render license badges with category-aware coloring.\n\n\
                     Example: {{ui:license:MIT/}}, {{ui:license:Apache-2.0/}}".to_string()
                 )),
-                insert_text: Some("license:${1:license}/}}".to_string()),
+                insert_text: Some("license:${1:license}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
@@ -486,8 +489,8 @@ impl CachedCompletions {
                     "Horizontal row of badges with alignment control.\n\n\
                     Example: {{ui:row}}...{{/ui}}".to_string()
                 )),
-                insert_text: Some("row}}$1{{/ui}}".to_string()),
-                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                insert_text: Some("row".to_string()),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                 ..Default::default()
             },
             CompletionItem {
@@ -498,8 +501,8 @@ impl CachedCompletions {
                     "Group badges with automatic corner handling.\n\n\
                     Example: {{ui:tech-group}}...{{/ui}}".to_string()
                 )),
-                insert_text: Some("tech-group}}$1{{/ui}}".to_string()),
-                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                insert_text: Some("tech-group".to_string()),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                 ..Default::default()
             },
             CompletionItem {
@@ -510,7 +513,7 @@ impl CachedCompletions {
                     "Render progress bar visualization.\n\n\
                     Example: {{ui:progress:75/}}".to_string()
                 )),
-                insert_text: Some("progress:${1:value}/}}".to_string()),
+                insert_text: Some("progress:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
@@ -522,7 +525,7 @@ impl CachedCompletions {
                     "Render donut/pie chart visualization.\n\n\
                     Example: {{ui:donut:75/}}".to_string()
                 )),
-                insert_text: Some("donut:${1:value}/}}".to_string()),
+                insert_text: Some("donut:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
@@ -534,7 +537,7 @@ impl CachedCompletions {
                     "Render gauge/speedometer visualization.\n\n\
                     Example: {{ui:gauge:75/}}".to_string()
                 )),
-                insert_text: Some("gauge:${1:value}/}}".to_string()),
+                insert_text: Some("gauge:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
@@ -546,7 +549,7 @@ impl CachedCompletions {
                     "Mini inline chart for data visualization.\n\n\
                     Example: {{ui:sparkline:1,3,2,5,4/}}".to_string()
                 )),
-                insert_text: Some("sparkline:${1:values}/}}".to_string()),
+                insert_text: Some("sparkline:${1:values}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
@@ -558,7 +561,7 @@ impl CachedCompletions {
                     "Star/heart rating display.\n\n\
                     Example: {{ui:rating:4.5/}}".to_string()
                 )),
-                insert_text: Some("rating:${1:value}/}}".to_string()),
+                insert_text: Some("rating:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
@@ -570,7 +573,7 @@ impl CachedCompletions {
                     "Audio-style waveform visualization.\n\n\
                     Example: {{ui:waveform:0.5,-0.3,0.8/}}".to_string()
                 )),
-                insert_text: Some("waveform:${1:values}/}}".to_string()),
+                insert_text: Some("waveform:${1:values}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
                 ..Default::default()
             },
