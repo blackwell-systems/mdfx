@@ -803,7 +803,7 @@ impl MdfxLanguageServer {
     }
 
     /// Generate diagnostics for template syntax errors
-    fn generate_diagnostics(&self, text: &str) -> Vec<Diagnostic> {
+    fn generate_diagnostics(&self, text: &str, uri: &Url) -> Vec<Diagnostic> {
         let mut diagnostics = Vec::new();
 
         // Collect valid tech names for diagnostics
@@ -860,7 +860,7 @@ impl MdfxLanguageServer {
                                 ),
                                 related_information: Some(vec![DiagnosticRelatedInformation {
                                     location: Location {
-                                        uri: Url::parse("file:///").unwrap(), // Will be fixed by caller
+                                        uri: uri.clone(),
                                         range: Range {
                                             start: Position { line: open_line, character: open_start },
                                             end: Position { line: open_line, character: open_end },
@@ -1257,7 +1257,7 @@ impl LanguageServer for MdfxLanguageServer {
             docs.insert(params.text_document.uri.to_string(), text.clone());
         }
 
-        let diagnostics = self.generate_diagnostics(&text);
+        let diagnostics = self.generate_diagnostics(&text, &uri);
         self.client
             .publish_diagnostics(uri, diagnostics, None)
             .await;
@@ -1271,7 +1271,7 @@ impl LanguageServer for MdfxLanguageServer {
                 docs.insert(params.text_document.uri.to_string(), change.text.clone());
             }
 
-            let diagnostics = self.generate_diagnostics(&change.text);
+            let diagnostics = self.generate_diagnostics(&change.text, &uri);
             self.client
                 .publish_diagnostics(uri, diagnostics, None)
                 .await;
@@ -1568,4 +1568,63 @@ pub async fn run_lsp_server() {
 
     let (service, socket) = LspService::new(MdfxLanguageServer::new);
     Server::new(stdin, stdout, socket).serve(service).await;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use rstest::rstest;
+
+    #[rstest]
+    #[case("{{glyph:star/}}", vec![(0, false, true, "glyph:star", 15)])]
+    #[case("{{bold}}text{{/bold}}", vec![(0, false, false, "bold", 8), (12, true, false, "bold", 21)])]
+    #[case("{{//}}", vec![(0, true, true, "", 6)])] // Universal closer ends with /}}
+    #[case("text {{ui:tech:rust/}} more", vec![(5, false, true, "ui:tech:rust", 22)])]
+    #[case("no templates here", vec![])]
+    #[case("{{a}}{{b/}}{{/c}}", vec![(0, false, false, "a", 5), (5, false, true, "b", 11), (11, true, false, "c", 17)])]
+    fn test_find_templates(
+        #[case] input: &str,
+        #[case] expected: Vec<(usize, bool, bool, &str, usize)>,
+    ) {
+        let result = MdfxLanguageServer::find_templates(input);
+        assert_eq!(result, expected);
+    }
+
+    #[rstest]
+    #[case("bold", "bold")]
+    #[case("italic:arg", "italic")]
+    #[case("frame:gradient", "frame:gradient")]
+    #[case("frame:gradient:args", "frame:gradient")]
+    #[case("ui:tech:rust", "ui")]
+    fn test_extract_tag_name(#[case] content: &str, #[case] expected: &str) {
+        let result = MdfxLanguageServer::extract_tag_name(content);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_find_templates_edge_cases() {
+        // Incomplete template (no closing)
+        assert_eq!(MdfxLanguageServer::find_templates("{{incomplete"), vec![]);
+
+        // Empty line
+        assert_eq!(MdfxLanguageServer::find_templates(""), vec![]);
+
+        // Single brace (not a template)
+        assert_eq!(MdfxLanguageServer::find_templates("{not}a{template}"), vec![]);
+
+        // Adjacent templates
+        let result = MdfxLanguageServer::find_templates("{{a}}{{b}}");
+        assert_eq!(result.len(), 2);
+    }
+
+    #[test]
+    fn test_find_templates_self_closing_variants() {
+        // Self-closing with content
+        let result = MdfxLanguageServer::find_templates("{{swatch:red/}}");
+        assert_eq!(result, vec![(0, false, true, "swatch:red", 15)]);
+
+        // Regular closing (not self-closing)
+        let result = MdfxLanguageServer::find_templates("{{/bold}}");
+        assert_eq!(result, vec![(0, true, false, "bold", 9)]);
+    }
 }
