@@ -94,6 +94,7 @@ pub fn render(
 }
 
 /// Render a slider with track and thumb at position
+#[allow(clippy::too_many_arguments)]
 fn render_slider(
     percent: u8,
     width: u32,

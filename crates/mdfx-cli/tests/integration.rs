@@ -6,6 +6,8 @@
 //! - Asset generation and manifest updates
 //! - Error handling
 
+#![allow(deprecated)] // cargo_bin is deprecated but replacement requires build-dir changes
+
 use assert_cmd::Command;
 use predicates::prelude::*;
 use rstest::rstest;
