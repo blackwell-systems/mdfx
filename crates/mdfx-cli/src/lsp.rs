@@ -444,7 +444,7 @@ impl MdfxLanguageServer {
             let line_num = line_num as u32;
 
             // Find all templates in this line using simple string scanning
-            for (start, is_closing, _is_self_closing, content, _end) in Self::find_templates(line) {
+            for (start, is_closing, _is_self_closing, _is_malformed, content, _end) in Self::find_templates(line) {
                 let template_start = start + 2 + if is_closing { 1 } else { 0 };
 
                 let new_tokens =
@@ -479,10 +479,11 @@ impl MdfxLanguageServer {
     }
 
     /// Find all mdfx templates in a line without regex
-    /// Returns: Vec<(start_pos, is_closing_tag, is_self_closing, content, end_pos)>
+    /// Returns: Vec<(start, is_closing_tag, is_self_closing, is_malformed, content, end)>
     /// - is_closing_tag: starts with {{/ (e.g., {{/bold}})
     /// - is_self_closing: ends with /}} (e.g., {{glyph:star/}})
-    fn find_templates(line: &str) -> Vec<(usize, bool, bool, &str, usize)> {
+    /// - is_malformed: missing closing `}}` (e.g., {{name} instead of {{name}})
+    fn find_templates(line: &str) -> Vec<(usize, bool, bool, bool, &str, usize)> {
         let mut results = Vec::new();
         let mut pos = 0;
         let bytes = line.as_bytes();
@@ -501,24 +502,67 @@ impl MdfxLanguageServer {
                 }
 
                 let content_start = pos;
+                let mut found_end = false;
+                let mut is_malformed = false;
 
                 // Find the end: either /}} or }}
                 while pos < len {
+                    // Check for malformed: single } followed by non-}
+                    if bytes[pos] == b'}'
+                        && pos + 1 < len
+                        && bytes[pos + 1] != b'}'
+                        && bytes[pos + 1] != b'/'
+                    {
+                        // Found single } - this is malformed {{name} syntax
+                        let content = &line[content_start..pos];
+                        results.push((start, is_closing_tag, false, true, content, pos + 1));
+                        pos += 1;
+                        found_end = true;
+                        is_malformed = true;
+                        break;
+                    }
+
+                    // Check for another {{ before finding }} - indicates malformed
+                    if bytes[pos] == b'{' && pos + 1 < len && bytes[pos + 1] == b'{' {
+                        // Found {{ inside template - the current template is unclosed
+                        // Don't consume this {{, let the next iteration handle it
+                        let content = &line[content_start..pos];
+                        results.push((start, is_closing_tag, false, true, content, pos));
+                        found_end = true;
+                        is_malformed = true;
+                        break;
+                    }
+
                     if bytes[pos] == b'}' && pos + 1 < len && bytes[pos + 1] == b'}' {
                         // Found }} - not self-closing
                         let content = &line[content_start..pos];
-                        results.push((start, is_closing_tag, false, content, pos + 2));
+                        results.push((start, is_closing_tag, false, false, content, pos + 2));
                         pos += 2;
+                        found_end = true;
                         break;
-                    } else if bytes[pos] == b'/' && pos + 2 < len && bytes[pos + 1] == b'}' && bytes[pos + 2] == b'}' {
+                    } else if bytes[pos] == b'/'
+                        && pos + 2 < len
+                        && bytes[pos + 1] == b'}'
+                        && bytes[pos + 2] == b'}'
+                    {
                         // Found /}} - self-closing
                         let content = &line[content_start..pos];
-                        results.push((start, is_closing_tag, true, content, pos + 3));
+                        results.push((start, is_closing_tag, true, false, content, pos + 3));
                         pos += 3;
+                        found_end = true;
                         break;
                     }
                     pos += 1;
                 }
+
+                // If we didn't find any end marker, mark as malformed
+                if !found_end {
+                    let content = &line[content_start..len];
+                    results.push((start, is_closing_tag, false, true, content, len));
+                    break;
+                }
+
+                let _ = is_malformed; // suppress warning
             } else {
                 pos += 1;
             }
@@ -855,10 +899,28 @@ impl MdfxLanguageServer {
         let mut tag_stack: Vec<(String, u32, u32, u32)> = Vec::new();
 
         for (line_num, line) in text.lines().enumerate() {
-            for (start, is_closing_tag, is_self_closing, content, end) in Self::find_templates(line) {
+            for (start, is_closing_tag, is_self_closing, is_malformed, content, end) in Self::find_templates(line) {
                 let start_col = start as u32;
                 let end_col = end as u32;
                 let line_num = line_num as u32;
+
+                // Handle malformed templates (missing `}}`)
+                if is_malformed {
+                    diagnostics.push(Diagnostic {
+                        range: Range {
+                            start: Position { line: line_num, character: start_col },
+                            end: Position { line: line_num, character: end_col },
+                        },
+                        severity: Some(DiagnosticSeverity::ERROR),
+                        source: Some("mdfx".to_string()),
+                        message: format!(
+                            "Malformed template '{{{{{}' - missing closing '}}}}'",
+                            content
+                        ),
+                        ..Default::default()
+                    });
+                    continue;
+                }
 
                 // Handle closing tags - check for matching open tag
                 if is_closing_tag {
@@ -1300,6 +1362,12 @@ impl LanguageServer for MdfxLanguageServer {
                     }),
                 ),
                 color_provider: Some(ColorProviderCapability::Simple(true)),
+                code_action_provider: Some(CodeActionProviderCapability::Options(CodeActionOptions {
+                    code_action_kinds: Some(vec![
+                        CodeActionKind::QUICKFIX,
+                    ]),
+                    ..Default::default()
+                })),
                 ..Default::default()
             },
             server_info: Some(ServerInfo {
@@ -1407,6 +1475,131 @@ impl LanguageServer for MdfxLanguageServer {
             Ok(None)
         } else {
             Ok(Some(CompletionResponse::Array(items)))
+        }
+    }
+
+    async fn code_action(&self, params: CodeActionParams) -> Result<Option<CodeActionResponse>> {
+        let uri = &params.text_document.uri;
+        let text = match self.get_document_content(uri) {
+            Some(content) => content,
+            None => return Ok(None),
+        };
+
+        let mut actions = Vec::new();
+
+        // Process diagnostics to generate quick fixes
+        for diagnostic in &params.context.diagnostics {
+            // Quick fix: Add /}} for self-closing templates
+            if diagnostic.message.contains("should be self-closing") {
+                let fix_range = diagnostic.range;
+                actions.push(CodeActionOrCommand::CodeAction(CodeAction {
+                    title: "Add self-closing syntax '/}}'".to_string(),
+                    kind: Some(CodeActionKind::QUICKFIX),
+                    diagnostics: Some(vec![diagnostic.clone()]),
+                    edit: Some(WorkspaceEdit {
+                        changes: Some(std::collections::HashMap::from([(
+                            uri.clone(),
+                            vec![TextEdit {
+                                range: Range {
+                                    start: Position {
+                                        line: fix_range.end.line,
+                                        character: fix_range.end.character - 2,
+                                    },
+                                    end: fix_range.end,
+                                },
+                                new_text: "/}}".to_string(),
+                            }],
+                        )])),
+                        ..Default::default()
+                    }),
+                    is_preferred: Some(true),
+                    ..Default::default()
+                }));
+            }
+
+            // Quick fix: Suggest similar tech badge names
+            if diagnostic.message.contains("Unknown tech badge") {
+                if let Some(tech_name) = Self::extract_quoted_value(&diagnostic.message) {
+                    let suggestions = self.find_similar_tech_names(&tech_name);
+                    for suggestion in suggestions.into_iter().take(3) {
+                        let line = diagnostic.range.start.line as usize;
+                        if let Some(line_text) = text.lines().nth(line) {
+                            if let Some(edit_range) = Self::find_tech_name_range(line_text, &tech_name, diagnostic.range.start.character as usize) {
+                                actions.push(CodeActionOrCommand::CodeAction(CodeAction {
+                                    title: format!("Did you mean '{}'?", suggestion),
+                                    kind: Some(CodeActionKind::QUICKFIX),
+                                    diagnostics: Some(vec![diagnostic.clone()]),
+                                    edit: Some(WorkspaceEdit {
+                                        changes: Some(std::collections::HashMap::from([(
+                                            uri.clone(),
+                                            vec![TextEdit {
+                                                range: Range {
+                                                    start: Position {
+                                                        line: diagnostic.range.start.line,
+                                                        character: edit_range.0 as u32,
+                                                    },
+                                                    end: Position {
+                                                        line: diagnostic.range.start.line,
+                                                        character: edit_range.1 as u32,
+                                                    },
+                                                },
+                                                new_text: suggestion.clone(),
+                                            }],
+                                        )])),
+                                        ..Default::default()
+                                    }),
+                                    ..Default::default()
+                                }));
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Quick fix: Suggest similar glyph names
+            if diagnostic.message.contains("Unknown glyph") {
+                if let Some(glyph_name) = Self::extract_quoted_value(&diagnostic.message) {
+                    let suggestions = self.find_similar_glyph_names(&glyph_name);
+                    for suggestion in suggestions.into_iter().take(3) {
+                        let line = diagnostic.range.start.line as usize;
+                        if let Some(line_text) = text.lines().nth(line) {
+                            if let Some(edit_range) = Self::find_glyph_name_range(line_text, &glyph_name, diagnostic.range.start.character as usize) {
+                                actions.push(CodeActionOrCommand::CodeAction(CodeAction {
+                                    title: format!("Did you mean '{}'?", suggestion),
+                                    kind: Some(CodeActionKind::QUICKFIX),
+                                    diagnostics: Some(vec![diagnostic.clone()]),
+                                    edit: Some(WorkspaceEdit {
+                                        changes: Some(std::collections::HashMap::from([(
+                                            uri.clone(),
+                                            vec![TextEdit {
+                                                range: Range {
+                                                    start: Position {
+                                                        line: diagnostic.range.start.line,
+                                                        character: edit_range.0 as u32,
+                                                    },
+                                                    end: Position {
+                                                        line: diagnostic.range.start.line,
+                                                        character: edit_range.1 as u32,
+                                                    },
+                                                },
+                                                new_text: suggestion.clone(),
+                                            }],
+                                        )])),
+                                        ..Default::default()
+                                    }),
+                                    ..Default::default()
+                                }));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if actions.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(actions))
         }
     }
 
@@ -1523,7 +1716,7 @@ impl LanguageServer for MdfxLanguageServer {
         let mut symbols = Vec::new();
 
         for (line_num, line) in text.lines().enumerate() {
-            for (start, is_closing, _is_self_closing, template_content, end) in Self::find_templates(line) {
+            for (start, is_closing, _is_self_closing, _is_malformed, template_content, end) in Self::find_templates(line) {
                 // Skip closing tags for symbols
                 if is_closing {
                     continue;
@@ -1749,6 +1942,117 @@ impl MdfxLanguageServer {
             alpha: 1.0,
         })
     }
+
+    /// Extract a single-quoted value from a diagnostic message
+    /// e.g., "Unknown tech badge 'rustlang'" -> "rustlang"
+    fn extract_quoted_value(message: &str) -> Option<String> {
+        let start = message.find('\'')?;
+        let rest = &message[start + 1..];
+        let end = rest.find('\'')?;
+        Some(rest[..end].to_string())
+    }
+
+    /// Find tech badge names similar to the given name using edit distance
+    fn find_similar_tech_names(&self, name: &str) -> Vec<String> {
+        let icons = list_icons();
+        let mut scored: Vec<(String, usize)> = icons
+            .iter()
+            .filter_map(|icon| {
+                let dist = Self::levenshtein(name, icon);
+                // Only suggest if reasonably similar (distance <= 3 or < half the length)
+                if dist <= 3 || dist < name.len() / 2 {
+                    Some((icon.to_string(), dist))
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        scored.sort_by_key(|(_, dist)| *dist);
+        scored.into_iter().map(|(name, _)| name).collect()
+    }
+
+    /// Find glyph names similar to the given name using edit distance
+    fn find_similar_glyph_names(&self, name: &str) -> Vec<String> {
+        let glyphs = self.registry.glyphs();
+        let mut scored: Vec<(String, usize)> = glyphs
+            .keys()
+            .filter_map(|glyph| {
+                let dist = Self::levenshtein(name, glyph);
+                if dist <= 3 || dist < name.len() / 2 {
+                    Some((glyph.clone(), dist))
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        scored.sort_by_key(|(_, dist)| *dist);
+        scored.into_iter().map(|(name, _)| name).collect()
+    }
+
+    /// Simple Levenshtein distance implementation
+    fn levenshtein(a: &str, b: &str) -> usize {
+        let a_lower = a.to_lowercase();
+        let b_lower = b.to_lowercase();
+        let a_chars: Vec<char> = a_lower.chars().collect();
+        let b_chars: Vec<char> = b_lower.chars().collect();
+
+        let m = a_chars.len();
+        let n = b_chars.len();
+
+        if m == 0 { return n; }
+        if n == 0 { return m; }
+
+        let mut matrix = vec![vec![0; n + 1]; m + 1];
+
+        for i in 0..=m { matrix[i][0] = i; }
+        for j in 0..=n { matrix[0][j] = j; }
+
+        for i in 1..=m {
+            for j in 1..=n {
+                let cost = if a_chars[i - 1] == b_chars[j - 1] { 0 } else { 1 };
+                matrix[i][j] = (matrix[i - 1][j] + 1)
+                    .min(matrix[i][j - 1] + 1)
+                    .min(matrix[i - 1][j - 1] + cost);
+            }
+        }
+
+        matrix[m][n]
+    }
+
+    /// Find the range of a tech name within a line
+    /// Returns (start, end) character positions
+    fn find_tech_name_range(line: &str, _tech_name: &str, start_hint: usize) -> Option<(usize, usize)> {
+        // Look for {{ui:tech:NAME pattern
+        let search_start = if start_hint > 10 { start_hint - 10 } else { 0 };
+        let prefix = "ui:tech:";
+        if let Some(prefix_pos) = line[search_start..].find(prefix) {
+            let name_start = search_start + prefix_pos + prefix.len();
+            // Find end of tech name (next : or / or })
+            let rest = &line[name_start..];
+            let name_end = rest.find(|c| c == ':' || c == '/' || c == '}')
+                .unwrap_or(rest.len());
+            return Some((name_start, name_start + name_end));
+        }
+        None
+    }
+
+    /// Find the range of a glyph name within a line
+    fn find_glyph_name_range(line: &str, _glyph_name: &str, start_hint: usize) -> Option<(usize, usize)> {
+        // Look for {{glyph:NAME pattern
+        let search_start = if start_hint > 10 { start_hint - 10 } else { 0 };
+        let prefix = "glyph:";
+        if let Some(prefix_pos) = line[search_start..].find(prefix) {
+            let name_start = search_start + prefix_pos + prefix.len();
+            // Find end of glyph name (next / or })
+            let rest = &line[name_start..];
+            let name_end = rest.find(|c| c == '/' || c == '}')
+                .unwrap_or(rest.len());
+            return Some((name_start, name_start + name_end));
+        }
+        None
+    }
 }
 
 /// Run the LSP server over stdio
@@ -1766,15 +2070,16 @@ mod tests {
     use rstest::rstest;
 
     #[rstest]
-    #[case("{{glyph:star/}}", vec![(0, false, true, "glyph:star", 15)])]
-    #[case("{{bold}}text{{/bold}}", vec![(0, false, false, "bold", 8), (12, true, false, "bold", 21)])]
-    #[case("{{//}}", vec![(0, true, true, "", 6)])] // Universal closer ends with /}}
-    #[case("text {{ui:tech:rust/}} more", vec![(5, false, true, "ui:tech:rust", 22)])]
+    // (start, is_closing, is_self_closing, is_malformed, content, end)
+    #[case("{{glyph:star/}}", vec![(0, false, true, false, "glyph:star", 15)])]
+    #[case("{{bold}}text{{/bold}}", vec![(0, false, false, false, "bold", 8), (12, true, false, false, "bold", 21)])]
+    #[case("{{//}}", vec![(0, true, true, false, "", 6)])] // Universal closer ends with /}}
+    #[case("text {{ui:tech:rust/}} more", vec![(5, false, true, false, "ui:tech:rust", 22)])]
     #[case("no templates here", vec![])]
-    #[case("{{a}}{{b/}}{{/c}}", vec![(0, false, false, "a", 5), (5, false, true, "b", 11), (11, true, false, "c", 17)])]
+    #[case("{{a}}{{b/}}{{/c}}", vec![(0, false, false, false, "a", 5), (5, false, true, false, "b", 11), (11, true, false, false, "c", 17)])]
     fn test_find_templates(
         #[case] input: &str,
-        #[case] expected: Vec<(usize, bool, bool, &str, usize)>,
+        #[case] expected: Vec<(usize, bool, bool, bool, &str, usize)>,
     ) {
         let result = MdfxLanguageServer::find_templates(input);
         assert_eq!(result, expected);
@@ -1793,8 +2098,9 @@ mod tests {
 
     #[test]
     fn test_find_templates_edge_cases() {
-        // Incomplete template (no closing)
-        assert_eq!(MdfxLanguageServer::find_templates("{{incomplete"), vec![]);
+        // Incomplete template (no closing) - now marked as malformed
+        let result = MdfxLanguageServer::find_templates("{{incomplete");
+        assert_eq!(result, vec![(0, false, false, true, "incomplete", 12)]);
 
         // Empty line
         assert_eq!(MdfxLanguageServer::find_templates(""), vec![]);
@@ -1811,11 +2117,27 @@ mod tests {
     fn test_find_templates_self_closing_variants() {
         // Self-closing with content
         let result = MdfxLanguageServer::find_templates("{{swatch:red/}}");
-        assert_eq!(result, vec![(0, false, true, "swatch:red", 15)]);
+        assert_eq!(result, vec![(0, false, true, false, "swatch:red", 15)]);
 
         // Regular closing (not self-closing)
         let result = MdfxLanguageServer::find_templates("{{/bold}}");
-        assert_eq!(result, vec![(0, true, false, "bold", 9)]);
+        assert_eq!(result, vec![(0, true, false, false, "bold", 9)]);
+    }
+
+    #[test]
+    fn test_find_templates_malformed() {
+        // Malformed: {{name} missing second }
+        let result = MdfxLanguageServer::find_templates("{{blackboard}text{{/blackboard}}");
+        // First template is malformed (missing `}`), second is valid closing
+        assert_eq!(result.len(), 2);
+        assert_eq!(result[0], (0, false, false, true, "blackboard", 13));
+        assert_eq!(result[1], (17, true, false, false, "blackboard", 32));
+
+        // Malformed with nested {{ before closing
+        let result = MdfxLanguageServer::find_templates("{{open{{another}}");
+        assert_eq!(result.len(), 2);
+        assert_eq!(result[0], (0, false, false, true, "open", 6)); // malformed
+        assert_eq!(result[1], (6, false, false, false, "another", 17)); // valid
     }
 
     #[rstest]

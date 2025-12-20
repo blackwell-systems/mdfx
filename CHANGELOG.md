@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LSP version/license completions**: Added `ui:version:` and `ui:license:` to completions with documentation for status detection (stable/beta/alpha) and license categories (permissive/copyleft)
 - **LSP color picker**: Inline color swatches and picker UI for hex colors in templates (e.g., `bg=FF5733`). Supports both 6-char and 3-char hex formats
 - **LSP self-closing warnings**: Warns when inherently self-closing templates (`ui:`, `glyph:`, `swatch:`) are missing the `/}}` syntax
+- **LSP code actions / quick fixes**: Interactive fixes including "Add /}}" for self-closing templates and "Did you mean X?" suggestions for unknown tech badges and glyphs using fuzzy matching
+- **LSP malformed template detection**: Detects and reports `{{name}` syntax errors (missing closing `}}`), preventing incorrect "unclosed tag" diagnostics
 - **Shared parameter definitions**: New `mdfx::components::params` module provides a single source of truth for tech badge and live source parameters, used by both the renderer and LSP
 
 ### Fixed
