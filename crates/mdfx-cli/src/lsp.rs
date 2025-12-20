@@ -334,6 +334,44 @@ impl MdfxLanguageServer {
             ..Default::default()
         });
 
+        // Add "ui:row" block component
+        top_level.push(CompletionItem {
+            label: "ui:row".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Horizontal row of badges".to_string()),
+            documentation: Some(Documentation::String(
+                "Horizontal row of badges with alignment control.\n\
+                Wraps in HTML for GitHub compatibility.\n\n\
+                Parameters:\n\
+                - align: left, center (default), right\n\n\
+                Example: {{ui:row}}{{ui:tech:rust/}}{{ui:tech:go/}}{{/ui}}\n\
+                Example: {{ui:row:align=left}}...{{/ui}}".to_string()
+            )),
+            insert_text: Some("ui:row}}$1{{/ui}}".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
+        // Add "ui:tech-group" block component
+        top_level.push(CompletionItem {
+            label: "ui:tech-group".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Group of badges with auto corner handling".to_string()),
+            documentation: Some(Documentation::String(
+                "Group badges (tech, version, license) with automatic corner handling.\n\
+                First badge gets left corners, last gets right corners, middle badges are square.\n\
+                All parameters are inherited by child badges unless overridden.\n\n\
+                Parameters:\n\
+                - gap: Gap between badges in pixels (default: 0)\n\
+                - style, bg, text, etc.: Inherited by all children\n\n\
+                Example: {{ui:tech-group}}{{ui:tech:rust/}}{{ui:tech:go/}}{{/ui}}\n\
+                Example: {{ui:tech-group:style=flat:gap=2}}...{{/ui}}".to_string()
+            )),
+            insert_text: Some("ui:tech-group}}$1{{/ui}}".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
         // Add styles and components to top-level
         top_level.extend(styles.clone());
         top_level.extend(components.clone());
@@ -702,6 +740,38 @@ impl MdfxLanguageServer {
             tokens.push((offset, 8, TOKEN_NAMESPACE, 0)); // "ui:gauge"
             offset += 9;
             self.tokenize_ui_component_args(rest, offset, &mut tokens);
+        }
+        // Handle ui:version: prefix
+        else if let Some(rest) = content.strip_prefix("ui:version:") {
+            tokens.push((offset, 10, TOKEN_NAMESPACE, 0)); // "ui:version"
+            offset += 11;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
+        }
+        // Handle ui:license: prefix
+        else if let Some(rest) = content.strip_prefix("ui:license:") {
+            tokens.push((offset, 10, TOKEN_NAMESPACE, 0)); // "ui:license"
+            offset += 11;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
+        }
+        // Handle ui:row block component
+        else if let Some(rest) = content.strip_prefix("ui:row") {
+            tokens.push((offset, 6, TOKEN_NAMESPACE, 0)); // "ui:row"
+            offset += 6;
+            // Handle optional params after :
+            if let Some(params) = rest.strip_prefix(':') {
+                offset += 1;
+                self.tokenize_ui_component_args(params, offset, &mut tokens);
+            }
+        }
+        // Handle ui:tech-group block component
+        else if let Some(rest) = content.strip_prefix("ui:tech-group") {
+            tokens.push((offset, 13, TOKEN_NAMESPACE, 0)); // "ui:tech-group"
+            offset += 13;
+            // Handle optional params after :
+            if let Some(params) = rest.strip_prefix(':') {
+                offset += 1;
+                self.tokenize_ui_component_args(params, offset, &mut tokens);
+            }
         }
         // Handle glyph: prefix
         else if let Some(glyph_name) = content.strip_prefix("glyph:") {
@@ -1143,7 +1213,11 @@ impl MdfxLanguageServer {
     /// Check if a template is inherently self-closing (never needs a closing tag)
     /// These templates render inline content and don't wrap text
     fn is_inherently_self_closing(content: &str) -> bool {
-        // ui: components (tech, version, license, progress, donut, gauge, live, swatch)
+        // Block ui: components that wrap content (NOT self-closing)
+        if content.starts_with("ui:row") || content.starts_with("ui:tech-group") {
+            return false;
+        }
+        // Self-closing ui: components (tech, version, license, progress, donut, gauge, live, swatch)
         content.starts_with("ui:")
             // Glyphs
             || content.starts_with("glyph:")
@@ -2175,8 +2249,14 @@ mod tests {
     #[case("ui:gauge:80", true)]
     #[case("ui:live:github:stars", true)]
     #[case("ui:swatch:red", true)]
+    #[case("ui:version:1.0.0", true)]
+    #[case("ui:license:MIT", true)]
     #[case("glyph:star", true)]
     #[case("swatch:blue", true)]
+    #[case("ui:row", false)]           // Block component, NOT self-closing
+    #[case("ui:row:align=center", false)]
+    #[case("ui:tech-group", false)]    // Block component, NOT self-closing
+    #[case("ui:tech-group:gap=2", false)]
     #[case("bold", false)]
     #[case("italic", false)]
     #[case("frame:gradient", false)]

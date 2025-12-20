@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LSP semantic tokens**: Context-aware semantic highlighting beyond TextMate grammar, with full coverage for all template types including tech badges, live badges (source/query/metric), UI components (progress/donut/gauge), glyphs, frames, swatches, styles, components, closing tags, and the universal closer (`{{//}}`)
 - **LSP tag pair validation**: Diagnostics now validate matching open/close tag pairs, reporting errors for mismatched tags (`{{bold}}...{{/italic}}`), unclosed tags, extra closing tags, and invalid universal closer usage
 - **LSP version/license completions**: Added `ui:version:` and `ui:license:` to completions with documentation for status detection (stable/beta/alpha) and license categories (permissive/copyleft)
+- **LSP row/tech-group support**: Added completions and semantic highlighting for `ui:row` (horizontal badge layout) and `ui:tech-group` (auto corner handling for grouped badges)
 - **LSP color picker**: Inline color swatches and picker UI for hex colors in templates (e.g., `bg=FF5733`). Supports both 6-char and 3-char hex formats
 - **LSP self-closing warnings**: Warns when inherently self-closing templates (`ui:`, `glyph:`, `swatch:`) are missing the `/}}` syntax
 - **LSP code actions / quick fixes**: Interactive fixes including "Add /}}" for self-closing templates and "Did you mean X?" suggestions for unknown tech badges and glyphs using fuzzy matching
