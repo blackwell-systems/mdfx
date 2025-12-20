@@ -218,14 +218,14 @@ impl DataSource for ActionsSource {
             "conclusion" => {
                 if let DataValue::String(conclusion) = value {
                     match conclusion.as_str() {
-                        "success" => Some("22C55E"),            // Green
-                        "failure" => Some("EF4444"),            // Red
-                        "cancelled" => Some("6B7280"),          // Gray
-                        "skipped" => Some("6B7280"),            // Gray
-                        "timed_out" => Some("F97316"),          // Orange
-                        "action_required" => Some("EAB308"),    // Yellow
+                        "success" => Some("22C55E"),             // Green
+                        "failure" => Some("EF4444"),             // Red
+                        "cancelled" => Some("6B7280"),           // Gray
+                        "skipped" => Some("6B7280"),             // Gray
+                        "timed_out" => Some("F97316"),           // Orange
+                        "action_required" => Some("EAB308"),     // Yellow
                         "pending" | "neutral" => Some("3B82F6"), // Blue
-                        _ => Some("6B7280"),                    // Gray - unknown
+                        _ => Some("6B7280"),                     // Gray - unknown
                     }
                 } else {
                     None

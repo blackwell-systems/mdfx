@@ -127,11 +127,7 @@ impl DataSource for CodecovSource {
 
         match metric {
             "coverage" => {
-                let coverage = data
-                    .totals
-                    .as_ref()
-                    .and_then(|t| t.coverage)
-                    .unwrap_or(0.0);
+                let coverage = data.totals.as_ref().and_then(|t| t.coverage).unwrap_or(0.0);
                 Ok(DataValue::Float(coverage))
             }
             "lines" => {
@@ -178,16 +174,8 @@ impl DataSource for CodecovSource {
 
     fn available_metrics(&self) -> &'static [&'static str] {
         &[
-            "coverage",
-            "lines",
-            "hits",
-            "misses",
-            "partials",
-            "files",
-            "branches",
-            "branch",
-            "active",
-            "language",
+            "coverage", "lines", "hits", "misses", "partials", "files", "branches", "branch",
+            "active", "language",
         ]
     }
 
@@ -230,8 +218,8 @@ impl DataSource for CodecovSource {
                     Some("6B7280") // Gray - inactive
                 }
             }
-            "hits" => Some("22C55E"),  // Green
-            "misses" => Some("EF4444"), // Red
+            "hits" => Some("22C55E"),     // Green
+            "misses" => Some("EF4444"),   // Red
             "partials" => Some("EAB308"), // Yellow
             _ => None,
         }

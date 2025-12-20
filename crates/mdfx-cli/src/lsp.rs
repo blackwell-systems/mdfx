@@ -440,8 +440,14 @@ impl MdfxLanguageServer {
                 ("branches", "Branch coverage count"),
             ],
             "actions" => vec![
-                ("status", "Workflow run status (completed, in_progress, queued)"),
-                ("conclusion", "Workflow conclusion (success, failure, cancelled)"),
+                (
+                    "status",
+                    "Workflow run status (completed, in_progress, queued)",
+                ),
+                (
+                    "conclusion",
+                    "Workflow conclusion (success, failure, cancelled)",
+                ),
                 ("run_number", "Workflow run number"),
                 ("workflow", "Workflow name"),
             ],
