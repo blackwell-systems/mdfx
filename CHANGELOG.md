@@ -21,10 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **LSP document caching**: Fixed completions not working in unsaved buffers or remote files (WSL). The LSP now properly caches document content from `didOpen`/`didChange` events instead of reading from disk
+- **LSP diagnostic related_information**: Fixed diagnostic related information using actual document URI instead of placeholder, enabling proper "jump to opening tag" in editors
 
 ### Changed
 - **Internal**: Refactored thumb parameters into `ThumbConfig` struct, reducing code complexity and centralizing thumb configuration
+- **Internal**: LSP template parser now uses manual byte-level parsing instead of regex for better performance
 - Test code cleanup: Replaced `panic!()` with `unreachable!()` for semantically correct match arm handling
+- Added unit tests for LSP `find_templates` and `extract_tag_name` parser functions
 
 ### Added (CI)
 - Added `cargo-audit` security scanning to CI workflow
