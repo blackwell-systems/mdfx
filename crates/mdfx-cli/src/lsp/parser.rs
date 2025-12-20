@@ -210,9 +210,9 @@ mod tests {
     #[case("ui:license:MIT", true)]
     #[case("glyph:star", true)]
     #[case("swatch:blue", true)]
-    #[case("ui:row", false)]           // Block component, NOT self-closing
+    #[case("ui:row", false)] // Block component, NOT self-closing
     #[case("ui:row:align=center", false)]
-    #[case("ui:tech-group", false)]    // Block component, NOT self-closing
+    #[case("ui:tech-group", false)] // Block component, NOT self-closing
     #[case("ui:tech-group:gap=2", false)]
     #[case("bold", false)]
     #[case("italic", false)]

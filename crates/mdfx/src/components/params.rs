@@ -296,8 +296,14 @@ pub static LIVE_SOURCES: &[(&str, &str, &[(&str, &str)])] = &[
         "actions",
         "GitHub Actions workflow status",
         &[
-            ("status", "Workflow run status (completed, in_progress, queued)"),
-            ("conclusion", "Workflow conclusion (success, failure, cancelled)"),
+            (
+                "status",
+                "Workflow run status (completed, in_progress, queued)",
+            ),
+            (
+                "conclusion",
+                "Workflow conclusion (success, failure, cancelled)",
+            ),
             ("run_number", "Workflow run number"),
             ("workflow", "Workflow name"),
             ("event", "Trigger event"),

@@ -245,19 +245,13 @@ pub fn levenshtein_bounded(a: &str, b: &str, max_distance: usize) -> usize {
 /// Returns (start, end) character positions
 fn find_tech_name_range(line: &str, _tech_name: &str, start_hint: usize) -> Option<(usize, usize)> {
     // Look for {{ui:tech:NAME pattern
-    let search_start = if start_hint > 10 {
-        start_hint - 10
-    } else {
-        0
-    };
+    let search_start = start_hint.saturating_sub(10);
     let prefix = "ui:tech:";
     if let Some(prefix_pos) = line[search_start..].find(prefix) {
         let name_start = search_start + prefix_pos + prefix.len();
         // Find end of tech name (next : or / or })
         let rest = &line[name_start..];
-        let name_end = rest
-            .find(|c| c == ':' || c == '/' || c == '}')
-            .unwrap_or(rest.len());
+        let name_end = rest.find([':', '/', '}']).unwrap_or(rest.len());
         return Some((name_start, name_start + name_end));
     }
     None
@@ -270,19 +264,13 @@ fn find_glyph_name_range(
     start_hint: usize,
 ) -> Option<(usize, usize)> {
     // Look for {{glyph:NAME pattern
-    let search_start = if start_hint > 10 {
-        start_hint - 10
-    } else {
-        0
-    };
+    let search_start = start_hint.saturating_sub(10);
     let prefix = "glyph:";
     if let Some(prefix_pos) = line[search_start..].find(prefix) {
         let name_start = search_start + prefix_pos + prefix.len();
         // Find end of glyph name (next / or })
         let rest = &line[name_start..];
-        let name_end = rest
-            .find(|c| c == '/' || c == '}')
-            .unwrap_or(rest.len());
+        let name_end = rest.find(['/', '}']).unwrap_or(rest.len());
         return Some((name_start, name_start + name_end));
     }
     None

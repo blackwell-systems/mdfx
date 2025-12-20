@@ -41,8 +41,7 @@ pub fn find_document_colors(text: &str) -> Vec<ColorInformation> {
                         if hex.chars().all(|c| c.is_ascii_hexdigit()) {
                             // Check it's followed by : or / or } or end
                             let after = line.chars().nth(start + 6);
-                            if after.is_none()
-                                || matches!(after, Some(':') | Some('/') | Some('}'))
+                            if after.is_none() || matches!(after, Some(':') | Some('/') | Some('}'))
                             {
                                 if let Some(color) = parse_hex_color(hex) {
                                     colors.push(ColorInformation {
@@ -67,8 +66,7 @@ pub fn find_document_colors(text: &str) -> Vec<ColorInformation> {
                         let hex = &line[start..start + 3];
                         if hex.chars().all(|c| c.is_ascii_hexdigit()) {
                             let after = line.chars().nth(start + 3);
-                            if after.is_none()
-                                || matches!(after, Some(':') | Some('/') | Some('}'))
+                            if after.is_none() || matches!(after, Some(':') | Some('/') | Some('}'))
                             {
                                 // Expand 3-char to 6-char: RGB -> RRGGBB
                                 let expanded: String = hex.chars().flat_map(|c| [c, c]).collect();

@@ -143,15 +143,9 @@ impl LanguageServer for MdfxLanguageServer {
             CompletionContext::UiNamespace(prefix) => {
                 filter_completions(&self.cached.ui_namespace, &prefix)
             }
-            CompletionContext::Glyph(prefix) => {
-                filter_completions(&self.cached.glyphs, &prefix)
-            }
-            CompletionContext::Frame(prefix) => {
-                filter_completions(&self.cached.frames, &prefix)
-            }
-            CompletionContext::Palette(prefix) => {
-                filter_completions(&self.cached.palette, &prefix)
-            }
+            CompletionContext::Glyph(prefix) => filter_completions(&self.cached.glyphs, &prefix),
+            CompletionContext::Frame(prefix) => filter_completions(&self.cached.frames, &prefix),
+            CompletionContext::Palette(prefix) => filter_completions(&self.cached.palette, &prefix),
             CompletionContext::ShieldStyle(prefix) => {
                 filter_completions(&self.cached.shield_styles, &prefix)
             }

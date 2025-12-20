@@ -38,8 +38,13 @@ pub fn tokenize_document(registry: &Registry, text: &str) -> Vec<SemanticToken> 
         {
             let template_start = start + 2 + if is_closing { 1 } else { 0 };
 
-            let new_tokens =
-                tokenize_template(registry, content, template_start, &valid_tech_names, is_closing);
+            let new_tokens = tokenize_template(
+                registry,
+                content,
+                template_start,
+                &valid_tech_names,
+                is_closing,
+            );
 
             // Convert to delta-encoded format
             for (offset, length, token_type, token_modifiers) in new_tokens {
@@ -287,7 +292,9 @@ pub fn tokenize_template(
         } else if registry.component(name).is_some() {
             tokens.push((offset, name.len(), TOKEN_NAMESPACE, 0));
             // Tokenize component arguments if not a closing tag
-            if !is_closing && content.len() > name.len() && content.chars().nth(name.len()) == Some(':')
+            if !is_closing
+                && content.len() > name.len()
+                && content.chars().nth(name.len()) == Some(':')
             {
                 let args_str = &content[name.len() + 1..];
                 tokenize_component_args(registry, args_str, offset + name.len() + 1, &mut tokens);
@@ -320,13 +327,12 @@ fn tokenize_ui_component_args(
             offset += eq_pos + 1;
 
             // Parameter value - check if it's a color
-            let value_type = if is_color_param(param_name)
-                && registry.palette().contains_key(param_value)
-            {
-                TOKEN_VARIABLE
-            } else {
-                TOKEN_STRING
-            };
+            let value_type =
+                if is_color_param(param_name) && registry.palette().contains_key(param_value) {
+                    TOKEN_VARIABLE
+                } else {
+                    TOKEN_STRING
+                };
             tokens.push((offset, param_value.len(), value_type, 0));
             offset += param_value.len() + 1;
         } else {

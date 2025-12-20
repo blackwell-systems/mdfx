@@ -52,6 +52,7 @@ pub enum CompletionContext {
 
 impl CachedCompletions {
     /// Build all completion items once at startup
+    #[allow(clippy::vec_init_then_push)]
     pub fn build(registry: &Registry) -> Self {
         // Build glyph completions
         let glyphs: Vec<CompletionItem> = registry
@@ -296,7 +297,8 @@ impl CachedCompletions {
                 - Alpha (orange): -alpha\n\
                 - Dev (purple): -dev, -snapshot, -nightly\n\
                 - Deprecated (red): -deprecated, -eol\n\n\
-                Example: {{ui:version:1.0.0/}}, {{ui:version:2.0.0-beta.1/}}".to_string()
+                Example: {{ui:version:1.0.0/}}, {{ui:version:2.0.0-beta.1/}}"
+                    .to_string(),
             )),
             insert_text: Some("ui:version:".to_string()),
             insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -316,7 +318,8 @@ impl CachedCompletions {
                 - Copyleft (yellow): GPL, AGPL\n\
                 - Public Domain (cyan): CC0, Unlicense\n\
                 - Proprietary (gray): Proprietary, Commercial\n\n\
-                Example: {{ui:license:MIT/}}, {{ui:license:Apache-2.0/}}".to_string()
+                Example: {{ui:license:MIT/}}, {{ui:license:Apache-2.0/}}"
+                    .to_string(),
             )),
             insert_text: Some("ui:license:".to_string()),
             insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -334,7 +337,8 @@ impl CachedCompletions {
                 Parameters:\n\
                 - align: left, center (default), right\n\n\
                 Example: {{ui:row}}{{ui:tech:rust/}}{{ui:tech:go/}}{{/ui}}\n\
-                Example: {{ui:row:align=left}}...{{/ui}}".to_string()
+                Example: {{ui:row:align=left}}...{{/ui}}"
+                    .to_string(),
             )),
             insert_text: Some("ui:row".to_string()),
             insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -354,7 +358,8 @@ impl CachedCompletions {
                 - gap: Gap between badges in pixels (default: 0)\n\
                 - style, bg, text, etc.: Inherited by all children\n\n\
                 Example: {{ui:tech-group}}{{ui:tech:rust/}}{{ui:tech:go/}}{{/ui}}\n\
-                Example: {{ui:tech-group:style=flat:gap=2}}...{{/ui}}".to_string()
+                Example: {{ui:tech-group:style=flat:gap=2}}...{{/ui}}"
+                    .to_string(),
             )),
             insert_text: Some("ui:tech-group".to_string()),
             insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -376,7 +381,8 @@ impl CachedCompletions {
                 - stroke: Line stroke color\n\
                 - dots: Show dots at data points\n\n\
                 Example: {{ui:sparkline:1,3,2,5,4/}}\n\
-                Example: {{ui:sparkline:1,2,3:type=bar:fill=accent/}}".to_string()
+                Example: {{ui:sparkline:1,2,3:type=bar:fill=accent/}}"
+                    .to_string(),
             )),
             insert_text: Some("ui:sparkline:${1:values}/".to_string()),
             insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -397,7 +403,8 @@ impl CachedCompletions {
                 - fill: Filled icon color (default: warning/yellow)\n\
                 - empty: Empty icon color (default: gray)\n\n\
                 Example: {{ui:rating:4.5/}}\n\
-                Example: {{ui:rating:3:max=5:icon=heart:fill=error/}}".to_string()
+                Example: {{ui:rating:3:max=5:icon=heart:fill=error/}}"
+                    .to_string(),
             )),
             insert_text: Some("ui:rating:${1:value}/".to_string()),
             insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -419,7 +426,8 @@ impl CachedCompletions {
                 - bar_width/bar: Width of each bar (default: 3)\n\
                 - center: Show center line (default: false)\n\n\
                 Example: {{ui:waveform:0.5,-0.3,0.8,-0.6/}}\n\
-                Example: {{ui:waveform:1,-1,0.5:positive=accent:negative=pink/}}".to_string()
+                Example: {{ui:waveform:1,-1,0.5:positive=accent:negative=pink/}}"
+                    .to_string(),
             )),
             insert_text: Some("ui:waveform:${1:values}/".to_string()),
             insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -439,7 +447,8 @@ impl CachedCompletions {
                 detail: Some("Technology badge".to_string()),
                 documentation: Some(Documentation::String(
                     "Render technology/language badges with brand colors.\n\n\
-                    Example: {{ui:tech:rust/}}, {{ui:tech:typescript:style=flat/}}".to_string()
+                    Example: {{ui:tech:rust/}}, {{ui:tech:typescript:style=flat/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("tech:".to_string()),
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -451,7 +460,8 @@ impl CachedCompletions {
                 detail: Some("Version badge".to_string()),
                 documentation: Some(Documentation::String(
                     "Render version badges with auto-detected status coloring.\n\n\
-                    Example: {{ui:version:1.0.0/}}, {{ui:version:2.0.0-beta.1/}}".to_string()
+                    Example: {{ui:version:1.0.0/}}, {{ui:version:2.0.0-beta.1/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("version:${1:version}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -463,7 +473,8 @@ impl CachedCompletions {
                 detail: Some("License badge".to_string()),
                 documentation: Some(Documentation::String(
                     "Render license badges with category-aware coloring.\n\n\
-                    Example: {{ui:license:MIT/}}, {{ui:license:Apache-2.0/}}".to_string()
+                    Example: {{ui:license:MIT/}}, {{ui:license:Apache-2.0/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("license:${1:license}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -475,7 +486,8 @@ impl CachedCompletions {
                 detail: Some("Live data badge".to_string()),
                 documentation: Some(Documentation::String(
                     "Render live data badges from external sources.\n\n\
-                    Example: {{ui:live:github:owner/repo:stars/}}".to_string()
+                    Example: {{ui:live:github:owner/repo:stars/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("live:".to_string()),
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -487,7 +499,8 @@ impl CachedCompletions {
                 detail: Some("Horizontal row of badges".to_string()),
                 documentation: Some(Documentation::String(
                     "Horizontal row of badges with alignment control.\n\n\
-                    Example: {{ui:row}}...{{/ui}}".to_string()
+                    Example: {{ui:row}}...{{/ui}}"
+                        .to_string(),
                 )),
                 insert_text: Some("row".to_string()),
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -499,7 +512,8 @@ impl CachedCompletions {
                 detail: Some("Group of badges with auto corner handling".to_string()),
                 documentation: Some(Documentation::String(
                     "Group badges with automatic corner handling.\n\n\
-                    Example: {{ui:tech-group}}...{{/ui}}".to_string()
+                    Example: {{ui:tech-group}}...{{/ui}}"
+                        .to_string(),
                 )),
                 insert_text: Some("tech-group".to_string()),
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
@@ -511,7 +525,8 @@ impl CachedCompletions {
                 detail: Some("Progress bar".to_string()),
                 documentation: Some(Documentation::String(
                     "Render progress bar visualization.\n\n\
-                    Example: {{ui:progress:75/}}".to_string()
+                    Example: {{ui:progress:75/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("progress:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -523,7 +538,8 @@ impl CachedCompletions {
                 detail: Some("Donut chart".to_string()),
                 documentation: Some(Documentation::String(
                     "Render donut/pie chart visualization.\n\n\
-                    Example: {{ui:donut:75/}}".to_string()
+                    Example: {{ui:donut:75/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("donut:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -535,7 +551,8 @@ impl CachedCompletions {
                 detail: Some("Gauge meter".to_string()),
                 documentation: Some(Documentation::String(
                     "Render gauge/speedometer visualization.\n\n\
-                    Example: {{ui:gauge:75/}}".to_string()
+                    Example: {{ui:gauge:75/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("gauge:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -547,7 +564,8 @@ impl CachedCompletions {
                 detail: Some("Mini inline chart".to_string()),
                 documentation: Some(Documentation::String(
                     "Mini inline chart for data visualization.\n\n\
-                    Example: {{ui:sparkline:1,3,2,5,4/}}".to_string()
+                    Example: {{ui:sparkline:1,3,2,5,4/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("sparkline:${1:values}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -559,7 +577,8 @@ impl CachedCompletions {
                 detail: Some("Star/heart rating".to_string()),
                 documentation: Some(Documentation::String(
                     "Star/heart rating display.\n\n\
-                    Example: {{ui:rating:4.5/}}".to_string()
+                    Example: {{ui:rating:4.5/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("rating:${1:value}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -571,7 +590,8 @@ impl CachedCompletions {
                 detail: Some("Audio waveform".to_string()),
                 documentation: Some(Documentation::String(
                     "Audio-style waveform visualization.\n\n\
-                    Example: {{ui:waveform:0.5,-0.3,0.8/}}".to_string()
+                    Example: {{ui:waveform:0.5,-0.3,0.8/}}"
+                        .to_string(),
                 )),
                 insert_text: Some("waveform:${1:values}/".to_string()),
                 insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -652,7 +672,11 @@ pub fn filter_completions(items: &[CompletionItem], prefix: &str) -> Vec<Complet
 }
 
 /// Analyze the text around the cursor to determine completion context
-pub fn get_completion_context(registry: &Registry, text: &str, position: Position) -> CompletionContext {
+pub fn get_completion_context(
+    registry: &Registry,
+    text: &str,
+    position: Position,
+) -> CompletionContext {
     let lines: Vec<&str> = text.lines().collect();
     let line_idx = position.line as usize;
 
@@ -685,12 +709,19 @@ pub fn get_completion_context(registry: &Registry, text: &str, position: Positio
         // Check for UI namespace: {{ui: (but not {{ui:tech: or {{ui:live: etc.)
         if let Some(rest) = after_open.strip_prefix("ui:") {
             // If it's a more specific prefix, let those handlers deal with it
-            if rest.starts_with("tech:") || rest.starts_with("live:")
-                || rest.starts_with("version:") || rest.starts_with("license:")
-                || rest.starts_with("progress:") || rest.starts_with("donut:")
-                || rest.starts_with("gauge:") || rest.starts_with("sparkline:")
-                || rest.starts_with("rating:") || rest.starts_with("waveform:")
-                || rest.starts_with("row") || rest.starts_with("tech-group") {
+            if rest.starts_with("tech:")
+                || rest.starts_with("live:")
+                || rest.starts_with("version:")
+                || rest.starts_with("license:")
+                || rest.starts_with("progress:")
+                || rest.starts_with("donut:")
+                || rest.starts_with("gauge:")
+                || rest.starts_with("sparkline:")
+                || rest.starts_with("rating:")
+                || rest.starts_with("waveform:")
+                || rest.starts_with("row")
+                || rest.starts_with("tech-group")
+            {
                 // Fall through to more specific handlers below
             } else {
                 // Just {{ui: or {{ui:partial - show UI namespace completions
@@ -784,9 +815,7 @@ pub fn get_completion_context(registry: &Registry, text: &str, position: Positio
         }
 
         // Check for color parameter (e.g., swatch:cobalt or bg=cobalt)
-        if after_open.contains(':')
-            && (after_open.contains("bg=") || after_open.contains("fg="))
-        {
+        if after_open.contains(':') && (after_open.contains("bg=") || after_open.contains("fg=")) {
             // Find the part after the last = sign
             if let Some(eq_pos) = after_open.rfind('=') {
                 let color_prefix = &after_open[eq_pos + 1..];
