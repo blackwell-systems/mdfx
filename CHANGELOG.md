@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LSP cached completions**: Completion items are now pre-built at server startup for faster response times
 - **LSP enhanced diagnostics**: Validates tech badge names, glyph names, live source names, and metrics with helpful error messages
 - **LSP semantic tokens**: Context-aware semantic highlighting beyond TextMate grammar, with full coverage for all template types including tech badges, live badges (source/query/metric), UI components (progress/donut/gauge), glyphs, frames, swatches, styles, components, closing tags, and the universal closer (`{{//}}`)
+- **LSP tag pair validation**: Diagnostics now validate matching open/close tag pairs, reporting errors for mismatched tags (`{{bold}}...{{/italic}}`), unclosed tags, extra closing tags, and invalid universal closer usage
 - **Shared parameter definitions**: New `mdfx::components::params` module provides a single source of truth for tech badge and live source parameters, used by both the renderer and LSP
 
 ### Fixed
