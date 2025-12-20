@@ -254,25 +254,24 @@ pub fn rating_preview(value: f32, max: u32, size: u32, fill: &str, empty: &str) 
     )
 }
 
-/// Parse parameters from a template string like "rust:style=flat:bg=FF0000"
+/// Parse parameters from a template string like "tech:rust:style=flat:bg=FF0000"
+/// Returns (positional_parts joined by ':', key=value params)
+/// Example: "tech:rust:style=flat" -> ("tech:rust", [(style, flat)])
 pub fn parse_template_params(template: &str) -> (String, Vec<(String, String)>) {
     let parts: Vec<&str> = template.split(':').collect();
-    let name = parts.first().unwrap_or(&"").to_string();
 
-    let params: Vec<(String, String)> = parts
-        .iter()
-        .skip(1)
-        .filter_map(|p| {
-            let kv: Vec<&str> = p.splitn(2, '=').collect();
-            if kv.len() == 2 {
-                Some((kv[0].to_string(), kv[1].to_string()))
-            } else {
-                None
-            }
-        })
-        .collect();
+    let mut positional = Vec::new();
+    let mut params = Vec::new();
 
-    (name, params)
+    for part in parts {
+        if let Some((k, v)) = part.split_once('=') {
+            params.push((k.to_string(), v.to_string()));
+        } else {
+            positional.push(part);
+        }
+    }
+
+    (positional.join(":"), params)
 }
 
 /// Get a parameter value or default
