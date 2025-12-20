@@ -7,7 +7,8 @@
 
 use mdfx::Registry;
 use mdfx_icons::{brand_color, list_icons};
-use std::sync::Arc;
+use std::collections::HashMap;
+use std::sync::{Arc, RwLock};
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer, LspService, Server};
@@ -16,6 +17,8 @@ use tower_lsp::{Client, LanguageServer, LspService, Server};
 pub struct MdfxLanguageServer {
     client: Client,
     registry: Arc<Registry>,
+    /// Cached document contents (URI -> text)
+    documents: Arc<RwLock<HashMap<String, String>>>,
 }
 
 impl MdfxLanguageServer {
@@ -24,7 +27,29 @@ impl MdfxLanguageServer {
         Self {
             client,
             registry: Arc::new(registry),
+            documents: Arc::new(RwLock::new(HashMap::new())),
         }
+    }
+
+    /// Get document content from cache or try to read from disk
+    fn get_document_content(&self, uri: &Url) -> Option<String> {
+        // First check the cache
+        if let Ok(docs) = self.documents.read() {
+            if let Some(content) = docs.get(uri.as_str()) {
+                return Some(content.clone());
+            }
+        }
+
+        // Fallback: try to read from disk (handles file:// URIs)
+        if uri.scheme() == "file" {
+            if let Ok(path) = uri.to_file_path() {
+                if let Ok(content) = std::fs::read_to_string(&path) {
+                    return Some(content);
+                }
+            }
+        }
+
+        None
     }
 
     /// Build completion items for glyphs
@@ -965,8 +990,14 @@ impl LanguageServer for MdfxLanguageServer {
     }
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
-        let uri = params.text_document.uri;
+        let uri = params.text_document.uri.clone();
         let text = params.text_document.text;
+
+        // Cache the document content
+        if let Ok(mut docs) = self.documents.write() {
+            docs.insert(params.text_document.uri.to_string(), text.clone());
+        }
+
         let diagnostics = self.generate_diagnostics(&text);
         self.client
             .publish_diagnostics(uri, diagnostics, None)
@@ -974,12 +1005,24 @@ impl LanguageServer for MdfxLanguageServer {
     }
 
     async fn did_change(&self, params: DidChangeTextDocumentParams) {
-        let uri = params.text_document.uri;
+        let uri = params.text_document.uri.clone();
         if let Some(change) = params.content_changes.into_iter().last() {
+            // Update the cached document content
+            if let Ok(mut docs) = self.documents.write() {
+                docs.insert(params.text_document.uri.to_string(), change.text.clone());
+            }
+
             let diagnostics = self.generate_diagnostics(&change.text);
             self.client
                 .publish_diagnostics(uri, diagnostics, None)
                 .await;
+        }
+    }
+
+    async fn did_close(&self, params: DidCloseTextDocumentParams) {
+        // Remove document from cache
+        if let Ok(mut docs) = self.documents.write() {
+            docs.remove(params.text_document.uri.as_str());
         }
     }
 
@@ -991,13 +1034,10 @@ impl LanguageServer for MdfxLanguageServer {
         let uri = params.text_document_position.text_document.uri;
         let position = params.text_document_position.position;
 
-        // Read the document content
-        // Note: In a full implementation, we'd track document content via didOpen/didChange
-        // For now, we'll try to read from the file path
-        let path = uri.path();
-        let text = match std::fs::read_to_string(path) {
-            Ok(content) => content,
-            Err(_) => return Ok(None),
+        // Get document content from cache (updated via didOpen/didChange)
+        let text = match self.get_document_content(&uri) {
+            Some(content) => content,
+            None => return Ok(None),
         };
 
         let context = self.get_completion_context(&text, position);
@@ -1071,10 +1111,10 @@ impl LanguageServer for MdfxLanguageServer {
         let uri = params.text_document_position_params.text_document.uri;
         let position = params.text_document_position_params.position;
 
-        let path = uri.path();
-        let text = match std::fs::read_to_string(path) {
-            Ok(content) => content,
-            Err(_) => return Ok(None),
+        // Get document content from cache
+        let text = match self.get_document_content(&uri) {
+            Some(content) => content,
+            None => return Ok(None),
         };
 
         let lines: Vec<&str> = text.lines().collect();

@@ -219,6 +219,23 @@ Add to `~/.config/zed/settings.json`:
 
 ## Features
 
+### Syntax Highlighting
+
+The VS Code extension includes TextMate grammar for mdfx template syntax highlighting:
+
+- **Template delimiters**: `{{` and `}}` highlighted as punctuation
+- **Component names**: `ui:tech`, `glyph`, `frame`, etc. highlighted as tags
+- **Parameters**: `border=`, `logo_size=` highlighted as variables
+- **Values**: Parameter values highlighted as strings
+
+Syntax highlighting is automatically injected into markdown files. The grammar recognizes:
+
+```markdown
+{{ui:tech:rust:border=accent:logo_size=lg/}}  <!-- Self-closing component -->
+{{mathbold}}text{{/mathbold}}                  <!-- Block style -->
+{{glyph:star.filled/}}                         <!-- Glyph reference -->
+```
+
 ### Completions
 
 The LSP provides completions for:

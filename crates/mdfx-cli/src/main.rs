@@ -1662,8 +1662,10 @@ fn install_vscode_extension() -> Result<(), Error> {
     println!("  {} {}", "mdfx binary:".cyan(), mdfx_path);
     println!();
 
-    // Create extension directory
+    // Create extension directory and syntaxes subdirectory
     fs::create_dir_all(&extension_path).map_err(Error::IoError)?;
+    let syntaxes_dir = extension_path.join("syntaxes");
+    fs::create_dir_all(&syntaxes_dir).map_err(Error::IoError)?;
 
     // Write package.json
     let package_json = generate_package_json(&mdfx_path);
@@ -1676,6 +1678,12 @@ fn install_vscode_extension() -> Result<(), Error> {
     let extension_js_path = extension_path.join("extension.js");
     fs::write(&extension_js_path, &extension_js).map_err(Error::IoError)?;
     println!("  {} extension.js", "Created:".green());
+
+    // Write TextMate grammar for syntax highlighting
+    let grammar = generate_textmate_grammar();
+    let grammar_path = syntaxes_dir.join("mdfx.tmLanguage.json");
+    fs::write(&grammar_path, grammar).map_err(Error::IoError)?;
+    println!("  {} syntaxes/mdfx.tmLanguage.json", "Created:".green());
 
     println!();
     println!("{} Installing npm dependencies...", "Info:".cyan());
@@ -1753,7 +1761,7 @@ fn generate_package_json(mdfx_path: &str) -> String {
         r#"{{
   "name": "mdfx-lsp",
   "displayName": "mdfx Language Server",
-  "description": "LSP support for mdfx markdown template syntax",
+  "description": "LSP support for mdfx markdown template syntax with syntax highlighting",
   "version": "{}",
   "publisher": "mdfx",
   "engines": {{
@@ -1784,7 +1792,14 @@ fn generate_package_json(mdfx_path: &str) -> String {
           "description": "Traces the communication between VS Code and the mdfx language server"
         }}
       }}
-    }}
+    }},
+    "grammars": [
+      {{
+        "scopeName": "text.mdfx.injection",
+        "path": "./syntaxes/mdfx.tmLanguage.json",
+        "injectTo": ["text.html.markdown"]
+      }}
+    ]
   }},
   "dependencies": {{
     "vscode-languageclient": "^9.0.1"
@@ -1794,6 +1809,80 @@ fn generate_package_json(mdfx_path: &str) -> String {
         env!("CARGO_PKG_VERSION"),
         mdfx_path.replace('\\', "\\\\").replace('"', "\\\"")
     )
+}
+
+#[cfg(feature = "lsp")]
+fn generate_textmate_grammar() -> String {
+    // Note: We use format! with doubled braces {{ }} for literal braces in the JSON
+    // and \\{{ for regex escapes of literal braces
+    r##"{
+  "scopeName": "text.mdfx.injection",
+  "injectionSelector": "L:text.html.markdown",
+  "patterns": [
+    { "include": "#mdfx-template" }
+  ],
+  "repository": {
+    "mdfx-template": {
+      "patterns": [
+        { "include": "#mdfx-self-closing" },
+        { "include": "#mdfx-block-open" },
+        { "include": "#mdfx-block-close" }
+      ]
+    },
+    "mdfx-self-closing": {
+      "name": "meta.template.mdfx",
+      "match": "(\\{\\{)(ui:(?:tech|progress|gauge|donut|swatch|row|live)|glyph|frame)(:)([^/\\}]*?)(/\\}\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.template.begin.mdfx" },
+        "2": { "name": "entity.name.tag.mdfx" },
+        "3": { "name": "punctuation.separator.mdfx" },
+        "4": {
+          "patterns": [
+            { "include": "#mdfx-params" }
+          ]
+        },
+        "5": { "name": "punctuation.definition.template.end.mdfx" }
+      }
+    },
+    "mdfx-block-open": {
+      "name": "meta.template.mdfx.block.open",
+      "match": "(\\{\\{)([a-zA-Z][a-zA-Z0-9_\\.]*)(\\}\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.template.begin.mdfx" },
+        "2": { "name": "entity.name.function.mdfx" },
+        "3": { "name": "punctuation.definition.template.end.mdfx" }
+      }
+    },
+    "mdfx-block-close": {
+      "name": "meta.template.mdfx.block.close",
+      "match": "(\\{\\{)(/)([a-zA-Z][a-zA-Z0-9_\\.]*)(\\}\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.template.begin.mdfx" },
+        "2": { "name": "punctuation.separator.mdfx" },
+        "3": { "name": "entity.name.function.mdfx" },
+        "4": { "name": "punctuation.definition.template.end.mdfx" }
+      }
+    },
+    "mdfx-params": {
+      "patterns": [
+        {
+          "name": "variable.parameter.mdfx",
+          "match": "([a-zA-Z_][a-zA-Z0-9_]*)(=)([^:\\}]*)",
+          "captures": {
+            "1": { "name": "variable.parameter.mdfx" },
+            "2": { "name": "keyword.operator.assignment.mdfx" },
+            "3": { "name": "string.unquoted.mdfx" }
+          }
+        },
+        {
+          "name": "variable.other.mdfx",
+          "match": "[^:=\\}]+"
+        }
+      ]
+    }
+  }
+}
+"##.to_string()
 }
 
 #[cfg(feature = "lsp")]

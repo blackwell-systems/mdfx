@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Thumb borders for slider components**: Progress, Donut, and Gauge now support `thumb_border` and `thumb_border_width` parameters for adding stroke borders to thumb indicators
 - **Asset path prefix option**: New `--assets-prefix` flag for `process` and `watch` commands allows markdown references to use a different path than where files are written. Useful when assets are in a subdirectory but markdown needs relative paths (e.g., write to `examples/assets/` but reference as `assets/`)
 - **Custom icon support for tech badges**: New `icon` parameter accepts SVG path data for unsupported technologies (e.g., `{{ui:tech:custom:icon=M0 0 L24 24:label=My Tech/}}`)
+- **LSP syntax highlighting**: VS Code extension now includes TextMate grammar for mdfx template syntax highlighting in markdown files
+
+### Fixed
+- **LSP document caching**: Fixed completions not working in unsaved buffers or remote files (WSL). The LSP now properly caches document content from `didOpen`/`didChange` events instead of reading from disk
 
 ### Changed
 - **Internal**: Refactored thumb parameters into `ThumbConfig` struct, reducing code complexity and centralizing thumb configuration
