@@ -115,7 +115,9 @@ The `examples/assets/` directory is tracked in git (NOT ignored). This ensures:
 
 ## Testing
 
-### Running Tests
+> **Full documentation**: See [docs/TESTING.md](docs/TESTING.md) for comprehensive testing guide.
+
+### Quick Reference
 
 ```bash
 # Run all tests
@@ -124,8 +126,8 @@ cargo test --release
 # Run specific crate tests
 cargo test --package badgefx --release
 
-# Run tests matching a pattern
-cargo test --package mdfx parser:: --release
+# Run CLI integration tests
+cargo test --package mdfx-cli --release --test integration
 
 # Run with coverage (requires cargo-llvm-cov)
 cargo llvm-cov --release
@@ -198,6 +200,23 @@ cargo insta reject --all
 - After intentional changes to SVG rendering
 - Always review changes before accepting (`cargo insta review`)
 - Never blindly accept - verify the diff makes sense
+
+### Integration Testing
+
+CLI integration tests use `assert_cmd` and `rstest` for end-to-end verification:
+
+```bash
+# Run all integration tests
+cargo test --package mdfx-cli --release --test integration
+
+# Tests cover:
+# - convert command (5 style variations)
+# - list command (6 resource types)
+# - process command (template → output + assets)
+# - Error handling and edge cases
+```
+
+Integration tests are located in `crates/mdfx-cli/tests/integration.rs`.
 
 ### Coverage Goals
 

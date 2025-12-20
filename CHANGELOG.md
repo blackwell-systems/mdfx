@@ -435,6 +435,27 @@ Added comprehensive snapshot testing using the `insta` crate for SVG output stab
 
 Snapshots detect unintended changes to SVG rendering during development. Use `cargo insta review` to interactively accept or reject changes.
 
+#### CLI Integration Testing
+
+Added comprehensive CLI integration tests using `assert_cmd` and `rstest`:
+
+**Test categories (33 tests total):**
+- **Convert command (5 tests)**: Style conversion with parameterized inputs (mathbold, fullwidth, etc.)
+- **List command (7 tests)**: Resource listing (styles, components, glyphs, frames)
+- **Process command (12 tests)**: Template processing, asset generation, manifest creation
+- **Error handling (3 tests)**: Invalid inputs, missing files
+- **Edge cases (6 tests)**: Empty files, unicode input, code block preservation
+
+**Key features tested:**
+- Content-addressed filename deduplication
+- Asset manifest generation and structure
+- Code block preservation (templates inside ``` blocks not processed)
+- Multiple backend support (svg, shields)
+
+Tests located in `crates/mdfx-cli/tests/integration.rs`.
+
+**Testing documentation:** Added comprehensive `docs/TESTING.md` covering all testing practices.
+
 Example transformation:
 ```rust
 // Before: 10 separate test functions

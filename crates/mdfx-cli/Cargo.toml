@@ -33,6 +33,12 @@ chrono = "0.4"
 tower-lsp = { version = "0.20", optional = true }
 tokio = { version = "1", features = ["full"], optional = true }
 
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.1"
+tempfile = "3.8"
+rstest = "0.23"
+
 [[bin]]
 name = "mdfx"
 path = "src/main.rs"
