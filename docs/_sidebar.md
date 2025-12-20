@@ -42,6 +42,10 @@
   - [Architecture](/ARCHITECTURE.md)
   - [Roadmap](/ROADMAP.md)
 
+- **🧪 Development**
+  - [Testing Guide](/TESTING.md)
+  - [Contributing](https://github.com/blackwell-systems/mdfx/blob/main/CONTRIBUTING.md)
+
 - **Links**
   - [GitHub](https://github.com/blackwell-systems/mdfx)
   - [Changelog](https://github.com/blackwell-systems/mdfx/blob/main/CHANGELOG.md)

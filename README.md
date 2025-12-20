@@ -254,6 +254,7 @@ mdfx build input.md --all-targets
 | [Tech Badges](docs/guides/TECH-GUIDE.md) | Brand logos |
 | [Version & License](docs/guides/VERSION-LICENSE-GUIDE.md) | Semantic badges |
 | [CLI](docs/guides/CLI-GUIDE.md) | Commands |
+| [Testing](docs/TESTING.md) | Test guide |
 
 ---
 

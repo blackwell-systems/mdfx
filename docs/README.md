@@ -69,6 +69,7 @@ mdfx process input.md -o output.md --backend svg --assets-dir assets/
 - [API Guide](API-GUIDE.md) - Library usage
 - [Architecture](ARCHITECTURE.md) - System design
 - [Targets](TARGETS.md) - Multi-target rendering
+- [Testing Guide](TESTING.md) - Testing strategy and tools
 
 ## CLI Commands
 

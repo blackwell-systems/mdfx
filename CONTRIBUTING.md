@@ -163,6 +163,8 @@ mdfx/
 
 ## Testing
 
+> **Comprehensive guide**: See [docs/TESTING.md](docs/TESTING.md) for full testing documentation including snapshot tests, parameterized tests, and coverage.
+
 ### Running Tests
 
 ```bash
