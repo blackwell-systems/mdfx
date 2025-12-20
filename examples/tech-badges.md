@@ -99,7 +99,7 @@ Directional arrow shapes:
 
 ### Left Chevron (←)
 <p align="center">
-<img alt="" src="assets/tech_a175074607139c2a.svg"><img alt="" src="assets/tech_44df96a2cc23ba5c.svg"><img alt="" src="assets/tech_c38eae1b1eac3fe0.svg"><img alt="" src="assets/tech_d4fcb70acd9e4b33.svg">
+<img alt="" src="assets/tech_a175074607139c2a.svg"><img alt="" src="assets/tech_44df96a2cc23ba5c.svg"><img alt="" src="assets/tech_d4fcb70acd9e4b33.svg">
 </p>
 
 ### Pipeline Flow

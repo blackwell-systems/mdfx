@@ -103,7 +103,7 @@ Directional arrow shapes:
 
 ### Left Chevron (←)
 {{ui:row:align=center}}
-{{ui:tech:amazonaws/}}{{ui:tech:googlecloud:chevron=left/}}{{ui:tech:microsoftazure:chevron=left/}}{{ui:tech:digitalocean:chevron=left/}}
+{{ui:tech:amazonaws/}}{{ui:tech:googlecloud:chevron=left/}}{{ui:tech:digitalocean:chevron=left/}}
 {{/ui}}
 
 ### Pipeline Flow
