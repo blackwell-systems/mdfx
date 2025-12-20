@@ -179,7 +179,7 @@ impl Renderer for PlainTextBackend {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::primitive::TechConfig;
+    use crate::primitive::{LicenseConfig, TechConfig, VersionConfig};
     use rstest::rstest;
 
     // ========================================================================
@@ -246,5 +246,267 @@ mod tests {
         });
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), expected);
+    }
+
+    // ========================================================================
+    // Version Badge Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("1.0.0", None, "[v1.0.0]")] // default prefix
+    #[case("v2.0.0", None, "[v2.0.0]")] // already has v prefix
+    #[case("V3.0.0", None, "[V3.0.0]")] // uppercase V
+    #[case("1.0.0", Some(""), "[1.0.0]")] // empty prefix
+    #[case("1.0.0", Some("ver"), "[ver1.0.0]")] // custom prefix
+    fn test_plaintext_version(
+        #[case] version: &str,
+        #[case] prefix: Option<&str>,
+        #[case] expected: &str,
+    ) {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Version(VersionConfig {
+            version: version.to_string(),
+            prefix: prefix.map(String::from),
+            ..Default::default()
+        });
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), expected);
+    }
+
+    // ========================================================================
+    // License Badge Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("MIT", None, "[MIT]")] // license only
+    #[case("GPL-3.0", None, "[GPL-3.0]")]
+    #[case("MIT", Some("Open Source"), "[Open Source]")] // custom label
+    fn test_plaintext_license(
+        #[case] license: &str,
+        #[case] label: Option<&str>,
+        #[case] expected: &str,
+    ) {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::License(LicenseConfig {
+            license: license.to_string(),
+            label: label.map(String::from),
+            ..Default::default()
+        });
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), expected);
+    }
+
+    // ========================================================================
+    // Progress Bar Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(0, "[          ] 0%")] // 0% = no fill
+    #[case(50, "[====>     ] 50%")]
+    #[case(100, "[=========>] 100%")]
+    fn test_plaintext_progress(#[case] percent: u8, #[case] expected: &str) {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Progress {
+            percent,
+            width: 100,
+            height: 10,
+            track_color: "gray".to_string(),
+            fill_color: "pink".to_string(),
+            fill_height: 10,
+            rx: 3,
+            show_label: false,
+            label_color: None,
+            border_color: None,
+            border_width: 0,
+            thumb: None,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), expected);
+    }
+
+    // ========================================================================
+    // Donut Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(0, "(0%)")]
+    #[case(50, "(50%)")]
+    #[case(100, "(100%)")]
+    fn test_plaintext_donut(#[case] percent: u8, #[case] expected: &str) {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Donut {
+            percent,
+            size: 40,
+            thickness: 4,
+            track_color: "gray".to_string(),
+            fill_color: "pink".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), expected);
+    }
+
+    // ========================================================================
+    // Gauge Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(0, "[0%]")]
+    #[case(75, "[75%]")]
+    #[case(100, "[100%]")]
+    fn test_plaintext_gauge(#[case] percent: u8, #[case] expected: &str) {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Gauge {
+            percent,
+            size: 80,
+            thickness: 8,
+            track_color: "gray".to_string(),
+            fill_color: "pink".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), expected);
+    }
+
+    // ========================================================================
+    // Sparkline Rendering
+    // ========================================================================
+
+    #[test]
+    fn test_plaintext_sparkline_empty() {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Sparkline {
+            values: vec![],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "pink".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), "▁");
+    }
+
+    #[test]
+    fn test_plaintext_sparkline_values() {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Sparkline {
+            values: vec![1.0, 5.0, 3.0, 7.0],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "pink".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        // Should contain 4 bar characters
+        assert_eq!(asset.to_markdown().chars().count(), 4);
+    }
+
+    #[test]
+    fn test_plaintext_sparkline_flat() {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Sparkline {
+            values: vec![5.0, 5.0, 5.0],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "pink".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        // All same value should produce same bars
+        let s = asset.to_markdown();
+        assert_eq!(s.chars().count(), 3);
+    }
+
+    // ========================================================================
+    // Rating Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(5.0, 5, "star", "★★★★★")]
+    #[case(3.0, 5, "star", "★★★☆☆")]
+    #[case(3.5, 5, "star", "★★★☆☆")] // half shows as empty
+    #[case(0.0, 5, "star", "☆☆☆☆☆")]
+    #[case(4.0, 5, "heart", "♥♥♥♥♡")]
+    #[case(3.0, 5, "circle", "●●●○○")]
+    fn test_plaintext_rating(
+        #[case] value: f32,
+        #[case] max: u32,
+        #[case] icon: &str,
+        #[case] expected: &str,
+    ) {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Rating {
+            value,
+            max,
+            size: 20,
+            fill_color: "warning".to_string(),
+            empty_color: "gray".to_string(),
+            icon: icon.to_string(),
+            spacing: 2,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), expected);
+    }
+
+    // ========================================================================
+    // Waveform Rendering
+    // ========================================================================
+
+    #[test]
+    fn test_plaintext_waveform_empty() {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Waveform {
+            values: vec![],
+            width: 100,
+            height: 40,
+            positive_color: "success".to_string(),
+            negative_color: "error".to_string(),
+            bar_width: 3,
+            spacing: 1,
+            track_color: None,
+            show_center_line: false,
+            center_line_color: None,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), "▔");
+    }
+
+    #[test]
+    fn test_plaintext_waveform_values() {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Waveform {
+            values: vec![1.0, -1.0, 0.5, -0.5],
+            width: 100,
+            height: 40,
+            positive_color: "success".to_string(),
+            negative_color: "error".to_string(),
+            bar_width: 3,
+            spacing: 1,
+            track_color: None,
+            show_center_line: false,
+            center_line_color: None,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        // Should contain 4 bar characters
+        assert_eq!(asset.to_markdown().chars().count(), 4);
     }
 }

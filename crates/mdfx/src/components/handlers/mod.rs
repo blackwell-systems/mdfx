@@ -173,3 +173,253 @@ pub use github::{
     handle_actions, handle_codecov, handle_crates, handle_docker, handle_github, handle_npm,
     handle_nuget, handle_packagist, handle_pypi, handle_rubygems, FetchContext,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use rstest::rstest;
+
+    fn identity_color(c: &str) -> String {
+        c.to_string()
+    }
+
+    fn uppercase_color(c: &str) -> String {
+        c.to_uppercase()
+    }
+
+    // ========================================================================
+    // parse_param Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("width", "100", 100u32)]
+    #[case("width", "200", 200u32)]
+    #[case("nonexistent", "100", 50u32)] // uses default
+    fn test_parse_param_u32(#[case] key: &str, #[case] value: &str, #[case] expected: u32) {
+        let mut params = HashMap::new();
+        params.insert("width".to_string(), value.to_string());
+
+        let result = parse_param(&params, key, 50);
+        assert_eq!(result, expected);
+    }
+
+    #[rstest]
+    #[case("height", "3.5", 3.5f32)]
+    #[case("height", "1.0", 1.0f32)]
+    fn test_parse_param_f32(#[case] key: &str, #[case] value: &str, #[case] expected: f32) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+
+        let result: f32 = parse_param(&params, key, 0.0);
+        assert!((result - expected).abs() < 0.001);
+    }
+
+    #[test]
+    fn test_parse_param_invalid_value() {
+        let mut params = HashMap::new();
+        params.insert("width".to_string(), "not_a_number".to_string());
+
+        let result: u32 = parse_param(&params, "width", 50);
+        assert_eq!(result, 50); // uses default on parse error
+    }
+
+    // ========================================================================
+    // parse_param_opt Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("thumb", "10", Some(10u32))]
+    #[case("nonexistent", "10", None)]
+    fn test_parse_param_opt(#[case] key: &str, #[case] value: &str, #[case] expected: Option<u32>) {
+        let mut params = HashMap::new();
+        params.insert("thumb".to_string(), value.to_string());
+
+        let result: Option<u32> = parse_param_opt(&params, key);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_parse_param_opt_invalid() {
+        let mut params = HashMap::new();
+        params.insert("thumb".to_string(), "abc".to_string());
+
+        let result: Option<u32> = parse_param_opt(&params, "thumb");
+        assert!(result.is_none());
+    }
+
+    // ========================================================================
+    // parse_bool Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("label", "true", true)]
+    #[case("label", "1", true)]
+    #[case("label", "false", false)]
+    #[case("label", "0", false)]
+    #[case("label", "anything", false)] // not "true" or "1"
+    #[case("nonexistent", "true", false)] // uses default
+    fn test_parse_bool(#[case] key: &str, #[case] value: &str, #[case] expected: bool) {
+        let mut params = HashMap::new();
+        params.insert("label".to_string(), value.to_string());
+
+        let result = parse_bool(&params, key, false);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_parse_bool_default_true() {
+        let params = HashMap::new();
+        let result = parse_bool(&params, "nonexistent", true);
+        assert!(result);
+    }
+
+    // ========================================================================
+    // resolve_color_with_default Tests
+    // ========================================================================
+
+    #[test]
+    fn test_resolve_color_with_default_found() {
+        let mut params = HashMap::new();
+        params.insert("fill".to_string(), "FF0000".to_string());
+
+        let result = resolve_color_with_default(&params, "fill", "default", identity_color);
+        assert_eq!(result, "FF0000");
+    }
+
+    #[test]
+    fn test_resolve_color_with_default_not_found() {
+        let params = HashMap::new();
+        let result = resolve_color_with_default(&params, "fill", "default", identity_color);
+        assert_eq!(result, "default");
+    }
+
+    #[test]
+    fn test_resolve_color_with_default_uses_resolver() {
+        let mut params = HashMap::new();
+        params.insert("fill".to_string(), "red".to_string());
+
+        let result = resolve_color_with_default(&params, "fill", "default", uppercase_color);
+        assert_eq!(result, "RED");
+    }
+
+    // ========================================================================
+    // resolve_color_with_fallback Tests
+    // ========================================================================
+
+    #[test]
+    fn test_resolve_color_with_fallback_first_key() {
+        let mut params = HashMap::new();
+        params.insert("track".to_string(), "AAA".to_string());
+
+        let result =
+            resolve_color_with_fallback(&params, &["track", "color"], "default", identity_color);
+        assert_eq!(result, "AAA");
+    }
+
+    #[test]
+    fn test_resolve_color_with_fallback_second_key() {
+        let mut params = HashMap::new();
+        params.insert("color".to_string(), "BBB".to_string());
+
+        let result =
+            resolve_color_with_fallback(&params, &["track", "color"], "default", identity_color);
+        assert_eq!(result, "BBB");
+    }
+
+    #[test]
+    fn test_resolve_color_with_fallback_uses_default() {
+        let params = HashMap::new();
+        let result =
+            resolve_color_with_fallback(&params, &["track", "color"], "default", identity_color);
+        assert_eq!(result, "default");
+    }
+
+    // ========================================================================
+    // resolve_color_opt Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("border", Some("000000".to_string()))]
+    #[case("nonexistent", None)]
+    fn test_resolve_color_opt(#[case] key: &str, #[case] expected: Option<String>) {
+        let mut params = HashMap::new();
+        params.insert("border".to_string(), "000000".to_string());
+
+        let result = resolve_color_opt(&params, key, identity_color);
+        assert_eq!(result, expected);
+    }
+
+    // ========================================================================
+    // get_string / get_string_opt Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("icon", "heart", "heart")]
+    #[case("nonexistent", "heart", "star")] // uses default
+    fn test_get_string(#[case] key: &str, #[case] value: &str, #[case] expected: &str) {
+        let mut params = HashMap::new();
+        params.insert("icon".to_string(), value.to_string());
+
+        let result = get_string(&params, key, "star");
+        assert_eq!(result, expected);
+    }
+
+    #[rstest]
+    #[case("icon", Some("heart".to_string()))]
+    #[case("nonexistent", None)]
+    fn test_get_string_opt(#[case] key: &str, #[case] expected: Option<String>) {
+        let mut params = HashMap::new();
+        params.insert("icon".to_string(), "heart".to_string());
+
+        let result = get_string_opt(&params, key);
+        assert_eq!(result, expected);
+    }
+
+    // ========================================================================
+    // parse_thumb_config Tests
+    // ========================================================================
+
+    #[test]
+    fn test_parse_thumb_config_none() {
+        let params = HashMap::new();
+        let result = parse_thumb_config(&params, identity_color);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_parse_thumb_config_basic() {
+        let mut params = HashMap::new();
+        params.insert("thumb".to_string(), "10".to_string());
+
+        let result = parse_thumb_config(&params, identity_color);
+        assert!(result.is_some());
+        let thumb = result.unwrap();
+        assert_eq!(thumb.size, 10);
+        assert!(thumb.width.is_none());
+        assert!(thumb.color.is_none());
+        assert_eq!(thumb.shape, "circle"); // default
+        assert!(thumb.border.is_none());
+        assert_eq!(thumb.border_width, 0);
+    }
+
+    #[test]
+    fn test_parse_thumb_config_full() {
+        let mut params = HashMap::new();
+        params.insert("thumb".to_string(), "12".to_string());
+        params.insert("thumb_width".to_string(), "20".to_string());
+        params.insert("thumb_color".to_string(), "FFFFFF".to_string());
+        params.insert("thumb_shape".to_string(), "square".to_string());
+        params.insert("thumb_border".to_string(), "000000".to_string());
+        params.insert("thumb_border_width".to_string(), "2".to_string());
+
+        let result = parse_thumb_config(&params, identity_color);
+        assert!(result.is_some());
+        let thumb = result.unwrap();
+        assert_eq!(thumb.size, 12);
+        assert_eq!(thumb.width, Some(20));
+        assert_eq!(thumb.color, Some("FFFFFF".to_string()));
+        assert_eq!(thumb.shape, "square");
+        assert_eq!(thumb.border, Some("000000".to_string()));
+        assert_eq!(thumb.border_width, 2);
+    }
+}

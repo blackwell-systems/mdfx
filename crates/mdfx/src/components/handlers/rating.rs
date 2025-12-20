@@ -45,3 +45,146 @@ pub fn handle(
         spacing,
     }))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use rstest::rstest;
+
+    fn identity_color(c: &str) -> String {
+        c.to_string()
+    }
+
+    // ========================================================================
+    // Basic Rating Parsing (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("0", 0.0)]
+    #[case("3", 3.0)]
+    #[case("3.5", 3.5)]
+    #[case("4.75", 4.75)]
+    #[case("5", 5.0)]
+    fn test_handle_value(#[case] input: &str, #[case] expected: f32) {
+        let result = handle(&[input.to_string()], &HashMap::new(), identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Rating { value, .. })) = result {
+            assert!((value - expected).abs() < 0.001);
+        } else {
+            panic!("Expected Rating primitive");
+        }
+    }
+
+    #[test]
+    fn test_handle_missing_args() {
+        let result = handle(&[], &HashMap::new(), identity_color);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_handle_invalid_value() {
+        let result = handle(&["abc".to_string()], &HashMap::new(), identity_color);
+        assert!(result.is_err());
+    }
+
+    // ========================================================================
+    // Size Parameters (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("max", "10", 10, 20, 2)]
+    #[case("size", "30", 5, 30, 2)]
+    #[case("spacing", "4", 5, 20, 4)]
+    fn test_handle_size_params(
+        #[case] key: &str,
+        #[case] value: &str,
+        #[case] expected_max: u32,
+        #[case] expected_size: u32,
+        #[case] expected_spacing: u32,
+    ) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+
+        let result = handle(&["4".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Rating {
+            max, size, spacing, ..
+        })) = result
+        {
+            assert_eq!(max, expected_max);
+            assert_eq!(size, expected_size);
+            assert_eq!(spacing, expected_spacing);
+        } else {
+            panic!("Expected Rating primitive");
+        }
+    }
+
+    // ========================================================================
+    // Color Parameters
+    // ========================================================================
+
+    #[test]
+    fn test_handle_colors() {
+        let mut params = HashMap::new();
+        params.insert("fill".to_string(), "FFD700".to_string());
+        params.insert("empty".to_string(), "CCCCCC".to_string());
+
+        let result = handle(&["3.5".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Rating {
+            fill_color,
+            empty_color,
+            ..
+        })) = result
+        {
+            assert_eq!(fill_color, "FFD700");
+            assert_eq!(empty_color, "CCCCCC");
+        } else {
+            panic!("Expected Rating primitive");
+        }
+    }
+
+    // ========================================================================
+    // Icon Parameter (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(None, "star")] // default
+    #[case(Some("heart"), "heart")]
+    #[case(Some("circle"), "circle")]
+    fn test_handle_icon(#[case] input: Option<&str>, #[case] expected: &str) {
+        let mut params = HashMap::new();
+        if let Some(icon) = input {
+            params.insert("icon".to_string(), icon.to_string());
+        }
+
+        let result = handle(&["4".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Rating { icon, .. })) = result {
+            assert_eq!(icon, expected);
+        } else {
+            panic!("Expected Rating primitive");
+        }
+    }
+
+    #[test]
+    fn test_handle_defaults() {
+        let result = handle(&["4".to_string()], &HashMap::new(), identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Rating {
+            max,
+            size,
+            spacing,
+            icon,
+            ..
+        })) = result
+        {
+            assert_eq!(max, 5);
+            assert_eq!(size, 20);
+            assert_eq!(spacing, 2);
+            assert_eq!(icon, "star");
+        } else {
+            panic!("Expected Rating primitive");
+        }
+    }
+}

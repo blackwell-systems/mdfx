@@ -55,3 +55,201 @@ pub fn handle(
         dot_radius,
     }))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use rstest::rstest;
+
+    fn identity_color(c: &str) -> String {
+        c.to_string()
+    }
+
+    // ========================================================================
+    // Basic Value Parsing (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("1,2,3,4,5", vec![1.0, 2.0, 3.0, 4.0, 5.0])]
+    #[case("10, 20, 30", vec![10.0, 20.0, 30.0])] // with spaces
+    #[case("1.5,2.5,3.5", vec![1.5, 2.5, 3.5])] // floats
+    #[case("-1,0,1", vec![-1.0, 0.0, 1.0])] // negative values
+    #[case("100", vec![100.0])] // single value
+    fn test_handle_values(#[case] input: &str, #[case] expected: Vec<f32>) {
+        let result = handle(&[input.to_string()], &HashMap::new(), identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline { values, .. })) = result {
+            assert_eq!(values.len(), expected.len());
+            for (v, e) in values.iter().zip(expected.iter()) {
+                assert!((v - e).abs() < 0.001);
+            }
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+
+    #[test]
+    fn test_handle_missing_args() {
+        let result = handle(&[], &HashMap::new(), identity_color);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_handle_no_numeric_values() {
+        let result = handle(&["abc,def".to_string()], &HashMap::new(), identity_color);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_handle_mixed_values_skips_invalid() {
+        // Should parse valid numbers and skip invalid ones
+        let result = handle(&["1,abc,3".to_string()], &HashMap::new(), identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline { values, .. })) = result {
+            assert_eq!(values, vec![1.0, 3.0]);
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+
+    // ========================================================================
+    // Size Parameters (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("width", "200", 200, 20, 2, 2)]
+    #[case("height", "40", 100, 40, 2, 2)]
+    #[case("stroke_width", "4", 100, 20, 4, 2)]
+    #[case("dot_radius", "5", 100, 20, 2, 5)]
+    fn test_handle_size_params(
+        #[case] key: &str,
+        #[case] value: &str,
+        #[case] expected_width: u32,
+        #[case] expected_height: u32,
+        #[case] expected_stroke_width: u32,
+        #[case] expected_dot_radius: u32,
+    ) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+
+        let result = handle(&["1,2,3".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline {
+            width,
+            height,
+            stroke_width,
+            dot_radius,
+            ..
+        })) = result
+        {
+            assert_eq!(width, expected_width);
+            assert_eq!(height, expected_height);
+            assert_eq!(stroke_width, expected_stroke_width);
+            assert_eq!(dot_radius, expected_dot_radius);
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+
+    // ========================================================================
+    // Chart Type (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(None, "line")] // default
+    #[case(Some("line"), "line")]
+    #[case(Some("bar"), "bar")]
+    #[case(Some("area"), "area")]
+    fn test_handle_chart_type(#[case] input: Option<&str>, #[case] expected: &str) {
+        let mut params = HashMap::new();
+        if let Some(t) = input {
+            params.insert("type".to_string(), t.to_string());
+        }
+
+        let result = handle(&["1,2,3".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline { chart_type, .. })) = result {
+            assert_eq!(chart_type, expected);
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+
+    // ========================================================================
+    // Color Parameters
+    // ========================================================================
+
+    #[test]
+    fn test_handle_colors() {
+        let mut params = HashMap::new();
+        params.insert("fill".to_string(), "FF0000".to_string());
+        params.insert("stroke".to_string(), "0000FF".to_string());
+        params.insert("track".to_string(), "CCCCCC".to_string());
+
+        let result = handle(&["1,2,3".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline {
+            fill_color,
+            stroke_color,
+            track_color,
+            ..
+        })) = result
+        {
+            assert_eq!(fill_color, "FF0000");
+            assert_eq!(stroke_color, Some("0000FF".to_string()));
+            assert_eq!(track_color, Some("CCCCCC".to_string()));
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+
+    // ========================================================================
+    // Dots Parameter
+    // ========================================================================
+
+    #[rstest]
+    #[case("true", true)]
+    #[case("1", true)]
+    #[case("false", false)]
+    fn test_handle_dots(#[case] value: &str, #[case] expected: bool) {
+        let mut params = HashMap::new();
+        params.insert("dots".to_string(), value.to_string());
+
+        let result = handle(&["1,2,3".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline { show_dots, .. })) = result {
+            assert_eq!(show_dots, expected);
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+
+    #[test]
+    fn test_handle_defaults() {
+        let result = handle(&["1,2,3".to_string()], &HashMap::new(), identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline {
+            width,
+            height,
+            chart_type,
+            stroke_width,
+            show_dots,
+            dot_radius,
+            stroke_color,
+            track_color,
+            ..
+        })) = result
+        {
+            assert_eq!(width, 100);
+            assert_eq!(height, 20);
+            assert_eq!(chart_type, "line");
+            assert_eq!(stroke_width, 2);
+            assert!(!show_dots);
+            assert_eq!(dot_radius, 2);
+            assert!(stroke_color.is_none());
+            assert!(track_color.is_none());
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+}

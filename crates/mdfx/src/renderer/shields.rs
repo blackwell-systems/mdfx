@@ -211,6 +211,8 @@ impl Renderer for ShieldsBackend {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::primitive::{LicenseConfig, TechConfig, VersionConfig};
+    use rstest::rstest;
 
     #[test]
     fn test_shields_backend_creation() {
@@ -234,7 +236,6 @@ mod tests {
 
     #[test]
     fn test_render_tech_primitive() {
-        use crate::primitive::TechConfig;
         let backend = ShieldsBackend::new().unwrap();
         let primitive = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
@@ -261,5 +262,284 @@ mod tests {
 
         // cobalt should resolve to 2B6CB0
         assert!(markdown.contains("2B6CB0"));
+    }
+
+    // ========================================================================
+    // Version Badge Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("1.0.0", None, "22C55E")] // stable = green
+    #[case("0.1.0", None, "EAB308")] // 0.x = beta = yellow
+    #[case("2.0.0-beta", None, "EAB308")] // beta = yellow
+    #[case("1.0.0", Some("FF0000"), "FF0000")] // custom color override
+    fn test_render_version(
+        #[case] version: &str,
+        #[case] bg_color: Option<&str>,
+        #[case] expected_color: &str,
+    ) {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Version(VersionConfig {
+            version: version.to_string(),
+            bg_color: bg_color.map(String::from),
+            style: "flat".to_string(),
+            ..Default::default()
+        });
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("shields.io"));
+        assert!(markdown.contains(expected_color));
+    }
+
+    #[test]
+    fn test_render_version_escapes_dashes() {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Version(VersionConfig {
+            version: "1.0.0-beta".to_string(),
+            style: "flat".to_string(),
+            ..Default::default()
+        });
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        // dashes should be escaped as --
+        assert!(markdown.contains("--"));
+    }
+
+    // ========================================================================
+    // License Badge Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("MIT", None, "22C55E")] // permissive = green
+    #[case("GPL-3.0", None, "EAB308")] // copyleft = yellow
+    #[case("LGPL-3.0", None, "3B82F6")] // weak copyleft = blue
+    #[case("MIT", Some("FF0000"), "FF0000")] // custom color override
+    fn test_render_license(
+        #[case] license: &str,
+        #[case] bg_color: Option<&str>,
+        #[case] expected_color: &str,
+    ) {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::License(LicenseConfig {
+            license: license.to_string(),
+            bg_color: bg_color.map(String::from),
+            style: "flat".to_string(),
+            ..Default::default()
+        });
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("shields.io"));
+        assert!(markdown.contains(expected_color));
+    }
+
+    #[test]
+    fn test_render_license_custom_label() {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::License(LicenseConfig {
+            license: "MIT".to_string(),
+            label: Some("Open Source".to_string()),
+            style: "flat".to_string(),
+            ..Default::default()
+        });
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("Open%20Source"));
+    }
+
+    // ========================================================================
+    // Progress Badge Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(0, "pink")]
+    #[case(50, "pink")]
+    #[case(100, "success")]
+    fn test_render_progress(#[case] percent: u8, #[case] fill_color: &str) {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Progress {
+            percent,
+            width: 100,
+            height: 10,
+            track_color: "gray".to_string(),
+            fill_color: fill_color.to_string(),
+            fill_height: 10,
+            rx: 3,
+            show_label: false,
+            label_color: None,
+            border_color: None,
+            border_width: 0,
+            thumb: None,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("shields.io"));
+        assert!(markdown.contains(&format!("{}%25", percent)));
+        assert!(markdown.contains(fill_color));
+    }
+
+    // ========================================================================
+    // Donut Badge Rendering (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(0, "pink")]
+    #[case(75, "success")]
+    fn test_render_donut(#[case] percent: u8, #[case] fill_color: &str) {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Donut {
+            percent,
+            size: 40,
+            thickness: 4,
+            track_color: "gray".to_string(),
+            fill_color: fill_color.to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("shields.io"));
+        assert!(markdown.contains(&format!("{}%25", percent)));
+    }
+
+    // ========================================================================
+    // Gauge Badge Rendering
+    // ========================================================================
+
+    #[test]
+    fn test_render_gauge() {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Gauge {
+            percent: 75,
+            size: 80,
+            thickness: 8,
+            track_color: "gray".to_string(),
+            fill_color: "pink".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("shields.io"));
+        assert!(markdown.contains("75%25"));
+        assert!(markdown.contains("pink"));
+    }
+
+    // ========================================================================
+    // Sparkline Badge Rendering
+    // ========================================================================
+
+    #[test]
+    fn test_render_sparkline_empty() {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Sparkline {
+            values: vec![],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "pink".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("chart"));
+        assert!(markdown.contains("📈"));
+    }
+
+    #[test]
+    fn test_render_sparkline_with_values() {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Sparkline {
+            values: vec![1.0, 5.0, 3.0, 10.0],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "success".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("1..10")); // min..max
+        assert!(markdown.contains("success"));
+    }
+
+    // ========================================================================
+    // Rating Badge Rendering
+    // ========================================================================
+
+    #[test]
+    fn test_render_rating() {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Rating {
+            value: 4.5,
+            max: 5,
+            size: 20,
+            fill_color: "warning".to_string(),
+            empty_color: "gray".to_string(),
+            icon: "star".to_string(),
+            spacing: 2,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("⭐"));
+        assert!(markdown.contains("4%2E5")); // escaped dot
+        assert!(markdown.contains("warning"));
+    }
+
+    // ========================================================================
+    // Waveform Badge Rendering
+    // ========================================================================
+
+    #[test]
+    fn test_render_waveform() {
+        let backend = ShieldsBackend::new().unwrap();
+        let primitive = Primitive::Waveform {
+            values: vec![1.0, -1.0, 0.5, -0.5, 0.8],
+            width: 100,
+            height: 40,
+            positive_color: "success".to_string(),
+            negative_color: "error".to_string(),
+            bar_width: 3,
+            spacing: 1,
+            track_color: None,
+            show_center_line: false,
+            center_line_color: None,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        assert!(markdown.contains("🎵"));
+        assert!(markdown.contains("5pts"));
+        assert!(markdown.contains("success"));
     }
 }
