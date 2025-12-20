@@ -516,3 +516,247 @@ fn test_process_multiple_styles() {
     let content = fs::read_to_string(&output).unwrap();
     assert!(content.contains("𝐁𝐨𝐥𝐝"));
 }
+
+// =============================================================================
+// VERIFY COMMAND TESTS
+// =============================================================================
+
+#[test]
+fn test_verify_valid_assets() {
+    let temp = TempDir::new().unwrap();
+    let input = temp.path().join("input.md");
+    let output = temp.path().join("output.md");
+    let assets = temp.path().join("assets");
+
+    fs::write(&input, "{{ui:swatch:FF0000/}}").unwrap();
+
+    // First generate some assets
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args([
+            "process",
+            "-b",
+            "svg",
+            "--assets-dir",
+            assets.to_str().unwrap(),
+            "-o",
+            output.to_str().unwrap(),
+            input.to_str().unwrap(),
+        ])
+        .assert()
+        .success();
+
+    // Then verify them
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args(["verify", "--assets-dir", assets.to_str().unwrap()])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("All assets verified"));
+}
+
+#[test]
+fn test_verify_missing_manifest() {
+    let temp = TempDir::new().unwrap();
+    let assets = temp.path().join("empty_assets");
+    fs::create_dir(&assets).unwrap();
+
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args(["verify", "--assets-dir", assets.to_str().unwrap()])
+        .assert()
+        .failure();
+}
+
+// =============================================================================
+// CLEAN COMMAND TESTS
+// =============================================================================
+
+#[test]
+fn test_clean_dry_run() {
+    let temp = TempDir::new().unwrap();
+    let input = temp.path().join("input.md");
+    let output = temp.path().join("output.md");
+    let assets = temp.path().join("assets");
+
+    fs::write(&input, "{{ui:swatch:FF0000/}}").unwrap();
+
+    // Generate assets
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args([
+            "process",
+            "-b",
+            "svg",
+            "--assets-dir",
+            assets.to_str().unwrap(),
+            "-o",
+            output.to_str().unwrap(),
+            input.to_str().unwrap(),
+        ])
+        .assert()
+        .success();
+
+    // Add an orphan file
+    fs::write(assets.join("orphan.svg"), "<svg></svg>").unwrap();
+
+    // Dry run should show orphan
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args([
+            "clean",
+            "--assets-dir",
+            assets.to_str().unwrap(),
+            "--dry-run",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("orphan.svg"));
+}
+
+#[test]
+fn test_clean_removes_orphans() {
+    let temp = TempDir::new().unwrap();
+    let input = temp.path().join("input.md");
+    let output = temp.path().join("output.md");
+    let assets = temp.path().join("assets");
+
+    fs::write(&input, "{{ui:swatch:00FF00/}}").unwrap();
+
+    // Generate assets
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args([
+            "process",
+            "-b",
+            "svg",
+            "--assets-dir",
+            assets.to_str().unwrap(),
+            "-o",
+            output.to_str().unwrap(),
+            input.to_str().unwrap(),
+        ])
+        .assert()
+        .success();
+
+    // Add orphan
+    let orphan = assets.join("orphan.svg");
+    fs::write(&orphan, "<svg></svg>").unwrap();
+    assert!(orphan.exists());
+
+    // Run clean (actually delete)
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args(["clean", "--assets-dir", assets.to_str().unwrap()])
+        .assert()
+        .success();
+
+    // Orphan should be deleted
+    assert!(!orphan.exists());
+}
+
+// =============================================================================
+// BUILD COMMAND TESTS
+// =============================================================================
+
+#[test]
+fn test_build_single_target() {
+    let temp = TempDir::new().unwrap();
+    let input = temp.path().join("input.md");
+    let output_dir = temp.path().join("dist");
+
+    fs::write(&input, "{{mathbold}}Hello{{/mathbold}}").unwrap();
+
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args([
+            "build",
+            input.to_str().unwrap(),
+            "--output-dir",
+            output_dir.to_str().unwrap(),
+            "--targets",
+            "github",
+        ])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Built"));
+
+    // Output file should exist
+    assert!(output_dir.join("input_github.md").exists());
+}
+
+#[test]
+fn test_build_multiple_targets() {
+    let temp = TempDir::new().unwrap();
+    let input = temp.path().join("input.md");
+    let output_dir = temp.path().join("dist");
+
+    fs::write(&input, "# Test\n{{mathbold}}Title{{/mathbold}}").unwrap();
+
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args([
+            "build",
+            input.to_str().unwrap(),
+            "--output-dir",
+            output_dir.to_str().unwrap(),
+            "--targets",
+            "github,pypi",
+        ])
+        .assert()
+        .success();
+
+    assert!(output_dir.join("input_github.md").exists());
+    assert!(output_dir.join("input_pypi.md").exists());
+}
+
+// =============================================================================
+// COMPLETIONS COMMAND TESTS
+// =============================================================================
+
+#[rstest]
+#[case("bash")]
+#[case("zsh")]
+#[case("fish")]
+fn test_completions_generation(#[case] shell: &str) {
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args(["completions", shell])
+        .assert()
+        .success()
+        .stdout(predicate::str::is_empty().not());
+}
+
+#[test]
+fn test_completions_invalid_shell() {
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args(["completions", "invalid-shell"])
+        .assert()
+        .failure();
+}
+
+// =============================================================================
+// LIST PALETTE TESTS
+// =============================================================================
+
+#[test]
+fn test_list_palette() {
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args(["list", "palette"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("accent"))
+        .stdout(predicate::str::contains("F41C80"));
+}
+
+#[test]
+fn test_list_palette_with_filter() {
+    Command::cargo_bin("mdfx")
+        .unwrap()
+        .args(["list", "palette", "-f", "dark"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("dark1"));
+}
