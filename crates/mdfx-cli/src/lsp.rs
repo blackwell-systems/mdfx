@@ -404,7 +404,7 @@ impl MdfxLanguageServer {
             let line_num = line_num as u32;
 
             // Find all templates in this line using simple string scanning
-            for (start, is_closing, content, _end) in Self::find_templates(line) {
+            for (start, is_closing, _is_self_closing, content, _end) in Self::find_templates(line) {
                 let template_start = start + 2 + if is_closing { 1 } else { 0 };
 
                 let new_tokens =
@@ -439,8 +439,10 @@ impl MdfxLanguageServer {
     }
 
     /// Find all mdfx templates in a line without regex
-    /// Returns: Vec<(start_pos, is_closing, content, end_pos)>
-    fn find_templates(line: &str) -> Vec<(usize, bool, &str, usize)> {
+    /// Returns: Vec<(start_pos, is_closing_tag, is_self_closing, content, end_pos)>
+    /// - is_closing_tag: starts with {{/ (e.g., {{/bold}})
+    /// - is_self_closing: ends with /}} (e.g., {{glyph:star/}})
+    fn find_templates(line: &str) -> Vec<(usize, bool, bool, &str, usize)> {
         let mut results = Vec::new();
         let mut pos = 0;
         let bytes = line.as_bytes();
@@ -453,8 +455,8 @@ impl MdfxLanguageServer {
                 pos += 2;
 
                 // Check for closing tag marker /
-                let is_closing = pos < len && bytes[pos] == b'/';
-                if is_closing {
+                let is_closing_tag = pos < len && bytes[pos] == b'/';
+                if is_closing_tag {
                     pos += 1;
                 }
 
@@ -463,15 +465,15 @@ impl MdfxLanguageServer {
                 // Find the end: either /}} or }}
                 while pos < len {
                     if bytes[pos] == b'}' && pos + 1 < len && bytes[pos + 1] == b'}' {
-                        // Found }}
+                        // Found }} - not self-closing
                         let content = &line[content_start..pos];
-                        results.push((start, is_closing, content, pos + 2));
+                        results.push((start, is_closing_tag, false, content, pos + 2));
                         pos += 2;
                         break;
                     } else if bytes[pos] == b'/' && pos + 2 < len && bytes[pos + 1] == b'}' && bytes[pos + 2] == b'}' {
-                        // Found /}}
+                        // Found /}} - self-closing
                         let content = &line[content_start..pos];
-                        results.push((start, is_closing, content, pos + 3));
+                        results.push((start, is_closing_tag, true, content, pos + 3));
                         pos += 3;
                         break;
                     }
@@ -809,24 +811,97 @@ impl MdfxLanguageServer {
         let valid_tech_names: std::collections::HashSet<&str> =
             icon_list.iter().map(|s| s.as_ref()).collect();
 
+        // Track open tags for matching: (tag_name, line, start_col, end_col)
+        let mut tag_stack: Vec<(String, u32, u32, u32)> = Vec::new();
+
         for (line_num, line) in text.lines().enumerate() {
-            for (start, is_closing, content, end) in Self::find_templates(line) {
-                // Skip closing tags for validation
-                if is_closing {
+            for (start, is_closing_tag, is_self_closing, content, end) in Self::find_templates(line) {
+                let start_col = start as u32;
+                let end_col = end as u32;
+                let line_num = line_num as u32;
+
+                // Handle closing tags - check for matching open tag
+                if is_closing_tag {
+                    // Universal closer {{//}} closes any open tag
+                    if content.is_empty() {
+                        if tag_stack.is_empty() {
+                            diagnostics.push(Diagnostic {
+                                range: Range {
+                                    start: Position { line: line_num, character: start_col },
+                                    end: Position { line: line_num, character: end_col },
+                                },
+                                severity: Some(DiagnosticSeverity::ERROR),
+                                source: Some("mdfx".to_string()),
+                                message: "Universal closer {{//}} with no open tag to close".to_string(),
+                                ..Default::default()
+                            });
+                        } else {
+                            tag_stack.pop();
+                        }
+                        continue;
+                    }
+
+                    // Extract tag name for matching
+                    let close_tag_name = Self::extract_tag_name(content);
+
+                    if let Some((open_tag_name, open_line, open_start, open_end)) = tag_stack.pop() {
+                        if open_tag_name != close_tag_name {
+                            // Mismatched tags
+                            diagnostics.push(Diagnostic {
+                                range: Range {
+                                    start: Position { line: line_num, character: start_col },
+                                    end: Position { line: line_num, character: end_col },
+                                },
+                                severity: Some(DiagnosticSeverity::ERROR),
+                                source: Some("mdfx".to_string()),
+                                message: format!(
+                                    "Mismatched closing tag '{{{{/{}}}}}', expected '{{{{/{}}}}}'",
+                                    close_tag_name, open_tag_name
+                                ),
+                                related_information: Some(vec![DiagnosticRelatedInformation {
+                                    location: Location {
+                                        uri: Url::parse("file:///").unwrap(), // Will be fixed by caller
+                                        range: Range {
+                                            start: Position { line: open_line, character: open_start },
+                                            end: Position { line: open_line, character: open_end },
+                                        },
+                                    },
+                                    message: format!("Opening tag '{{{{{}}}}}' is here", open_tag_name),
+                                }]),
+                                ..Default::default()
+                            });
+                        }
+                    } else {
+                        // No open tag to close
+                        diagnostics.push(Diagnostic {
+                            range: Range {
+                                start: Position { line: line_num, character: start_col },
+                                end: Position { line: line_num, character: end_col },
+                            },
+                            severity: Some(DiagnosticSeverity::ERROR),
+                            source: Some("mdfx".to_string()),
+                            message: format!("Closing tag '{{{{/{}}}}}' with no matching open tag", close_tag_name),
+                            ..Default::default()
+                        });
+                    }
                     continue;
                 }
 
-                let start_col = start as u32;
-                let end_col = end as u32;
+                // Handle opening tags (non-self-closing)
+                if !is_self_closing {
+                    let tag_name = Self::extract_tag_name(content);
+                    tag_stack.push((tag_name, line_num, start_col, end_col));
+                }
 
+                // Content validation for opening/self-closing tags
                 // Check tech badges: {{ui:tech:NAME...}}
                 if let Some(rest) = content.strip_prefix("ui:tech:") {
                     let tech_name = rest.split(':').next().unwrap_or("");
                     if !tech_name.is_empty() && !valid_tech_names.contains(tech_name) {
                         diagnostics.push(Diagnostic {
                             range: Range {
-                                start: Position { line: line_num as u32, character: start_col },
-                                end: Position { line: line_num as u32, character: end_col },
+                                start: Position { line: line_num, character: start_col },
+                                end: Position { line: line_num, character: end_col },
                             },
                             severity: Some(DiagnosticSeverity::WARNING),
                             source: Some("mdfx".to_string()),
@@ -843,8 +918,8 @@ impl MdfxLanguageServer {
                     if !glyph_name.is_empty() && self.registry.glyph(glyph_name).is_none() {
                         diagnostics.push(Diagnostic {
                             range: Range {
-                                start: Position { line: line_num as u32, character: start_col },
-                                end: Position { line: line_num as u32, character: end_col },
+                                start: Position { line: line_num, character: start_col },
+                                end: Position { line: line_num, character: end_col },
                             },
                             severity: Some(DiagnosticSeverity::WARNING),
                             source: Some("mdfx".to_string()),
@@ -862,11 +937,10 @@ impl MdfxLanguageServer {
                     let valid_sources: Vec<&str> = params::valid_live_sources().collect();
 
                     if parts.is_empty() || parts[0].is_empty() {
-                        // Incomplete - no source
                         diagnostics.push(Diagnostic {
                             range: Range {
-                                start: Position { line: line_num as u32, character: start_col },
-                                end: Position { line: line_num as u32, character: end_col },
+                                start: Position { line: line_num, character: start_col },
+                                end: Position { line: line_num, character: end_col },
                             },
                             severity: Some(DiagnosticSeverity::ERROR),
                             source: Some("mdfx".to_string()),
@@ -876,12 +950,11 @@ impl MdfxLanguageServer {
                     } else {
                         let source = parts[0];
 
-                        // Check if source is valid
                         if !valid_sources.contains(&source) {
                             diagnostics.push(Diagnostic {
                                 range: Range {
-                                    start: Position { line: line_num as u32, character: start_col },
-                                    end: Position { line: line_num as u32, character: end_col },
+                                    start: Position { line: line_num, character: start_col },
+                                    end: Position { line: line_num, character: end_col },
                                 },
                                 severity: Some(DiagnosticSeverity::ERROR),
                                 source: Some("mdfx".to_string()),
@@ -893,7 +966,6 @@ impl MdfxLanguageServer {
                                 ..Default::default()
                             });
                         } else if parts.len() > 2 {
-                            // Check metric validity
                             let metric = parts[2];
                             if !params::is_valid_metric(source, metric) {
                                 let valid_metrics: Vec<&str> = params::metrics_for_source(source)
@@ -901,8 +973,8 @@ impl MdfxLanguageServer {
                                     .unwrap_or_default();
                                 diagnostics.push(Diagnostic {
                                     range: Range {
-                                        start: Position { line: line_num as u32, character: start_col },
-                                        end: Position { line: line_num as u32, character: end_col },
+                                        start: Position { line: line_num, character: start_col },
+                                        end: Position { line: line_num, character: end_col },
                                     },
                                     severity: Some(DiagnosticSeverity::WARNING),
                                     source: Some("mdfx".to_string()),
@@ -921,7 +993,34 @@ impl MdfxLanguageServer {
             }
         }
 
+        // Report any unclosed tags
+        for (tag_name, line_num, start_col, end_col) in tag_stack {
+            diagnostics.push(Diagnostic {
+                range: Range {
+                    start: Position { line: line_num, character: start_col },
+                    end: Position { line: line_num, character: end_col },
+                },
+                severity: Some(DiagnosticSeverity::ERROR),
+                source: Some("mdfx".to_string()),
+                message: format!("Unclosed tag '{{{{{}}}}}' - missing '{{{{/{}}}}}'", tag_name, tag_name),
+                ..Default::default()
+            });
+        }
+
         diagnostics
+    }
+
+    /// Extract tag name from template content for matching
+    /// e.g., "bold" from "bold", "frame:gradient" from "frame:gradient"
+    fn extract_tag_name(content: &str) -> String {
+        // For frame:name, keep the full "frame:name"
+        if content.starts_with("frame:") {
+            let name = content.strip_prefix("frame:").unwrap_or("");
+            let name = name.split(':').next().unwrap_or(name);
+            return format!("frame:{}", name);
+        }
+        // For styles/components, just the name before any args
+        content.split(':').next().unwrap_or(content).to_string()
     }
 
     /// Analyze the text around the cursor to determine completion context
@@ -1357,7 +1456,7 @@ impl LanguageServer for MdfxLanguageServer {
         let mut symbols = Vec::new();
 
         for (line_num, line) in text.lines().enumerate() {
-            for (start, is_closing, template_content, end) in Self::find_templates(line) {
+            for (start, is_closing, _is_self_closing, template_content, end) in Self::find_templates(line) {
                 // Skip closing tags for symbols
                 if is_closing {
                     continue;
