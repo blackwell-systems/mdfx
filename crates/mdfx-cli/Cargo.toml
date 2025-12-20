@@ -4,6 +4,7 @@ description = "CLI tool for mdfx: Transform markdown with Unicode text effects a
 keywords = ["markdown", "unicode", "cli", "preprocessor"]
 categories = ["command-line-utilities", "text-processing"]
 readme = "../../README.md"
+documentation = "https://docs.rs/mdfx-cli"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true

@@ -9,6 +9,8 @@ homepage.workspace = true
 description = "Simple Icons library for badge generation - SVG paths and brand colors"
 keywords = ["icons", "svg", "badges", "brands", "simple-icons"]
 categories = ["graphics", "multimedia::images"]
+readme = "../../README.md"
+documentation = "https://docs.rs/mdfx-icons"
 
 [dependencies]
 mdfx-colors = { version = "1.0", path = "../mdfx-colors" }

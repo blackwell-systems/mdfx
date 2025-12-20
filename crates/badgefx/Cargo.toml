@@ -9,6 +9,8 @@ homepage.workspace = true
 description = "Technology badge generation with SVG output - supports multiple styles, icons, and custom branding"
 keywords = ["badges", "svg", "tech", "icons", "shields"]
 categories = ["graphics", "multimedia::images", "web-programming"]
+readme = "../../README.md"
+documentation = "https://docs.rs/badgefx"
 
 [features]
 default = []

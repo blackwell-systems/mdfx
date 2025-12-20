@@ -9,6 +9,8 @@ homepage.workspace = true
 description = "Color utilities for badge generation - luminance calculation, contrast detection, and hex parsing"
 keywords = ["color", "luminance", "contrast", "hex", "badges"]
 categories = ["graphics", "multimedia::color"]
+readme = "../../README.md"
+documentation = "https://docs.rs/mdfx-colors"
 
 [dependencies]
 
