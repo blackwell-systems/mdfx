@@ -367,6 +367,30 @@ New `codecov` source for live badges - fetch code coverage metrics directly from
 
 Requires the `fetch` feature: `cargo build --features fetch`
 
+#### Live Badge CI/CD Workflow
+
+New GitHub Actions workflow (`.github/workflows/update-badges.yml`) for automatic live badge updates:
+
+**Features:**
+- Runs daily at 6:00 AM UTC (configurable cron)
+- Manual trigger via `workflow_dispatch`
+- Early exit if no `{{ui:live:` syntax in template (saves CI minutes)
+- Only commits when badge values actually change
+- Uses `[skip ci]` to avoid triggering CI on badge-only updates
+- Caches API responses between runs
+
+**Usage:**
+```yaml
+# Workflow checks for live badges automatically
+# No configuration needed - just add to your repo
+```
+
+**Behavior:**
+1. Checks `README.template.md` for `{{ui:live:` syntax
+2. If found, builds mdfx with `--features fetch`
+3. Renders template with `--refresh` to fetch fresh data
+4. Commits and pushes only if output changed
+
 ### Changed
 
 #### Component Handler Parameter Helpers
