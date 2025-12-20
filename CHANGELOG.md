@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **LSP document caching**: Fixed completions not working in unsaved buffers or remote files (WSL). The LSP now properly caches document content from `didOpen`/`didChange` events instead of reading from disk
 - **LSP diagnostic related_information**: Fixed diagnostic related information using actual document URI instead of placeholder, enabling proper "jump to opening tag" in editors
+- **LSP --stdio flag**: Added `--stdio` flag to `mdfx lsp run` for VS Code extension compatibility (stdio is the default and only mode)
 
 ### Changed
 - **Internal**: Refactored thumb parameters into `ThumbConfig` struct, reducing code complexity and centralizing thumb configuration
