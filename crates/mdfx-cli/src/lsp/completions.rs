@@ -326,6 +326,114 @@ impl CachedCompletions {
             ..Default::default()
         });
 
+        // Add "ui:tech:" prefix for technology badges
+        top_level.push(CompletionItem {
+            label: "ui:tech:".to_string(),
+            kind: Some(CompletionItemKind::KEYWORD),
+            detail: Some("Technology badge".to_string()),
+            documentation: Some(Documentation::String(
+                "Render technology/language badges with brand colors.\n\n\
+                Supports 600+ technologies with brand colors and icons.\n\n\
+                Parameters:\n\
+                - style: flat, flat-square, plastic, for-the-badge, social\n\
+                - bg: Background color override\n\
+                - text: Text color override\n\
+                - label: Custom label text\n\n\
+                Example: {{ui:tech:rust/}}, {{ui:tech:typescript:style=flat/}}"
+                    .to_string(),
+            )),
+            insert_text: Some("ui:tech:".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+            ..Default::default()
+        });
+
+        // Add "ui:live:" prefix for live data badges
+        top_level.push(CompletionItem {
+            label: "ui:live:".to_string(),
+            kind: Some(CompletionItemKind::KEYWORD),
+            detail: Some("Live data badge".to_string()),
+            documentation: Some(Documentation::String(
+                "Render live data badges from external sources.\n\n\
+                Sources:\n\
+                - github: GitHub repository stats (stars, forks, issues, etc.)\n\
+                - npm: npm package stats (downloads, version)\n\
+                - crates: crates.io stats (downloads, version)\n\
+                - pypi: PyPI package stats\n\n\
+                Example: {{ui:live:github:owner/repo:stars/}}\n\
+                Example: {{ui:live:npm:package-name:downloads/}}"
+                    .to_string(),
+            )),
+            insert_text: Some("ui:live:".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+            ..Default::default()
+        });
+
+        // Add "ui:progress:" progress bar component
+        top_level.push(CompletionItem {
+            label: "ui:progress:".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Progress bar".to_string()),
+            documentation: Some(Documentation::String(
+                "Render progress bar visualization.\n\n\
+                Parameters:\n\
+                - width: Bar width in pixels (default: 100)\n\
+                - height: Bar height in pixels (default: 10)\n\
+                - fill: Fill color (default: pink)\n\
+                - track: Track color (default: gray)\n\
+                - label: Show percentage label\n\n\
+                Example: {{ui:progress:75/}}\n\
+                Example: {{ui:progress:50:fill=success:width=200/}}"
+                    .to_string(),
+            )),
+            insert_text: Some("ui:progress:${1:value}/".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
+        // Add "ui:donut:" donut chart component
+        top_level.push(CompletionItem {
+            label: "ui:donut:".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Donut chart".to_string()),
+            documentation: Some(Documentation::String(
+                "Render donut/ring chart visualization.\n\n\
+                Parameters:\n\
+                - size: Diameter in pixels (default: 40)\n\
+                - thickness: Ring thickness (default: 4)\n\
+                - fill: Fill color (default: pink)\n\
+                - track: Track color (default: gray)\n\
+                - label: Show percentage label\n\n\
+                Example: {{ui:donut:75/}}\n\
+                Example: {{ui:donut:50:size=60:fill=accent/}}"
+                    .to_string(),
+            )),
+            insert_text: Some("ui:donut:${1:value}/".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
+        // Add "ui:gauge:" gauge meter component
+        top_level.push(CompletionItem {
+            label: "ui:gauge:".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Gauge meter".to_string()),
+            documentation: Some(Documentation::String(
+                "Render gauge/speedometer visualization.\n\n\
+                Parameters:\n\
+                - size: Width in pixels (default: 80)\n\
+                - thickness: Arc thickness (default: 8)\n\
+                - fill: Fill color (default: pink)\n\
+                - track: Track color (default: gray)\n\
+                - label: Show percentage label\n\n\
+                Example: {{ui:gauge:75/}}\n\
+                Example: {{ui:gauge:50:size=100:fill=warning/}}"
+                    .to_string(),
+            )),
+            insert_text: Some("ui:gauge:${1:value}/".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
         // Add "ui:row" block component
         top_level.push(CompletionItem {
             label: "ui:row".to_string(),
