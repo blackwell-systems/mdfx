@@ -281,12 +281,17 @@ The LSP provides completions for:
 
 | Trigger | Completions |
 |---------|-------------|
-| `{{` | All styles, components, `glyph:`, `frame:` |
+| `{{` | All styles, components, `glyph:`, `frame:`, `ui:` prefixes |
 | `{{glyph:` | All 389 glyph names |
 | `{{frame:` | All frame names |
 | `{{ui:tech:` | All 90+ tech badge names (rust, typescript, docker, etc.) |
 | `{{ui:tech:rust:` | Tech badge parameters (border, logo_size, corners, etc.) |
 | `{{ui:tech:rust:logo_size=` | Parameter values (xs, sm, md, lg, xl, xxl) |
+| `{{ui:version:` | Version badges with status detection |
+| `{{ui:license:` | License badges with category coloring |
+| `{{ui:row` | Horizontal badge row layout |
+| `{{ui:tech-group` | Grouped badges with auto corner handling |
+| `{{ui:live:` | Live data sources (github, npm, crates, pypi) |
 | `{{swatch:` | Palette colors |
 | `bg=` / `fg=` | Palette colors |
 | `style=` | Shield styles (flat, flat-square, for-the-badge, plastic, social) |
@@ -342,6 +347,48 @@ Hover over any template element to see:
 - **Styles**: Name, description, aliases, supported characters
 - **Components**: Type, arguments, description
 
+### Color Picker
+
+The LSP provides color picker support for hex colors in templates. When editing color parameters, you'll see:
+
+- **Inline color swatches** next to hex values
+- **Color picker UI** for visually selecting colors
+
+Supported color formats:
+- 6-character hex: `bg=FF5733`
+- 3-character hex: `bg=F53` (expanded to FF5533)
+
+Example:
+```markdown
+{{ui:tech:rust:bg=DEA584:logo=FFFFFF/}}
+{{swatch:1a1a2e/}}
+```
+
+When you click on a color swatch or use your editor's color picker command, you can visually adjust the color and the hex value will be updated automatically.
+
+### Code Actions / Quick Fixes
+
+The LSP provides interactive quick fixes for common issues:
+
+**"Add /}}" Quick Fix**
+
+When a self-closing template is missing `/}}`:
+```markdown
+{{ui:tech:rust}}  ⚠️ Should be self-closing
+```
+Click the lightbulb or use `Cmd+.` to apply: "Add self-closing syntax '/}}'"
+
+**"Did you mean X?" Suggestions**
+
+For unknown tech badges or glyphs, the LSP suggests similar names using fuzzy matching:
+```markdown
+{{ui:tech:typescipt/}}  ⚠️ Unknown tech badge 'typescipt'
+                        💡 Did you mean 'typescript'?
+                        💡 Did you mean 'javascript'?
+```
+
+Suggestions are ranked by edit distance, showing the closest matches first.
+
 ### Document Symbols (Outline View)
 
 The LSP provides document symbols for the editor's outline view. Open your editor's outline panel (Cmd+Shift+O in VS Code) to see all mdfx templates in the current file:
@@ -371,6 +418,25 @@ The LSP validates your templates and shows errors/warnings:
 ```markdown
 {{ui:live:invalid:query:metric/}}  ❌ Unknown live source 'invalid'
 {{ui:live:github:owner/repo:bad/}}  ⚠️ Unknown metric 'bad' for source 'github'
+```
+
+**Tag Pair Validation:**
+```markdown
+{{bold}}text{{/italic}}      ❌ Mismatched tags - opened 'bold', closed 'italic'
+{{mathbold}}text             ❌ Unclosed tag 'mathbold' - missing '{{/mathbold}}' or '{{//}}'
+{{/bold}}                    ❌ Extra closing tag with no open tag
+{{//}}                       ❌ Universal closer with no open tag
+```
+
+**Self-Closing Warnings:**
+```markdown
+{{ui:tech:rust}}             ⚠️ Template should be self-closing with '/}}'
+{{glyph:star}}               ⚠️ Template should be self-closing with '/}}'
+```
+
+**Malformed Template Detection:**
+```markdown
+{{blackboard}text            ❌ Malformed template '{{blackboard' - missing closing '}}'
 ```
 
 Diagnostics appear inline in your editor and in the problems panel.
@@ -416,6 +482,10 @@ The LSP server is optimized for fast responses:
 
 - **Cached completions**: All completion items (glyphs, styles, frames, tech names, etc.) are pre-built at server startup
 - **Shared parameter definitions**: Tech badge and live source parameters use a single source of truth shared with the renderer
-- **Lazy regex compilation**: Diagnostic patterns are compiled once and reused
+- **Byte-level template parsing**: Template detection uses direct byte manipulation instead of regex
+- **Optimized fuzzy matching**: "Did you mean?" suggestions use bounded Levenshtein distance with:
+  - Two-row O(n) space algorithm instead of O(m×n) matrix
+  - Early termination when distance exceeds threshold
+  - Length difference pre-check to skip obviously dissimilar names
 
 The registry load (~504 glyphs, 24 styles, 29 frames, 90+ tech badges) happens at startup with no impact on completion response times.
