@@ -42,6 +42,7 @@ fn mdfx_render_full(
         bg_right,
         None, // raised
         None, // logo_size
+        None, // icon
     )
 }
 

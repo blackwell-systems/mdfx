@@ -179,6 +179,7 @@ impl Renderer for SvgBackend {
                     cfg.bg_right.as_deref(),
                     cfg.raised,
                     cfg.logo_size,
+                    cfg.icon.as_deref(),
                 )
             }
 

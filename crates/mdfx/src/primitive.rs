@@ -100,6 +100,8 @@ pub struct TechConfig {
     pub logo_size: Option<u32>,
     /// URL to link the badge to (wraps markdown image in link syntax).
     pub url: Option<String>,
+    /// Custom SVG path data for unsupported technologies.
+    pub icon: Option<String>,
 }
 
 impl Default for TechConfig {
@@ -125,6 +127,7 @@ impl Default for TechConfig {
             raised: None,
             logo_size: None,
             url: None,
+            icon: None,
         }
     }
 }

@@ -140,6 +140,9 @@ pub fn handle(
     // URL for clickable badge links
     let url = params.get("url").cloned();
 
+    // Custom SVG path data for unsupported technologies
+    let icon = params.get("icon").cloned();
+
     Ok(ComponentOutput::Primitive(Primitive::Tech(TechConfig {
         name,
         bg_color,
@@ -161,5 +164,6 @@ pub fn handle(
         raised,
         logo_size,
         url,
+        icon,
     })))
 }

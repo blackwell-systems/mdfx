@@ -54,6 +54,7 @@ pub fn render_with_options(
     bg_right: Option<&str>,
     raised: Option<u32>,
     logo_size: Option<u32>,
+    icon: Option<&str>,
 ) -> String {
     // Build badge using badgefx
     let mut builder = BadgeBuilder::new(name);
@@ -147,6 +148,11 @@ pub fn render_with_options(
         builder = builder.logo_size(size);
     }
 
+    // Set custom icon path if specified
+    if let Some(path) = icon {
+        builder = builder.custom_icon(path);
+    }
+
     // Handle outline/ghost style
     if matches!(style.to_lowercase().as_str(), "outline" | "ghost") {
         builder = builder.outline();
@@ -237,6 +243,7 @@ mod tests {
             None,
             None,
             None,
+            None,
         );
 
         assert!(svg.contains("<svg"));
@@ -264,6 +271,7 @@ mod tests {
             None,
             None,
             None,
+            None,
         );
 
         assert!(svg.contains("<svg"));
@@ -282,6 +290,7 @@ mod tests {
             None,
             false,
             false,
+            None,
             None,
             None,
             None,
@@ -319,6 +328,7 @@ mod tests {
             None,
             None,
             None,
+            None,
         );
 
         assert!(svg.contains("<svg"));
@@ -346,6 +356,7 @@ mod tests {
             None,
             None,
             Some(4), // 4px raised
+            None,
             None,
         );
 
@@ -375,6 +386,7 @@ mod tests {
             None,
             None,
             Some(18), // 18px logo
+            None,
         );
 
         assert!(svg.contains("<svg"));

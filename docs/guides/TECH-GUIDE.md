@@ -71,6 +71,7 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
 | `logo_size` | preset/number | md | Logo size: `xs` (10px), `sm` (12px), `md` (14px), `lg` (16px), `xl` (18px), `xxl` (20px), or custom px |
 | `url` | string | none | URL to link badge to (wraps in markdown link syntax) |
+| `icon` | string | none | Custom SVG path data for unsupported technologies |
 
 </details>
 
