@@ -180,57 +180,6 @@ Directional arrow shapes:
 
 ---
 
-## {{script:separator=card.heart}}Typography Showcase{{/script}}
-
-### Text Style Headers
-
-{{mathbold}}MATHEMATICAL BOLD{{/mathbold}} → Primary headers
-{{fullwidth}}ＦＵＬＬ　ＷＩＤＴＨ{{/fullwidth}} → Wide emphasis
-{{fraktur}}Fraktur Gothic{{/fraktur}} → Medieval feel
-{{script}}Script Elegance{{/script}} → Flowing style
-{{double-struck}}Double Struck{{/double-struck}} → Mathematical
-
-### Enclosed Styles for Labels
-
-{{negative-squared}}NEW{{/negative-squared}} Feature announcement
-{{negative-circled}}HOT{{/negative-circled}} Trending item
-{{squared-latin}}INFO{{/squared-latin}} Information note
-{{circled-latin}}TIP{{/circled-latin}} Helpful hint
-
-### Separators Gallery
-
-{{mathbold:separator=dot}}DOT SEPARATED{{/mathbold}}
-{{mathbold:separator=star.filled}}STAR SEPARATED{{/mathbold}}
-{{mathbold:separator=arrow.right}}ARROW FLOW{{/mathbold}}
-{{mathbold:separator=diamond.filled}}DIAMOND CHAIN{{/mathbold}}
-{{mathbold:separator=card.heart}}HEART LOVE{{/mathbold}}
-
----
-
-## {{glyph:star.filled/}} Glyph Decorations {{glyph:star.filled/}}
-
-### Number Badges
-
-{{glyph:circle.1/}} Install dependencies
-{{glyph:circle.2/}} Configure environment
-{{glyph:circle.3/}} Run build
-{{glyph:circle.4/}} Deploy to production
-
-### Checkboxes
-
-{{glyph:check.yes/}} Rust installed
-{{glyph:check.yes/}} Docker running
-{{glyph:check.empty/}} Tests passing
-{{glyph:check.empty/}} Documentation updated
-
-### Decorative Dividers
-
-{{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.filled/}} {{mathbold}}SECTION{{/mathbold}} {{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.filled/}}
-
-{{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}}
-
----
-
 ## {{frame:gradient}}{{mathbold}}RAISED{{/mathbold}}{{/frame}} Icon Badges
 
 Icons that extend above and below the label section:

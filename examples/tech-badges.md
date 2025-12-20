@@ -165,57 +165,6 @@ Directional arrow shapes:
 
 ---
 
-## 𝒯♥𝓎♥𝓅♥ℴ♥ℊ♥𝓇♥𝒶♥𝓅♥𝒽♥𝓎♥ ♥𝒮♥𝒽♥ℴ♥𝓌♥𝒸♥𝒶♥𝓈♥ℯ
-
-### Text Style Headers
-
-𝐌𝐀𝐓𝐇𝐄𝐌𝐀𝐓𝐈𝐂𝐀𝐋 𝐁𝐎𝐋𝐃 → Primary headers
-ＦＵＬＬ　ＷＩＤＴＨ → Wide emphasis
-𝔉𝔯𝔞𝔨𝔱𝔲𝔯 𝔊𝔬𝔱𝔥𝔦𝔠 → Medieval feel
-𝒮𝒸𝓇𝒾𝓅𝓉 ℰ𝓁ℯℊ𝒶𝓃𝒸ℯ → Flowing style
-𝔻𝕠𝕦𝕓𝕝𝕖 𝕊𝕥𝕣𝕦𝕔𝕜 → Mathematical
-
-### Enclosed Styles for Labels
-
-🅽🅴🆆 Feature announcement
-🅗🅞🅣 Trending item
-🄸🄽🄵🄾 Information note
-ⓉⒾⓅ Helpful hint
-
-### Separators Gallery
-
-𝐃·𝐎·𝐓· ·𝐒·𝐄·𝐏·𝐀·𝐑·𝐀·𝐓·𝐄·𝐃
-𝐒★𝐓★𝐀★𝐑★ ★𝐒★𝐄★𝐏★𝐀★𝐑★𝐀★𝐓★𝐄★𝐃
-𝐀→𝐑→𝐑→𝐎→𝐖→ →𝐅→𝐋→𝐎→𝐖
-𝐃◆𝐈◆𝐀◆𝐌◆𝐎◆𝐍◆𝐃◆ ◆𝐂◆𝐇◆𝐀◆𝐈◆𝐍
-𝐇♥𝐄♥𝐀♥𝐑♥𝐓♥ ♥𝐋♥𝐎♥𝐕♥𝐄
-
----
-
-## ★︎ Glyph Decorations ★︎
-
-### Number Badges
-
-①︎ Install dependencies
-②︎ Configure environment
-③︎ Run build
-④︎ Deploy to production
-
-### Checkboxes
-
-☑︎ Rust installed
-☑︎ Docker running
-☐︎ Tests passing
-☐︎ Documentation updated
-
-### Decorative Dividers
-
-★︎★︎★︎ 𝐒𝐄𝐂𝐓𝐈𝐎𝐍 ★︎★︎★︎
-
-◆︎ ◆︎ ◆︎ ◆︎ ◆︎
-
----
-
 ## ▓︎▒︎░︎ 𝐑𝐀𝐈𝐒𝐄𝐃 ░︎▒︎▓︎ Icon Badges
 
 Icons that extend above and below the label section:
