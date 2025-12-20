@@ -16,10 +16,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check for live badges in template
+        id: check
+        run: |
+          if [ ! -f "README.template.md" ]; then
+            echo "No README.template.md found"
+            echo "has_live_badges=false" >> $GITHUB_OUTPUT
+          elif grep -q '{{ui:live:' README.template.md; then
+            echo "Live badges found in template"
+            echo "has_live_badges=true" >> $GITHUB_OUTPUT
+          else
+            echo "No live badges in template"
+            echo "has_live_badges=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Install Rust
+        if: steps.check.outputs.has_live_badges == 'true'
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cache cargo
+        if: steps.check.outputs.has_live_badges == 'true'
         uses: actions/cache@v4
         with:
           path: |
@@ -29,9 +45,11 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Build mdfx with fetch feature
+        if: steps.check.outputs.has_live_badges == 'true'
         run: cargo build --release --features fetch
 
       - name: Restore badge cache
+        if: steps.check.outputs.has_live_badges == 'true'
         uses: actions/cache@v4
         with:
           path: .mdfx-cache
@@ -40,17 +58,15 @@ jobs:
             mdfx-badge-cache-
 
       - name: Render README with live data
+        if: steps.check.outputs.has_live_badges == 'true'
         run: |
-          # Process template files that use live badges
-          # Adjust paths as needed for your project
-          if [ -f "README.template.md" ]; then
-            ./target/release/mdfx process \
-              README.template.md -o README.md \
-              --backend svg --assets-dir assets/mdfx \
-              --refresh
-          fi
+          ./target/release/mdfx process \
+            README.template.md -o README.md \
+            --backend svg --assets-dir assets/mdfx \
+            --refresh
 
       - name: Check for changes
+        if: steps.check.outputs.has_live_badges == 'true'
         id: changes
         run: |
           if git diff --quiet HEAD -- README.md assets/; then
@@ -63,7 +79,7 @@ jobs:
           fi
 
       - name: Commit and push if changed
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.check.outputs.has_live_badges == 'true' && steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
