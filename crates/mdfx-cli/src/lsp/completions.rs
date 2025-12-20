@@ -30,12 +30,15 @@ pub struct CachedCompletions {
     pub live_sources: Vec<CompletionItem>,
     /// Top-level completions (glyph:, frame:, styles, components)
     pub top_level: Vec<CompletionItem>,
+    /// UI namespace completions (tech:, version:, license:, row, etc.)
+    pub ui_namespace: Vec<CompletionItem>,
 }
 
 /// Context for completions
 pub enum CompletionContext {
     None,
     TopLevel(String),    // After {{ - show styles, frames, components, glyph:
+    UiNamespace(String), // After {{ui: - show UI components (tech:, version:, license:, etc.)
     Glyph(String),       // After {{glyph: - show glyph names
     Frame(String),       // After {{frame: - show frame names
     Palette(String),     // Inside color parameter - show palette colors
@@ -425,6 +428,154 @@ impl CachedCompletions {
         top_level.extend(styles.clone());
         top_level.extend(components.clone());
 
+        // Build UI namespace completions (shown after {{ui:)
+        let ui_namespace = vec![
+            CompletionItem {
+                label: "tech:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Technology badge".to_string()),
+                documentation: Some(Documentation::String(
+                    "Render technology/language badges with brand colors.\n\n\
+                    Example: {{ui:tech:rust/}}, {{ui:tech:typescript:style=flat/}}".to_string()
+                )),
+                insert_text: Some("tech:".to_string()),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "version:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Version badge".to_string()),
+                documentation: Some(Documentation::String(
+                    "Render version badges with auto-detected status coloring.\n\n\
+                    Example: {{ui:version:1.0.0/}}, {{ui:version:2.0.0-beta.1/}}".to_string()
+                )),
+                insert_text: Some("version:${1:version}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "license:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("License badge".to_string()),
+                documentation: Some(Documentation::String(
+                    "Render license badges with category-aware coloring.\n\n\
+                    Example: {{ui:license:MIT/}}, {{ui:license:Apache-2.0/}}".to_string()
+                )),
+                insert_text: Some("license:${1:license}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "live:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Live data badge".to_string()),
+                documentation: Some(Documentation::String(
+                    "Render live data badges from external sources.\n\n\
+                    Example: {{ui:live:github:owner/repo:stars/}}".to_string()
+                )),
+                insert_text: Some("live:".to_string()),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "row".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Horizontal row of badges".to_string()),
+                documentation: Some(Documentation::String(
+                    "Horizontal row of badges with alignment control.\n\n\
+                    Example: {{ui:row}}...{{/ui}}".to_string()
+                )),
+                insert_text: Some("row}}$1{{/ui}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "tech-group".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Group of badges with auto corner handling".to_string()),
+                documentation: Some(Documentation::String(
+                    "Group badges with automatic corner handling.\n\n\
+                    Example: {{ui:tech-group}}...{{/ui}}".to_string()
+                )),
+                insert_text: Some("tech-group}}$1{{/ui}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "progress:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Progress bar".to_string()),
+                documentation: Some(Documentation::String(
+                    "Render progress bar visualization.\n\n\
+                    Example: {{ui:progress:75/}}".to_string()
+                )),
+                insert_text: Some("progress:${1:value}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "donut:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Donut chart".to_string()),
+                documentation: Some(Documentation::String(
+                    "Render donut/pie chart visualization.\n\n\
+                    Example: {{ui:donut:75/}}".to_string()
+                )),
+                insert_text: Some("donut:${1:value}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "gauge:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Gauge meter".to_string()),
+                documentation: Some(Documentation::String(
+                    "Render gauge/speedometer visualization.\n\n\
+                    Example: {{ui:gauge:75/}}".to_string()
+                )),
+                insert_text: Some("gauge:${1:value}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "sparkline:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Mini inline chart".to_string()),
+                documentation: Some(Documentation::String(
+                    "Mini inline chart for data visualization.\n\n\
+                    Example: {{ui:sparkline:1,3,2,5,4/}}".to_string()
+                )),
+                insert_text: Some("sparkline:${1:values}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "rating:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Star/heart rating".to_string()),
+                documentation: Some(Documentation::String(
+                    "Star/heart rating display.\n\n\
+                    Example: {{ui:rating:4.5/}}".to_string()
+                )),
+                insert_text: Some("rating:${1:value}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+            CompletionItem {
+                label: "waveform:".to_string(),
+                kind: Some(CompletionItemKind::MODULE),
+                detail: Some("Audio waveform".to_string()),
+                documentation: Some(Documentation::String(
+                    "Audio-style waveform visualization.\n\n\
+                    Example: {{ui:waveform:0.5,-0.3,0.8/}}".to_string()
+                )),
+                insert_text: Some("waveform:${1:values}/}}".to_string()),
+                insert_text_format: Some(InsertTextFormat::SNIPPET),
+                ..Default::default()
+            },
+        ];
+
         CachedCompletions {
             glyphs,
             styles,
@@ -436,6 +587,7 @@ impl CachedCompletions {
             tech_params,
             live_sources,
             top_level,
+            ui_namespace,
         }
     }
 
@@ -525,6 +677,22 @@ pub fn get_completion_context(registry: &Registry, text: &str, position: Positio
         // Check for frame: prefix
         if let Some(rest) = after_open.strip_prefix("frame:") {
             return CompletionContext::Frame(rest.to_string());
+        }
+
+        // Check for UI namespace: {{ui: (but not {{ui:tech: or {{ui:live: etc.)
+        if let Some(rest) = after_open.strip_prefix("ui:") {
+            // If it's a more specific prefix, let those handlers deal with it
+            if rest.starts_with("tech:") || rest.starts_with("live:")
+                || rest.starts_with("version:") || rest.starts_with("license:")
+                || rest.starts_with("progress:") || rest.starts_with("donut:")
+                || rest.starts_with("gauge:") || rest.starts_with("sparkline:")
+                || rest.starts_with("rating:") || rest.starts_with("waveform:")
+                || rest.starts_with("row") || rest.starts_with("tech-group") {
+                // Fall through to more specific handlers below
+            } else {
+                // Just {{ui: or {{ui:partial - show UI namespace completions
+                return CompletionContext::UiNamespace(rest.to_string());
+            }
         }
 
         // Check for live data source context: {{ui:live:...

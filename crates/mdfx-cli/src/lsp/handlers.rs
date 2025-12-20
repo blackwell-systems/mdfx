@@ -140,6 +140,9 @@ impl LanguageServer for MdfxLanguageServer {
             CompletionContext::TopLevel(prefix) => {
                 filter_completions(&self.cached.top_level, &prefix)
             }
+            CompletionContext::UiNamespace(prefix) => {
+                filter_completions(&self.cached.ui_namespace, &prefix)
+            }
             CompletionContext::Glyph(prefix) => {
                 filter_completions(&self.cached.glyphs, &prefix)
             }
