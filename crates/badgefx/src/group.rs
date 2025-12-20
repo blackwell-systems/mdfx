@@ -143,7 +143,8 @@ pub fn group_badges_svg(badges: Vec<String>, style: &str, vertical_align: &str) 
     }
 
     if badges.len() == 1 {
-        return badges.into_iter().next().unwrap();
+        // Safe: we just checked len() == 1
+        return badges.into_iter().next().expect("checked len == 1");
     }
 
     let spacing = badge_spacing(style, badges.len());
