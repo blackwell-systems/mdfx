@@ -67,9 +67,9 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `chevron` | enum | none | Arrow shape: `left`, `right`, or `both` |
 | `bg_left` | color | bg | Left segment (icon area) background color |
 | `bg_right` | color | darkened bg | Right segment (label area) background color |
+| `raised` | number | none | Pixels the icon section extends above/below the label section |
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
-| `icon` | string | none | Custom SVG path data for unsupported technologies |
-| `logo_size` | preset/number | md | Logo size: `xs` (10px), `sm` (12px), `md` (14px), `lg` (16px), `xl` (18px), or custom px |
+| `logo_size` | preset/number | md | Logo size: `xs` (10px), `sm` (12px), `md` (14px), `lg` (16px), `xl` (18px), `xxl` (20px), or custom px |
 | `url` | string | none | URL to link badge to (wraps in markdown link syntax) |
 
 </details>
