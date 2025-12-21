@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **LSP hover previews**: Real-time SVG previews in hover popups for badges and visualizations. Hover over `{{ui:tech:rust/}}` to see the actual badge rendered inline - no disk I/O required. Supports tech badges, swatches, progress bars, donut charts, gauges, and ratings
+- **LSP hover previews**: Real-time SVG previews in hover popups for badges and visualizations. Hover over `{{ui:tech:rust/}}` to see the actual badge rendered inline - no disk I/O required. Supports all tech badge parameters (`style`, `bg`, `logo`, `border`, `rx`, `corners`, `chevron`, `raised`, etc.), swatches, progress bars, donut charts, gauges, and ratings. Palette colors are resolved automatically
 - **Parameter guardrails for visualization components**: All visualization handlers (progress, donut, gauge, rating, sparkline, waveform) now clamp parameters to reasonable bounds, preventing excessive values that could cause rendering issues. Bounds include: width (1-2000px), height (1-500px), size (10-500px), thickness (1-50px), stroke_width (1-20px), and others
 - **Thumb borders for slider components**: Progress, Donut, and Gauge now support `thumb_border` and `thumb_border_width` parameters for adding stroke borders to thumb indicators
 - **Asset path prefix option**: New `--assets-prefix` flag for `process` and `watch` commands allows markdown references to use a different path than where files are written. Useful when assets are in a subdirectory but markdown needs relative paths (e.g., write to `examples/assets/` but reference as `assets/`)
@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Shared parameter definitions**: New `mdfx::components::params` module provides a single source of truth for tech badge and live source parameters, used by both the renderer and LSP
 
 ### Fixed
+- **LSP case-insensitive tech validation**: Tech badge names like `Rust`, `RUST`, and `rust` are now all valid. Diagnostics, semantic tokens, and hover previews all use case-insensitive matching while preserving the user's original case in the rendered label
+- **LSP palette color resolution in previews**: Hover previews now resolve palette color names (like `accent`, `primary`) to their hex values. Previously `{{ui:tech:vercel:bg_right=accent/}}` would show black in preview
 - **LSP document caching**: Fixed completions not working in unsaved buffers or remote files (WSL). The LSP now properly caches document content from `didOpen`/`didChange` events instead of reading from disk
 - **LSP diagnostic related_information**: Fixed diagnostic related information using actual document URI instead of placeholder, enabling proper "jump to opening tag" in editors
 - **LSP --stdio flag**: Added `--stdio` flag to `mdfx lsp run` for VS Code extension compatibility (stdio is the default and only mode)
