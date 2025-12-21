@@ -179,7 +179,10 @@ pub fn generate_diagnostics(registry: &Registry, text: &str, uri: &Url) -> Vec<D
             // Check tech badges: {{ui:tech:NAME...}}
             if let Some(rest) = content.strip_prefix("ui:tech:") {
                 let tech_name = rest.split(':').next().unwrap_or("");
-                if !tech_name.is_empty() && !valid_tech_names.contains(tech_name) {
+                // Case-insensitive check - icons list is lowercase
+                if !tech_name.is_empty()
+                    && !valid_tech_names.contains(tech_name.to_lowercase().as_str())
+                {
                     diagnostics.push(Diagnostic {
                         range: Range {
                             start: Position {
