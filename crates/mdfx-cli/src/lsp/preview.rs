@@ -9,35 +9,112 @@ use mdfx_icons::brand_color;
 ///
 /// Returns markdown with an embedded SVG image via data URI
 pub fn tech_badge_preview(tech_name: &str, params: &[(String, String)]) -> String {
-    use badgefx::{render, BadgeBuilder, BadgeStyle};
+    use badgefx::{render, BadgeBuilder, BadgeStyle, Chevron, Corners};
 
     // Build the badge
     let mut builder = BadgeBuilder::new(tech_name);
+
+    // Collect border params (need both color and width)
+    let mut border_color: Option<&str> = None;
+    let mut border_width: Option<u32> = None;
+    let mut is_outline = false;
+
+    // First pass: collect border params and check style
+    for (key, value) in params {
+        match key.as_str() {
+            "border" => border_color = Some(value.as_str()),
+            "border_width" => border_width = value.parse().ok(),
+            "style" if value == "outline" || value == "ghost" => is_outline = true,
+            _ => {}
+        }
+    }
 
     // Apply parameters
     for (key, value) in params {
         match key.as_str() {
             "style" => {
-                builder = match value.as_str() {
-                    "flat" => builder.style(BadgeStyle::Flat),
-                    "flat-square" | "square" => builder.style(BadgeStyle::FlatSquare),
-                    "plastic" => builder.style(BadgeStyle::Plastic),
-                    "for-the-badge" | "badge" => builder.style(BadgeStyle::ForTheBadge),
-                    "social" => builder.style(BadgeStyle::Social),
-                    _ => builder,
-                };
+                let style = BadgeStyle::parse(value);
+                builder = builder.style(style);
+                if value == "outline" || value == "ghost" {
+                    builder = builder.outline();
+                }
             }
             "bg" => {
-                builder = builder.bg_color(value);
+                builder = builder.bg_color(ensure_hash(value));
             }
-            "text" => {
-                builder = builder.text_color(value);
+            "bg_left" => {
+                builder = builder.bg_left(ensure_hash(value));
+            }
+            "bg_right" => {
+                builder = builder.bg_right(ensure_hash(value));
+            }
+            "logo" | "logo_color" => {
+                builder = builder.logo_color(ensure_hash(value));
+            }
+            "text" | "text_color" => {
+                builder = builder.text_color(ensure_hash(value));
             }
             "label" => {
                 builder = builder.label(value);
             }
+            "rx" => {
+                if let Ok(r) = value.parse::<u32>() {
+                    builder = builder.corners(Corners::uniform(r));
+                }
+            }
+            "corners" => {
+                // Parse "tl,tr,br,bl" format
+                let vals: Vec<u32> = value.split(',').filter_map(|s| s.parse().ok()).collect();
+                if vals.len() == 4 {
+                    builder = builder.corners(Corners::custom(vals[0], vals[1], vals[2], vals[3]));
+                }
+            }
+            "logo_size" | "icon_size" => {
+                if let Ok(size) = value.parse::<u32>() {
+                    builder = builder.logo_size(size);
+                }
+            }
+            "border_full" => {
+                if value == "true" || value == "1" {
+                    builder = builder.border_full();
+                }
+            }
+            "divider" => {
+                if value == "true" || value == "1" {
+                    builder = builder.divider();
+                }
+            }
+            "raised" => {
+                if let Ok(px) = value.parse::<u32>() {
+                    builder = builder.raised(px);
+                }
+            }
+            "chevron" => {
+                let depth = 10.0;
+                let chev = match value.as_str() {
+                    "left" => Chevron::left(depth),
+                    "right" => Chevron::right(depth),
+                    "both" => Chevron::both(depth),
+                    _ => Chevron::right(depth),
+                };
+                builder = builder.chevron(chev);
+            }
+            "font" => {
+                builder = builder.font(value);
+            }
+            "icon" => {
+                builder = builder.custom_icon(value);
+            }
             _ => {}
         }
+    }
+
+    // Apply border if specified
+    if let Some(color) = border_color {
+        let width = border_width.unwrap_or(if is_outline { 2 } else { 1 });
+        builder = builder.border(ensure_hash(color), width);
+    } else if let Some(width) = border_width {
+        builder = builder.border("#FFFFFF", width);
     }
 
     let badge = builder.build();
@@ -55,6 +132,15 @@ pub fn tech_badge_preview(tech_name: &str, params: &[(String, String)]) -> Strin
         {}",
         tech_name, b64, color_info
     )
+}
+
+/// Ensure a hex color has a # prefix
+fn ensure_hash(color: &str) -> String {
+    if color.starts_with('#') {
+        color.to_string()
+    } else {
+        format!("#{}", color)
+    }
 }
 
 /// Generate a hover preview for a color swatch
@@ -290,4 +376,68 @@ pub fn get_param_u32(params: &[(String, String)], key: &str, default: u32) -> u3
         .find(|(k, _)| k == key)
         .and_then(|(_, v)| v.parse().ok())
         .unwrap_or(default)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_preview_matches_renderer_for_complex_badge() {
+        // Test: {{ui:tech:rust:bg=1a0a0a:logo=DEA584:border=DEA584:border_width=2:rx=6/}}
+        use badgefx::{render, BadgeBuilder, Corners};
+
+        // What preview generates
+        let params = vec![
+            ("bg".to_string(), "1a0a0a".to_string()),
+            ("logo".to_string(), "DEA584".to_string()),
+            ("border".to_string(), "DEA584".to_string()),
+            ("border_width".to_string(), "2".to_string()),
+            ("rx".to_string(), "6".to_string()),
+        ];
+
+        // Get preview markdown (contains base64 SVG)
+        let preview_md = tech_badge_preview("rust", &params);
+        assert!(preview_md.contains("data:image/svg+xml;base64,"));
+
+        // Manually build what we expect
+        let expected_badge = BadgeBuilder::new("rust")
+            .bg_color("#1a0a0a")
+            .logo_color("#DEA584")
+            .border("#DEA584", 2)
+            .corners(Corners::uniform(6))
+            .build();
+        let expected_svg = render(&expected_badge);
+
+        // Extract base64 from preview and decode
+        let b64_start = preview_md.find("base64,").unwrap() + 7;
+        let b64_end = preview_md[b64_start..].find(')').unwrap() + b64_start;
+        let b64 = &preview_md[b64_start..b64_end];
+        let preview_svg = String::from_utf8(STANDARD.decode(b64).unwrap()).unwrap();
+
+        assert_eq!(
+            preview_svg, expected_svg,
+            "Preview SVG should match expected SVG"
+        );
+    }
+
+    #[test]
+    fn test_parse_template_params() {
+        let (parts, params) = parse_template_params("tech:rust:style=flat:bg=FF0000");
+        assert_eq!(parts, "tech:rust");
+        assert_eq!(
+            params,
+            vec![
+                ("style".to_string(), "flat".to_string()),
+                ("bg".to_string(), "FF0000".to_string())
+            ]
+        );
+    }
+
+    #[test]
+    fn test_parse_template_params_no_params() {
+        let (parts, params) = parse_template_params("tech:rust");
+        assert_eq!(parts, "tech:rust");
+        assert!(params.is_empty());
+    }
 }
