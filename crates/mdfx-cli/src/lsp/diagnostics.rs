@@ -203,6 +203,129 @@ pub fn generate_diagnostics(registry: &Registry, text: &str, uri: &Url) -> Vec<D
                         ..Default::default()
                     });
                 }
+
+                // Validate tech badge parameters
+                validate_params(
+                    rest,
+                    &mut diagnostics,
+                    line_num,
+                    start_col,
+                    end_col,
+                    &[
+                        ("style", &["flat", "flat-square", "plastic", "for-the-badge", "social", "outline", "ghost"]),
+                        ("chevron", &["left", "right", "both"]),
+                        ("corners", &["left", "right", "none", "all"]),
+                        ("border_full", &["true", "false"]),
+                        ("divider", &["true", "false"]),
+                    ],
+                    &[
+                        ("rx", 0, 50),
+                        ("height", 10, 100),
+                        ("border_width", 0, 10),
+                        ("logo_size", 8, 32),
+                        ("raised", 0, 20),
+                    ],
+                );
+            }
+            // Validate visualization component parameters
+            else if let Some(rest) = content.strip_prefix("ui:progress:") {
+                validate_params(
+                    rest,
+                    &mut diagnostics,
+                    line_num,
+                    start_col,
+                    end_col,
+                    &[
+                        ("label", &["true", "false"]),
+                        ("thumb", &["true", "false"]),
+                        ("thumb_shape", &["circle", "square", "diamond"]),
+                    ],
+                    &[
+                        ("width", 10, 1000),
+                        ("height", 4, 100),
+                        ("rx", 0, 50),
+                        ("thumb_size", 4, 50),
+                        ("thumb_border_width", 0, 10),
+                    ],
+                );
+            } else if let Some(rest) = content.strip_prefix("ui:donut:") {
+                validate_params(
+                    rest,
+                    &mut diagnostics,
+                    line_num,
+                    start_col,
+                    end_col,
+                    &[
+                        ("label", &["true", "false"]),
+                        ("thumb", &["true", "false"]),
+                    ],
+                    &[
+                        ("size", 10, 500),
+                        ("thickness", 1, 50),
+                        ("thumb_size", 2, 30),
+                    ],
+                );
+            } else if let Some(rest) = content.strip_prefix("ui:gauge:") {
+                validate_params(
+                    rest,
+                    &mut diagnostics,
+                    line_num,
+                    start_col,
+                    end_col,
+                    &[
+                        ("label", &["true", "false"]),
+                        ("thumb", &["true", "false"]),
+                    ],
+                    &[
+                        ("size", 20, 500),
+                        ("thickness", 2, 50),
+                        ("thumb_size", 2, 30),
+                    ],
+                );
+            } else if let Some(rest) = content.strip_prefix("ui:sparkline:") {
+                validate_params(
+                    rest,
+                    &mut diagnostics,
+                    line_num,
+                    start_col,
+                    end_col,
+                    &[
+                        ("type", &["line", "bar", "area"]),
+                        ("dots", &["true", "false"]),
+                    ],
+                    &[
+                        ("width", 20, 1000),
+                        ("height", 10, 200),
+                        ("stroke_width", 1, 10),
+                        ("dot_size", 1, 20),
+                    ],
+                );
+            } else if let Some(rest) = content.strip_prefix("ui:rating:") {
+                validate_params(
+                    rest,
+                    &mut diagnostics,
+                    line_num,
+                    start_col,
+                    end_col,
+                    &[("icon", &["star", "heart", "circle"])],
+                    &[("max", 1, 20), ("size", 8, 100), ("gap", 0, 20)],
+                );
+            } else if let Some(rest) = content.strip_prefix("ui:waveform:") {
+                validate_params(
+                    rest,
+                    &mut diagnostics,
+                    line_num,
+                    start_col,
+                    end_col,
+                    &[("center", &["true", "false"])],
+                    &[
+                        ("width", 20, 1000),
+                        ("height", 10, 200),
+                        ("bar_width", 1, 20),
+                        ("bar", 1, 20),
+                        ("gap", 0, 20),
+                    ],
+                );
             }
             // Check glyphs: {{glyph:NAME/}}
             else if let Some(glyph_name) = content.strip_prefix("glyph:") {
@@ -334,4 +457,76 @@ pub fn generate_diagnostics(registry: &Registry, text: &str, uri: &Url) -> Vec<D
     }
 
     diagnostics
+}
+
+/// Validate parameter values in a template
+fn validate_params(
+    content: &str,
+    diagnostics: &mut Vec<Diagnostic>,
+    line_num: u32,
+    start_col: u32,
+    end_col: u32,
+    enum_params: &[(&str, &[&str])],
+    range_params: &[(&str, i64, i64)],
+) {
+    // Parse key=value pairs from content
+    for part in content.split(':') {
+        if let Some((key, value)) = part.split_once('=') {
+            // Check enum parameters
+            for (param_name, valid_values) in enum_params {
+                if key == *param_name && !valid_values.contains(&value) {
+                    diagnostics.push(Diagnostic {
+                        range: Range {
+                            start: Position {
+                                line: line_num,
+                                character: start_col,
+                            },
+                            end: Position {
+                                line: line_num,
+                                character: end_col,
+                            },
+                        },
+                        severity: Some(DiagnosticSeverity::WARNING),
+                        source: Some("mdfx".to_string()),
+                        message: format!(
+                            "Invalid value '{}' for parameter '{}'. Valid values: {}",
+                            value,
+                            key,
+                            valid_values.join(", ")
+                        ),
+                        ..Default::default()
+                    });
+                }
+            }
+
+            // Check numeric range parameters
+            for (param_name, min, max) in range_params {
+                if key == *param_name {
+                    if let Ok(num) = value.parse::<i64>() {
+                        if num < *min || num > *max {
+                            diagnostics.push(Diagnostic {
+                                range: Range {
+                                    start: Position {
+                                        line: line_num,
+                                        character: start_col,
+                                    },
+                                    end: Position {
+                                        line: line_num,
+                                        character: end_col,
+                                    },
+                                },
+                                severity: Some(DiagnosticSeverity::WARNING),
+                                source: Some("mdfx".to_string()),
+                                message: format!(
+                                    "Value {} for '{}' is outside recommended range ({}-{})",
+                                    num, key, min, max
+                                ),
+                                ..Default::default()
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

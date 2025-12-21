@@ -76,6 +76,11 @@ impl LanguageServer for MdfxLanguageServer {
                     },
                 )),
                 inlay_hint_provider: Some(OneOf::Left(true)),
+                folding_range_provider: Some(FoldingRangeProviderCapability::Simple(true)),
+                document_link_provider: Some(DocumentLinkOptions {
+                    resolve_provider: Some(false),
+                    work_done_progress_options: Default::default(),
+                }),
                 ..Default::default()
             },
             server_info: Some(ServerInfo {
@@ -798,6 +803,142 @@ impl LanguageServer for MdfxLanguageServer {
         }
 
         Ok(None)
+    }
+
+    async fn folding_range(&self, params: FoldingRangeParams) -> Result<Option<Vec<FoldingRange>>> {
+        let uri = &params.text_document.uri;
+        let text = match self.get_document_content(uri) {
+            Some(content) => content,
+            None => return Ok(None),
+        };
+
+        let mut ranges = Vec::new();
+        let mut open_tags: Vec<(String, u32)> = Vec::new(); // (tag_name, start_line)
+
+        for (line_num, line) in text.lines().enumerate() {
+            let line_num = line_num as u32;
+
+            // Find opening tags like {{bold}}, {{ui:row}}, {{frame:star}}
+            for (start, is_closing, is_self_closing, _is_malformed, content, _end) in
+                find_templates(line)
+            {
+                if is_self_closing {
+                    continue; // Self-closing tags don't create fold ranges
+                }
+
+                if is_closing {
+                    // Closing tag - find matching open tag
+                    let close_name = content.trim_start_matches('/');
+                    // Handle universal closer {{//}}
+                    if close_name.is_empty() || close_name == "/" {
+                        if let Some((_, start_line)) = open_tags.pop() {
+                            if start_line < line_num {
+                                ranges.push(FoldingRange {
+                                    start_line,
+                                    start_character: None,
+                                    end_line: line_num,
+                                    end_character: None,
+                                    kind: Some(FoldingRangeKind::Region),
+                                    collapsed_text: None,
+                                });
+                            }
+                        }
+                    } else {
+                        // Specific closer - find matching tag
+                        let close_base = close_name.split(':').next().unwrap_or(close_name);
+                        if let Some(pos) = open_tags.iter().rposition(|(name, _)| {
+                            let open_base = name.split(':').next().unwrap_or(name);
+                            open_base == close_base
+                        }) {
+                            let (_, start_line) = open_tags.remove(pos);
+                            if start_line < line_num {
+                                ranges.push(FoldingRange {
+                                    start_line,
+                                    start_character: None,
+                                    end_line: line_num,
+                                    end_character: None,
+                                    kind: Some(FoldingRangeKind::Region),
+                                    collapsed_text: None,
+                                });
+                            }
+                        }
+                    }
+                } else {
+                    // Opening tag
+                    let _ = start; // Suppress unused warning
+                    let tag_name = content.split([':', '}']).next().unwrap_or(content);
+                    // Only track block-level tags that can have content
+                    if !content.contains("glyph:")
+                        && !content.contains("swatch:")
+                        && !content.starts_with("ui:tech:")
+                        && !content.starts_with("ui:progress:")
+                        && !content.starts_with("ui:donut:")
+                        && !content.starts_with("ui:gauge:")
+                        && !content.starts_with("ui:sparkline:")
+                        && !content.starts_with("ui:rating:")
+                        && !content.starts_with("ui:waveform:")
+                        && !content.starts_with("ui:version:")
+                        && !content.starts_with("ui:license:")
+                        && !content.starts_with("ui:live:")
+                    {
+                        open_tags.push((tag_name.to_string(), line_num));
+                    }
+                }
+            }
+        }
+
+        if ranges.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(ranges))
+        }
+    }
+
+    async fn document_link(&self, params: DocumentLinkParams) -> Result<Option<Vec<DocumentLink>>> {
+        let uri = &params.text_document.uri;
+        let text = match self.get_document_content(uri) {
+            Some(content) => content,
+            None => return Ok(None),
+        };
+
+        let mut links = Vec::new();
+        let url_pattern = regex::Regex::new(r"url=(https?://[^\s:}/]+[^\s:}]*)").ok();
+
+        if let Some(re) = url_pattern {
+            for (line_num, line) in text.lines().enumerate() {
+                for cap in re.captures_iter(line) {
+                    if let Some(url_match) = cap.get(1) {
+                        let start_col = url_match.start() as u32;
+                        let end_col = url_match.end() as u32;
+                        let url = url_match.as_str();
+
+                        if let Ok(parsed_url) = url.parse::<Url>() {
+                            links.push(DocumentLink {
+                                range: Range {
+                                    start: Position {
+                                        line: line_num as u32,
+                                        character: start_col,
+                                    },
+                                    end: Position {
+                                        line: line_num as u32,
+                                        character: end_col,
+                                    },
+                                },
+                                target: Some(parsed_url),
+                                tooltip: Some(format!("Open {}", url)),
+                                data: None,
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        if links.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(links))
+        }
     }
 }
 
