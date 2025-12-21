@@ -117,6 +117,12 @@ pub fn tech_badge_preview(tech_name: &str, params: &[(String, String)]) -> Strin
         builder = builder.border("#FFFFFF", width);
     }
 
+    // If no explicit label was set, use tech_name as-is to preserve user's case
+    // e.g., "Rust" stays "Rust", "RUST" stays "RUST"
+    if !params.iter().any(|(k, _)| k == "label") {
+        builder = builder.label(tech_name);
+    }
+
     let badge = builder.build();
     let svg = render(&badge);
 
@@ -400,8 +406,9 @@ mod tests {
         let preview_md = tech_badge_preview("rust", &params);
         assert!(preview_md.contains("data:image/svg+xml;base64,"));
 
-        // Manually build what we expect
+        // Manually build what we expect - note: label preserves user's case
         let expected_badge = BadgeBuilder::new("rust")
+            .label("rust") // preserves user's original case
             .bg_color("#1a0a0a")
             .logo_color("#DEA584")
             .border("#DEA584", 2)
@@ -419,6 +426,37 @@ mod tests {
             preview_svg, expected_svg,
             "Preview SVG should match expected SVG"
         );
+    }
+
+    #[test]
+    fn test_preview_preserves_case() {
+        use badgefx::{render, BadgeBuilder};
+
+        // Test uppercase preserves case
+        let preview_upper = tech_badge_preview("RUST", &[]);
+        let expected_upper = BadgeBuilder::new("RUST").label("RUST").build();
+        let expected_upper_svg = render(&expected_upper);
+
+        let b64_start = preview_upper.find("base64,").unwrap() + 7;
+        let b64_end = preview_upper[b64_start..].find(')').unwrap() + b64_start;
+        let b64 = &preview_upper[b64_start..b64_end];
+        let preview_svg = String::from_utf8(STANDARD.decode(b64).unwrap()).unwrap();
+
+        assert_eq!(preview_svg, expected_upper_svg);
+        assert!(preview_svg.contains(">RUST<")); // Label text should be uppercase
+
+        // Test mixed case preserves case
+        let preview_mixed = tech_badge_preview("Rust", &[]);
+        let expected_mixed = BadgeBuilder::new("Rust").label("Rust").build();
+        let expected_mixed_svg = render(&expected_mixed);
+
+        let b64_start = preview_mixed.find("base64,").unwrap() + 7;
+        let b64_end = preview_mixed[b64_start..].find(')').unwrap() + b64_start;
+        let b64 = &preview_mixed[b64_start..b64_end];
+        let preview_svg = String::from_utf8(STANDARD.decode(b64).unwrap()).unwrap();
+
+        assert_eq!(preview_svg, expected_mixed_svg);
+        assert!(preview_svg.contains(">Rust<")); // Label text should be mixed case
     }
 
     #[test]
