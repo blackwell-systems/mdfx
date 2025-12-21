@@ -170,3 +170,56 @@ pub fn handle(
         icon,
     })))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn resolve_color(c: &str) -> String {
+        c.to_string()
+    }
+
+    #[test]
+    fn test_label_preserves_case() {
+        // Lowercase
+        let result = handle(&["rust".to_string()], &HashMap::new(), "flat", resolve_color);
+        let output = result.unwrap();
+        if let ComponentOutput::Primitive(Primitive::Tech(config)) = output {
+            assert_eq!(config.label, Some("rust".to_string()));
+        } else {
+            panic!("Expected Tech primitive");
+        }
+
+        // Mixed case
+        let result = handle(&["Rust".to_string()], &HashMap::new(), "flat", resolve_color);
+        let output = result.unwrap();
+        if let ComponentOutput::Primitive(Primitive::Tech(config)) = output {
+            assert_eq!(config.label, Some("Rust".to_string()));
+        } else {
+            panic!("Expected Tech primitive");
+        }
+
+        // Uppercase
+        let result = handle(&["RUST".to_string()], &HashMap::new(), "flat", resolve_color);
+        let output = result.unwrap();
+        if let ComponentOutput::Primitive(Primitive::Tech(config)) = output {
+            assert_eq!(config.label, Some("RUST".to_string()));
+        } else {
+            panic!("Expected Tech primitive");
+        }
+    }
+
+    #[test]
+    fn test_explicit_label_overrides() {
+        let mut params = HashMap::new();
+        params.insert("label".to_string(), "Custom Label".to_string());
+
+        let result = handle(&["rust".to_string()], &params, "flat", resolve_color);
+        let output = result.unwrap();
+        if let ComponentOutput::Primitive(Primitive::Tech(config)) = output {
+            assert_eq!(config.label, Some("Custom Label".to_string()));
+        } else {
+            panic!("Expected Tech primitive");
+        }
+    }
+}
