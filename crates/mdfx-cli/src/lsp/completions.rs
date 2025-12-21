@@ -902,28 +902,25 @@ pub fn get_completion_context(
 
                     // If we have a value and at least one colon after it
                     if !parts.is_empty() && viz_rest.contains(':') {
-                        // Check if we're in a parameter value (after =)
-                        if let Some(eq_pos) = viz_rest.rfind('=') {
-                            let after_eq = &viz_rest[eq_pos + 1..];
-                            let before_eq = &viz_rest[..eq_pos];
-                            if let Some(colon_pos) = before_eq.rfind(':') {
-                                let param_name = &before_eq[colon_pos + 1..];
-                                return CompletionContext::VisualizationParamValue(
-                                    component.to_string(),
-                                    param_name.to_string(),
-                                    after_eq.to_string(),
-                                );
-                            }
-                        }
-
-                        // We're ready for parameter name completion
+                        // Get the last part (what we're currently typing)
                         let last_part = parts.last().unwrap_or(&"");
-                        if !last_part.contains('=') {
-                            return CompletionContext::VisualizationParam(
+
+                        // If the last part contains '=', we're entering a value
+                        if let Some(eq_pos) = last_part.find('=') {
+                            let param_name = &last_part[..eq_pos];
+                            let value_prefix = &last_part[eq_pos + 1..];
+                            return CompletionContext::VisualizationParamValue(
                                 component.to_string(),
-                                last_part.to_string(),
+                                param_name.to_string(),
+                                value_prefix.to_string(),
                             );
                         }
+
+                        // Otherwise we're entering a parameter name
+                        return CompletionContext::VisualizationParam(
+                            component.to_string(),
+                            last_part.to_string(),
+                        );
                     }
                 }
             }
