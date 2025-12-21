@@ -182,7 +182,12 @@ mod tests {
     #[test]
     fn test_label_preserves_case() {
         // Lowercase
-        let result = handle(&["rust".to_string()], &HashMap::new(), "flat", resolve_color);
+        let result = handle(
+            &["rust".to_string()],
+            &HashMap::new(),
+            "flat",
+            resolve_color,
+        );
         let output = result.unwrap();
         if let ComponentOutput::Primitive(Primitive::Tech(config)) = output {
             assert_eq!(config.label, Some("rust".to_string()));
@@ -191,7 +196,12 @@ mod tests {
         }
 
         // Mixed case
-        let result = handle(&["Rust".to_string()], &HashMap::new(), "flat", resolve_color);
+        let result = handle(
+            &["Rust".to_string()],
+            &HashMap::new(),
+            "flat",
+            resolve_color,
+        );
         let output = result.unwrap();
         if let ComponentOutput::Primitive(Primitive::Tech(config)) = output {
             assert_eq!(config.label, Some("Rust".to_string()));
@@ -200,7 +210,12 @@ mod tests {
         }
 
         // Uppercase
-        let result = handle(&["RUST".to_string()], &HashMap::new(), "flat", resolve_color);
+        let result = handle(
+            &["RUST".to_string()],
+            &HashMap::new(),
+            "flat",
+            resolve_color,
+        );
         let output = result.unwrap();
         if let ComponentOutput::Primitive(Primitive::Tech(config)) = output {
             assert_eq!(config.label, Some("RUST".to_string()));

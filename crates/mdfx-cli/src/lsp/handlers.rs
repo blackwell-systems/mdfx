@@ -6,6 +6,7 @@ use crate::lsp::code_actions::generate_code_actions;
 use crate::lsp::color::{create_color_presentation, find_document_colors};
 use crate::lsp::completions::{filter_completions, get_completion_context, CompletionContext};
 use crate::lsp::diagnostics::generate_diagnostics;
+use crate::lsp::inlay_hints::generate_inlay_hints;
 use crate::lsp::parser::find_templates;
 use crate::lsp::semantic_tokens::tokenize_document;
 use crate::lsp::MdfxLanguageServer;
@@ -66,6 +67,7 @@ impl LanguageServer for MdfxLanguageServer {
                         ..Default::default()
                     },
                 )),
+                inlay_hint_provider: Some(OneOf::Left(true)),
                 ..Default::default()
             },
             server_info: Some(ServerInfo {
@@ -246,7 +248,7 @@ impl LanguageServer for MdfxLanguageServer {
             // Check for UI components with preview
             if let Some(rest) = template_start.strip_prefix("ui:") {
                 // Get full template content (before + after until / or }})
-                let after_part = after.split(['/','}']).next().unwrap_or("");
+                let after_part = after.split(['/', '}']).next().unwrap_or("");
                 let full_rest = format!("{}{}", rest, after_part);
 
                 // Parse the template
@@ -289,8 +291,14 @@ impl LanguageServer for MdfxLanguageServer {
                                 let percent: u8 = pct.parse().unwrap_or(50);
                                 let width = get_param_u32(&params, "width", 100);
                                 let height = get_param_u32(&params, "height", 10);
-                                let fill = resolve_color_hex(get_param(&params, "fill", "F472B6"), palette);
-                                let track = resolve_color_hex(get_param(&params, "track", "4B5563"), palette);
+                                let fill = resolve_color_hex(
+                                    get_param(&params, "fill", "F472B6"),
+                                    palette,
+                                );
+                                let track = resolve_color_hex(
+                                    get_param(&params, "track", "4B5563"),
+                                    palette,
+                                );
                                 Some(progress_preview(percent, width, height, &fill, &track))
                             } else {
                                 None
@@ -302,8 +310,14 @@ impl LanguageServer for MdfxLanguageServer {
                                 let percent: u8 = pct.parse().unwrap_or(50);
                                 let size = get_param_u32(&params, "size", 40);
                                 let thickness = get_param_u32(&params, "thickness", 4);
-                                let fill = resolve_color_hex(get_param(&params, "fill", "F472B6"), palette);
-                                let track = resolve_color_hex(get_param(&params, "track", "4B5563"), palette);
+                                let fill = resolve_color_hex(
+                                    get_param(&params, "fill", "F472B6"),
+                                    palette,
+                                );
+                                let track = resolve_color_hex(
+                                    get_param(&params, "track", "4B5563"),
+                                    palette,
+                                );
                                 Some(donut_preview(percent, size, thickness, &fill, &track))
                             } else {
                                 None
@@ -315,8 +329,14 @@ impl LanguageServer for MdfxLanguageServer {
                                 let percent: u8 = pct.parse().unwrap_or(50);
                                 let size = get_param_u32(&params, "size", 80);
                                 let thickness = get_param_u32(&params, "thickness", 8);
-                                let fill = resolve_color_hex(get_param(&params, "fill", "F472B6"), palette);
-                                let track = resolve_color_hex(get_param(&params, "track", "4B5563"), palette);
+                                let fill = resolve_color_hex(
+                                    get_param(&params, "fill", "F472B6"),
+                                    palette,
+                                );
+                                let track = resolve_color_hex(
+                                    get_param(&params, "track", "4B5563"),
+                                    palette,
+                                );
                                 Some(gauge_preview(percent, size, thickness, &fill, &track))
                             } else {
                                 None
@@ -328,8 +348,14 @@ impl LanguageServer for MdfxLanguageServer {
                                 let value: f32 = val.parse().unwrap_or(3.5);
                                 let max = get_param_u32(&params, "max", 5);
                                 let size = get_param_u32(&params, "size", 20);
-                                let fill = resolve_color_hex(get_param(&params, "fill", "EAB308"), palette);
-                                let empty = resolve_color_hex(get_param(&params, "empty", "4B5563"), palette);
+                                let fill = resolve_color_hex(
+                                    get_param(&params, "fill", "EAB308"),
+                                    palette,
+                                );
+                                let empty = resolve_color_hex(
+                                    get_param(&params, "empty", "4B5563"),
+                                    palette,
+                                );
                                 Some(rating_preview(value, max, size, &fill, &empty))
                             } else {
                                 None
@@ -556,6 +582,23 @@ impl LanguageServer for MdfxLanguageServer {
         params: ColorPresentationParams,
     ) -> Result<Vec<ColorPresentation>> {
         Ok(create_color_presentation(&params.color, params.range))
+    }
+
+    async fn inlay_hint(&self, params: InlayHintParams) -> Result<Option<Vec<InlayHint>>> {
+        let uri = &params.text_document.uri;
+        let text = match self.get_document_content(uri) {
+            Some(content) => content,
+            None => return Ok(None),
+        };
+
+        let palette = self.registry.palette().clone();
+        let hints = generate_inlay_hints(&text, &palette, &params.range);
+
+        if hints.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(hints))
+        }
     }
 }
 

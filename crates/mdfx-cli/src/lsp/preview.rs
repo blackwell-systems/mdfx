@@ -163,7 +163,9 @@ pub fn resolve_color(color: &str, palette: &HashMap<String, String>) -> String {
 
 /// Resolve a color and strip the # prefix (for SVG fill attributes)
 pub fn resolve_color_hex(color: &str, palette: &HashMap<String, String>) -> String {
-    resolve_color(color, palette).trim_start_matches('#').to_string()
+    resolve_color(color, palette)
+        .trim_start_matches('#')
+        .to_string()
 }
 
 /// Generate a hover preview for a color swatch

@@ -14,6 +14,7 @@
 //! - `code_actions` - Quick fixes and suggestions
 //! - `color` - Color picker support
 //! - `preview` - Hover preview generation with SVG data URIs
+//! - `inlay_hints` - Live inline color swatches that update as you type
 //! - `handlers` - LSP protocol handlers
 
 mod code_actions;
@@ -21,6 +22,7 @@ mod color;
 mod completions;
 mod diagnostics;
 mod handlers;
+mod inlay_hints;
 mod parser;
 mod preview;
 mod semantic_tokens;
