@@ -105,7 +105,8 @@ pub fn tokenize_template(
         let parts: Vec<&str> = rest.split(':').collect();
         if !parts.is_empty() {
             let tech_name = parts[0];
-            let token_type = if valid_tech_names.contains(tech_name) {
+            // Case-insensitive check - icons list is lowercase
+            let token_type = if valid_tech_names.contains(tech_name.to_lowercase().as_str()) {
                 TOKEN_TYPE
             } else {
                 TOKEN_INVALID
