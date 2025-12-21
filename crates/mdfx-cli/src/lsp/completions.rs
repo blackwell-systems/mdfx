@@ -266,7 +266,7 @@ impl CachedCompletions {
             kind: Some(CompletionItemKind::KEYWORD),
             detail: Some("Insert a glyph character".to_string()),
             documentation: Some(Documentation::String(
-                "Access 389 Unicode glyphs by name.\nExamples: {{glyph:dot/}}, {{glyph:block.full/}}, {{glyph:star.filled/}}".to_string()
+                "Access 539 Unicode glyphs by name.\nExamples: {{glyph:dot/}}, {{glyph:block.full/}}, {{glyph:star.filled/}}".to_string()
             )),
             insert_text: Some("glyph:".to_string()),
             insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
