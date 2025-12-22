@@ -212,7 +212,18 @@ pub fn generate_diagnostics(registry: &Registry, text: &str, uri: &Url) -> Vec<D
                     start_col,
                     end_col,
                     &[
-                        ("style", &["flat", "flat-square", "plastic", "for-the-badge", "social", "outline", "ghost"]),
+                        (
+                            "style",
+                            &[
+                                "flat",
+                                "flat-square",
+                                "plastic",
+                                "for-the-badge",
+                                "social",
+                                "outline",
+                                "ghost",
+                            ],
+                        ),
                         ("chevron", &["left", "right", "both"]),
                         ("corners", &["left", "right", "none", "all"]),
                         ("border_full", &["true", "false"]),
@@ -255,10 +266,7 @@ pub fn generate_diagnostics(registry: &Registry, text: &str, uri: &Url) -> Vec<D
                     line_num,
                     start_col,
                     end_col,
-                    &[
-                        ("label", &["true", "false"]),
-                        ("thumb", &["true", "false"]),
-                    ],
+                    &[("label", &["true", "false"]), ("thumb", &["true", "false"])],
                     &[
                         ("size", 10, 500),
                         ("thickness", 1, 50),
@@ -272,10 +280,7 @@ pub fn generate_diagnostics(registry: &Registry, text: &str, uri: &Url) -> Vec<D
                     line_num,
                     start_col,
                     end_col,
-                    &[
-                        ("label", &["true", "false"]),
-                        ("thumb", &["true", "false"]),
-                    ],
+                    &[("label", &["true", "false"]), ("thumb", &["true", "false"])],
                     &[
                         ("size", 20, 500),
                         ("thickness", 2, 50),

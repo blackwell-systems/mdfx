@@ -254,7 +254,8 @@ impl LanguageServer for MdfxLanguageServer {
                 if let Some(colon_pos) = full_line_before.rfind(':') {
                     let potential_param = &full_line_before[colon_pos + 1..];
                     // Only if we're right before = or on the param name
-                    if eq_after < 5 && !potential_param.contains('=') && !potential_param.is_empty() {
+                    if eq_after < 5 && !potential_param.contains('=') && !potential_param.is_empty()
+                    {
                         // Extend to get full param name
                         let param_name = if eq_after == 0 {
                             potential_param.to_string()
@@ -267,10 +268,19 @@ impl LanguageServer for MdfxLanguageServer {
                             let ui_rest = &template_start[ui_start + 3..];
 
                             // Check visualization components
-                            for viz_type in &["progress", "donut", "gauge", "sparkline", "rating", "waveform"] {
+                            for viz_type in &[
+                                "progress",
+                                "donut",
+                                "gauge",
+                                "sparkline",
+                                "rating",
+                                "waveform",
+                            ] {
                                 if ui_rest.starts_with(&format!("{}:", viz_type)) {
                                     if let Some(params) = params_for_visualization(viz_type) {
-                                        if let Some(param_info) = params.iter().find(|p| p.name == param_name) {
+                                        if let Some(param_info) =
+                                            params.iter().find(|p| p.name == param_name)
+                                        {
                                             return Ok(Some(Hover {
                                                 contents: HoverContents::Markup(MarkupContent {
                                                     kind: MarkupKind::Markdown,
@@ -291,7 +301,9 @@ impl LanguageServer for MdfxLanguageServer {
 
                             // Check tech badge params
                             if ui_rest.starts_with("tech:") {
-                                if let Some(param_info) = TECH_PARAMS.iter().find(|p| p.name == param_name) {
+                                if let Some(param_info) =
+                                    TECH_PARAMS.iter().find(|p| p.name == param_name)
+                                {
                                     return Ok(Some(Hover {
                                         contents: HoverContents::Markup(MarkupContent {
                                             kind: MarkupKind::Markdown,
@@ -718,7 +730,14 @@ impl LanguageServer for MdfxLanguageServer {
 
             // Check for visualization components: {{ui:gauge:55:, {{ui:progress:75:, etc.
             if let Some(rest) = after_open.strip_prefix("ui:") {
-                for viz_type in &["progress:", "donut:", "gauge:", "sparkline:", "rating:", "waveform:"] {
+                for viz_type in &[
+                    "progress:",
+                    "donut:",
+                    "gauge:",
+                    "sparkline:",
+                    "rating:",
+                    "waveform:",
+                ] {
                     if let Some(viz_rest) = rest.strip_prefix(viz_type) {
                         let component = viz_type.trim_end_matches(':');
 
@@ -740,10 +759,8 @@ impl LanguageServer for MdfxLanguageServer {
                                     })
                                     .collect();
 
-                                let param_labels: Vec<String> = params
-                                    .iter()
-                                    .map(|p| format!("{}=...", p.name))
-                                    .collect();
+                                let param_labels: Vec<String> =
+                                    params.iter().map(|p| format!("{}=...", p.name)).collect();
 
                                 return Ok(Some(SignatureHelp {
                                     signatures: vec![SignatureInformation {
@@ -757,7 +774,9 @@ impl LanguageServer for MdfxLanguageServer {
                                             component
                                         ))),
                                         parameters: Some(parameters),
-                                        active_parameter: Some(param_index.min(params.len() - 1) as u32),
+                                        active_parameter: Some(
+                                            param_index.min(params.len() - 1) as u32
+                                        ),
                                     }],
                                     active_signature: Some(0),
                                     active_parameter: None,

@@ -98,6 +98,7 @@ jobs:
     name: Publish to crates.io
     needs: build-release
     runs-on: ubuntu-latest
+    if: "!contains(github.ref, 'rc') && !contains(github.ref, 'beta') && !contains(github.ref, 'alpha')"
     steps:
       - uses: actions/checkout@v4
 

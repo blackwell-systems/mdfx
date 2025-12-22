@@ -782,10 +782,7 @@ pub fn filter_completions(items: &[CompletionItem], prefix: &str) -> Vec<Complet
 }
 
 /// Build completion items for visualization component parameters
-pub fn build_visualization_param_completions(
-    component: &str,
-    prefix: &str,
-) -> Vec<CompletionItem> {
+pub fn build_visualization_param_completions(component: &str, prefix: &str) -> Vec<CompletionItem> {
     let params = match params_for_visualization(component) {
         Some(p) => p,
         None => return vec![],
@@ -822,7 +819,18 @@ pub fn build_visualization_param_value_completions(
     };
 
     // Check if this is a color parameter
-    let color_params = ["fill", "track", "empty", "positive", "negative", "up", "down", "stroke", "thumb_color", "thumb_border"];
+    let color_params = [
+        "fill",
+        "track",
+        "empty",
+        "positive",
+        "negative",
+        "up",
+        "down",
+        "stroke",
+        "thumb_color",
+        "thumb_border",
+    ];
     if color_params.contains(&param) {
         return filter_completions(palette, prefix);
     }
